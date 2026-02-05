@@ -1,456 +1,117 @@
+<!-- ===== index.html (Home) ===== -->
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="AfSNET Programme Registration — Afreximbank" />
-
-  <!-- Open Graph (optional) -->
-  <meta property="og:title" content="AfSNET Programme Registration" />
-  <meta property="og:description" content="Register for the AfSNET programme." />
-  <meta property="og:type" content="website" />
-
-  <title>AfSNET Registration | Afreximbank</title>
-
-  <style>
-    :root{
-      /* Brand-ish palette (adjust to your official guide) */
-      --navy:#0B1F3A;
-      --green:#0B5D3B;
-      --gold:#C9A227;
-      --ink:#0D1420;
-      --muted:#5E6A7A;
-      --bg:#F7F8FA;
-      --card:#FFFFFF;
-      --line:rgba(11,31,58,.12);
-      --shadow: 0 12px 28px rgba(11,31,58,.12);
-      --radius: 18px;
-    }
-
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      color:var(--ink);
-      background: radial-gradient(1200px 800px at 10% -10%, rgba(201,162,39,.18), transparent 55%),
-                  radial-gradient(900px 600px at 100% 0%, rgba(11,93,59,.18), transparent 45%),
-                  var(--bg);
-      line-height:1.5;
-    }
-
-    a{color:inherit}
-    .wrap{max-width:1100px;margin:0 auto;padding:22px}
-
-    /* Top bar */
-    header{
-      position:sticky;top:0;z-index:10;
-      backdrop-filter:saturate(1.2) blur(10px);
-      background:rgba(247,248,250,.75);
-      border-bottom:1px solid var(--line);
-    }
-    .topbar{display:flex;align-items:center;justify-content:space-between;gap:14px}
-    .brand{display:flex;align-items:center;gap:12px}
-    .logo{
-      width:44px;height:44px;border-radius:12px;
-      background: linear-gradient(135deg, var(--navy), var(--green));
-      position:relative;box-shadow: 0 10px 18px rgba(11,31,58,.18);
-    }
-    .logo:after{
-      content:"";position:absolute;inset:10px;
-      border-radius:10px;border:2px solid rgba(201,162,39,.85);
-    }
-    .brand h1{font-size:14px;margin:0;letter-spacing:.2px}
-    .brand p{margin:0;font-size:12px;color:var(--muted)}
-
-    .nav{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-    .nav a{
-      text-decoration:none;
-      font-size:13px;
-      padding:10px 12px;
-      border-radius:999px;
-      border:1px solid transparent;
-    }
-    .nav a:hover{border-color:var(--line);background:rgba(255,255,255,.7)}
-
-    .cta{
-      display:inline-flex;align-items:center;justify-content:center;
-      background:linear-gradient(135deg,var(--navy),var(--green));
-      color:#fff;text-decoration:none;
-      padding:10px 14px;border-radius:999px;
-      font-weight:650;font-size:13px;
-      box-shadow: 0 12px 26px rgba(11,31,58,.18);
-      border:1px solid rgba(255,255,255,.12);
-    }
-    .cta:hover{transform:translateY(-1px)}
-
-    /* Hero */
-    .hero{padding:26px 0 10px}
-    .grid{display:grid;grid-template-columns: 1.1fr .9fr;gap:18px;align-items:start}
-    @media (max-width: 920px){.grid{grid-template-columns:1fr}}
-
-    .card{
-      background:rgba(255,255,255,.9);
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      box-shadow: var(--shadow);
-    }
-    .card.pad{padding:20px}
-
-    .pill{
-      display:inline-flex;gap:8px;align-items:center;
-      padding:8px 10px;border-radius:999px;
-      background:rgba(201,162,39,.14);
-      border:1px solid rgba(201,162,39,.35);
-      color:var(--navy);
-      font-size:12px;font-weight:650;
-    }
-    .hero h2{font-size:34px;line-height:1.15;margin:14px 0 10px}
-    .hero p{margin:0 0 14px;color:var(--muted);font-size:15px}
-
-    .meta{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 2px}
-    .meta .chip{
-      padding:9px 10px;border-radius:12px;
-      background:rgba(11,31,58,.05);
-      border:1px solid var(--line);
-      font-size:13px;
-    }
-
-    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-    .btn{
-      display:inline-flex;align-items:center;justify-content:center;
-      padding:11px 14px;border-radius:14px;
-      border:1px solid var(--line);
-      background:#fff;
-      text-decoration:none;
-      font-weight:650;
-      font-size:13px;
-    }
-    .btn.primary{background:var(--navy);color:#fff;border-color:rgba(11,31,58,.25)}
-    .btn.primary:hover{background:#07172c}
-    .btn.ghost:hover{background:rgba(255,255,255,.7)}
-
-    /* Form */
-    form{display:grid;gap:12px}
-    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    @media (max-width: 640px){.row{grid-template-columns:1fr}}
-
-    label{font-size:12px;font-weight:650;color:var(--navy)}
-    input, select, textarea{
-      width:100%;
-      padding:11px 12px;
-      border-radius:14px;
-      border:1px solid var(--line);
-      background:#fff;
-      font-size:14px;
-      outline:none;
-    }
-    input:focus, select:focus, textarea:focus{border-color:rgba(11,93,59,.55); box-shadow:0 0 0 4px rgba(11,93,59,.12)}
-
-    textarea{min-height:110px;resize:vertical}
-
-    .hint{font-size:12px;color:var(--muted)}
-    .consent{display:flex;gap:10px;align-items:flex-start}
-    .consent input{width:auto;margin-top:3px}
-
-    .submit{
-      margin-top:4px;
-      display:flex;gap:10px;align-items:center;flex-wrap:wrap;
-    }
-    button{
-      appearance:none;border:none;cursor:pointer;
-      padding:12px 16px;border-radius:14px;
-      background:linear-gradient(135deg,var(--green),var(--navy));
-      color:#fff;font-weight:750;font-size:14px;
-      box-shadow: 0 12px 24px rgba(11,31,58,.16);
-    }
-    button:disabled{opacity:.6;cursor:not-allowed}
-
-    .status{
-      font-size:13px;
-      padding:10px 12px;
-      border-radius:14px;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.65);
-      display:none;
-    }
-    .status.ok{border-color:rgba(11,93,59,.3);background:rgba(11,93,59,.08)}
-    .status.bad{border-color:rgba(180,40,40,.25);background:rgba(180,40,40,.07)}
-
-    /* Sections */
-    section{margin:18px 0}
-    section h3{margin:0 0 10px;font-size:16px}
-    .two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-    @media (max-width: 920px){.two{grid-template-columns:1fr}}
-
-    .list{margin:0;padding-left:18px;color:var(--muted)}
-    .faq details{border-top:1px solid var(--line);padding:10px 0}
-    .faq summary{cursor:pointer;font-weight:650;color:var(--navy)}
-    .foot{padding:18px 0 26px;color:var(--muted);font-size:12px}
-
-    .sr-only{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}
-  </style>
+  <meta name="description" content="AfSNET Programme — Registration portal (Afreximbank)" />
+  <title>AfSNET | Home</title>
+  <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 
 <header>
-  <div class="wrap topbar">
-    <div class="brand" aria-label="Afreximbank AfSNET">
+  <div class="container topbar">
+    <a class="brand" href="./index.html" aria-label="AfSNET Home">
       <div class="logo" aria-hidden="true"></div>
       <div>
-        <h1>AfSNET Registration</h1>
-        <p>Afreximbank programme intake</p>
+        <h1>AfSNET</h1>
+        <p>Afreximbank programme</p>
       </div>
-    </div>
+    </a>
 
-    <nav class="nav" aria-label="Page navigation">
-      <a href="#about">About</a>
-      <a href="#register">Register</a>
-      <a href="#faq">FAQ</a>
-      <a class="cta" href="#register">Register now</a>
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="active" href="./index.html">Home</a>
+      <a href="./about.html">About</a>
+      <a href="./event.html">Event</a>
+      <a href="./programme.html">Programme</a>
+      <a class="cta" href="./apply.html">Apply</a>
+      <a href="./downloads.html">Downloads</a>
+      <a href="./travel-visa.html">Travel & Visa</a>
+      <a href="./media-press.html">Media/Press</a>
+      <a href="./contact.html">Contact</a>
     </nav>
   </div>
 </header>
 
-<main class="wrap">
-  <div class="hero">
+<main id="main" class="container">
+  <section class="hero section">
     <div class="grid">
       <div class="card pad">
         <span class="pill">Applications open</span>
         <h2>Register for the AfSNET programme</h2>
         <p>
-          Complete the registration form to confirm your participation. You will receive a confirmation email
-          with next steps.
+          This portal captures participant registrations and shares programme logistics.
+          Replace the placeholders with your official content (dates, location, tracks).
         </p>
 
-        <div class="meta" role="list" aria-label="Programme details">
-          <div class="chip" role="listitem"><strong>Dates:</strong> <span id="eventDates">TBC</span></div>
-          <div class="chip" role="listitem"><strong>Location:</strong> <span id="eventLocation">TBC</span></div>
-          <div class="chip" role="listitem"><strong>Format:</strong> <span id="eventFormat">Hybrid</span></div>
+        <div class="meta" role="list" aria-label="Quick facts">
+          <div class="chip" role="listitem"><strong>Dates:</strong> TBC</div>
+          <div class="chip" role="listitem"><strong>Location:</strong> TBC</div>
+          <div class="chip" role="listitem"><strong>Format:</strong> Hybrid</div>
         </div>
 
         <div class="actions">
-          <a class="btn primary" href="#register">Go to registration</a>
-          <a class="btn ghost" href="#about">Learn more</a>
+          <a class="btn primary" href="./apply.html">Apply / Register</a>
+          <a class="btn ghost" href="./programme.html">View programme</a>
+          <a class="btn ghost" href="./downloads.html">Download agenda</a>
         </div>
       </div>
 
-      <div class="card pad" id="register">
-        <h3 style="margin-top:0">Registration form</h3>
-        <p class="hint" style="margin-top:-6px">
-          This is a static GitHub Pages site. The form posts to a secure form endpoint (e.g., Formspree / Tally / Google Forms).
+      <div class="card pad">
+        <div class="kicker">What you can do here</div>
+        <ul class="list">
+          <li>Register your participation (Apply page)</li>
+          <li>View event info and programme structure</li>
+          <li>Download agenda, logistics note, and sponsorship deck</li>
+          <li>Check travel, visa, and local guidance</li>
+          <li>Access media / press information</li>
+        </ul>
+        <p class="muted small" style="margin-top:12px">
+          Tip: Put PDFs in <code>/assets/downloads/</code> and update the titles on the Downloads page.
         </p>
-
-        <!--
-          OPTION A (Formspree):
-          1) Create a free form at Formspree, then replace the action URL below.
-          2) For a custom thank-you page, set the hidden _redirect value.
-
-          OPTION B (Google Form):
-          Remove this <form> and embed your Google Form iframe instead.
-
-          OPTION C (Tally):
-          Replace the action with your Tally endpoint or embed.
-        -->
-
-        <form id="afsnetForm" method="POST" action="https://formspree.io/f/REPLACE_ME">
-          <!-- Helps Formspree route + redirect -->
-          <input type="hidden" name="_subject" value="AfSNET Registration" />
-          <input type="hidden" name="_redirect" value="./thank-you.html" />
-          <input type="text" name="_gotcha" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true" />
-
-          <div class="row">
-            <div>
-              <label for="fullName">Full name *</label>
-              <input id="fullName" name="fullName" required autocomplete="name" placeholder="e.g., Amina El-Sayed" />
-            </div>
-            <div>
-              <label for="email">Email *</label>
-              <input id="email" name="email" type="email" required autocomplete="email" placeholder="name@organisation.com" />
-            </div>
-          </div>
-
-          <div class="row">
-            <div>
-              <label for="organisation">Organisation *</label>
-              <input id="organisation" name="organisation" required placeholder="Company / Institution" />
-            </div>
-            <div>
-              <label for="role">Role / Title</label>
-              <input id="role" name="role" placeholder="e.g., Investment Officer" />
-            </div>
-          </div>
-
-          <div class="row">
-            <div>
-              <label for="country">Country *</label>
-              <input id="country" name="country" required placeholder="e.g., Egypt" />
-            </div>
-            <div>
-              <label for="phone">Phone (optional)</label>
-              <input id="phone" name="phone" autocomplete="tel" placeholder="+20 ..." />
-            </div>
-          </div>
-
-          <div>
-            <label for="track">Participation category *</label>
-            <select id="track" name="category" required>
-              <option value="" selected disabled>Select one</option>
-              <option>Investor / Financier</option>
-              <option>Project / Deal Sponsor</option>
-              <option>Government / Public sector</option>
-              <option>Private sector / Corporate</option>
-              <option>SME</option>
-              <option>Partner / Ecosystem</option>
-              <option>Media</option>
-              <option>Other</option>
-            </select>
-          </div>
-
-          <div>
-            <label for="notes">Notes (optional)</label>
-            <textarea id="notes" name="notes" placeholder="Anything we should know (dietary/accessibility requirements, interests, etc.)"></textarea>
-            <div class="hint">Avoid sharing sensitive personal data beyond what is needed for event participation.</div>
-          </div>
-
-          <div class="consent">
-            <input id="consent" name="consent" type="checkbox" required />
-            <label for="consent" style="font-weight:600;color:var(--muted)">
-              I consent to Afreximbank processing my registration data for programme administration and communications.
-            </label>
-          </div>
-
-          <div class="submit">
-            <button id="submitBtn" type="submit">Submit registration</button>
-            <div id="status" class="status" role="status" aria-live="polite"></div>
-          </div>
-
-          <p class="hint" style="margin:0">
-            Having trouble? Email: <a href="mailto:afsnet@afreximbank.com">afsnet@afreximbank.com</a>
-          </p>
-        </form>
       </div>
     </div>
-  </div>
+  </section>
 
-  <section id="about" class="card pad">
-    <h3>About AfSNET</h3>
+  <section class="card pad section">
+    <h3>Highlights</h3>
     <div class="two">
       <div>
-        <p style="margin-top:0;color:var(--muted)">
-          Replace this text with your official programme description, objectives, and eligibility.
-          Keep it crisp: who it’s for, what participants get, and what happens after registration.
+        <p class="muted" style="margin-top:0">
+          Add 3–5 short outcomes the programme delivers. Keep it crisp and “management friendly”.
         </p>
         <ul class="list">
-          <li>Programme objectives and outcomes</li>
-          <li>Who should register (target audience)</li>
-          <li>Key dates and next steps</li>
+          <li>Deal-making and investor matchmaking</li>
+          <li>Sector-focused sessions and pipeline acceleration</li>
+          <li>Partner engagement and implementation pathways</li>
         </ul>
       </div>
       <div>
-        <p style="margin-top:0;color:var(--muted)"><strong>What happens next?</strong></p>
+        <p class="muted" style="margin-top:0">
+          Add key eligibility notes and who should attend.
+        </p>
         <ul class="list">
-          <li>You submit the form.</li>
-          <li>We send a confirmation email.</li>
-          <li>We share agenda/logistics closer to the date.</li>
+          <li>Investors / financiers</li>
+          <li>Project sponsors and deal originators</li>
+          <li>Public sector / regulators / agencies</li>
+          <li>Private sector, SMEs, partners, media</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <section id="faq" class="card pad faq">
-    <h3>FAQ</h3>
-
-    <details>
-      <summary>Will I get a confirmation email?</summary>
-      <p class="hint">Yes. If you use Formspree/Tally/Google Forms, confirmations are handled by that service or your own workflow.</p>
-    </details>
-
-    <details>
-      <summary>Can we host this on GitHub Pages?</summary>
-      <p class="hint">Yes. It’s a static site, so the registration form must submit to a form service (no server-side code on GitHub Pages).</p>
-    </details>
-
-    <details>
-      <summary>How do we handle data privacy?</summary>
-      <p class="hint">Add a short privacy notice and ensure your form service and storage comply with your internal policies.</p>
-    </details>
-  </section>
-
-  <footer class="foot">
-    <div class="wrap" style="padding:0">
-      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between">
-        <div>
-          <strong style="color:var(--navy)">Afreximbank</strong>
-          <span style="color:var(--muted)"> — AfSNET Registration</span>
-        </div>
-        <div style="color:var(--muted)">© <span id="year"></span> Afreximbank. All rights reserved.</div>
-      </div>
+  <footer>
+    <div class="footer-row">
+      <div><strong style="color:var(--navy)">Afreximbank</strong> <span class="muted">— AfSNET</span></div>
+      <div>© <span id="year"></span> Afreximbank. All rights reserved.</div>
     </div>
   </footer>
 </main>
 
 <script>
-  // Update small bits (safe to delete)
   document.getElementById('year').textContent = new Date().getFullYear();
-
-  // Optional: set your event details here
-  document.getElementById('eventDates').textContent = 'TBC';
-  document.getElementById('eventLocation').textContent = 'TBC';
-  document.getElementById('eventFormat').textContent = 'Hybrid';
-
-  // Optional: nicer UX while submitting. Works best if you use fetch + AJAX.
-  // If you prefer plain POST + redirect, you can delete everything below.
-  const form = document.getElementById('afsnetForm');
-  const statusEl = document.getElementById('status');
-  const submitBtn = document.getElementById('submitBtn');
-
-  // If action is still placeholder, show a friendly warning.
-  if (form.action.includes('REPLACE_ME')) {
-    statusEl.style.display = 'block';
-    statusEl.className = 'status bad';
-    statusEl.textContent = 'Admin note: Replace the form action URL with your Formspree/Tally/Google Forms endpoint.';
-  }
-
-  // Progressive enhancement: AJAX submit for faster feedback.
-  form.addEventListener('submit', async (e) => {
-    // If you want the default browser submit (and redirect), comment out the next line.
-    e.preventDefault();
-
-    // Basic anti-bot honeypot
-    const gotcha = form.querySelector('input[name="_gotcha"]');
-    if (gotcha && gotcha.value) return;
-
-    statusEl.style.display = 'block';
-    statusEl.className = 'status';
-    statusEl.textContent = 'Submitting…';
-    submitBtn.disabled = true;
-
-    try {
-      const data = new FormData(form);
-      const res = await fetch(form.action, {
-        method: 'POST',
-        body: data,
-        headers: { 'Accept': 'application/json' }
-      });
-
-      if (res.ok) {
-        statusEl.className = 'status ok';
-        statusEl.textContent = 'Registration submitted. Check your email for confirmation.';
-        form.reset();
-      } else {
-        statusEl.className = 'status bad';
-        statusEl.textContent = 'Submission failed. Please try again or email afsnet@afreximbank.com.';
-      }
-    } catch (err) {
-      statusEl.className = 'status bad';
-      statusEl.textContent = 'Network error. Please try again.';
-    } finally {
-      submitBtn.disabled = false;
-    }
-  });
 </script>
-
 </body>
 </html>
-
