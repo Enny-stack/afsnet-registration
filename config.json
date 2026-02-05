@@ -1,0 +1,168 @@
+{
+  "site": {
+    "programName": "AfSNET",
+    "orgName": "Afreximbank",
+    "tagline": "Afreximbank programme",
+    "baseTitle": "AfSNET",
+    "supportEmail": "afsnet@afreximbank.com",
+    "phone": "TBC",
+    "format": "Hybrid"
+  },
+
+  "event": {
+    "dates": "TBC",
+    "venue": "TBC",
+    "city": "TBC",
+    "country": "TBC"
+  },
+
+  "home": {
+    "pill": "Applications open",
+    "headline": "Register for the AfSNET programme",
+    "intro": "This portal supports participant registration and shares event information, travel guidance, hotels, and media resources.",
+    "highlightsLeft": [
+      "Investor and project matchmaking",
+      "Sector roundtables and pipeline acceleration",
+      "Partnership engagement and implementation pathways"
+    ],
+    "highlightsRight": [
+      "Investors / financiers",
+      "Project sponsors and deal teams",
+      "Government / agencies",
+      "Partners / ecosystem / media"
+    ]
+  },
+
+  "about": {
+    "pill": "About AfSNET",
+    "headline": "What the programme is, and why it exists",
+    "intro": "Replace this with the official AfSNET narrative: the purpose, outcomes, and who it’s for. Keep it short, clear, and executive-friendly.",
+    "objectives": [
+      "Enable investment-ready projects and deals",
+      "Connect investors with bankable opportunities",
+      "Accelerate partnerships and implementation"
+    ],
+    "audience": [
+      "Investors, DFIs, banks, funds",
+      "Project sponsors and deal teams",
+      "Government, agencies, regulators",
+      "Partners, ecosystem, media"
+    ]
+  },
+
+  "programme": {
+    "pill": "Programme",
+    "headline": "What happens during AfSNET",
+    "intro": "This page is the high-level structure. Add the detailed schedule later (PDF) if needed.",
+    "tracks": [
+      "Investment pipeline & project preparation",
+      "Sector sessions (TBC)",
+      "Financing solutions and instruments",
+      "Partnerships & implementation pathways"
+    ],
+    "formats": [
+      "Keynotes / panels",
+      "Roundtables",
+      "B2B / B2G matchmaking",
+      "Closed-door deal rooms (if applicable)"
+    ],
+    "flow": [
+      { "time": "09:00", "session": "Registration / arrival", "notes": "Badge collection" },
+      { "time": "10:00", "session": "Opening & welcome", "notes": "Host + partners" },
+      { "time": "11:00", "session": "Plenary session", "notes": "Theme / priorities" },
+      { "time": "13:00", "session": "Networking / lunch", "notes": "Optional sponsor activations" },
+      { "time": "14:30", "session": "Matchmaking & deal rooms", "notes": "Pre-scheduled meetings" },
+      { "time": "17:30", "session": "Closing", "notes": "Next steps" }
+    ]
+  },
+
+  "speakersPartners": {
+    "pill": "Speakers & Partners",
+    "headline": "Featured speakers and partner organisations",
+    "intro": "Replace placeholders with confirmed names, titles, and partner logos.",
+    "speakers": [
+      { "name": "Name (TBC)", "title": "Title (TBC)", "org": "Organisation (TBC)", "topic": "Topic (TBC)" },
+      { "name": "Name (TBC)", "title": "Title (TBC)", "org": "Organisation (TBC)", "topic": "Topic (TBC)" },
+      { "name": "Name (TBC)", "title": "Title (TBC)", "org": "Organisation (TBC)", "topic": "Topic (TBC)" }
+    ],
+    "partners": [
+      { "name": "Organisation (TBC)", "role": "Sponsor / Knowledge Partner / Ecosystem" },
+      { "name": "Organisation (TBC)", "role": "Sponsor / Knowledge Partner / Ecosystem" },
+      { "name": "Organisation (TBC)", "role": "Sponsor / Knowledge Partner / Ecosystem" }
+    ]
+  },
+
+  "travelVisa": {
+    "pill": "Travel & Visa",
+    "headline": "Participant travel guidance",
+    "intro": "Update this page once the host country/city is confirmed. Keep guidance practical and specific.",
+    "visaTips": [
+      "Check visa requirements based on your passport and destination.",
+      "Apply early (processing times vary).",
+      "Invitation letters (if issued): process + timeline (TBC)."
+    ],
+    "travelTips": [
+      "Recommended arrival airport(s): TBC",
+      "Hotel options / negotiated rates: see Hotels page",
+      "Ground transport: TBC",
+      "Local emergency contacts: TBC"
+    ],
+    "entryRequirements": [
+      "Passport validity rules (e.g., 6 months minimum) (TBC)",
+      "Required documents (hotel booking, return ticket, invitation letter) (TBC)",
+      "Health requirements (if applicable) (TBC)"
+    ],
+    "onArrival": [
+      "Airport transfer and meeting point (TBC)",
+      "Recommended transport options (TBC)",
+      "Safety and local guidance (TBC)"
+    ]
+  },
+
+  "mediaPress": {
+    "pill": "Media & Press",
+    "headline": "Press accreditation and media resources",
+    "intro": "Use this page for press enquiries, accreditation instructions, and official policies.",
+    "mediaLead": "Name (TBC)",
+    "pressEmail": "afsnet@afreximbank.com",
+    "accreditation": [
+      "Register as “Media” on the Apply page",
+      "Bring press ID on arrival",
+      "Follow photography/video policy (below)"
+    ],
+    "policies": [
+      "Photography/video policy (TBC)",
+      "Brand usage and logo policy (TBC)",
+      "Embargo guidance (if any) (TBC)"
+    ]
+  },
+
+  "hotels": {
+    "pill": "Hotels",
+    "headline": "Recommended accommodation",
+    "intro": "Replace the placeholders with negotiated hotels, booking codes, and cut-off dates.",
+    "venueProximity": "TBC",
+    "rateCode": "TBC",
+    "list": [
+      { "name": "Hotel 1 (TBC)", "distance": "TBC", "rate": "TBC", "booking": "Booking link / rate code / cut-off date (TBC)" },
+      { "name": "Hotel 2 (TBC)", "distance": "TBC", "rate": "TBC", "booking": "Booking link / rate code / cut-off date (TBC)" },
+      { "name": "Hotel 3 (TBC)", "distance": "TBC", "rate": "TBC", "booking": "Booking link / rate code / cut-off date (TBC)" }
+    ],
+    "bookingGuidance": [
+      "Use the AfSNET booking code (if available) (TBC)",
+      "Book early — rooms are limited",
+      "Check cancellation and payment terms"
+    ],
+    "transportNotes": [
+      "Airport transfer options (TBC)",
+      "Venue shuttle (if arranged) (TBC)",
+      "Recommended local transport (TBC)"
+    ]
+  },
+
+  "registration": {
+    "formEndpoint": "https://formspree.io/f/REPLACE_ME",
+    "redirectUrl": "./thank-you.html",
+    "ajaxEnabled": false
+  }
+}
