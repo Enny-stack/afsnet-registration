@@ -1,0 +1,124 @@
+<!-- ===== hotels.html ===== -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Hotels — recommended accommodation for AfSNET participants." />
+  <title>AfSNET | Hotels</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header>
+  <div class="container topbar">
+    <a class="brand" href="./index.html" aria-label="AfSNET Home">
+      <div class="logo" aria-hidden="true"></div>
+      <div><h1>AfSNET</h1><p>Afreximbank programme</p></div>
+    </a>
+    <nav class="nav" aria-label="Primary navigation">
+      <a href="./index.html">Home</a>
+      <a href="./about.html">About</a>
+      <a href="./programme.html">Programme</a>
+      <a href="./event.html">Event</a>
+      <a href="./speakers-partners.html">Speakers/Partners</a>
+      <a href="./travel-visa.html">Travel & Visa</a>
+      <a href="./media-press.html">Media/Press</a>
+      <a class="active" href="./hotels.html">Hotels</a>
+      <a class="cta" href="./apply.html">Apply</a>
+      <a href="./contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="container">
+  <section class="card pad section hero">
+    <span class="pill">Hotels</span>
+    <h2>Recommended accommodation</h2>
+    <p class="muted">
+      Replace the placeholders with your negotiated hotels, rates, booking codes, and cut-off dates.
+    </p>
+
+    <div class="meta">
+      <div class="chip"><strong>City:</strong> TBC</div>
+      <div class="chip"><strong>Venue proximity:</strong> TBC</div>
+      <div class="chip"><strong>Rate code:</strong> TBC</div>
+    </div>
+
+    <div class="actions">
+      <a class="btn primary" href="./travel-visa.html">Travel & Visa</a>
+      <a class="btn ghost" href="./event.html">Event</a>
+    </div>
+  </section>
+
+  <section class="card pad section">
+    <h3>Hotel list (template)</h3>
+    <div class="table-wrap">
+      <table aria-label="Recommended hotels">
+        <thead>
+          <tr>
+            <th>Hotel</th>
+            <th>Distance to venue</th>
+            <th>Indicative rate</th>
+            <th>Booking details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Hotel 1 (TBC)</td>
+            <td>TBC</td>
+            <td>TBC</td>
+            <td>Booking link / rate code / cut-off date (TBC)</td>
+          </tr>
+          <tr>
+            <td>Hotel 2 (TBC)</td>
+            <td>TBC</td>
+            <td>TBC</td>
+            <td>Booking link / rate code / cut-off date (TBC)</td>
+          </tr>
+          <tr>
+            <td>Hotel 3 (TBC)</td>
+            <td>TBC</td>
+            <td>TBC</td>
+            <td>Booking link / rate code / cut-off date (TBC)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="muted small" style="margin-top:12px">
+      Tip: If you don’t want rates displayed publicly, remove the “Indicative rate” column and show “Contact/Booking instructions” only.
+    </p>
+  </section>
+
+  <section class="two section">
+    <div class="card pad">
+      <h3>Booking guidance</h3>
+      <ul class="list">
+        <li>Use the AfSNET booking code (if available) (TBC)</li>
+        <li>Book early — rooms are limited</li>
+        <li>Check cancellation and payment terms</li>
+      </ul>
+    </div>
+    <div class="card pad">
+      <h3>Transport notes</h3>
+      <ul class="list">
+        <li>Airport transfer options (TBC)</li>
+        <li>Venue shuttle (if arranged) (TBC)</li>
+        <li>Recommended local transport (TBC)</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-row">
+      <div><strong style="color:var(--navy)">Afreximbank</strong> <span class="muted">— AfSNET</span></div>
+      <div>© <span id="year"></span> Afreximbank. All rights reserved.</div>
+    </div>
+  </footer>
+</main>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
