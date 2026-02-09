@@ -100,3 +100,73 @@ header{
 }
 
 .meta{display:flex;flex-wrap:wr
+/* ===== HOME PAGE THEME (Green + Gold) ===== */
+
+body.home{
+  background:
+    radial-gradient(1200px 780px at 8% -10%, rgba(11,93,59,.38), transparent 60%),
+    radial-gradient(1000px 700px at 96% 0%, rgba(201,162,39,.35), transparent 55%),
+    linear-gradient(180deg, rgba(11,93,59,.10) 0%, rgba(247,248,250,1) 38%),
+    var(--bg);
+}
+
+/* Header: subtle gold line */
+.home header{
+  border-bottom: 1px solid rgba(201,162,39,.22);
+}
+
+/* Active menu tab looks premium */
+.home .nav a.active{
+  border-color: rgba(201,162,39,.45);
+  background: rgba(201,162,39,.12);
+}
+
+/* Apply button becomes Green → Gold */
+.home .nav .cta{
+  background: linear-gradient(135deg, var(--green), var(--gold));
+  color:#fff;
+}
+
+/* Hero banner background */
+.home .hero-banner{
+  position: relative;
+  margin-top: 14px;
+  padding: 16px 0 8px;
+}
+
+.home .hero-banner::before{
+  content:"";
+  position:absolute;
+  left: -18px; right: -18px;
+  top: -18px;
+  height: 330px;
+  border-radius: 28px;
+  background:
+    radial-gradient(900px 420px at 18% 20%, rgba(11,93,59,.22), transparent 65%),
+    radial-gradient(700px 380px at 92% 10%, rgba(201,162,39,.22), transparent 60%);
+  border: 1px solid rgba(201,162,39,.16);
+  z-index: -1;
+}
+
+/* Hero main card gets executive tint */
+.home .hero .card:first-child{
+  background:
+    linear-gradient(135deg,
+      rgba(11,93,59,.10),
+      rgba(201,162,39,.08),
+      rgba(255,255,255,.92)
+    );
+  border-color: rgba(201,162,39,.22);
+}
+
+/* Primary button becomes Green → Gold */
+.home .btn.primary{
+  background: linear-gradient(135deg, var(--green), var(--gold));
+}
+
+/* Fix chip spacing (Dates: TBC Location: TBC issue) */
+.chip{
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+}
