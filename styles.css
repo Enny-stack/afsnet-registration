@@ -695,3 +695,47 @@ td, th{
 @media (max-width: 720px){
   .table-wrap th, .table-wrap td{ padding: 12px 12px; font-size: 13px; }
 }
+/* ===== Premium Table (clips inside card and stays aligned) ===== */
+.table-wrap{
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;                 /* IMPORTANT */
+  background: rgba(255,255,255,.88);
+}
+
+.table-scroll{
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-wrap table{
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.table-wrap th,
+.table-wrap td{
+  padding: 14px 14px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--line);
+  white-space: normal;
+  word-break: break-word;
+}
+
+.table-wrap thead th{
+  background: rgba(11,93,59,.06);
+  color: var(--navy);
+  font-weight: 850;
+}
+
+.table-wrap tbody tr:last-child td{
+  border-bottom: none;
+}
+
+.table-wrap tbody tr:hover{
+  background: rgba(201,162,39,.06);
+}
