@@ -8,11 +8,14 @@
   <link rel="stylesheet" href="./styles.css" />
   <script src="./app.js" defer></script>
 </head>
+
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
 <div id="site-header"></div>
 
 <main id="main" class="container">
+
+  <!-- HERO SECTION -->
   <section class="hero-banner section">
     <div class="grid">
       <div class="card pad hero">
@@ -21,8 +24,15 @@
         <p class="muted" data-config="contact.intro"></p>
 
         <div class="meta">
-          <div class="chip"><strong>Email:</strong> <a data-email="site.supportEmail">afsnet@afreximbank.com</a></div>
-          <div class="chip"><strong>Phone:</strong> <span data-config="site.phone">TBC</span></div>
+          <div class="chip">
+            <strong>Email:</strong>
+            <a data-email="site.supportEmail">afsnet@afreximbank.com</a>
+          </div>
+
+          <div class="chip">
+            <strong>Phone:</strong>
+            <span data-config="site.phone">TBC</span>
+          </div>
         </div>
       </div>
 
@@ -35,6 +45,24 @@
       </div>
     </div>
   </section>
+
+  <!-- ✅ MAP SECTION (ADD HERE) -->
+  <section class="card pad section">
+    <h3>Location</h3>
+    <p class="muted" style="margin-top:0">
+      Afreximbank Headquarters – Cairo, Egypt
+    </p>
+
+    <div class="map">
+      <iframe
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        src="https://www.google.com/maps?q=Afreximbank%20Headquarters%20Cairo%20Egypt&output=embed"
+        title="Afreximbank Headquarters Map">
+      </iframe>
+    </div>
+  </section>
+
 </main>
 
 <div id="site-footer"></div>
