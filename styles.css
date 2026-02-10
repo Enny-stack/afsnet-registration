@@ -78,12 +78,18 @@ header{
 .nav a:hover{border-color:var(--line);background:rgba(255,255,255,.75)}
 .nav a.active{border-color:rgba(201,162,39,.45);background:rgba(201,162,39,.12)}
 .nav .cta{
-  background:linear-gradient(135deg,var(--green),var(--gold));
-  color:#fff;font-weight:850;
-  border:1px solid rgba(255,255,255,.12);
+  background: linear-gradient(135deg, var(--green), var(--gold));
+  color:#fff;
+  font-weight:850;
+  border:1px solid rgba(255,255,255,.14);
   box-shadow:0 12px 26px rgba(11,31,58,.18);
+  transition: all .18s ease;
 }
-.nav .cta:hover{transform:translateY(-1px)}
+
+.nav .cta:hover{
+  background: linear-gradient(135deg, var(--green-2), var(--gold-2));
+  transform: translateY(-1px);
+}
 
 /* Layout */
 .card{
