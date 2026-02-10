@@ -404,3 +404,16 @@ header{
   align-items: center;
   gap: 12px;
 }
+/* ===== Home Page Watermark (Premium Touch) ===== */
+body.home::before{
+  content:"";
+  position: fixed;
+  inset: 0;
+
+  background: url("./assets/logo/afsnet-watermark.png") no-repeat center;
+  background-size: 520px;
+
+  opacity: 0.05;              /* very subtle */
+  pointer-events: none;       /* never blocks clicks */
+  z-index: -1;                /* stays behind everything */
+}
