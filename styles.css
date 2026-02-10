@@ -361,47 +361,57 @@ footer{
 }
 footer strong{color:var(--navy)}
 
-/* ===== Home page premium theme (ONLY Home) ===== */
-body.home{
+/* ===== Site-wide Premium Theme (ALL pages) ===== */
+
+/* Make every page feel green+gold and executive */
+body{
   background:
-    radial-gradient(1200px 780px at 8% -10%, rgba(11,93,59,.38), transparent 60%),
-    radial-gradient(1000px 700px at 96% 0%, rgba(201,162,39,.32), transparent 55%),
-    linear-gradient(180deg, rgba(11,93,59,.10) 0%, rgba(247,248,250,1) 38%),
+    radial-gradient(1200px 780px at 8% -10%, rgba(11,93,59,.34), transparent 60%),
+    radial-gradient(1000px 700px at 96% 0%, rgba(201,162,39,.26), transparent 55%),
+    linear-gradient(180deg, rgba(11,93,59,.08) 0%, rgba(247,248,250,1) 40%),
     var(--bg);
 }
 
-.home .hero-banner{
+/* Hero banner glow for every page that uses .hero-banner */
+.hero-banner{
   position:relative;
   margin-top:14px;
   padding:16px 0 8px;
 }
-
-.home .hero-banner::before{
+.hero-banner::before{
   content:"";
   position:absolute;
   left:-18px; right:-18px;
   top:-18px;
-  height:330px;
+  height:300px;
   border-radius:28px;
   background:
-    radial-gradient(900px 420px at 18% 20%, rgba(11,93,59,.22), transparent 65%),
-    radial-gradient(700px 380px at 92% 10%, rgba(201,162,39,.22), transparent 60%),
+    radial-gradient(900px 420px at 18% 20%, rgba(11,93,59,.20), transparent 65%),
+    radial-gradient(700px 380px at 92% 10%, rgba(201,162,39,.20), transparent 60%),
     linear-gradient(135deg, rgba(11,31,58,.04), rgba(11,93,59,.06));
   border:1px solid rgba(201,162,39,.16);
-  box-shadow: 0 18px 46px rgba(11,31,58,.12);
+  box-shadow: 0 18px 46px rgba(11,31,58,.10);
   z-index:-1;
 }
 
-.home .hero .card:first-child{
+/* Give the first hero card a premium tint everywhere */
+.hero .card:first-child,
+.card.hero:first-child{
   background:
     linear-gradient(135deg,
-      rgba(11,93,59,.10),
-      rgba(201,162,39,.08),
+      rgba(11,93,59,.09),
+      rgba(201,162,39,.07),
       rgba(255,255,255,.92)
     );
-  border-color: rgba(201,162,39,.22);
+  border-color: rgba(201,162,39,.18);
 }
 
-.home .btn.primary{
+/* Make primary buttons green→gold everywhere */
+.btn.primary,
+button{
   background: linear-gradient(135deg, var(--green), var(--gold));
+}
+.btn.primary:hover,
+button:hover{
+  filter: brightness(.98);
 }
