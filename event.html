@@ -1,94 +1,36 @@
-<!-- ===== event.html ===== -->
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Event details — dates, venue, format, and logistics." />
+  <meta name="page-title" content="Event" />
+  <meta name="description" content="Event details" />
   <title>AfSNET | Event</title>
   <link rel="stylesheet" href="./styles.css" />
+  <script src="./app.js" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
 
-<header>
-  <div class="container topbar">
-    <a class="brand" href="./index.html" aria-label="AfSNET Home">
-      <div class="logo" aria-hidden="true"></div>
-      <div><h1>AfSNET</h1><p>Afreximbank programme</p></div>
-    </a>
-    <nav class="nav" aria-label="Primary navigation">
-      <a href="./index.html">Home</a>
-      <a href="./about.html">About</a>
-      <a href="./programme.html">Programme</a>
-      <a class="active" href="./event.html">Event</a>
-      <a href="./speakers-partners.html">Speakers/Partners</a>
-      <a href="./travel-visa.html">Travel & Visa</a>
-      <a href="./media-press.html">Media/Press</a>
-      <a href="./hotels.html">Hotels</a>
-      <a class="cta" href="./apply.html">Apply</a>
-      <a href="./contact.html">Contact</a>
-    </nav>
-  </div>
-</header>
+<div id="site-header"></div>
 
 <main id="main" class="container">
-  <section class="card pad section hero">
-    <span class="pill">Event information</span>
-    <h2>Dates, venue, and participation format</h2>
-    <p class="muted">Update these with confirmed details and keep them accurate.</p>
+  <section class="hero-banner">
+    <section class="card pad section hero">
+      <span class="pill">Event information</span>
+      <h2>Dates, venue, and participation format</h2>
+      <p class="muted">Keep this page as the single source of truth for attendees.</p>
 
-    <div class="meta">
-      <div class="chip"><strong>Date:</strong> TBC</div>
-      <div class="chip"><strong>Venue:</strong> TBC</div>
-      <div class="chip"><strong>City/Country:</strong> TBC</div>
-      <div class="chip"><strong>Format:</strong> Hybrid</div>
-    </div>
-
-    <div class="actions">
-      <a class="btn primary" href="./apply.html">Register</a>
-      <a class="btn ghost" href="./hotels.html">Hotels</a>
-      <a class="btn ghost" href="./travel-visa.html">Travel & Visa</a>
-    </div>
+      <div class="meta">
+        <div class="chip"><strong>Date:</strong> <span data-config="event.dates">TBC</span></div>
+        <div class="chip"><strong>Venue:</strong> <span data-config="event.venue">TBC</span></div>
+        <div class="chip"><strong>City/Country:</strong> <span data-config="event.cityCountry">TBC</span></div>
+        <div class="chip"><strong>Format:</strong> <span data-config="site.format">Hybrid</span></div>
+      </div>
+    </section>
   </section>
-
-  <section class="two section">
-    <div class="card pad">
-      <h3>Venue & access</h3>
-      <ul class="list">
-        <li>Venue name, address, and map link (TBC)</li>
-        <li>Badge collection / check-in process (TBC)</li>
-        <li>Accessibility and special assistance (TBC)</li>
-      </ul>
-    </div>
-    <div class="card pad">
-      <h3>Key timings</h3>
-      <ul class="list">
-        <li>Registration opens: TBC</li>
-        <li>Programme starts: TBC</li>
-        <li>Meetings/networking: TBC</li>
-        <li>Close: TBC</li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="card pad section">
-    <h3>Participant guidance</h3>
-    <ul class="list">
-      <li>How matchmaking/meeting requests will be handled (TBC)</li>
-      <li>Dress code / protocol (if relevant) (TBC)</li>
-      <li>Security / access control notes (TBC)</li>
-    </ul>
-  </section>
-
-  <footer>
-    <div class="footer-row">
-      <div><strong style="color:var(--navy)">Afreximbank</strong> <span class="muted">— AfSNET</span></div>
-      <div>© <span id="year"></span> Afreximbank. All rights reserved.</div>
-    </div>
-  </footer>
 </main>
 
-<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<div id="site-footer"></div>
 </body>
 </html>
