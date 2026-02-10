@@ -3,87 +3,53 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="page-title" content="Hotels" />
   <meta name="description" content="Recommended hotels" />
   <title>AfSNET | Hotels</title>
   <link rel="stylesheet" href="./styles.css" />
   <script src="./app.js" defer></script>
 </head>
-
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-
 <div id="site-header"></div>
 
 <main id="main" class="container">
-
-  <!-- HERO (same structure as Home/About) -->
   <section class="hero-banner section">
     <div class="grid">
       <div class="card pad hero">
-        <span class="pill" data-config="hotels.pill">Hotels</span>
-        <h2 data-config="hotels.headline">Recommended accommodation</h2>
-        <p class="muted" data-config="hotels.intro">
-          Replace the placeholders with negotiated hotels, booking codes, and cut-off dates.
-        </p>
+        <span class="pill" data-config="hotels.pill"></span>
+        <h2 data-config="hotels.headline"></h2>
+        <p class="muted" data-config="hotels.intro"></p>
 
         <div class="meta">
           <div class="chip"><strong>Venue proximity:</strong> <span data-config="hotels.venueProximity">TBC</span></div>
           <div class="chip"><strong>Rate code:</strong> <span data-config="hotels.rateCode">TBC</span></div>
           <div class="chip"><strong>Event city:</strong> <span data-config="event.city">TBC</span></div>
         </div>
-
-        <div class="actions">
-          <a class="btn primary" href="./apply.html">Apply / Register</a>
-          <a class="btn ghost" href="./event.html">Event details</a>
-        </div>
       </div>
 
       <div class="card pad surface">
-        <div class="kicker">Booking notes</div>
-        <ul class="list" data-list="hotels.bookingGuidance">
-          <li>Use the official rate code where provided</li>
-          <li>Confirm cut-off dates before booking</li>
-          <li>Keep a copy of your booking confirmation</li>
-        </ul>
+        <div class="kicker">Booking guidance</div>
+        <ul data-list="hotels.bookingGuidance"></ul>
 
         <div class="kicker" style="margin-top:14px">Transport notes</div>
-        <ul class="list" data-list="hotels.transportNotes">
-          <li>Airport transfer options will be shared closer to the event</li>
-          <li>Allow buffer time during peak hours</li>
-        </ul>
+        <ul data-list="hotels.transportNotes"></ul>
       </div>
     </div>
   </section>
 
-  <!-- HOTEL LIST -->
   <section class="card pad section">
     <h3>Hotel list</h3>
-
     <div class="table-wrap">
       <div class="table-scroll">
         <table aria-label="Recommended hotels">
           <thead>
-            <tr>
-              <th>Hotel</th>
-              <th>Distance to venue</th>
-              <th>Indicative rate</th>
-              <th>Booking details</th>
-            </tr>
+            <tr><th>Hotel</th><th>Distance to venue</th><th>Indicative rate</th><th>Booking details</th></tr>
           </thead>
-          <tbody id="hotelsBody">
-            <tr>
-              <td>Hotel 1 (TBC)</td>
-              <td>TBC</td>
-              <td>TBC</td>
-              <td>TBC</td>
-            </tr>
-          </tbody>
+          <tbody id="hotelsBody"></tbody>
         </table>
       </div>
     </div>
   </section>
-
 </main>
 
 <div id="site-footer"></div>
