@@ -9,35 +9,56 @@
   <link rel="stylesheet" href="./styles.css" />
   <script src="./app.js" defer></script>
 </head>
+
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
 
 <div id="site-header"></div>
 
 <main id="main" class="container">
+
+  <!-- Hero (keep it clean and high-level) -->
   <section class="hero-banner">
     <section class="card pad section hero">
       <span class="pill">Contact</span>
       <h2>How to reach the AfSNET team</h2>
-      <p class="muted">Update official contact details in <code>config.json</code>.</p>
+      <p class="muted">Official contact details are managed in <code>config.json</code>.</p>
 
-      <div class="two" style="margin-top:14px">
-        <div class="card pad" style="box-shadow:none;background:rgba(11,31,58,.03)">
-          <h3 style="margin-top:0">General enquiries</h3>
-          <p class="muted" style="margin-top:0">
-            Email: <a data-email="site.supportEmail">afsnet@afreximbank.com</a><br/>
-            Phone: <span data-config="site.phone">TBC</span>
-          </p>
+      <div class="meta">
+        <div class="chip">
+          <strong>Email:</strong>
+          <a data-email="site.supportEmail">afsnet@afreximbank.com</a>
         </div>
-        <div class="card pad" style="box-shadow:none;background:rgba(11,31,58,.03)">
-          <h3 style="margin-top:0">Registration support</h3>
-          <p class="muted" style="margin-top:0">
-            If you applied and didn’t receive confirmation, email us with your full name and organisation.
-          </p>
+        <div class="chip">
+          <strong>Phone:</strong>
+          <span data-config="site.phone">TBC</span>
         </div>
       </div>
     </section>
   </section>
+
+  <!-- Contact cards (separate section = cleaner) -->
+  <section class="two section contact-grid">
+    <section class="card pad soft-card">
+      <h3 class="card-title">General enquiries</h3>
+      <p class="muted" style="margin:0">
+        Email: <a data-email="site.supportEmail">afsnet@afreximbank.com</a><br/>
+        Phone: <span data-config="site.phone">TBC</span>
+      </p>
+    </section>
+
+    <section class="card pad soft-card">
+      <h3 class="card-title">Registration support</h3>
+      <p class="muted" style="margin:0">
+        If you applied and didn’t receive confirmation, email us with your full name and organisation.
+      </p>
+      <div class="actions" style="margin-top:12px">
+        <a class="btn primary" href="./apply.html">Go to Apply</a>
+        <a class="btn ghost" href="./programme.html">Programme</a>
+      </div>
+    </section>
+  </section>
+
 </main>
 
 <div id="site-footer"></div>
