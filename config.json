@@ -19,10 +19,10 @@
     "intro": "This portal supports participant registration and shares event information, travel guidance, hotels, and media resources. Replace placeholders with confirmed details."
   },
   "about": {
-    "pill": "About AfSNET",
-    "headline": "What the programme is, and why it exists",
-    "intro": "Replace this with the official AfSNET narrative: the purpose, outcomes, and who it’s for. Keep it short, clear, and executive-friendly."
-  },
+  "pill": "Applications open",
+  "headline": "Register for the AfSNET programme",
+  "intro": "AfSNET (Africa Sub-Sovereign Network) is a structured platform that convenes sub-national governments (states, provinces, regions, counties, and cities) with investors, businesses, development partners, and technical experts to develop and accelerate bankable projects and partnerships. The programme exists to bridge the gap between sub-national development priorities and investable opportunities by strengthening project preparation, improving investor readiness, and enabling coordinated implementation. It supports the translation of local priorities in areas such as infrastructure, industrialization, agribusiness value chains, trade facilitation, and SME development into credible pipelines that can attract financing and deliver measurable development outcomes."
+}
   "programme": {
     "pill": "Programme",
     "headline": "Programme overview",
