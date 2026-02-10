@@ -437,3 +437,31 @@ button:hover{
     radial-gradient(700px 380px at 92% 10%, rgba(201,162,39,.16), transparent 60%),
     linear-gradient(135deg, rgba(11,31,58,.03), rgba(11,93,59,.04));
 }
+/* === Premium surface cards (matches Green + Gold) === */
+.surface{
+  background:
+    linear-gradient(135deg,
+      rgba(11,93,59,.06),
+      rgba(201,162,39,.06),
+      rgba(255,255,255,.92)
+    );
+  border: 1px solid rgba(201,162,39,.16);
+  box-shadow: 0 10px 22px rgba(11,31,58,.08);
+}
+
+/* Make list bullets look more premium */
+ul.list li::marker{ color: rgba(201,162,39,.85); }
+
+/* Calm the hero glow so it doesn't look “dirty” behind cards */
+.hero-banner::before{
+  pointer-events:none;
+  height:280px;
+  background:
+    radial-gradient(900px 420px at 18% 20%, rgba(11,93,59,.14), transparent 65%),
+    radial-gradient(700px 380px at 92% 10%, rgba(201,162,39,.14), transparent 60%),
+    linear-gradient(135deg, rgba(11,31,58,.02), rgba(11,93,59,.03));
+}
+
+@media (max-width: 920px){
+  .hero-banner::before{ height:420px; }
+}
