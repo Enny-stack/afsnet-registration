@@ -26,13 +26,21 @@ function injectHeader(cfg) {
   el.innerHTML = `
     <header>
       <div class="container topbar">
-        <a class="brand" href="./index.html" aria-label="${cfg.site?.name || "AfSNET"} Home">
-          <div class="logo" aria-hidden="true"></div>
-          <div>
-            <h1>${cfg.site?.name || "AfSNET"}</h1>
-            <p>${cfg.site?.tagline || ""}</p>
-          </div>
-        </a>
+       <a class="brand" href="./index.html" aria-label="${cfg.site?.name || "AfSNET"} Home">
+
+  <!-- ✅ Real AfSNET Logo -->
+  <img
+    src="./assets/logo/afsnet-logo.jpg"
+    alt="AfSNET Logo"
+    class="site-logo"
+  />
+
+  <div>
+    <h1>${cfg.site?.name || "AfSNET"}</h1>
+    <p>${cfg.site?.tagline || ""}</p>
+  </div>
+
+</a>
 
         <nav class="nav" aria-label="Primary navigation">
           <a href="./index.html">Home</a>
