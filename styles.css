@@ -739,3 +739,111 @@ td, th{
 .table-wrap tbody tr:hover{
   background: rgba(201,162,39,.06);
 }
+/* ===== Mega Footer (site-wide) ===== */
+.site-footer{
+  margin-top: 26px;
+  background: linear-gradient(180deg, var(--navy-2), var(--navy));
+  color: rgba(255,255,255,.92);
+  border-top: 1px solid rgba(255,255,255,.10);
+}
+
+.site-footer .container{
+  padding: 28px 22px;
+}
+
+.footer-grid{
+  display: grid;
+  grid-template-columns: 1.3fr .9fr;
+  gap: 26px;
+  align-items: start;
+}
+
+@media (max-width: 920px){
+  .footer-grid{ grid-template-columns: 1fr; }
+}
+
+.footer-brand{
+  display:flex;
+  gap: 12px;
+  align-items:center;
+}
+
+.footer-logo{
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--green), var(--navy));
+  position: relative;
+  box-shadow: 0 10px 18px rgba(0,0,0,.22);
+}
+.footer-logo::after{
+  content:"";
+  position:absolute;
+  inset: 10px;
+  border-radius: 10px;
+  border: 2px solid rgba(201,162,39,.85);
+}
+
+.footer-title{
+  font-weight: 900;
+  letter-spacing: .2px;
+  margin: 0;
+}
+.footer-sub{
+  margin: 2px 0 0;
+  color: rgba(255,255,255,.72);
+  font-size: 13px;
+}
+
+.footer-col h4{
+  margin: 0 0 10px;
+  color: rgba(255,255,255,.92);
+  font-size: 14px;
+  letter-spacing: .2px;
+}
+
+.footer-links{
+  display:flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.footer-links a{
+  color: rgba(255,255,255,.82);
+  text-decoration:none;
+  border: 1px solid rgba(255,255,255,.12);
+  padding: 8px 10px;
+  border-radius: 999px;
+}
+.footer-links a:hover{
+  background: rgba(255,255,255,.08);
+  border-color: rgba(201,162,39,.35);
+  color: #fff;
+}
+
+.footer-contact{
+  display:grid;
+  gap: 10px;
+}
+
+.footer-contact .label{
+  font-weight: 850;
+  color: rgba(255,255,255,.92);
+  margin-right: 6px;
+}
+
+.footer-contact .line{
+  color: rgba(255,255,255,.78);
+  line-height: 1.55;
+}
+
+.footer-bottom{
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,.10);
+  color: rgba(255,255,255,.68);
+  display:flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 13px;
+}
