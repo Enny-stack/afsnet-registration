@@ -66,34 +66,21 @@ function injectFooter(cfg) {
 
   const year = new Date().getFullYear();
 
-  // Pull email/phone from config
   const supportEmail = cfg?.site?.supportEmail || "afsnet@afreximbank.com";
   const phone = cfg?.site?.phone || "TBC";
-
-  // ✅ Pull logo from config
   const logoSrc = cfg?.site?.logoSrc || "./assets/logo/afsnet-logo.jpg";
 
-  // Inject footer HTML
   el.innerHTML = `
     <footer class="site-footer">
       <div class="container">
         <div class="footer-grid">
 
-          <!-- Left: AfSNET identity -->
+          <!-- Left: brand -->
           <div class="footer-col">
             <div class="footer-brand">
-
-              <!-- ✅ REAL LOGO IMAGE -->
-              <img
-                class="footer-logo-img"
-                src="${logoSrc}"
-                alt="AfSNET logo"
-              />
-
+              <img class="footer-logo-img" src="${logoSrc}" alt="AfSNET logo" />
               <div>
-                <p class="footer-title">
-                  African Sub-Sovereign Governments Network (AfSNET)
-                </p>
+                <p class="footer-title">African Sub-Sovereign Governments Network (AfSNET)</p>
                 <p class="footer-sub">
                   Connecting African states, investors, and projects through a trusted investment network.
                 </p>
@@ -101,42 +88,14 @@ function injectFooter(cfg) {
             </div>
 
             <div class="footer-bottom">
-              <div>
-                © ${year} Afreximbank / AfSNET. All rights reserved.
-              </div>
+              © ${year} Afreximbank / AfSNET. All rights reserved.
             </div>
           </div>
 
-          <!-- Right: Contact + Address -->
+          <!-- Right: links + address -->
           <div class="footer-col">
-            <p class="footer-heading">Afreximbank Headquarters – Cairo, Egypt</p>
+            <h4 class="footer-heading">Quick links</h4>
 
-            <p class="footer-text">
-              72 (B) El-Maahad El-Eshteraky Street – Heliopolis, Cairo<br/>
-              11341, Egypt
-            </p>
-
-            <p class="footer-text">
-              <strong>Email:</strong> ${supportEmail}<br/>
-              <strong>Tel:</strong> ${phone}
-            </p>
-          </div>
-
-        </div>
-      </div>
-    </footer>
-  `;
-}
-            <div class="footer-bottom">
-              <div>
-                © ${year} Afreximbank / The African Sub-Sovereign Governments Network (AfSNET). All rights reserved.
-              </div>
-            </div>
-          </div>
-
-          <!-- Right: Links + Address -->
-          <div class="footer-col">
-            <h4>Quick links</h4>
             <div class="footer-links">
               <a href="./about.html">About</a>
               <a href="./programme.html">Programmes</a>
@@ -148,9 +107,7 @@ function injectFooter(cfg) {
             <div style="height:14px"></div>
 
             <div class="footer-contact">
-              <div class="line">
-                <span class="label">Afreximbank Headquarters – Cairo, Egypt</span>
-              </div>
+              <div class="line"><span class="label">Afreximbank Headquarters – Cairo, Egypt</span></div>
               <div class="line">
                 72 (B) El-Maahad El-Eshteraky Street – Heliopolis, Cairo<br/>
                 11341, Egypt
@@ -166,15 +123,8 @@ function injectFooter(cfg) {
                 <a href="mailto:${supportEmail}">${supportEmail}</a>
               </div>
 
-              <div class="line">
-                <span class="label">Tel:</span>
-                ${phone}
-              </div>
-
-              <div class="line">
-                <span class="label">Fax:</span>
-                +202-24564110; +202-24515008
-              </div>
+              <div class="line"><span class="label">Tel:</span> ${phone}</div>
+              <div class="line"><span class="label">Fax:</span> +202-24564110; +202-24515008</div>
             </div>
           </div>
 
