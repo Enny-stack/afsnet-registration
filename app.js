@@ -1,126 +1,58 @@
-/* ===== app.js (AfSNET) =====
-   - Injects shared header/footer
-   - Sets active nav item
-   - Fills data-config + data-list content
-   - Adds mobile nav toggle
-*/
+let CONFIG = null;
 
-const SITE = {
-  brandTitle: "AfSNET",
-  brandTagline: "Afreximbank programme",
-  nav: [
-    { href: "./index.html", label: "Home", key: "Home" },
-    { href: "./about.html", label: "About", key: "About" },
-    { href: "./programme.html", label: "Programme", key: "Programme" },
-    { href: "./event.html", label: "Event", key: "Event" },
-    { href: "./speakers-partners.html", label: "Speakers/Partners", key: "Speakers/Partners" },
-    { href: "./travel-visa.html", label: "Travel & Visa", key: "Travel & Visa" },
-    { href: "./media-press.html", label: "Media/Press", key: "Media/Press" },
-    { href: "./hotels.html", label: "Hotels", key: "Hotels" },
-    { href: "./apply.html", label: "Apply", key: "Apply", cta: true },
-    { href: "./contact.html", label: "Contact", key: "Contact" }
-  ]
-};
-
-// Optional content config (you can edit these later)
-const CONFIG = {
-  home: {
-    pill: "Applications open",
-    headline: "Register for the AfSNET programme",
-    intro:
-      "This portal supports participant registration and shares event information, travel guidance, hotels, and media resources.",
-    tip:
-      "Tip: Keep this page short. Put details inside the relevant pages so people don’t get lost.",
-    facts: { dates: "TBC", location: "TBC", format: "Hybrid" },
-    canDo: [
-      "Register participation (Apply)",
-      "See programme structure and event info",
-      "Check travel & visa guidance",
-      "View recommended hotels",
-      "Access media/press information"
-    ]
-  }
-};
-
-/* ---------- Helpers ---------- */
-function getPageTitleKey() {
-  const meta = document.querySelector('meta[name="page-title"]');
-  if (meta && meta.content) return meta.content.trim();
-
-  // fallback: detect from filename
-  const file = (location.pathname.split("/").pop() || "index.html").toLowerCase();
-  if (file.includes("index")) return "Home";
-  if (file.includes("about")) return "About";
-  if (file.includes("programme")) return "Programme";
-  if (file.includes("event")) return "Event";
-  if (file.includes("speakers")) return "Speakers/Partners";
-  if (file.includes("travel")) return "Travel & Visa";
-  if (file.includes("media")) return "Media/Press";
-  if (file.includes("hotels")) return "Hotels";
-  if (file.includes("apply")) return "Apply";
-  if (file.includes("contact")) return "Contact";
-  return "";
+async function loadConfig() {
+  if (CONFIG) return CONFIG;
+  const res = await fetch("./config.json", { cache: "no-store" });
+  CONFIG = await res.json();
+  return CONFIG;
 }
 
-function get(obj, path) {
-  return path.split(".").reduce((acc, key) => (acc && acc[key] !== undefined ? acc[key] : undefined), obj);
+function getByPath(obj, path) {
+  return path.split(".").reduce((acc, k) => (acc && acc[k] !== undefined ? acc[k] : null), obj);
 }
 
-function normalizeHref(href) {
-  // compare by filename only (works on GitHub Pages + local)
-  try {
-    const u = new URL(href, location.href);
-    return (u.pathname.split("/").pop() || "").toLowerCase();
-  } catch {
-    return (href.split("/").pop() || "").toLowerCase();
-  }
+function setActiveNav() {
+  const file = location.pathname.split("/").pop() || "index.html";
+  document.querySelectorAll(".nav a").forEach(a => {
+    const href = (a.getAttribute("href") || "").replace("./", "");
+    if (href === file) a.classList.add("active");
+  });
 }
 
-function currentFile() {
-  return (location.pathname.split("/").pop() || "index.html").toLowerCase();
-}
+function injectHeader(cfg) {
+  const el = document.getElementById("site-header");
+  if (!el) return;
 
-/* ---------- Header/Footer Injection ---------- */
-function renderHeader(activeKey) {
-  const links = SITE.nav
-    .map(item => {
-      const cls = ["nav-link"];
-      if (item.cta) cls.push("cta");
-      const isActive = item.key === activeKey;
-      if (isActive) cls.push("active");
+  el.innerHTML = `
+    <header>
+      <div class="container topbar">
+        <a class="brand" href="./index.html" aria-label="${cfg.site?.name || "AfSNET"} Home">
+          <div class="logo" aria-hidden="true"></div>
+          <div>
+            <h1>${cfg.site?.name || "AfSNET"}</h1>
+            <p>${cfg.site?.tagline || ""}</p>
+          </div>
+        </a>
 
-      return `<a class="${cls.join(" ")}" href="${item.href}" ${isActive ? 'aria-current="page"' : ""}>
-        ${item.label}
-      </a>`;
-    })
-    .join("");
-
-  return `
-<header class="site-header">
-  <div class="container topbar">
-    <a class="brand" href="./index.html" aria-label="${SITE.brandTitle} Home">
-      <div class="logo" aria-hidden="true"></div>
-      <div>
-        <h1>${SITE.brandTitle}</h1>
-        <p>${SITE.brandTagline}</p>
+        <nav class="nav" aria-label="Primary navigation">
+          <a href="./index.html">Home</a>
+          <a href="./about.html">About</a>
+          <a href="./programme.html">Programme</a>
+          <a href="./event.html">Event</a>
+          <a href="./speakers-partners.html">Speakers/Partners</a>
+          <a href="./travel-visa.html">Travel & Visa</a>
+          <a href="./media-press.html">Media/Press</a>
+          <a href="./hotels.html">Hotels</a>
+          <a class="cta" href="./apply.html">Apply</a>
+          <a href="./contact.html">Contact</a>
+        </nav>
       </div>
-    </a>
-
-    <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
-      <span class="nav-toggle-bar" aria-hidden="true"></span>
-      <span class="nav-toggle-bar" aria-hidden="true"></span>
-      <span class="nav-toggle-bar" aria-hidden="true"></span>
-    </button>
-
-    <nav class="nav" aria-label="Primary navigation">
-      ${links}
-    </nav>
-  </div>
-</header>
-`;
+    </header>
+  `;
+  setActiveNav();
 }
 
-function injectFooter() {
+function injectFooter(cfg) {
   const el = document.getElementById("site-footer");
   if (!el) return;
 
@@ -135,8 +67,8 @@ function injectFooter() {
             <div class="footer-brand">
               <div class="footer-logo" aria-hidden="true"></div>
               <div>
-                <p class="footer-title">Africa Research & Innovation Hub</p>
-                <p class="footer-sub">Connecting research, innovation, and capital across Africa.</p>
+                <p class="footer-title">${cfg.site?.footerTitle || "Africa Research & Innovation Hub"}</p>
+                <p class="footer-sub">${cfg.site?.footerSubtitle || ""}</p>
               </div>
             </div>
 
@@ -169,7 +101,10 @@ function injectFooter() {
                 <span class="label">Postal Address:</span> P.O. Box 613 Heliopolis, Cairo 11757, Egypt
               </div>
               <div class="line">
-                <span class="label">Email:</span> <a href="mailto:ARIH@intraafricantradefair.com" style="color:rgba(255,255,255,.86)">ARIH@intraafricantradefair.com</a>
+                <span class="label">Email:</span>
+                <a href="mailto:ARIH@intraafricantradefair.com" style="color:rgba(255,255,255,.86)">
+                  ARIH@intraafricantradefair.com
+                </a>
               </div>
               <div class="line">
                 <span class="label">Tel:</span> +20-2-24564100/1/2/3; +20-2-24515201/2;
@@ -185,99 +120,78 @@ function injectFooter() {
     </footer>
   `;
 }
-function injectSharedLayout() {
-  const activeKey = getPageTitleKey();
-  const headerHost = document.getElementById("site-header");
-  const footerHost = document.getElementById("site-footer");
 
-  if (headerHost) headerHost.innerHTML = renderHeader(activeKey);
-  if (footerHost) footerHost.innerHTML = renderFooter();
+function fillTextFromConfig(cfg) {
+  // data-config="path.to.value"
+  document.querySelectorAll("[data-config]").forEach(el => {
+    const path = el.getAttribute("data-config");
+    const val = getByPath(cfg, path);
+    if (val !== null && typeof val !== "object") el.textContent = val;
+  });
 
-  // If header wasn't injected (older pages), still try to set active on existing nav
-  setActiveNavFallback(activeKey);
-}
+  // data-email="site.supportEmail"
+  document.querySelectorAll("[data-email]").forEach(el => {
+    const path = el.getAttribute("data-email");
+    const email = getByPath(cfg, path);
+    if (email) {
+      el.textContent = email;
+      el.setAttribute("href", `mailto:${email}`);
+    }
+  });
 
-/* ---------- Active Nav Fallback (for pages with static header) ---------- */
-function setActiveNavFallback(activeKey) {
-  const nav = document.querySelector("nav.nav");
-  if (!nav) return;
-
-  const links = nav.querySelectorAll("a[href]");
-  const here = currentFile();
-
-  links.forEach(a => {
-    const target = normalizeHref(a.getAttribute("href"));
-    const isActive = (activeKey && a.textContent.trim() === activeKey) || target === here;
-
-    a.classList.toggle("active", isActive);
-    if (isActive) a.setAttribute("aria-current", "page");
-    else a.removeAttribute("aria-current");
+  // data-list="path.to.array"
+  document.querySelectorAll("[data-list]").forEach(ul => {
+    const path = ul.getAttribute("data-list");
+    const items = getByPath(cfg, path);
+    if (Array.isArray(items)) {
+      ul.innerHTML = items.map(x => `<li>${x}</li>`).join("");
+      ul.classList.add("list");
+    }
   });
 }
 
-/* ---------- Content Binding ---------- */
-function applyDataConfig() {
-  const nodes = document.querySelectorAll("[data-config]");
-  if (!nodes.length) return;
-
-  nodes.forEach(el => {
-    const key = el.getAttribute("data-config");
-    const value = get(CONFIG, key);
-    if (value === undefined || value === null) return;
-
-    // Keep it simple: fill text
-    el.textContent = String(value);
-  });
+function renderHotels(cfg) {
+  const body = document.getElementById("hotelsBody");
+  if (!body) return;
+  const list = cfg.hotels?.list || [];
+  body.innerHTML = list.map(h => `
+    <tr>
+      <td>${h.name || ""}</td>
+      <td>${h.distance || ""}</td>
+      <td>${h.rate || ""}</td>
+      <td>${h.booking || ""}</td>
+    </tr>
+  `).join("");
 }
 
-function applyDataLists() {
-  const nodes = document.querySelectorAll("[data-list]");
-  if (!nodes.length) return;
-
-  nodes.forEach(el => {
-    const key = el.getAttribute("data-list");
-    const items = get(CONFIG, key);
-    if (!Array.isArray(items) || items.length === 0) return;
-
-    // Replace list contents
-    el.innerHTML = items.map(x => `<li>${escapeHtml(String(x))}</li>`).join("");
-  });
+function renderDownloads(cfg) {
+  const ul = document.getElementById("downloadsList");
+  if (!ul) return;
+  const items = cfg.downloads?.items || [];
+  ul.innerHTML = items.map(i => `
+    <li><a href="${i.file}" target="_blank" rel="noopener">${i.label}</a></li>
+  `).join("");
+  ul.classList.add("list");
 }
 
-function escapeHtml(s) {
-  return s.replace(/[&<>"']/g, c => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
-  }[c]));
+function wireApply(cfg) {
+  const btn = document.getElementById("openExternalForm");
+  if (!btn) return;
+  const url = cfg.apply?.externalFormUrl;
+  if (!url || url.includes("xxxxxxxx")) {
+    btn.textContent = "External form (add link in config.json)";
+    btn.setAttribute("href", "./contact.html");
+    return;
+  }
+  btn.setAttribute("href", url);
 }
 
-/* ---------- Mobile Nav Toggle ---------- */
-function enableMobileNav() {
-  const btn = document.querySelector(".nav-toggle");
-  const nav = document.querySelector("nav.nav");
-  if (!btn || !nav) return;
-
-  btn.addEventListener("click", () => {
-    const open = nav.classList.toggle("is-open");
-    btn.setAttribute("aria-expanded", open ? "true" : "false");
-  });
-
-  // Close nav on link click (mobile)
-  nav.addEventListener("click", (e) => {
-    const a = e.target.closest("a");
-    if (!a) return;
-    nav.classList.remove("is-open");
-    btn.setAttribute("aria-expanded", "false");
-  });
-}
-
-/* ---------- Init ---------- */
-document.addEventListener("DOMContentLoaded", () => {
-  injectSharedLayout();
-  applyDataConfig();
-  applyDataLists();
-  enableMobileNav();
-
-  // If there's a #year somewhere (older pages), fill it too
-  const y = document.getElementById("year");
-  if (y) y.textContent = new Date().getFullYear();
+document.addEventListener("DOMContentLoaded", async () => {
+  const cfg = await loadConfig();
+  injectHeader(cfg);
+  injectFooter(cfg);
+  fillTextFromConfig(cfg);
+  renderHotels(cfg);
+  renderDownloads(cfg);
+  wireApply(cfg);
 });
