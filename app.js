@@ -1,283 +1,232 @@
-/* ===== app.js ===== */
+/* ===== app.js (AfSNET) =====
+   - Injects shared header/footer
+   - Sets active nav item
+   - Fills data-config + data-list content
+   - Adds mobile nav toggle
+*/
 
-/** Safe dot-path getter: getByPath(obj, "a.b.c") */
-function getByPath(obj, path) {
+const SITE = {
+  brandTitle: "AfSNET",
+  brandTagline: "Afreximbank programme",
+  nav: [
+    { href: "./index.html", label: "Home", key: "Home" },
+    { href: "./about.html", label: "About", key: "About" },
+    { href: "./programme.html", label: "Programme", key: "Programme" },
+    { href: "./event.html", label: "Event", key: "Event" },
+    { href: "./speakers-partners.html", label: "Speakers/Partners", key: "Speakers/Partners" },
+    { href: "./travel-visa.html", label: "Travel & Visa", key: "Travel & Visa" },
+    { href: "./media-press.html", label: "Media/Press", key: "Media/Press" },
+    { href: "./hotels.html", label: "Hotels", key: "Hotels" },
+    { href: "./apply.html", label: "Apply", key: "Apply", cta: true },
+    { href: "./contact.html", label: "Contact", key: "Contact" }
+  ]
+};
+
+// Optional content config (you can edit these later)
+const CONFIG = {
+  home: {
+    pill: "Applications open",
+    headline: "Register for the AfSNET programme",
+    intro:
+      "This portal supports participant registration and shares event information, travel guidance, hotels, and media resources.",
+    tip:
+      "Tip: Keep this page short. Put details inside the relevant pages so people don’t get lost.",
+    facts: { dates: "TBC", location: "TBC", format: "Hybrid" },
+    canDo: [
+      "Register participation (Apply)",
+      "See programme structure and event info",
+      "Check travel & visa guidance",
+      "View recommended hotels",
+      "Access media/press information"
+    ]
+  }
+};
+
+/* ---------- Helpers ---------- */
+function getPageTitleKey() {
+  const meta = document.querySelector('meta[name="page-title"]');
+  if (meta && meta.content) return meta.content.trim();
+
+  // fallback: detect from filename
+  const file = (location.pathname.split("/").pop() || "index.html").toLowerCase();
+  if (file.includes("index")) return "Home";
+  if (file.includes("about")) return "About";
+  if (file.includes("programme")) return "Programme";
+  if (file.includes("event")) return "Event";
+  if (file.includes("speakers")) return "Speakers/Partners";
+  if (file.includes("travel")) return "Travel & Visa";
+  if (file.includes("media")) return "Media/Press";
+  if (file.includes("hotels")) return "Hotels";
+  if (file.includes("apply")) return "Apply";
+  if (file.includes("contact")) return "Contact";
+  return "";
+}
+
+function get(obj, path) {
   return path.split(".").reduce((acc, key) => (acc && acc[key] !== undefined ? acc[key] : undefined), obj);
 }
 
-function escapeHtml(str) {
-  return String(str)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll("\"", "&quot;")
-    .replaceAll("'", "&#039;");
-}
-
-const DEFAULT_CONFIG = {
-  site: {
-    programName: "AfSNET",
-    orgName: "Afreximbank",
-    tagline: "Afreximbank programme",
-    baseTitle: "AfSNET",
-    supportEmail: "afsnet@afreximbank.com",
-    phone: "TBC",
-    format: "Hybrid"
-  },
-  event: { dates: "TBC", venue: "TBC", city: "TBC", country: "TBC" },
-  registration: { formEndpoint: "https://formspree.io/f/REPLACE_ME", redirectUrl: "./thank-you.html", ajaxEnabled: false }
-};
-
-async function loadConfig() {
+function normalizeHref(href) {
+  // compare by filename only (works on GitHub Pages + local)
   try {
-    const res = await fetch("./config.json", { cache: "no-store" });
-    if (!res.ok) throw new Error("config fetch failed");
-    const cfg = await res.json();
-    return { ...DEFAULT_CONFIG, ...cfg };
+    const u = new URL(href, location.href);
+    return (u.pathname.split("/").pop() || "").toLowerCase();
   } catch {
-    return DEFAULT_CONFIG;
+    return (href.split("/").pop() || "").toLowerCase();
   }
 }
 
-function deriveConfig(cfg) {
-  const city = cfg.event?.city || "TBC";
-  const country = cfg.event?.country || "TBC";
-  cfg.event = cfg.event || {};
-  cfg.event.cityCountry = (city === "TBC" && country === "TBC") ? "TBC" : `${city}, ${country}`;
-  return cfg;
+function currentFile() {
+  return (location.pathname.split("/").pop() || "index.html").toLowerCase();
 }
 
-function injectHeaderFooter(cfg) {
+/* ---------- Header/Footer Injection ---------- */
+function renderHeader(activeKey) {
+  const links = SITE.nav
+    .map(item => {
+      const cls = ["nav-link"];
+      if (item.cta) cls.push("cta");
+      const isActive = item.key === activeKey;
+      if (isActive) cls.push("active");
+
+      return `<a class="${cls.join(" ")}" href="${item.href}" ${isActive ? 'aria-current="page"' : ""}>
+        ${item.label}
+      </a>`;
+    })
+    .join("");
+
+  return `
+<header class="site-header">
+  <div class="container topbar">
+    <a class="brand" href="./index.html" aria-label="${SITE.brandTitle} Home">
+      <div class="logo" aria-hidden="true"></div>
+      <div>
+        <h1>${SITE.brandTitle}</h1>
+        <p>${SITE.brandTagline}</p>
+      </div>
+    </a>
+
+    <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="nav-toggle-bar" aria-hidden="true"></span>
+      <span class="nav-toggle-bar" aria-hidden="true"></span>
+      <span class="nav-toggle-bar" aria-hidden="true"></span>
+    </button>
+
+    <nav class="nav" aria-label="Primary navigation">
+      ${links}
+    </nav>
+  </div>
+</header>
+`;
+}
+
+function renderFooter() {
+  const year = new Date().getFullYear();
+  return `
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-row">
+      <div><strong style="color:var(--navy)">Afreximbank</strong> <span class="muted">— AfSNET</span></div>
+      <div>© <span id="year">${year}</span> Afreximbank. All rights reserved.</div>
+    </div>
+  </div>
+</footer>
+`;
+}
+
+function injectSharedLayout() {
+  const activeKey = getPageTitleKey();
   const headerHost = document.getElementById("site-header");
   const footerHost = document.getElementById("site-footer");
 
-  const navItems = [
-    { label: "Home", href: "./index.html" },
-    { label: "About", href: "./about.html" },
-    { label: "Programme", href: "./programme.html" },
-    { label: "Event", href: "./event.html" },
-    { label: "Speakers/Partners", href: "./speakers-partners.html" },
-    { label: "Travel & Visa", href: "./travel-visa.html" },
-    { label: "Media/Press", href: "./media-press.html" },
-    { label: "Hotels", href: "./hotels.html" },
-    { label: "Apply", href: "./apply.html", cta: true },
-    { label: "Contact", href: "./contact.html" }
-  ];
+  if (headerHost) headerHost.innerHTML = renderHeader(activeKey);
+  if (footerHost) footerHost.innerHTML = renderFooter();
 
-  // determine current page for active nav
-  let current = window.location.pathname.split("/").pop();
-  if (!current) current = "index.html"; // when path ends with "/"
-  if (current === "") current = "index.html";
-
-  const navHtml = navItems.map(item => {
-    const hrefFile = item.href.replace("./", "");
-    const isActive = (current === hrefFile) || (current === "" && hrefFile === "index.html");
-    const cls = [
-      isActive ? "active" : "",
-      item.cta ? "cta" : ""
-    ].join(" ").trim();
-
-    return `<a class="${escapeHtml(cls)}" href="${escapeHtml(item.href)}">${escapeHtml(item.label)}</a>`;
-  }).join("");
-
-  if (headerHost) {
-    headerHost.innerHTML = `
-      <header>
-        <div class="container topbar">
-          <a class="brand" href="./index.html" aria-label="${escapeHtml(cfg.site.programName)} Home">
-            <div class="logo" aria-hidden="true"></div>
-            <div>
-              <h1>${escapeHtml(cfg.site.programName)}</h1>
-              <p>${escapeHtml(cfg.site.tagline)}</p>
-            </div>
-          </a>
-          <nav class="nav" aria-label="Primary navigation">
-            ${navHtml}
-          </nav>
-        </div>
-      </header>
-    `;
-  }
-
-  const year = new Date().getFullYear();
-  if (footerHost) {
-    footerHost.innerHTML = `
-      <footer class="container">
-        <div class="footer-row">
-          <div><strong style="color:var(--navy)">${escapeHtml(cfg.site.orgName)}</strong> <span class="muted">— ${escapeHtml(cfg.site.programName)}</span></div>
-          <div>© <span>${year}</span> ${escapeHtml(cfg.site.orgName)}. All rights reserved.</div>
-        </div>
-      </footer>
-    `;
-  }
+  // If header wasn't injected (older pages), still try to set active on existing nav
+  setActiveNavFallback(activeKey);
 }
 
-function applyBindings(cfg) {
-  // Text bindings: <span data-config="event.dates"></span>
-  document.querySelectorAll("[data-config]").forEach(el => {
-    const path = el.getAttribute("data-config");
-    const val = getByPath(cfg, path);
-    if (val !== undefined && val !== null) el.textContent = val;
-  });
+/* ---------- Active Nav Fallback (for pages with static header) ---------- */
+function setActiveNavFallback(activeKey) {
+  const nav = document.querySelector("nav.nav");
+  if (!nav) return;
 
-  // Email bindings: <a data-email="site.supportEmail"></a>
-  document.querySelectorAll("[data-email]").forEach(a => {
-    const path = a.getAttribute("data-email");
-    const email = getByPath(cfg, path);
-    if (email) {
-      a.textContent = email;
-      a.setAttribute("href", `mailto:${email}`);
-    }
-  });
+  const links = nav.querySelectorAll("a[href]");
+  const here = currentFile();
 
-  // Lists: <ul data-list="about.objectives"></ul>
-  document.querySelectorAll("[data-list]").forEach(ul => {
-    const path = ul.getAttribute("data-list");
-    const items = getByPath(cfg, path);
-    if (Array.isArray(items)) {
-      ul.innerHTML = items.map(x => `<li>${escapeHtml(x)}</li>`).join("");
-      ul.classList.add("list");
-    }
+  links.forEach(a => {
+    const target = normalizeHref(a.getAttribute("href"));
+    const isActive = (activeKey && a.textContent.trim() === activeKey) || target === here;
+
+    a.classList.toggle("active", isActive);
+    if (isActive) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
   });
 }
 
-function renderProgrammeFlow(cfg) {
-  const tbody = document.getElementById("programmeFlowBody");
-  const rows = cfg.programme?.flow;
-  if (!tbody || !Array.isArray(rows)) return;
+/* ---------- Content Binding ---------- */
+function applyDataConfig() {
+  const nodes = document.querySelectorAll("[data-config]");
+  if (!nodes.length) return;
 
-  tbody.innerHTML = rows.map(r => `
-    <tr>
-      <td>${escapeHtml(r.time ?? "")}</td>
-      <td>${escapeHtml(r.session ?? "")}</td>
-      <td>${escapeHtml(r.notes ?? "")}</td>
-    </tr>
-  `).join("");
-}
+  nodes.forEach(el => {
+    const key = el.getAttribute("data-config");
+    const value = get(CONFIG, key);
+    if (value === undefined || value === null) return;
 
-function renderHotels(cfg) {
-  const tbody = document.getElementById("hotelsBody");
-  const rows = cfg.hotels?.list;
-  if (!tbody || !Array.isArray(rows)) return;
-
-  tbody.innerHTML = rows.map(h => `
-    <tr>
-      <td>${escapeHtml(h.name ?? "")}</td>
-      <td>${escapeHtml(h.distance ?? "")}</td>
-      <td>${escapeHtml(h.rate ?? "")}</td>
-      <td>${escapeHtml(h.booking ?? "")}</td>
-    </tr>
-  `).join("");
-}
-
-function renderSpeakersPartners(cfg) {
-  const speakersHost = document.getElementById("speakersGrid");
-  const partnersHost = document.getElementById("partnersGrid");
-
-  const speakers = cfg.speakersPartners?.speakers;
-  const partners = cfg.speakersPartners?.partners;
-
-  if (speakersHost && Array.isArray(speakers)) {
-    speakersHost.innerHTML = speakers.map(s => `
-      <div class="box">
-        <span class="tag">Speaker</span>
-        <h4 style="margin:10px 0 4px;color:var(--navy)">${escapeHtml(s.name ?? "")}</h4>
-        <div class="muted small">${escapeHtml(s.title ?? "")}${s.org ? ` — ${escapeHtml(s.org)}` : ""}</div>
-        <div class="muted small" style="margin-top:6px">Topic: ${escapeHtml(s.topic ?? "TBC")}</div>
-      </div>
-    `).join("");
-  }
-
-  if (partnersHost && Array.isArray(partners)) {
-    partnersHost.innerHTML = partners.map(p => `
-      <div class="box">
-        <span class="tag">Partner</span>
-        <h4 style="margin:10px 0 4px;color:var(--navy)">${escapeHtml(p.name ?? "")}</h4>
-        <div class="muted small">Role: ${escapeHtml(p.role ?? "TBC")}</div>
-      </div>
-    `).join("");
-  }
-}
-
-function setupRegistration(cfg) {
-  const form = document.getElementById("afsnetForm");
-  const statusEl = document.getElementById("status");
-  const submitBtn = document.getElementById("submitBtn");
-
-  if (!form) return;
-
-  // Set endpoint + redirect
-  if (cfg.registration?.formEndpoint) form.setAttribute("action", cfg.registration.formEndpoint);
-  const redirectInput = form.querySelector('input[name="_redirect"]');
-  if (redirectInput && cfg.registration?.redirectUrl) redirectInput.value = cfg.registration.redirectUrl;
-
-  // Warn if placeholder endpoint
-  if (statusEl && String(form.action).includes("REPLACE_ME")) {
-    statusEl.style.display = "block";
-    statusEl.className = "status bad";
-    statusEl.textContent = "Admin note: Replace registration.formEndpoint in config.json with your real form endpoint.";
-  }
-
-  // Optional AJAX submit
-  if (!cfg.registration?.ajaxEnabled) return;
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const gotcha = form.querySelector('input[name="_gotcha"]');
-    if (gotcha && gotcha.value) return;
-
-    if (statusEl) {
-      statusEl.style.display = "block";
-      statusEl.className = "status";
-      statusEl.textContent = "Submitting…";
-    }
-    if (submitBtn) submitBtn.disabled = true;
-
-    try {
-      const data = new FormData(form);
-      const res = await fetch(form.action, {
-        method: "POST",
-        body: data,
-        headers: { "Accept": "application/json" }
-      });
-
-      if (res.ok) {
-        if (statusEl) {
-          statusEl.className = "status ok";
-          statusEl.textContent = "Submitted. Check your email for confirmation.";
-        }
-        form.reset();
-      } else {
-        if (statusEl) {
-          statusEl.className = "status bad";
-          statusEl.textContent = "Submission failed. Please try again.";
-        }
-      }
-    } catch {
-      if (statusEl) {
-        statusEl.className = "status bad";
-        statusEl.textContent = "Network error. Please try again.";
-      }
-    } finally {
-      if (submitBtn) submitBtn.disabled = false;
-    }
+    // Keep it simple: fill text
+    el.textContent = String(value);
   });
 }
 
-(async function init() {
-  let cfg = await loadConfig();
-  cfg = deriveConfig(cfg);
+function applyDataLists() {
+  const nodes = document.querySelectorAll("[data-list]");
+  if (!nodes.length) return;
 
-  injectHeaderFooter(cfg);
-  applyBindings(cfg);
+  nodes.forEach(el => {
+    const key = el.getAttribute("data-list");
+    const items = get(CONFIG, key);
+    if (!Array.isArray(items) || items.length === 0) return;
 
-  renderProgrammeFlow(cfg);
-  renderHotels(cfg);
-  renderSpeakersPartners(cfg);
-  setupRegistration(cfg);
+    // Replace list contents
+    el.innerHTML = items.map(x => `<li>${escapeHtml(String(x))}</li>`).join("");
+  });
+}
 
-  // Base title convention
-  const pageTitle = document.querySelector("meta[name='page-title']")?.getAttribute("content");
-  if (pageTitle) document.title = `${cfg.site.baseTitle} | ${pageTitle}`;
-})();
+function escapeHtml(s) {
+  return s.replace(/[&<>"']/g, c => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+  }[c]));
+}
+
+/* ---------- Mobile Nav Toggle ---------- */
+function enableMobileNav() {
+  const btn = document.querySelector(".nav-toggle");
+  const nav = document.querySelector("nav.nav");
+  if (!btn || !nav) return;
+
+  btn.addEventListener("click", () => {
+    const open = nav.classList.toggle("is-open");
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+
+  // Close nav on link click (mobile)
+  nav.addEventListener("click", (e) => {
+    const a = e.target.closest("a");
+    if (!a) return;
+    nav.classList.remove("is-open");
+    btn.setAttribute("aria-expanded", "false");
+  });
+}
+
+/* ---------- Init ---------- */
+document.addEventListener("DOMContentLoaded", () => {
+  injectSharedLayout();
+  applyDataConfig();
+  applyDataLists();
+  enableMobileNav();
+
+  // If there's a #year somewhere (older pages), fill it too
+  const y = document.getElementById("year");
+  if (y) y.textContent = new Date().getFullYear();
+});
