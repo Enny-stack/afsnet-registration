@@ -3,7 +3,6 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="page-title" content="Apply" />
   <meta name="description" content="Apply / Register" />
   <title>AfSNET | Apply</title>
   <link rel="stylesheet" href="./styles.css" />
@@ -11,102 +10,32 @@
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-
 <div id="site-header"></div>
 
 <main id="main" class="container">
-  <section class="hero-banner">
-    <section class="grid section">
+  <section class="hero-banner section">
+    <div class="grid">
       <div class="card pad hero">
-        <span class="pill">Registration form</span>
-        <h2>Apply / Register</h2>
-        <p class="muted">
-          Registration submissions are sent to the programme administrators.
-        </p>
-        <div class="meta">
-          <div class="chip"><strong>Support:</strong> <a data-email="site.supportEmail">afsnet@afreximbank.com</a></div>
-          <div class="chip"><strong>Event:</strong> <span data-config="event.dates">TBC</span> — <span data-config="event.cityCountry">TBC</span></div>
+        <span class="pill" data-config="apply.pill"></span>
+        <h2 data-config="apply.headline"></h2>
+        <p class="muted" data-config="apply.intro"></p>
+
+        <div class="actions">
+          <a class="btn primary" id="openExternalForm" target="_blank" rel="noopener">Open registration form</a>
+          <a class="btn ghost" href="./contact.html">Need help?</a>
         </div>
       </div>
 
-      <div class="card pad">
-        <h3 style="margin-top:0">Complete your details</h3>
-
-        <form id="afsnetForm" method="POST" action="https://formspree.io/f/REPLACE_ME">
-          <input type="hidden" name="_subject" value="AfSNET Registration" />
-          <input type="hidden" name="_redirect" value="./thank-you.html" />
-          <input type="text" name="_gotcha" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true" />
-
-          <div class="row">
-            <div>
-              <label for="fullName">Full name *</label>
-              <input id="fullName" name="fullName" required autocomplete="name" />
-            </div>
-            <div>
-              <label for="email">Email *</label>
-              <input id="email" name="email" type="email" required autocomplete="email" />
-            </div>
-          </div>
-
-          <div class="row">
-            <div>
-              <label for="organisation">Organisation *</label>
-              <input id="organisation" name="organisation" required />
-            </div>
-            <div>
-              <label for="role">Role / Title</label>
-              <input id="role" name="role" />
-            </div>
-          </div>
-
-          <div class="row">
-            <div>
-              <label for="country">Country *</label>
-              <input id="country" name="country" required />
-            </div>
-            <div>
-              <label for="phone">Phone (optional)</label>
-              <input id="phone" name="phone" autocomplete="tel" />
-            </div>
-          </div>
-
-          <div>
-            <label for="category">Participation category *</label>
-            <select id="category" name="category" required>
-              <option value="" selected disabled>Select one</option>
-              <option>Investor / Financier</option>
-              <option>Project / Deal Sponsor</option>
-              <option>Government / Public sector</option>
-              <option>Private sector / Corporate</option>
-              <option>SME</option>
-              <option>Partner / Ecosystem</option>
-              <option>Media</option>
-              <option>Other</option>
-            </select>
-          </div>
-
-          <div>
-            <label for="interests">Areas of interest (optional)</label>
-            <textarea id="interests" name="interests" placeholder="Sectors, deal type, meeting preferences, etc."></textarea>
-            <div class="muted small">Avoid sharing sensitive personal data beyond what is needed for participation.</div>
-          </div>
-
-          <div class="consent">
-            <input id="consent" name="consent" type="checkbox" required />
-            <label for="consent" style="font-weight:600;color:var(--muted)">
-              I consent to Afreximbank processing my registration data for programme administration and communications.
-            </label>
-          </div>
-
-          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-            <button id="submitBtn" type="submit">Submit registration</button>
-            <div id="status" class="status" role="status" aria-live="polite"></div>
-          </div>
-
-          <p class="muted small" style="margin:10px 0 0">Need help? Email: <a data-email="site.supportEmail">afsnet@afreximbank.com</a></p>
-        </form>
+      <div class="card pad surface">
+        <div class="kicker">What to prepare</div>
+        <ul class="list">
+          <li>Full name and organisation</li>
+          <li>Role / category (Investor, Government, Partner, Media)</li>
+          <li>Country and contact details</li>
+          <li>Areas of interest for matchmaking</li>
+        </ul>
       </div>
-    </section>
+    </div>
   </section>
 </main>
 
