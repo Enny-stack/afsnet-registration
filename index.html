@@ -10,7 +10,89 @@
 </head>
 
 <body class="home">
+<a class="skip-link" href="#main">Skip to content</a><!-- ===== index.html (Home) ===== -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="page-title" content="Home" />
+  <meta name="description" content="AfSNET Programme — Registration portal" />
+  <title>AfSNET | Home</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="./app.js" defer></script>
+</head>
+
+<body class="home">
 <a class="skip-link" href="#main">Skip to content</a>
+
+<!-- Shared header gets injected here -->
+<div id="site-header"></div>
+
+<main id="main" class="container">
+
+  <section class="hero-banner section">
+    <div class="grid">
+
+      <div class="card pad hero">
+        <!-- Optional: allow app.js to fill these -->
+        <span class="pill" data-config="home.pill">Applications open</span>
+        <h2 data-config="home.headline">Register for the AfSNET programme</h2>
+        <p class="muted" data-config="home.intro">
+          This portal supports participant registration and shares event information, travel guidance, hotels,
+          and media resources. Replace placeholders with confirmed details.
+        </p>
+
+        <div class="meta" role="list" aria-label="Quick facts">
+          <div class="chip" role="listitem"><strong>Dates:</strong> <span data-config="home.facts.dates">TBC</span></div>
+          <div class="chip" role="listitem"><strong>Location:</strong> <span data-config="home.facts.location">TBC</span></div>
+          <div class="chip" role="listitem"><strong>Format:</strong> <span data-config="home.facts.format">Hybrid</span></div>
+        </div>
+
+        <div class="actions">
+          <a class="btn primary" href="./apply.html">Apply / Register</a>
+          <a class="btn ghost" href="./programme.html">Programme</a>
+          <a class="btn ghost" href="./event.html">Event details</a>
+        </div>
+      </div>
+
+      <div class="card pad surface">
+        <div class="kicker">What you can do here</div>
+        <ul class="list" data-list="home.canDo">
+          <li>Register participation (Apply)</li>
+          <li>See programme structure and event info</li>
+          <li>Check travel & visa guidance</li>
+          <li>View recommended hotels</li>
+          <li>Access media/press information</li>
+        </ul>
+
+        <p class="muted small" style="margin-top:12px" data-config="home.tip">
+          Tip: Keep this page short. Put details inside the relevant pages so people don’t get lost.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="card pad section">
+    <h3>Highlights</h3>
+    <div class="two">
+      <div>
+        <p class="muted" style="margin-top:0">Replace with 3–5 concise outcomes.</p>
+        <ul class="list">
+          <li>Investor and project matchmaking</li>
+          <li>Sector roundtables and pipeline acceleration</li>
+          <li>Partnership engagement and implementation pathways</li>
+        </ul>
+      </div>
+      <div>
+        <p class="muted" style="margin-top:0">Who should attend (example):</p>
+        <ul class="list">
+          <li>Investors / financiers</li>
+          <li>Project sponsors and deal teams</li>
+          <li>Government / agencies</li>
+          <li>Partners / ecosystem / media</li>
+        </ul>
 
 <header>
   <div class="container topbar">
