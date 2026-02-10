@@ -120,20 +120,71 @@ function renderHeader(activeKey) {
 `;
 }
 
-function renderFooter() {
-  const year = new Date().getFullYear();
-  return `
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-row">
-      <div><strong style="color:var(--navy)">Afreximbank</strong> <span class="muted">— AfSNET</span></div>
-      <div>© <span id="year">${year}</span> Afreximbank. All rights reserved.</div>
-    </div>
-  </div>
-</footer>
-`;
-}
+function injectFooter() {
+  const el = document.getElementById("site-footer");
+  if (!el) return;
 
+  const year = new Date().getFullYear();
+
+  el.innerHTML = `
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+
+          <div class="footer-col">
+            <div class="footer-brand">
+              <div class="footer-logo" aria-hidden="true"></div>
+              <div>
+                <p class="footer-title">Africa Research & Innovation Hub</p>
+                <p class="footer-sub">Connecting research, innovation, and capital across Africa.</p>
+              </div>
+            </div>
+
+            <div class="footer-bottom">
+              <div>© ${year} Afreximbank / AfSNET. All rights reserved.</div>
+            </div>
+          </div>
+
+          <div class="footer-col">
+            <h4>Quick links</h4>
+            <div class="footer-links">
+              <a href="./about.html">About</a>
+              <a href="./programme.html">Programmes</a>
+              <a href="./apply.html">Calls / Apply</a>
+              <a href="./event.html">Impact / Event</a>
+              <a href="./contact.html">Contact</a>
+            </div>
+
+            <div style="height:14px"></div>
+
+            <div class="footer-contact">
+              <div class="line">
+                <span class="label">Afreximbank Headquarters – Cairo, Egypt</span>
+              </div>
+              <div class="line">
+                72 (B) El-Maahad El-Eshteraky Street – Heliopolis, Cairo<br/>
+                11341, Egypt
+              </div>
+              <div class="line">
+                <span class="label">Postal Address:</span> P.O. Box 613 Heliopolis, Cairo 11757, Egypt
+              </div>
+              <div class="line">
+                <span class="label">Email:</span> <a href="mailto:ARIH@intraafricantradefair.com" style="color:rgba(255,255,255,.86)">ARIH@intraafricantradefair.com</a>
+              </div>
+              <div class="line">
+                <span class="label">Tel:</span> +20-2-24564100/1/2/3; +20-2-24515201/2;
+              </div>
+              <div class="line">
+                <span class="label">Fax:</span> +202-24564110; +202-24515008
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </footer>
+  `;
+}
 function injectSharedLayout() {
   const activeKey = getPageTitleKey();
   const headerHost = document.getElementById("site-header");
