@@ -585,3 +585,58 @@ tbody tr:hover{
 td, th{
   word-break: break-word;
 }
+/* ===== Premium Table (no overflow / no spill) ===== */
+.table-wrap{
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;                 /* KEY: clips table inside rounded box */
+  background: rgba(255,255,255,.88);
+}
+
+.table-scroll{
+  width: 100%;
+  overflow-x: auto;                 /* if needed, scroll stays inside */
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-wrap table{
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;              /* forces content to wrap instead of pushing outside */
+}
+
+/* Column widths (balanced) */
+.table-wrap th:nth-child(1), .table-wrap td:nth-child(1){ width: 16%; }
+.table-wrap th:nth-child(2), .table-wrap td:nth-child(2){ width: 52%; }
+.table-wrap th:nth-child(3), .table-wrap td:nth-child(3){ width: 32%; }
+
+.table-wrap th,
+.table-wrap td{
+  padding: 14px 14px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--line);
+  white-space: normal;              /* allow wrapping */
+  word-break: break-word;
+}
+
+.table-wrap thead th{
+  background: rgba(11,93,59,.06);   /* green tint header */
+  color: var(--navy);
+  font-weight: 850;
+}
+
+.table-wrap tbody tr:last-child td{
+  border-bottom: none;
+}
+
+/* Premium hover (subtle) */
+.table-wrap tbody tr:hover{
+  background: rgba(201,162,39,.06);
+}
+
+/* On small screens, make text tighter */
+@media (max-width: 720px){
+  .table-wrap th, .table-wrap td{ padding: 12px 12px; font-size: 13px; }
+}
