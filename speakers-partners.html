@@ -3,9 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="page-title" content="Speakers/Partners" />
   <meta name="description" content="Speakers and partners" />
-  <title>AfSNET | Speakers & Partners</title>
+  <title>AfSNET | Speakers/Partners</title>
   <link rel="stylesheet" href="./styles.css" />
   <script src="./app.js" defer></script>
 </head>
@@ -14,20 +13,24 @@
 <div id="site-header"></div>
 
 <main id="main" class="container">
-  <section class="card pad section hero">
-    <span class="pill" data-config="speakersPartners.pill"></span>
-    <h2 data-config="speakersPartners.headline"></h2>
-    <p class="muted" data-config="speakersPartners.intro"></p>
-  </section>
+  <section class="hero-banner section">
+    <div class="grid">
+      <div class="card pad hero">
+        <span class="pill" data-config="speakersPartners.pill"></span>
+        <h2 data-config="speakersPartners.headline"></h2>
+        <p class="muted" data-config="speakersPartners.intro"></p>
+      </div>
 
-  <section class="card pad section">
-    <h3>Speakers</h3>
-    <div class="cards" id="speakersGrid"></div>
-  </section>
-
-  <section class="card pad section">
-    <h3>Partners</h3>
-    <div class="cards" id="partnersGrid"></div>
+      <div class="card pad surface">
+        <div class="kicker">Placeholder</div>
+        <ul class="list">
+          <li>Speaker 1 — Title, Organisation</li>
+          <li>Speaker 2 — Title, Organisation</li>
+          <li>Partner 1 — Organisation</li>
+          <li>Partner 2 — Organisation</li>
+        </ul>
+      </div>
+    </div>
   </section>
 </main>
 
