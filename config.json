@@ -1,17 +1,16 @@
 {
   "site": {
+    "logoSrc": "./assets/logo/afsnet-logo.jpg",
     "name": "AfSNET",
-    "tagline": "Afreximbank programme",
-    "footerTitle": "African Sub-Sovereign Governments Network (AfSNET)",
-    "footerSubtitle": "Connecting African states, investors, and projects through a trusted investment network.",
+    "tagline": "African Sub-Sovereign Governments Network",
     "supportEmail": "afsnet@afreximbank.com",
-    "phone": "TBC"
+    "phone": "+20-2-24564100"
   },
   "event": {
-    "city": "TBC",
-    "country": "TBC",
-    "dates": "TBC",
-    "venue": "TBC",
+    "city": "Calabar, Cross River State, Nigeria",
+    "country": "Nigeria",
+    "dates": "12th-14th, November, 2005",
+    "venue": "Calabar International Convention Centre (CICC)",
     "format": "Hybrid"
   },
   "home": {
