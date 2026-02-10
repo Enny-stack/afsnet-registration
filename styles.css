@@ -415,3 +415,25 @@ button{
 button:hover{
   filter: brightness(.98);
 }
+/* Contact page polish */
+.contact-grid{ margin-top: 16px; }
+
+/* Soft cards that match green/gold theme (remove the bluish tint) */
+.soft-card{
+  background: rgba(255,255,255,.88);
+  border: 1px solid rgba(201,162,39,.16);
+  box-shadow: 0 10px 22px rgba(11,31,58,.08);
+}
+
+.card-title{
+  margin:0 0 10px;
+  color: var(--navy);
+}
+
+/* Make hero background a bit calmer so it doesn't “wash” the cards */
+.hero-banner::before{
+  background:
+    radial-gradient(900px 420px at 18% 20%, rgba(11,93,59,.16), transparent 65%),
+    radial-gradient(700px 380px at 92% 10%, rgba(201,162,39,.16), transparent 60%),
+    linear-gradient(135deg, rgba(11,31,58,.03), rgba(11,93,59,.04));
+}
