@@ -1,128 +1,118 @@
-<!-- ===== index.html (Home-style layout + app.js wiring) ===== -->
+<!-- ===== index.html (Home) ===== -->
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <!-- Helps app.js know which page is active -->
-  <meta name="page-title" content="Home" />
-
-  <meta name="description" content="AfSNET — Afreximbank programme for deal-focused engagement, partnerships, and investment-ready opportunities." />
+  <meta name="description" content="AfSNET Programme — Registration portal" />
   <title>AfSNET | Home</title>
-
   <link rel="stylesheet" href="./styles.css" />
-
-  <!-- Shared header/footer + dynamic page config -->
-  <script src="./app.js" defer></script>
 </head>
 
-<body>
-  <a class="skip-link" href="#main">Skip to content</a>
+<body class="home">
+<a class="skip-link" href="#main">Skip to content</a>
 
-  <!-- app.js injects the shared header here -->
-  <div id="site-header"></div>
-
-  <main id="main" class="container">
-
-    <!-- HERO BANNER (same structure as your Home-style grid) -->
-    <section class="hero-banner section">
-      <div class="grid">
-
-        <!-- Left hero card -->
-        <div class="card pad hero">
-          <span class="pill" data-config="home.pill">AfSNET</span>
-          <h2 data-config="home.headline">Deal-focused engagement that moves projects forward</h2>
-
-          <!-- Filled by app.js -->
-          <p class="muted" data-config="home.intro"></p>
-
-          <!-- Quick facts (kept static; you can make these dynamic later if you want) -->
-          <div class="meta" role="list" aria-label="Quick facts">
-            <div class="chip" role="listitem"><strong>Focus:</strong> Investment-ready opportunities</div>
-            <div class="chip" role="listitem"><strong>Format:</strong> Sessions + curated meetings</div>
-            <div class="chip" role="listitem"><strong>Outcome:</strong> Next steps + pipeline</div>
-          </div>
-
-          <div class="actions">
-            <a class="btn primary" href="./apply.html">Apply / Register</a>
-            <a class="btn ghost" href="./programme.html">Programme</a>
-            <a class="btn ghost" href="./about.html">About</a>
-          </div>
-        </div>
-
-        <!-- Right hero card -->
-        <div class="card pad surface">
-          <div class="kicker" data-config="home.rightKicker">At a glance</div>
-
-          <!-- Filled by app.js -->
-          <ul class="list" data-list="home.atAGlance">
-            <!-- Optional fallback if JS fails -->
-            <li>Curated participants and priorities</li>
-            <li>B2B / B2G meetings and roundtables</li>
-            <li>Post-event follow-up and reporting</li>
-          </ul>
-
-          <p class="muted small" style="margin-top:12px" data-config="home.rightNote">
-            Built to keep conversations practical: fewer speeches, more deal progress.
-          </p>
-
-          <div class="actions" style="margin-top:12px">
-            <a class="btn ghost" href="./event.html">Event details</a>
-            <a class="btn ghost" href="./contact.html">Contact</a>
-          </div>
-        </div>
-
+<header>
+  <div class="container topbar">
+    <a class="brand" href="./index.html" aria-label="AfSNET Home">
+      <div class="logo" aria-hidden="true"></div>
+      <div>
+        <h1>AfSNET</h1>
+        <p>Afreximbank programme</p>
       </div>
-    </section>
+    </a>
 
-    <!-- VALUE / WHO (two-column, same “About” pattern) -->
-    <section class="card pad section" style="width:100%">
-      <div class="two" style="margin-top:0">
-        <div class="card pad" style="box-shadow:none;background:rgba(11,31,58,.03)">
-          <h3 style="margin-top:0" data-config="home.valueTitle">What participants get</h3>
-          <ul data-list="home.value"></ul>
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="active" href="./index.html">Home</a>
+      <a href="./about.html">About</a>
+      <a href="./programme.html">Programme</a>
+      <a href="./event.html">Event</a>
+      <a href="./speakers-partners.html">Speakers/Partners</a>
+      <a href="./travel-visa.html">Travel & Visa</a>
+      <a href="./media-press.html">Media/Press</a>
+      <a href="./hotels.html">Hotels</a>
+      <a class="cta" href="./apply.html">Apply</a>
+      <a href="./contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="container">
+
+  <!-- Hero wrapper = clean container (no weird spill) -->
+  <section class="hero-banner section">
+    <div class="grid">
+      <div class="card pad hero">
+        <span class="pill">Applications open</span>
+        <h2>Register for the AfSNET programme</h2>
+        <p class="muted">
+          This portal supports participant registration and shares event information, travel guidance, hotels,
+          and media resources. Replace placeholders with confirmed details.
+        </p>
+
+        <div class="meta" role="list" aria-label="Quick facts">
+          <div class="chip" role="listitem"><strong>Dates:</strong> TBC</div>
+          <div class="chip" role="listitem"><strong>Location:</strong> TBC</div>
+          <div class="chip" role="listitem"><strong>Format:</strong> Hybrid</div>
         </div>
 
-        <div class="card pad" style="box-shadow:none;background:rgba(11,31,58,.03)">
-          <h3 style="margin-top:0" data-config="home.whoTitle">Who it’s for</h3>
-          <ul data-list="home.who"></ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- HOW IT WORKS (same table style you already use) -->
-    <section class="card pad section" style="width:100%">
-      <h3 data-config="home.howTitle">How it works</h3>
-      <p class="muted" style="margin-top:0" data-config="home.howIntro">
-        A simple end-to-end flow for participants and partners.
-      </p>
-
-      <div class="table-wrap">
-        <div class="table-scroll">
-          <table aria-label="AfSNET process overview">
-            <thead>
-              <tr><th>Stage</th><th>What happens</th><th>Output</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>Registration</td><td>Participants submit details and interests</td><td>Confirmed participant list</td></tr>
-              <tr><td>Curation</td><td>Agenda and matchmaking aligned to priorities</td><td>Programme + meeting plan</td></tr>
-              <tr><td>Engagement</td><td>Sessions, roundtables, B2B/B2G meetings</td><td>Next steps, pipeline notes</td></tr>
-              <tr><td>Follow-up</td><td>Post-event tracking and support</td><td>Updates and reporting</td></tr>
-            </tbody>
-          </table>
+        <div class="actions">
+          <a class="btn primary" href="./apply.html">Apply / Register</a>
+          <a class="btn ghost" href="./programme.html">Programme</a>
+          <a class="btn ghost" href="./event.html">Event details</a>
         </div>
       </div>
 
-      <div class="actions" style="margin-top:14px">
-        <a class="btn primary" href="./apply.html">Apply / Register</a>
-        <a class="btn ghost" href="./programme.html">View programme</a>
+      <div class="card pad surface">
+        <div class="kicker">What you can do here</div>
+        <ul class="list">
+          <li>Register participation (Apply)</li>
+          <li>See programme structure and event info</li>
+          <li>Check travel & visa guidance</li>
+          <li>View recommended hotels</li>
+          <li>Access media/press information</li>
+        </ul>
+        <p class="muted small" style="margin-top:12px">
+          Tip: Keep this page short. Put details inside the relevant pages so people don’t get lost.
+        </p>
       </div>
-    </section>
+    </div>
+  </section>
 
-  </main>
+  <section class="card pad section">
+    <h3>Highlights</h3>
+    <div class="two">
+      <div>
+        <p class="muted" style="margin-top:0">Replace with 3–5 concise outcomes.</p>
+        <ul class="list">
+          <li>Investor and project matchmaking</li>
+          <li>Sector roundtables and pipeline acceleration</li>
+          <li>Partnership engagement and implementation pathways</li>
+        </ul>
+      </div>
+      <div>
+        <p class="muted" style="margin-top:0">Who should attend (example):</p>
+        <ul class="list">
+          <li>Investors / financiers</li>
+          <li>Project sponsors and deal teams</li>
+          <li>Government / agencies</li>
+          <li>Partners / ecosystem / media</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
-  <!-- app.js injects the shared footer here -->
-  <div id="site-footer"></div>
+  <footer>
+    <div class="footer-row">
+      <div><strong style="color:var(--navy)">Afreximbank</strong> <span class="muted">— AfSNET</span></div>
+      <div>© <span id="year"></span> Afreximbank. All rights reserved.</div>
+    </div>
+  </footer>
+
+</main>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
 </body>
 </html>
