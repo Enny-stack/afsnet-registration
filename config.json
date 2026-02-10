@@ -1,168 +1,89 @@
 {
   "site": {
-    "programName": "AfSNET",
-    "orgName": "Afreximbank",
+    "name": "AfSNET",
     "tagline": "Afreximbank programme",
-    "baseTitle": "AfSNET",
+    "footerTitle": "Africa Research & Innovation Hub",
+    "footerSubtitle": "Connecting research, innovation, and capital across Africa.",
     "supportEmail": "afsnet@afreximbank.com",
-    "phone": "TBC",
-    "format": "Hybrid"
+    "phone": "TBC"
   },
-
   "event": {
+    "city": "TBC",
+    "country": "TBC",
     "dates": "TBC",
     "venue": "TBC",
-    "city": "TBC",
-    "country": "TBC"
+    "format": "Hybrid"
   },
-
   "home": {
     "pill": "Applications open",
     "headline": "Register for the AfSNET programme",
-    "intro": "This portal supports participant registration and shares event information, travel guidance, hotels, and media resources.",
-    "highlightsLeft": [
-      "Investor and project matchmaking",
-      "Sector roundtables and pipeline acceleration",
-      "Partnership engagement and implementation pathways"
-    ],
-    "highlightsRight": [
-      "Investors / financiers",
-      "Project sponsors and deal teams",
-      "Government / agencies",
-      "Partners / ecosystem / media"
-    ]
+    "intro": "This portal supports participant registration and shares event information, travel guidance, hotels, and media resources. Replace placeholders with confirmed details."
   },
-
   "about": {
     "pill": "About AfSNET",
     "headline": "What the programme is, and why it exists",
-    "intro": "Replace this with the official AfSNET narrative: the purpose, outcomes, and who it’s for. Keep it short, clear, and executive-friendly.",
-    "objectives": [
-      "Enable investment-ready projects and deals",
-      "Connect investors with bankable opportunities",
-      "Accelerate partnerships and implementation"
-    ],
-    "audience": [
-      "Investors, DFIs, banks, funds",
-      "Project sponsors and deal teams",
-      "Government, agencies, regulators",
-      "Partners, ecosystem, media"
-    ]
+    "intro": "Replace this with the official AfSNET narrative: the purpose, outcomes, and who it’s for. Keep it short, clear, and executive-friendly."
   },
-
   "programme": {
     "pill": "Programme",
-    "headline": "What happens during AfSNET",
-    "intro": "This page is the high-level structure. Add the detailed schedule later (PDF) if needed.",
-    "tracks": [
-      "Investment pipeline & project preparation",
-      "Sector sessions (TBC)",
-      "Financing solutions and instruments",
-      "Partnerships & implementation pathways"
-    ],
-    "formats": [
-      "Keynotes / panels",
-      "Roundtables",
-      "B2B / B2G matchmaking",
-      "Closed-door deal rooms (if applicable)"
-    ],
-    "flow": [
-      { "time": "09:00", "session": "Registration / arrival", "notes": "Badge collection" },
-      { "time": "10:00", "session": "Opening & welcome", "notes": "Host + partners" },
-      { "time": "11:00", "session": "Plenary session", "notes": "Theme / priorities" },
-      { "time": "13:00", "session": "Networking / lunch", "notes": "Optional sponsor activations" },
-      { "time": "14:30", "session": "Matchmaking & deal rooms", "notes": "Pre-scheduled meetings" },
-      { "time": "17:30", "session": "Closing", "notes": "Next steps" }
-    ]
+    "headline": "Programme overview",
+    "intro": "High-level structure of sessions, roundtables, and meetings. Replace with confirmed agenda."
   },
-
+  "eventPage": {
+    "pill": "Event",
+    "headline": "Event information",
+    "intro": "Key logistics and event details."
+  },
   "speakersPartners": {
-    "pill": "Speakers & Partners",
-    "headline": "Featured speakers and partner organisations",
-    "intro": "Replace placeholders with confirmed names, titles, and partner logos.",
-    "speakers": [
-      { "name": "Name (TBC)", "title": "Title (TBC)", "org": "Organisation (TBC)", "topic": "Topic (TBC)" },
-      { "name": "Name (TBC)", "title": "Title (TBC)", "org": "Organisation (TBC)", "topic": "Topic (TBC)" },
-      { "name": "Name (TBC)", "title": "Title (TBC)", "org": "Organisation (TBC)", "topic": "Topic (TBC)" }
-    ],
-    "partners": [
-      { "name": "Organisation (TBC)", "role": "Sponsor / Knowledge Partner / Ecosystem" },
-      { "name": "Organisation (TBC)", "role": "Sponsor / Knowledge Partner / Ecosystem" },
-      { "name": "Organisation (TBC)", "role": "Sponsor / Knowledge Partner / Ecosystem" }
-    ]
+    "pill": "Speakers / Partners",
+    "headline": "Speakers and partners",
+    "intro": "Replace with confirmed speakers, moderators, and partners."
   },
-
   "travelVisa": {
     "pill": "Travel & Visa",
-    "headline": "Participant travel guidance",
-    "intro": "Update this page once the host country/city is confirmed. Keep guidance practical and specific.",
-    "visaTips": [
-      "Check visa requirements based on your passport and destination.",
-      "Apply early (processing times vary).",
-      "Invitation letters (if issued): process + timeline (TBC)."
-    ],
-    "travelTips": [
-      "Recommended arrival airport(s): TBC",
-      "Hotel options / negotiated rates: see Hotels page",
-      "Ground transport: TBC",
-      "Local emergency contacts: TBC"
-    ],
-    "entryRequirements": [
-      "Passport validity rules (e.g., 6 months minimum) (TBC)",
-      "Required documents (hotel booking, return ticket, invitation letter) (TBC)",
-      "Health requirements (if applicable) (TBC)"
-    ],
-    "onArrival": [
-      "Airport transfer and meeting point (TBC)",
-      "Recommended transport options (TBC)",
-      "Safety and local guidance (TBC)"
-    ]
+    "headline": "Travel and visa guidance",
+    "intro": "Provide entry requirements, visa process, and travel tips for the host country."
   },
-
   "mediaPress": {
-    "pill": "Media & Press",
-    "headline": "Press accreditation and media resources",
-    "intro": "Use this page for press enquiries, accreditation instructions, and official policies.",
-    "mediaLead": "Name (TBC)",
-    "pressEmail": "afsnet@afreximbank.com",
-    "accreditation": [
-      "Register as “Media” on the Apply page",
-      "Bring press ID on arrival",
-      "Follow photography/video policy (below)"
-    ],
-    "policies": [
-      "Photography/video policy (TBC)",
-      "Brand usage and logo policy (TBC)",
-      "Embargo guidance (if any) (TBC)"
-    ]
+    "pill": "Media / Press",
+    "headline": "Media and press",
+    "intro": "Press contacts, accreditation instructions, and media resources."
   },
-
   "hotels": {
     "pill": "Hotels",
     "headline": "Recommended accommodation",
-    "intro": "Replace the placeholders with negotiated hotels, booking codes, and cut-off dates.",
+    "intro": "Replace placeholders with negotiated hotels, booking codes, and cut-off dates.",
     "venueProximity": "TBC",
     "rateCode": "TBC",
-    "list": [
-      { "name": "Hotel 1 (TBC)", "distance": "TBC", "rate": "TBC", "booking": "Booking link / rate code / cut-off date (TBC)" },
-      { "name": "Hotel 2 (TBC)", "distance": "TBC", "rate": "TBC", "booking": "Booking link / rate code / cut-off date (TBC)" },
-      { "name": "Hotel 3 (TBC)", "distance": "TBC", "rate": "TBC", "booking": "Booking link / rate code / cut-off date (TBC)" }
-    ],
     "bookingGuidance": [
-      "Use the AfSNET booking code (if available) (TBC)",
-      "Book early — rooms are limited",
-      "Check cancellation and payment terms"
+      "Use the official rate code where provided.",
+      "Confirm the booking cut-off date before making payment.",
+      "Keep a copy of your booking confirmation."
     ],
     "transportNotes": [
-      "Airport transfer options (TBC)",
-      "Venue shuttle (if arranged) (TBC)",
-      "Recommended local transport (TBC)"
+      "Airport transfer options will be shared closer to the event.",
+      "Allow buffer time during peak traffic hours."
+    ],
+    "list": [
+      { "name": "Hotel 1 (TBC)", "distance": "TBC", "rate": "TBC", "booking": "TBC" }
     ]
   },
-
-  "registration": {
-    "formEndpoint": "https://formspree.io/f/REPLACE_ME",
-    "redirectUrl": "./thank-you.html",
-    "ajaxEnabled": false
+  "apply": {
+    "pill": "Apply",
+    "headline": "Apply / Register",
+    "intro": "Complete the registration form below. This is a static site, so submissions can be routed to an external form or email.",
+    "externalFormUrl": "https://tally.so/r/xxxxxxxx"
+  },
+  "contact": {
+    "pill": "Contact",
+    "headline": "How to reach the AfSNET team",
+    "intro": "Official contact details are managed in config.json."
+  },
+  "downloads": {
+    "items": [
+      { "label": "Agenda (PDF)", "file": "./assets/agenda.pdf" },
+      { "label": "Logistics note (PDF)", "file": "./assets/logistics-note.pdf" },
+      { "label": "Sponsorship deck (PDF)", "file": "./assets/sponsorship-deck.pdf" }
+    ]
   }
 }
