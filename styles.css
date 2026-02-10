@@ -153,7 +153,62 @@ header{
 }
 
 .nav .cta:hover{filter:brightness(.98)}
+/* ===== Mobile nav toggle (proper look) ===== */
+.nav-toggle{
+  display:none;
+  border:1px solid rgba(11,31,58,.18);
+  background:#fff;
+  border-radius:12px;
+  padding:10px 12px;
+  gap:6px;
+  align-items:center;
+}
+.nav-toggle-bar{
+  display:block;
+  width:18px;
+  height:2px;
+  background:var(--navy);
+  margin:4px 0;
+  border-radius:2px;
+}
 
+/* If app.js adds .nav-link on anchors, this will style it.
+   If not, your existing .nav a.active already covers active. */
+.nav-link.active{ text-decoration: underline; text-underline-offset: 6px; }
+
+/* Mobile */
+@media (max-width: 960px){
+  .nav-toggle{ display:inline-flex; }
+
+  nav.nav{
+    display:none;
+    position:absolute;
+    top:72px;
+    right:16px;
+    left:16px;
+    background:#fff;
+    border:1px solid rgba(11,31,58,.12);
+    border-radius:16px;
+    padding:10px;
+    box-shadow: 0 16px 30px rgba(0,0,0,.08);
+    z-index:1000;
+  }
+
+  nav.nav.is-open{ display:block; }
+
+  nav.nav a{
+    display:block;
+    padding:10px 10px;
+    border-radius:12px;
+  }
+
+  nav.nav a.cta{
+    margin-top:8px;
+    text-align:center;
+  }
+
+  .topbar{ position:relative; }
+}
 /* ===== Layout blocks ===== */
 .card{
   background:rgba(255,255,255,.92);
