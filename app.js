@@ -67,13 +67,13 @@ function injectFooter(cfg) {
             <div class="footer-brand">
               <div class="footer-logo" aria-hidden="true"></div>
               <div>
-                <p class="footer-title">${cfg.site?.footerTitle || "Africa Research & Innovation Hub"}</p>
+                <p class="footer-title">${cfg.site?.footerTitle || "The African Sub-Sovereign Governments Network (AfSNET)"}</p>
                 <p class="footer-sub">${cfg.site?.footerSubtitle || ""}</p>
               </div>
             </div>
 
             <div class="footer-bottom">
-              <div>© ${year} Afreximbank / AfSNET. All rights reserved.</div>
+              <div>© ${year} Afreximbank / The African Sub-Sovereign Governments Network (AfSNET). All rights reserved.</div>
             </div>
           </div>
 
@@ -102,8 +102,8 @@ function injectFooter(cfg) {
               </div>
               <div class="line">
                 <span class="label">Email:</span>
-                <a href="mailto:ARIH@intraafricantradefair.com" style="color:rgba(255,255,255,.86)">
-                  ARIH@intraafricantradefair.com
+                <a href="mailto:afsnet@afreximbank.com" style="color:rgba(255,255,255,.86)">
+                  afsnet@afreximbank.com
                 </a>
               </div>
               <div class="line">
