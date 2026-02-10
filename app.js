@@ -58,25 +58,35 @@ function injectFooter(cfg) {
 
   const year = new Date().getFullYear();
 
+  // Optional: pull email/phone from config if present
+  const supportEmail = cfg?.site?.supportEmail || "afsnet@afreximbank.com";
+  const phone = cfg?.site?.phone || "TBC";
+
   el.innerHTML = `
     <footer class="site-footer">
       <div class="container">
         <div class="footer-grid">
 
+          <!-- Left: AfSNET identity -->
           <div class="footer-col">
             <div class="footer-brand">
               <div class="footer-logo" aria-hidden="true"></div>
               <div>
-                <p class="footer-title">${cfg.site?.footerTitle || "The African Sub-Sovereign Governments Network (AfSNET)"}</p>
-                <p class="footer-sub">${cfg.site?.footerSubtitle || ""}</p>
+                <p class="footer-title">African Sub-Sovereign Governments Network (AfSNET)</p>
+                <p class="footer-sub">
+                  Connecting African states, investors, and projects through a trusted investment network.
+                </p>
               </div>
             </div>
 
             <div class="footer-bottom">
-              <div>© ${year} Afreximbank / The African Sub-Sovereign Governments Network (AfSNET). All rights reserved.</div>
+              <div>
+                © ${year} Afreximbank / The African Sub-Sovereign Governments Network (AfSNET). All rights reserved.
+              </div>
             </div>
           </div>
 
+          <!-- Right: Links + Address -->
           <div class="footer-col">
             <h4>Quick links</h4>
             <div class="footer-links">
@@ -97,20 +107,25 @@ function injectFooter(cfg) {
                 72 (B) El-Maahad El-Eshteraky Street – Heliopolis, Cairo<br/>
                 11341, Egypt
               </div>
+
               <div class="line">
-                <span class="label">Postal Address:</span> P.O. Box 613 Heliopolis, Cairo 11757, Egypt
+                <span class="label">Postal Address:</span>
+                P.O. Box 613 Heliopolis, Cairo 11757, Egypt
               </div>
+
               <div class="line">
                 <span class="label">Email:</span>
-                <a href="mailto:afsnet@afreximbank.com" style="color:rgba(255,255,255,.86)">
-                  afsnet@afreximbank.com
-                </a>
+                <a href="mailto:${supportEmail}">${supportEmail}</a>
               </div>
+
               <div class="line">
-                <span class="label">Tel:</span> +20-2-24564100/1/2/3; +20-2-24515201/2;
+                <span class="label">Tel:</span>
+                ${phone}
               </div>
+
               <div class="line">
-                <span class="label">Fax:</span> +202-24564110; +202-24515008
+                <span class="label">Fax:</span>
+                +202-24564110; +202-24515008
               </div>
             </div>
           </div>
