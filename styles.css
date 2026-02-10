@@ -1,13 +1,20 @@
-/* ===== styles.css ===== */
 :root{
-  --navy:#0B1F3A;
-  --green:#0B5D3B;
-  --gold:#C9A227;
+  /* ===== AfSNET Core Brand ===== */
+  --navy:#0B1F3A;         /* authority / headings */
+  --navy-2:#07172C;       /* hover / darker navy */
+  --green:#0B5D3B;        /* action / primary */
+  --green-2:#0F3D2E;      /* deeper green */
+  --gold:#C9A227;         /* premium accent */
+  --gold-2:#B88E14;       /* darker gold */
+
+  /* ===== Neutrals ===== */
   --ink:#0D1420;
   --muted:#5E6A7A;
   --bg:#F7F8FA;
   --card:#FFFFFF;
   --line:rgba(11,31,58,.12);
+
+  /* ===== UI ===== */
   --shadow:0 12px 28px rgba(11,31,58,.12);
   --radius:18px;
 }
@@ -169,4 +176,81 @@ body.home{
   display: inline-flex;
   gap: 8px;
   align-items: center;
+}
+/* ===== AfSNET Color Wiring (Global) ===== */
+
+/* Links (clean + professional) */
+a{ color: var(--green); }
+a:hover{ color: var(--navy); }
+
+/* Headings slightly more authoritative */
+h1,h2,h3,h4{ color: var(--navy); }
+
+/* Buttons: main actions = Green → Navy */
+.btn.primary{
+  background: linear-gradient(135deg, var(--green), var(--navy));
+  color:#fff;
+  border-color: rgba(11,93,59,.22);
+}
+.btn.primary:hover{
+  background: linear-gradient(135deg, var(--green-2), var(--navy-2));
+  transform: translateY(-1px);
+}
+
+/* Apply CTA: Green → Gold (premium) */
+.nav .cta{
+  background: linear-gradient(135deg, var(--green), var(--gold));
+  color:#fff;
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow: 0 12px 26px rgba(11,31,58,.18);
+}
+.nav .cta:hover{
+  filter: brightness(.98);
+  transform: translateY(-1px);
+}
+
+/* Active nav: gold accent */
+.nav a.active{
+  border-color: rgba(201,162,39,.45);
+  background: rgba(201,162,39,.12);
+}
+
+/* Pill: gold jewelry, not gold paint */
+.pill{
+  background: rgba(201,162,39,.16);
+  border: 1px solid rgba(201,162,39,.45);
+  color: var(--navy);
+}
+
+/* Chips spacing + better readability (fixes “Dates: TBCLocation: ...”) */
+.chip{
+  display:inline-flex;
+  gap: 8px;
+  align-items:center;
+}
+.chip strong{ color: var(--navy); }
+
+/* Inputs focus: green glow (trusty + modern) */
+input:focus, select:focus, textarea:focus{
+  border-color: rgba(11,93,59,.55);
+  box-shadow: 0 0 0 4px rgba(11,93,59,.14);
+}
+
+/* Table headings: navy */
+th{ color: var(--navy); }
+
+/* Footer: slightly stronger */
+footer strong{ color: var(--navy); }
+/* ===== Home Page Premium Background ===== */
+body.home{
+  background:
+    radial-gradient(1200px 780px at 8% -10%, rgba(11,93,59,.38), transparent 60%),
+    radial-gradient(1000px 700px at 96% 0%, rgba(201,162,39,.32), transparent 55%),
+    linear-gradient(180deg, rgba(11,93,59,.10) 0%, rgba(247,248,250,1) 38%),
+    var(--bg);
+}
+
+.home .hero-banner::before{
+  border: 1px solid rgba(201,162,39,.16);
+  box-shadow: 0 18px 46px rgba(11,31,58,.12);
 }
