@@ -5,38 +5,87 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Contact AfSNET" />
   <title>AfSNET | Contact</title>
+
   <link rel="stylesheet" href="./styles.css" />
   <script src="./app.js" defer></script>
 </head>
+
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
+
+<!-- Header injected by app.js -->
 <div id="site-header"></div>
 
 <main id="main" class="container">
+
+  <!-- ================= HERO CONTACT SECTION ================= -->
   <section class="hero-banner section">
     <div class="grid">
+
+      <!-- LEFT CARD -->
       <div class="card pad hero">
         <span class="pill" data-config="contact.pill"></span>
+
         <h2 data-config="contact.headline"></h2>
         <p class="muted" data-config="contact.intro"></p>
 
         <div class="meta">
-          <div class="chip"><strong>Email:</strong> <a data-email="site.supportEmail">afsnet@afreximbank.com</a></div>
-          <div class="chip"><strong>Phone:</strong> <span data-config="site.phone">TBC</span></div>
+          <div class="chip">
+            <strong>Email:</strong>
+            <a data-email="site.supportEmail">afsnet@afreximbank.com</a>
+          </div>
+
+          <div class="chip">
+            <strong>Phone:</strong>
+            <span data-config="site.phone">TBC</span>
+          </div>
         </div>
       </div>
 
+      <!-- RIGHT CARD -->
       <div class="card pad surface">
         <div class="kicker">Registration support</div>
+
         <ul class="list">
           <li>If you applied and did not receive confirmation, email the AfSNET team with your full name and organisation.</li>
           <li>Include your category (Investor / Government / Partner / Media).</li>
         </ul>
       </div>
+
     </div>
   </section>
+
+  <!-- ================= MAP SECTION ================= -->
+  <section class="section">
+
+    <div class="map-card">
+      <h3 style="margin-top:0">Location</h3>
+
+      <p class="muted" style="margin:6px 0 0">
+        Afreximbank Headquarters – Cairo, Egypt
+      </p>
+
+      <!-- Map Embed -->
+      <div class="map-frame">
+        <iframe
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q=Afreximbank%20Headquarters%20Cairo%20Egypt&output=embed"
+          title="Afreximbank Headquarters Map">
+        </iframe>
+      </div>
+
+      <p class="muted small" style="margin-top:10px">
+        Tip: Use Google Maps for directions and arrival planning.
+      </p>
+    </div>
+
+  </section>
+
 </main>
 
+<!-- Footer injected by app.js -->
 <div id="site-footer"></div>
+
 </body>
 </html>
