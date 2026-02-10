@@ -1,115 +1,75 @@
-<!-- ===== about.html (Home-style layout + app.js wiring) ===== -->
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <!-- Added (from the first code): helps app.js know which page is active -->
-  <meta name="page-title" content="About" />
-
-  <meta name="description" content="About AfSNET — purpose, objectives, and participation." />
+  <meta name="description" content="About AfSNET" />
   <title>AfSNET | About</title>
-
   <link rel="stylesheet" href="./styles.css" />
-
-  <!-- Added (from the first code): site header/footer + dynamic page config -->
   <script src="./app.js" defer></script>
 </head>
-
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-header"></div>
 
-  <!-- Added (from the first code): app.js injects the shared header here -->
-  <div id="site-header"></div>
+<main id="main" class="container">
 
-  <main id="main" class="container">
+  <section class="hero-banner section">
+    <div class="grid">
+      <div class="card pad hero">
+        <span class="pill" data-config="about.pill"></span>
+        <h2 data-config="about.headline"></h2>
+        <p class="muted" data-config="about.intro"></p>
 
-    <!-- HERO BANNER (same structure as Home) -->
-    <section class="hero-banner section">
-      <div class="grid">
-
-        <!-- Left hero card -->
-        <div class="card pad hero">
-          <!-- Added: data-config hooks (from the first code) -->
-          <span class="pill" data-config="about.pill">About AfSNET</span>
-          <h2 data-config="about.headline">What the programme is, and why it exists</h2>
-
-          <!-- First code expects this to be filled by app.js -->
-          <p class="muted" data-config="about.intro"></p>
-
-          <!-- Quick facts (kept as-is; optional to make dynamic later) -->
-          <div class="meta" role="list" aria-label="Quick facts">
-            <div class="chip" role="listitem"><strong>Focus:</strong> Investment-ready projects</div>
-            <div class="chip" role="listitem"><strong>Audience:</strong> Governors, investors, partners</div>
-            <div class="chip" role="listitem"><strong>Mode:</strong> Deal-focused engagement</div>
-          </div>
-
-          <div class="actions">
-            <a class="btn primary" href="./apply.html">Apply / Register</a>
-            <a class="btn ghost" href="./programme.html">Programme</a>
-            <a class="btn ghost" href="./event.html">Event details</a>
-          </div>
-        </div>
-
-        <!-- Right hero card -->
-        <div class="card pad surface">
-          <div class="kicker">Objectives</div>
-
-          <!-- Added: data-list hook (from the first code) -->
-          <ul class="list" data-list="about.objectives">
-            <!-- Optional fallback content if JS fails -->
-            <li>Enable investment-ready projects and deals</li>
-            <li>Connect investors with bankable opportunities</li>
-            <li>Accelerate partnerships and implementation</li>
-          </ul>
-
-          <div class="kicker" style="margin-top:14px">Who should attend</div>
-
-          <!-- Added: data-list hook (from the first code) -->
-          <ul class="list" data-list="about.audience">
-            <!-- Optional fallback content if JS fails -->
-            <li>Investors, DFIs, banks, funds</li>
-            <li>Project sponsors and deal teams</li>
-            <li>Government, agencies, regulators</li>
-            <li>Partners, ecosystem, media</li>
-          </ul>
-
-          <!-- Optional: let app.js override this text if you want -->
-          <p class="muted small" style="margin-top:12px" data-config="about.tip">
-            Tip: Keep “About” simple. Put details inside Programme, Event and Apply pages.
-          </p>
-        </div>
-
-      </div>
-    </section>
-
-    <section class="card pad section" style="width:100%">
-      <h3>How AfSNET works</h3>
-      <p class="muted" style="margin-top:0">
-        A simple end-to-end flow for participants and partners.
-      </p>
-
-      <div class="table-wrap">
-        <div class="table-scroll">
-          <table aria-label="AfSNET process overview">
-            <thead>
-              <tr><th>Stage</th><th>What happens</th><th>Output</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>Registration</td><td>Participants submit details and interests</td><td>Confirmed participant list</td></tr>
-              <tr><td>Curation</td><td>Agenda and matchmaking aligned to priorities</td><td>Programme + meeting plan</td></tr>
-              <tr><td>Engagement</td><td>Sessions, roundtables, B2B/B2G meetings</td><td>Next steps, pipeline notes</td></tr>
-              <tr><td>Follow-up</td><td>Post-event tracking and support</td><td>Updates and reporting</td></tr>
-            </tbody>
-          </table>
+        <div class="actions">
+          <a class="btn primary" href="./apply.html">Apply / Register</a>
+          <a class="btn ghost" href="./programme.html">Programme</a>
+          <a class="btn ghost" href="./event.html">Event details</a>
         </div>
       </div>
-    </section>
 
-  </main>
+      <div class="card pad surface">
+        <div class="kicker">Objectives</div>
+        <ul class="list">
+          <li>Enable investment-ready projects and deals</li>
+          <li>Connect investors with bankable opportunities</li>
+          <li>Accelerate partnerships and implementation</li>
+        </ul>
 
-  <!-- Added (from the first code): app.js injects the shared footer here -->
-  <div id="site-footer"></div>
+        <div class="kicker" style="margin-top:14px">Who should attend</div>
+        <ul class="list">
+          <li>Investors, DFIs, banks, funds</li>
+          <li>Project sponsors and deal teams</li>
+          <li>Government, agencies, regulators</li>
+          <li>Partners, ecosystem, media</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="card pad section">
+    <h3>How AfSNET works</h3>
+    <p class="muted" style="margin-top:0">A simple end-to-end flow for participants and partners.</p>
+
+    <div class="table-wrap">
+      <div class="table-scroll">
+        <table aria-label="AfSNET process overview">
+          <thead>
+            <tr><th>Stage</th><th>What happens</th><th>Output</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Registration</td><td>Participants submit details and interests</td><td>Confirmed participant list</td></tr>
+            <tr><td>Curation</td><td>Agenda and matchmaking aligned to priorities</td><td>Programme + meeting plan</td></tr>
+            <tr><td>Engagement</td><td>Sessions, roundtables, B2B/B2G meetings</td><td>Next steps, pipeline notes</td></tr>
+            <tr><td>Follow-up</td><td>Post-event tracking and support</td><td>Updates and reporting</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="site-footer"></div>
 </body>
 </html>
