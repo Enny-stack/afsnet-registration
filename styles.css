@@ -188,11 +188,18 @@ header{
 .table-wrap tbody tr:hover{background:rgba(201,162,39,.06)}
 
 /* Mega Footer */
+/* ===== AfSNET Premium Footer (Green + Gold) ===== */
 .site-footer{
   margin-top:26px;
-  background:linear-gradient(180deg,var(--navy-2),var(--navy));
-  color:rgba(255,255,255,.92);
-  border-top:1px solid rgba(255,255,255,.10);
+
+  /* Deep green luxury background */
+  background:
+    radial-gradient(900px 500px at 15% 20%, rgba(201,162,39,.22), transparent 65%),
+    radial-gradient(700px 420px at 90% 10%, rgba(255,255,255,.06), transparent 60%),
+    linear-gradient(135deg, rgba(11,93,59,.96), rgba(15,61,46,.96));
+
+  color: rgba(255,255,255,.92);
+  border-top: 1px solid rgba(201,162,39,.28);
 }
 .site-footer .container{padding:28px 22px}
 .footer-grid{display:grid;grid-template-columns:1.3fr .9fr;gap:26px;align-items:start}
@@ -205,11 +212,29 @@ header{
   position:relative; box-shadow:0 10px 18px rgba(0,0,0,.22);
 }
 .footer-logo::after{
-  content:"";position:absolute;inset:10px;border-radius:10px;
-  border:2px solid rgba(201,162,39,.85);
+  content:"";
+  position:absolute;
+  inset:10px;
+  border-radius:10px;
+
+  /* Stronger gold ring */
+  border:2px solid rgba(201,162,39,.95);
+
+  /* Soft glow effect */
+  box-shadow: 0 0 10px rgba(201,162,39,.35);
 }
-.footer-title{font-weight:900;margin:0}
-.footer-sub{margin:2px 0 0;color:rgba(255,255,255,.72);font-size:13px}
+
+.footer-title{
+  font-weight: 950;
+  margin: 0;
+  color: rgba(201,162,39,.95);   /* Gold heading */
+}
+
+.footer-sub{
+  margin: 3px 0 0;
+  color: rgba(255,255,255,.78);
+  font-size: 13px;
+}
 
 .footer-col h4{margin:0 0 10px;font-size:14px}
 .footer-links{display:flex;gap:12px;flex-wrap:wrap}
@@ -218,11 +243,22 @@ header{
   border:1px solid rgba(255,255,255,.12);
   padding:8px 10px;border-radius:999px;
 }
-.footer-links a:hover{background:rgba(255,255,255,.08);border-color:rgba(201,162,39,.35);color:#fff}
+.footer-links a{
+  color: rgba(255,255,255,.88);
 
-.footer-contact{display:grid;gap:10px}
-.footer-contact .label{font-weight:900;color:rgba(255,255,255,.92);margin-right:6px}
-.footer-contact .line{color:rgba(255,255,255,.78)}
+  border: 1px solid rgba(201,162,39,.38); /* Gold outline */
+  background: rgba(255,255,255,.04);
+
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-weight: 750;
+}
+
+.footer-links a:hover{
+  background: rgba(201,162,39,.18);
+  border-color: rgba(201,162,39,.65);
+  color: #fff;
+}
 
 .footer-bottom{
   margin-top:18px;padding-top:14px;
