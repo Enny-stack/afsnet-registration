@@ -546,3 +546,42 @@ body.home{
     ) !important;
   border: 1px solid rgba(201,162,39,.16) !important;
 }
+/* ===== Tables should NEVER overflow cards/pages ===== */
+.table-wrap{
+  width:100%;
+  overflow-x:auto;              /* scroll inside card */
+  -webkit-overflow-scrolling:touch;
+  border-radius: 14px;
+}
+
+/* Make table respect container width */
+table{
+  width:100%;
+  border-collapse: collapse;
+  min-width: 720px;             /* creates scroll on small screens */
+}
+
+/* Cell spacing */
+th, td{
+  padding: 12px 12px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--line);
+}
+
+/* Header styling */
+thead th{
+  background: rgba(11,31,58,.03);
+  color: var(--navy);
+  font-weight: 800;
+}
+
+/* Optional: nicer row hover */
+tbody tr:hover{
+  background: rgba(201,162,39,.06);
+}
+
+/* Prevent long words/links from breaking the layout */
+td, th{
+  word-break: break-word;
+}
