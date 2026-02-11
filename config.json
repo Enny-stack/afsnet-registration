@@ -276,9 +276,10 @@
 
   "downloads": {
     "items": [
-      { "label": "Agenda (PDF)", "file": "./assets/agenda.pdf" },
+      { "label": "Investment Proposal Template (PDF)", "file": "./assets/Investment Proposal Template.pdf" },
       { "label": "Logistics note (PDF)", "file": "./assets/logistics-note.pdf" },
       { "label": "Sponsorship deck (PDF)", "file": "./assets/sponsorship-deck.pdf" }
     ]
   }
 }
+ 
