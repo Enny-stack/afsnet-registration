@@ -23,41 +23,43 @@ function injectHeader(cfg) {
   const el = document.getElementById("site-header");
   if (!el) return;
 
+  function injectHeader(cfg) {
+  const el = document.getElementById("site-header");
+  if (!el) return;
+
   el.innerHTML = `
     <header>
-      <div class="container topbar">
-       <a class="brand" href="./index.html" aria-label="${cfg.site?.name || "AfSNET"} Home">
+      <div class="header-shell">
+        <div class="header-inner">
+          <div class="topbar">
 
-  <!-- ✅ Real AfSNET Logo -->
-  <img
-    src="./assets/logo/afsnet-logo.jpg"
-    alt="AfSNET Logo"
-    class="site-logo"
-  />
+            <a class="brand" href="./index.html" aria-label="AfSNET Home">
+              <img class="site-logo" src="./assets/logo/afsnet-logo.png" alt="AfSNET logo" />
+              <div>
+                <h1>AfSNET</h1>
+                <p>Afreximbank programme</p>
+              </div>
+            </a>
 
-  <div>
-    <h1>${cfg.site?.name || "AfSNET"}</h1>
-    <p>${cfg.site?.tagline || ""}</p>
-  </div>
+            <nav class="nav" aria-label="Primary navigation">
+              <a href="./index.html">Home</a>
+              <a href="./about.html">About</a>
+              <a href="./programme.html">Programme</a>
+              <a href="./event.html">Event</a>
+              <a href="./speakers-partners.html">Speakers/Partners</a>
+              <a href="./travel-visa.html">Travel & Visa</a>
+              <a href="./media-press.html">Media/Press</a>
+              <a href="./hotels.html">Hotels</a>
+              <a class="cta" href="./apply.html">Apply</a>
+              <a href="./contact.html">Contact</a>
+            </nav>
 
-</a>
-
-        <nav class="nav" aria-label="Primary navigation">
-          <a href="./index.html">Home</a>
-          <a href="./about.html">About</a>
-          <a href="./programme.html">Programme</a>
-          <a href="./event.html">Event</a>
-          <a href="./speakers-partners.html">Speakers/Partners</a>
-          <a href="./travel-visa.html">Travel & Visa</a>
-          <a href="./media-press.html">Media/Press</a>
-          <a href="./hotels.html">Hotels</a>
-          <a class="cta" href="./apply.html">Apply</a>
-          <a href="./contact.html">Contact</a>
-        </nav>
+            <div class="lang-slot" id="lang-slot"></div>
+          </div>
+        </div>
       </div>
     </header>
   `;
-  setActiveNav();
 }
 
 function injectFooter(cfg) {
