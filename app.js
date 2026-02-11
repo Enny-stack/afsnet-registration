@@ -240,6 +240,48 @@ const FALLBACK_I18N = {
   }
 };
 
+/* ================================
+   ✅ ADDED: helper + ticker render (NO other changes)
+================================= */
+function getLang(cfg) {
+  return localStorage.getItem("lang") || cfg?.site?.defaultLang || "en";
+}
+
+function t(cfg, key, lang) {
+  const dict =
+    (cfg?.i18n && (cfg.i18n[lang] || cfg.i18n.en)) ||
+    FALLBACK_I18N[lang] ||
+    FALLBACK_I18N.en;
+
+  return (dict && dict[key]) || null;
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function renderHomeTicker(cfg, langOverride) {
+  const track = document.getElementById("homeTickerTrack");
+  if (!track) return; // only on Home where ticker exists
+
+  const lang = langOverride || getLang(cfg);
+
+  // Prefer i18n key; fallback to cfg.home.announcement if you ever add it there
+  const msgRaw = t(cfg, "home.announcement", lang) || cfg?.home?.announcement;
+  if (!msgRaw) return;
+
+  const msg = escapeHtml(msgRaw);
+
+  // Two identical halves for smooth loop animation
+  const chunk = `<span class="ticker-item"><span class="ticker-dot"></span><span>${msg}</span></span>`;
+  track.innerHTML = chunk + chunk;
+}
+
 function applyLanguage(cfg, lang) {
   /* ✅ FIX: use cfg.i18n if present, otherwise fallback dictionary */
   const dict =
@@ -308,12 +350,14 @@ function injectLanguageSwitcher(cfg) {
   applyLanguage(cfg, savedLang);
   applyConfigContent(cfg, savedLang);
   wireApply(cfg);
+  renderHomeTicker(cfg, savedLang); // ✅ ADDED
 
   select.addEventListener("change", () => {
     const lang = select.value;
     applyLanguage(cfg, lang);
     applyConfigContent(cfg, lang);
     wireApply(cfg);
+    renderHomeTicker(cfg, lang); // ✅ ADDED
   });
 }
 
@@ -330,6 +374,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const savedLang = localStorage.getItem("lang") || "en";
   applyLanguage(cfg, savedLang);
   applyConfigContent(cfg, savedLang);
+  renderHomeTicker(cfg, savedLang); // ✅ ADDED
 
   renderDownloads(cfg); // ✅ FIX (2): downloads now render on any page that has <ul id="downloadsList"></ul>
 
