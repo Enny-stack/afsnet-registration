@@ -31,7 +31,8 @@
       "nav.media": "Media/Press",
       "nav.hotels": "Hotels",
       "nav.apply": "Apply",
-      "nav.contact": "Contact"
+      "nav.contact": "Contact",
+      "home.announcement": "Welcome to the 6th Edition Conference of the African Sub-Sovereign Governments Network (AfSNET), taking place 12–14 November 2026 in Calabar, Cross River State, Nigeria."
     },
     "fr": {
       "nav.home": "Accueil",
@@ -43,7 +44,8 @@
       "nav.media": "Médias / Presse",
       "nav.hotels": "Hôtels",
       "nav.apply": "Candidater",
-      "nav.contact": "Contact"
+      "nav.contact": "Contact",
+      "home.announcement": "Bienvenue à la 6e édition de la Conférence du Réseau des Gouvernements infranationaux africains (AfSNET), qui se tiendra du 12 au 14 novembre 2026 à Calabar, État de Cross River, Nigeria."
     },
     "ar": {
       "nav.home": "الرئيسية",
@@ -55,7 +57,8 @@
       "nav.media": "الإعلام / الصحافة",
       "nav.hotels": "الفنادق",
       "nav.apply": "التسجيل",
-      "nav.contact": "اتصل بنا"
+      "nav.contact": "اتصل بنا",
+      "home.announcement": "مرحبًا بكم في الدورة السادسة لمؤتمر شبكة الحكومات دون السيادية الأفريقية (AfSNET)، والذي سيُعقد خلال 12–14 نوفمبر 2026 في كالابار، ولاية كروس ريفر، نيجيريا."
     }
   },
 
@@ -282,4 +285,3 @@
     ]
   }
 }
- 
