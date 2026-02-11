@@ -242,14 +242,33 @@ header{
 
 .site-footer .container{padding:28px 22px}
 
-.footer-grid{
-  display:grid;
-  grid-template-columns:1.3fr .9fr;
-  gap:26px;
-  align-items:start;
+/* ✅ NEW FOOTER GRID (replaces the old .footer-grid) */
+.footer-container{
+  max-width: 1400px;
+  margin: 0 auto;
 }
-@media (max-width: 920px){
-  .footer-grid{grid-template-columns:1fr}
+
+.footer-grid-3{
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1.2fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.brand-col{justify-self: start;}
+.links-col{justify-self: center; text-align: center;}
+.address-col{justify-self: end; text-align: left;}
+
+@media (max-width: 980px){
+  .footer-grid-3{
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+  .links-col,
+  .address-col{
+    justify-self: start;
+    text-align: left;
+  }
 }
 
 .footer-brand{display:flex;gap:12px;align-items:center}
