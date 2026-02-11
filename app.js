@@ -163,6 +163,20 @@ function injectFooter(cfg) {
 }
 
 /* ================================
+   ✅ FIX (2): RENDER DOWNLOADS LIST
+   Works with: <ul id="downloadsList"></ul>
+================================= */
+function renderDownloads(cfg) {
+  const ul = document.getElementById("downloadsList");
+  if (!ul) return;
+
+  const items = cfg?.downloads?.items || [];
+  ul.innerHTML = items
+    .map(i => `<li><a href="${i.file}" target="_blank" rel="noopener">${i.label}</a></li>`)
+    .join("");
+}
+
+/* ================================
    ✅ FIX ADDED: WIRE APPLY BUTTON
    (This was missing, so the Tally link was never applied)
 ================================= */
@@ -316,6 +330,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const savedLang = localStorage.getItem("lang") || "en";
   applyLanguage(cfg, savedLang);
   applyConfigContent(cfg, savedLang);
+
+  renderDownloads(cfg); // ✅ FIX (2): downloads now render on any page that has <ul id="downloadsList"></ul>
 
   wireApply(cfg);
 });
