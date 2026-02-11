@@ -7,9 +7,9 @@
     "phone": "+20-2-24564100",
     "defaultLang": "en",
     "externalLinks": {
-    "afreximbank": "https://www.afreximbank.com",
-    "iatf": "https://www.iatf.africa"
-  }
+      "afreximbank": "https://www.afreximbank.com",
+      "iatf": "https://www.iatf.africa"
+    }
   },
 
   "event": {
@@ -19,7 +19,7 @@
     "venue": "Calabar International Convention Centre (CICC)",
     "format": "Hybrid"
   },
-  
+
   "content": {
     "en": {
       "home": {
@@ -31,13 +31,57 @@
       "about": {
         "pill": "About AfSNET",
         "headline": "What the programme is, and why it exists",
-        "intro": "AfSNET (Africa Sub-Sovereign Network) is a structured platform that convenes sub-national governments (states, provinces, regions, counties, and cities) with investors, businesses, development partners, and technical experts to develop and accelerate bankable projects and partnerships..."
+        "intro": "AfSNET (Africa Sub-Sovereign Network) is a structured platform that convenes sub-national governments (states, provinces, regions, counties, and cities) with investors, businesses, development partners, and technical experts to develop and accelerate bankable projects and partnerships."
       },
 
       "programme": {
         "pill": "Programme",
         "headline": "Programme overview",
         "intro": "High-level structure of sessions, roundtables, and meetings. Replace with confirmed agenda."
+      },
+
+      "eventPage": {
+        "pill": "Event",
+        "headline": "Event information",
+        "intro": "Key logistics and event details."
+      },
+
+      "speakersPartners": {
+        "pill": "Speakers / Partners",
+        "headline": "Speakers and partners",
+        "intro": "Replace with confirmed speakers, moderators, and partners."
+      },
+
+      "travelVisa": {
+        "pill": "Travel & Visa",
+        "headline": "Travel and visa guidance",
+        "intro": "Provide entry requirements, visa process, and travel tips for the host country."
+      },
+
+      "mediaPress": {
+        "pill": "Media / Press",
+        "headline": "Media and press",
+        "intro": "Press contacts, accreditation instructions, and media resources."
+      },
+
+      "hotels": {
+        "pill": "Hotels",
+        "headline": "Recommended accommodation",
+        "intro": "Replace placeholders with negotiated hotels, booking codes, and cut-off dates.",
+        "venueProximity": "TBC",
+        "rateCode": "TBC",
+        "bookingGuidance": [
+          "Use the official rate code where provided.",
+          "Confirm the booking cut-off date before making payment.",
+          "Keep a copy of your booking confirmation."
+        ],
+        "transportNotes": [
+          "Airport transfer options will be shared closer to the event.",
+          "Allow buffer time during peak traffic hours."
+        ],
+        "list": [
+          { "name": "Hotel 1 (TBC)", "distance": "TBC", "rate": "TBC", "booking": "TBC" }
+        ]
       },
 
       "apply": {
