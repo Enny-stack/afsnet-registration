@@ -8,45 +8,6 @@
     "defaultLang": "en"
   },
 
-  "i18n": {
-    "en": {
-      "nav.home": "Home",
-      "nav.about": "About",
-      "nav.programme": "Programme",
-      "nav.event": "Event",
-      "nav.speakers": "Speakers/Partners",
-      "nav.travel": "Travel & Visa",
-      "nav.media": "Media/Press",
-      "nav.hotels": "Hotels",
-      "nav.apply": "Apply",
-      "nav.contact": "Contact"
-    },
-    "fr": {
-      "nav.home": "Accueil",
-      "nav.about": "À propos",
-      "nav.programme": "Programme",
-      "nav.event": "Événement",
-      "nav.speakers": "Intervenants/Partenaires",
-      "nav.travel": "Voyage & Visa",
-      "nav.media": "Médias/Presse",
-      "nav.hotels": "Hôtels",
-      "nav.apply": "Candidater",
-      "nav.contact": "Contact"
-    },
-    "ar": {
-      "nav.home": "الرئيسية",
-      "nav.about": "حول",
-      "nav.programme": "البرنامج",
-      "nav.event": "الفعالية",
-      "nav.speakers": "المتحدثون/الشركاء",
-      "nav.travel": "السفر والتأشيرة",
-      "nav.media": "الإعلام",
-      "nav.hotels": "الفنادق",
-      "nav.apply": "التسجيل",
-      "nav.contact": "اتصل بنا"
-    }
-  },
-
   "event": {
     "city": "Calabar, Cross River State",
     "country": "Nigeria",
@@ -259,72 +220,6 @@
         "intro": "تتم إدارة بيانات الاتصال الرسمية داخل config.json."
       }
     }
-  },
-
-  "home": {
-    "pill": "Applications open",
-    "headline": "Register for the AfSNET programme",
-    "intro": "This portal supports participant registration and shares event information, travel guidance, hotels, and media resources. Replace placeholders with confirmed details."
-  },
-  "about": {
-    "pill": "Applications open",
-    "headline": "What the programme is, and why it exists",
-    "intro": "AfSNET (Africa Sub-Sovereign Network) is a structured platform that convenes sub-national governments (states, provinces, regions, counties, and cities) with investors, businesses, development partners, and technical experts to develop and accelerate bankable projects and partnerships. The programme exists to bridge the gap between sub-national development priorities and investable opportunities by strengthening project preparation, improving investor readiness, and enabling coordinated implementation. It supports the translation of local priorities in areas such as infrastructure, industrialization, agribusiness value chains, trade facilitation, and SME development into credible pipelines that can attract financing and deliver measurable development outcomes."
-  },
-  "programme": {
-    "pill": "Programme",
-    "headline": "Programme overview",
-    "intro": "High-level structure of sessions, roundtables, and meetings. Replace with confirmed agenda."
-  },
-  "eventPage": {
-    "pill": "Event",
-    "headline": "Event information",
-    "intro": "Key logistics and event details."
-  },
-  "speakersPartners": {
-    "pill": "Speakers / Partners",
-    "headline": "Speakers and partners",
-    "intro": "Replace with confirmed speakers, moderators, and partners."
-  },
-  "travelVisa": {
-    "pill": "Travel & Visa",
-    "headline": "Travel and visa guidance",
-    "intro": "Provide entry requirements, visa process, and travel tips for the host country."
-  },
-  "mediaPress": {
-    "pill": "Media / Press",
-    "headline": "Media and press",
-    "intro": "Press contacts, accreditation instructions, and media resources."
-  },
-  "hotels": {
-    "pill": "Hotels",
-    "headline": "Recommended accommodation",
-    "intro": "Replace placeholders with negotiated hotels, booking codes, and cut-off dates.",
-    "venueProximity": "TBC",
-    "rateCode": "TBC",
-    "bookingGuidance": [
-      "Use the official rate code where provided.",
-      "Confirm the booking cut-off date before making payment.",
-      "Keep a copy of your booking confirmation."
-    ],
-    "transportNotes": [
-      "Airport transfer options will be shared closer to the event.",
-      "Allow buffer time during peak traffic hours."
-    ],
-    "list": [
-      { "name": "Hotel 1 (TBC)", "distance": "TBC", "rate": "TBC", "booking": "TBC" }
-    ]
-  },
-  "apply": {
-    "pill": "Apply",
-    "headline": "Apply / Register",
-    "intro": "Complete the registration form below. This is a static site, so submissions can be routed to an external form or email.",
-    "externalFormUrl": "https://tally.so/r/gDMZLO"
-  },
-  "contact": {
-    "pill": "Contact",
-    "headline": "How to reach the AfSNET team",
-    "intro": "Official contact details are managed in config.json."
   },
 
   "downloads": {
