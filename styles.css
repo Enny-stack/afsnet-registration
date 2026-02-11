@@ -271,36 +271,26 @@ header{
   }
 }
 
-..footer-brand{display:flex;gap:12px;align-items:center}
-
-/* footer placeholder box (only needed if you still use <div class="footer-logo"></div>) */
-.footer-logo{
-  width:44px;height:44px;border-radius:12px;
-  background:linear-gradient(135deg,var(--green),var(--navy));
-  position:relative;
-  box-shadow:0 10px 18px rgba(0,0,0,.22);
-}
-.footer-logo::after{
-  content:"";
-  position:absolute;
-  inset:10px;
-  border-radius:10px;
-  border:2px solid rgba(201,162,39,.95);
+.footer-brand{
+  display:flex;
+  gap:12px;
+  align-items:center;
 }
 
-/* ✅ REAL IMAGE LOGO (Footer) — use this when you use <img class="footer-logo-img" ...> */
+/* ✅ Footer real logo image */
 .footer-logo-img{
-  width: 44px;              /* ✅ same size as header */
-  height: 44px;
-  object-fit: contain;
-  border-radius: 12px;
-  padding: 6px;
+  width:44px;
+  height:44px;
+  object-fit:contain;
 
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(201,162,39,.30);
-  box-shadow: 0 8px 16px rgba(0,0,0,.20);
+  border-radius:12px;
+  padding:6px;
 
-  display: block;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(201,162,39,.30);
+
+  box-shadow:0 8px 16px rgba(0,0,0,.20);
+  display:block;
 }
 
 /* ✅ HEADER REAL IMAGE LOGO — use this when you use <img class="site-logo" ...> */
