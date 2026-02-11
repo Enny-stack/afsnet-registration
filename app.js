@@ -317,3 +317,14 @@ function injectLanguageSwitcher() {
     applyLanguage(select.value);
   });
 }
+function applyConfigContent(cfg, lang){
+  const bundle = cfg?.content?.[lang] || cfg?.content?.en;
+  if (!bundle) return;
+
+  // Fill any element with data-config="path.to.key"
+  document.querySelectorAll("[data-config]").forEach(el=>{
+    const path = el.getAttribute("data-config");  // e.g. "home.headline"
+    const value = path.split(".").reduce((o,k)=> (o ? o[k] : undefined), bundle);
+    if (value !== undefined) el.textContent = value;
+  });
+}
