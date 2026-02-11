@@ -86,3 +86,46 @@
     ]
   }
 }
+{
+  "site": {
+    "defaultLang": "en"
+  },
+  "i18n": {
+    "en": {
+      "nav.home": "Home",
+      "nav.about": "About",
+      "nav.programme": "Programme",
+      "nav.event": "Event",
+      "nav.speakers": "Speakers/Partners",
+      "nav.travel": "Travel & Visa",
+      "nav.media": "Media/Press",
+      "nav.hotels": "Hotels",
+      "nav.apply": "Apply",
+      "nav.contact": "Contact"
+    },
+    "fr": {
+      "nav.home": "Accueil",
+      "nav.about": "À propos",
+      "nav.programme": "Programme",
+      "nav.event": "Événement",
+      "nav.speakers": "Intervenants/Partenaires",
+      "nav.travel": "Voyage & Visa",
+      "nav.media": "Médias/Presse",
+      "nav.hotels": "Hôtels",
+      "nav.apply": "Candidater",
+      "nav.contact": "Contact"
+    },
+    "ar": {
+      "nav.home": "الرئيسية",
+      "nav.about": "حول",
+      "nav.programme": "البرنامج",
+      "nav.event": "الفعالية",
+      "nav.speakers": "المتحدثون/الشركاء",
+      "nav.travel": "السفر والتأشيرة",
+      "nav.media": "الإعلام",
+      "nav.hotels": "الفنادق",
+      "nav.apply": "التسجيل",
+      "nav.contact": "اتصل بنا"
+    }
+  }
+}
