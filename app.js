@@ -23,9 +23,9 @@ function injectHeader(cfg) {
   const el = document.getElementById("site-header");
   if (!el) return;
 
-  function injectHeader(cfg) {
-  const el = document.getElementById("site-header");
-  if (!el) return;
+  const logo = cfg?.site?.logoSrc || "./assets/logo/afsnet-logo.jpg";
+  const name = cfg?.site?.name || "AfSNET";
+  const tagline = cfg?.site?.tagline || "African Sub-Sovereign Governments Network";
 
   el.innerHTML = `
     <header>
@@ -33,25 +33,25 @@ function injectHeader(cfg) {
         <div class="header-inner">
           <div class="topbar">
 
-            <a class="brand" href="./index.html" aria-label="AfSNET Home">
-              <img class="site-logo" src="./assets/logo/afsnet-logo.jpg" alt="AfSNET logo" />
+            <a class="brand" href="./index.html" aria-label="${name} Home">
+              <img class="site-logo" src="${logo}" alt="${name} logo" />
               <div>
-                <h1>AfSNET</h1>
-                <p>African Sub-Sovereign Governments Network</p>
+                <h1>${name}</h1>
+                <p>${tagline}</p>
               </div>
             </a>
 
             <nav class="nav" aria-label="Primary navigation">
-              <a href="./index.html">Home</a>
-              <a href="./about.html">About</a>
-              <a href="./programme.html">Programme</a>
-              <a href="./event.html">Event</a>
-              <a href="./speakers-partners.html">Speakers/Partners</a>
-              <a href="./travel-visa.html">Travel & Visa</a>
-              <a href="./media-press.html">Media/Press</a>
-              <a href="./hotels.html">Hotels</a>
-              <a class="cta" href="./apply.html">Apply</a>
-              <a href="./contact.html">Contact</a>
+              <a href="./index.html" data-i18n="nav.home">Home</a>
+              <a href="./about.html" data-i18n="nav.about">About</a>
+              <a href="./programme.html" data-i18n="nav.programme">Programme</a>
+              <a href="./event.html" data-i18n="nav.event">Event</a>
+              <a href="./speakers-partners.html" data-i18n="nav.speakers">Speakers/Partners</a>
+              <a href="./travel-visa.html" data-i18n="nav.travel">Travel & Visa</a>
+              <a href="./media-press.html" data-i18n="nav.media">Media/Press</a>
+              <a href="./hotels.html" data-i18n="nav.hotels">Hotels</a>
+              <a class="cta" href="./apply.html" data-i18n="nav.apply">Apply</a>
+              <a href="./contact.html" data-i18n="nav.contact">Contact</a>
             </nav>
 
             <div class="lang-slot" id="lang-slot"></div>
@@ -61,7 +61,6 @@ function injectHeader(cfg) {
     </header>
   `;
 }
-
 function injectFooter(cfg) {
   const el = document.getElementById("site-footer");
   if (!el) return;
