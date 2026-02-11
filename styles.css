@@ -160,7 +160,21 @@ header{
   background: linear-gradient(135deg, var(--green-2), var(--gold-2));
   transform: translateY(-1px);
 }
+/* ===== Language Switch Dropdown (Header) ===== */
+.lang-switch select{
+  border:1px solid rgba(11,31,58,.14);
+  background: rgba(255,255,255,.85);
+  border-radius: 12px;
+  padding: 10px 10px;
+  font-weight: 800;
+  color: var(--navy);
+  cursor: pointer;
+}
 
+.lang-switch select:hover{
+  border-color: rgba(201,162,39,.45);
+  box-shadow: 0 8px 18px rgba(11,31,58,.10);
+}
 /* Layout */
 .card{
   background:rgba(255,255,255,.92);
