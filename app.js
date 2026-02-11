@@ -34,7 +34,7 @@ function injectHeader(cfg) {
           <div class="topbar">
 
             <a class="brand" href="./index.html" aria-label="AfSNET Home">
-              <img class="site-logo" src="./assets/logo/afsnet-logo.png" alt="AfSNET logo" />
+              <img class="site-logo" src="./assets/logo/afsnet-logo.jpg" alt="AfSNET logo" />
               <div>
                 <h1>AfSNET</h1>
                 <p>Afreximbank programme</p>
