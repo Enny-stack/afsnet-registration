@@ -4,10 +4,7 @@
     "name": "AfSNET",
     "tagline": "African Sub-Sovereign Governments Network",
     "supportEmail": "afsnet@afreximbank.com",
-    "phone": "+20-2-24564100"
-  },
-  {
-  "site": {
+    "phone": "+20-2-24564100",
     "defaultLang": "en"
   },
   "i18n": {
