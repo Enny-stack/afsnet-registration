@@ -543,3 +543,56 @@ body.home::before{
   pointer-events: none;       /* never blocks clicks */
   z-index: -1;                /* stays behind everything */
 }
+/* ===== Announcement ticker (Home moving strip) ===== */
+.ticker{
+  margin: 10px auto 0;
+  width: min(1200px, calc(100% - 32px));
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.8);
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+}
+
+.ticker-viewport{
+  overflow: hidden;
+  padding: 10px 14px;
+}
+
+.ticker-track{
+  display: inline-flex;
+  gap: 48px;
+  white-space: nowrap;
+  will-change: transform;
+  animation: tickerScroll 20s linear infinite;
+}
+
+.ticker-track:hover{
+  animation-play-state: paused;
+}
+
+.ticker-item{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  color: var(--navy);
+}
+
+.ticker-dot{
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--gold);
+  flex: 0 0 8px;
+}
+
+@keyframes tickerScroll{
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* Accessibility: stop animation if user prefers reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .ticker-track{ animation: none; }
+}
