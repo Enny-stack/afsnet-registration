@@ -55,7 +55,6 @@
     "format": "Hybrid"
   },
 
-  /* ✅ NEW: Multilingual content blocks (page content) */
   "content": {
     "en": {
       "home": {
@@ -262,7 +261,6 @@
     }
   },
 
-  /* ✅ Your original single-language blocks kept for backward compatibility (optional) */
   "home": {
     "pill": "Applications open",
     "headline": "Register for the AfSNET programme",
