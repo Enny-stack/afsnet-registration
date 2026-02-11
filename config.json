@@ -20,6 +20,45 @@
     "format": "Hybrid"
   },
 
+  "i18n": {
+    "en": {
+      "nav.home": "Home",
+      "nav.about": "About",
+      "nav.programme": "Programme",
+      "nav.event": "Event",
+      "nav.speakers": "Speakers/Partners",
+      "nav.travel": "Travel & Visa",
+      "nav.media": "Media/Press",
+      "nav.hotels": "Hotels",
+      "nav.apply": "Apply",
+      "nav.contact": "Contact"
+    },
+    "fr": {
+      "nav.home": "Accueil",
+      "nav.about": "À propos",
+      "nav.programme": "Programme",
+      "nav.event": "Événement",
+      "nav.speakers": "Intervenants / Partenaires",
+      "nav.travel": "Voyage & Visa",
+      "nav.media": "Médias / Presse",
+      "nav.hotels": "Hôtels",
+      "nav.apply": "Candidater",
+      "nav.contact": "Contact"
+    },
+    "ar": {
+      "nav.home": "الرئيسية",
+      "nav.about": "عن البرنامج",
+      "nav.programme": "البرنامج",
+      "nav.event": "الفعالية",
+      "nav.speakers": "المتحدثون / الشركاء",
+      "nav.travel": "السفر والتأشيرة",
+      "nav.media": "الإعلام / الصحافة",
+      "nav.hotels": "الفنادق",
+      "nav.apply": "التسجيل",
+      "nav.contact": "اتصل بنا"
+    }
+  },
+
   "content": {
     "en": {
       "home": {
@@ -96,12 +135,148 @@
         "headline": "How to reach the AfSNET team",
         "intro": "Official contact details are managed in config.json."
       }
+    },
+
+    "fr": {
+      "home": {
+        "pill": "Candidatures ouvertes",
+        "headline": "Inscrivez-vous au programme AfSNET",
+        "intro": "Ce portail permet l’inscription des participants et partage des informations sur l’événement, des conseils de voyage, des hôtels et des ressources médias. Remplacez les éléments provisoires par les détails confirmés."
+      },
+      "about": {
+        "pill": "À propos d’AfSNET",
+        "headline": "Qu’est-ce que le programme et pourquoi existe-t-il ?",
+        "intro": "AfSNET (Africa Sub-Sovereign Network) est une plateforme structurée qui réunit les gouvernements infranationaux (États, provinces, régions, comtés et villes) avec des investisseurs, des entreprises, des partenaires au développement et des experts techniques afin de développer et d’accélérer des projets et partenariats bancables."
+      },
+      "programme": {
+        "pill": "Programme",
+        "headline": "Aperçu du programme",
+        "intro": "Structure générale des sessions, tables rondes et réunions. À remplacer par l’agenda confirmé."
+      },
+      "eventPage": {
+        "pill": "Événement",
+        "headline": "Informations sur l’événement",
+        "intro": "Principales informations logistiques et détails de l’événement."
+      },
+      "speakersPartners": {
+        "pill": "Intervenants / Partenaires",
+        "headline": "Intervenants et partenaires",
+        "intro": "À remplacer par la liste confirmée des intervenants, modérateurs et partenaires."
+      },
+      "travelVisa": {
+        "pill": "Voyage & Visa",
+        "headline": "Conseils de voyage et visa",
+        "intro": "Indiquez les exigences d’entrée, la procédure de visa et les conseils de voyage pour le pays hôte."
+      },
+      "mediaPress": {
+        "pill": "Médias / Presse",
+        "headline": "Médias et presse",
+        "intro": "Contacts presse, instructions d’accréditation et ressources médias."
+      },
+      "hotels": {
+        "pill": "Hôtels",
+        "headline": "Hébergement recommandé",
+        "intro": "Remplacez les éléments provisoires par les hôtels négociés, codes de réservation et dates limites.",
+        "venueProximity": "À confirmer",
+        "rateCode": "À confirmer",
+        "bookingGuidance": [
+          "Utilisez le code tarifaire officiel lorsque disponible.",
+          "Vérifiez la date limite de réservation avant paiement.",
+          "Conservez une copie de votre confirmation de réservation."
+        ],
+        "transportNotes": [
+          "Les options de transfert aéroport seront partagées à l’approche de l’événement.",
+          "Prévoyez une marge de temps aux heures de pointe."
+        ],
+        "list": [
+          { "name": "Hôtel 1 (À confirmer)", "distance": "À confirmer", "rate": "À confirmer", "booking": "À confirmer" }
+        ]
+      },
+      "apply": {
+        "pill": "Candidater",
+        "headline": "Candidater / S’inscrire",
+        "intro": "Complétez le formulaire d’inscription ci-dessous. Le site est statique, les soumissions peuvent être envoyées via un formulaire externe ou par e-mail.",
+        "externalFormUrl": "https://tally.so/r/gDMZLO"
+      },
+      "contact": {
+        "pill": "Contact",
+        "headline": "Comment joindre l’équipe AfSNET",
+        "intro": "Les coordonnées officielles sont gérées dans config.json."
+      }
+    },
+
+    "ar": {
+      "home": {
+        "pill": "التسجيل مفتوح",
+        "headline": "سجّل في برنامج AfSNET",
+        "intro": "تدعم هذه البوابة تسجيل المشاركين وتعرض معلومات الفعالية وإرشادات السفر والفنادق ومواد الإعلام. يرجى استبدال البيانات المؤقتة بالتفاصيل المؤكدة."
+      },
+      "about": {
+        "pill": "عن AfSNET",
+        "headline": "ما هو البرنامج ولماذا تم إنشاؤه؟",
+        "intro": "AfSNET (Africa Sub-Sovereign Network) هي منصة منظمة تجمع الحكومات دون الوطنية (الولايات/الأقاليم/المحافظات/المقاطعات/المدن) مع المستثمرين والشركات وشركاء التنمية والخبراء الفنيين لتطوير وتسريع المشاريع والشراكات القابلة للتمويل."
+      },
+      "programme": {
+        "pill": "البرنامج",
+        "headline": "نظرة عامة على البرنامج",
+        "intro": "الهيكل العام للجلسات والطاولات المستديرة والاجتماعات. يرجى استبداله بالجدول المؤكد."
+      },
+      "eventPage": {
+        "pill": "الفعالية",
+        "headline": "معلومات الفعالية",
+        "intro": "أهم المعلومات اللوجستية وتفاصيل الفعالية."
+      },
+      "speakersPartners": {
+        "pill": "المتحدثون / الشركاء",
+        "headline": "المتحدثون والشركاء",
+        "intro": "يرجى استبدال ذلك بالقائمة المؤكدة للمتحدثين والميسّرين والشركاء."
+      },
+      "travelVisa": {
+        "pill": "السفر والتأشيرة",
+        "headline": "إرشادات السفر والتأشيرة",
+        "intro": "يرجى توفير متطلبات الدخول وإجراءات التأشيرة ونصائح السفر لبلد الاستضافة."
+      },
+      "mediaPress": {
+        "pill": "الإعلام / الصحافة",
+        "headline": "الإعلام والصحافة",
+        "intro": "جهات الاتصال الإعلامية، تعليمات الاعتماد، ومواد الإعلام."
+      },
+      "hotels": {
+        "pill": "الفنادق",
+        "headline": "الإقامة الموصى بها",
+        "intro": "يرجى استبدال البيانات المؤقتة بالفنادق المتفق عليها وأكواد الحجز وتواريخ الإغلاق.",
+        "venueProximity": "سيتم التأكيد",
+        "rateCode": "سيتم التأكيد",
+        "bookingGuidance": [
+          "استخدم رمز السعر الرسمي عند توفره.",
+          "تحقق من تاريخ إغلاق الحجز قبل الدفع.",
+          "احتفظ بنسخة من تأكيد الحجز."
+        ],
+        "transportNotes": [
+          "ستتم مشاركة خيارات النقل من/إلى المطار قرب موعد الفعالية.",
+          "اترك وقتًا احتياطيًا خلال ساعات الذروة."
+        ],
+        "list": [
+          { "name": "فندق 1 (سيتم التأكيد)", "distance": "سيتم التأكيد", "rate": "سيتم التأكيد", "booking": "سيتم التأكيد" }
+        ]
+      },
+      "apply": {
+        "pill": "التسجيل",
+        "headline": "التقديم / التسجيل",
+        "intro": "أكمل نموذج التسجيل أدناه. هذا موقع ثابت، لذا يمكن توجيه الإرسال إلى نموذج خارجي أو بريد إلكتروني.",
+        "externalFormUrl": "https://tally.so/r/gDMZLO"
+      },
+      "contact": {
+        "pill": "اتصل بنا",
+        "headline": "كيفية التواصل مع فريق AfSNET",
+        "intro": "تتم إدارة بيانات الاتصال الرسمية داخل config.json."
+      }
     }
   },
 
   "downloads": {
     "items": [
-      { "label": "Investment Proposal Template (PDF)", "file": "./assets/Investment Proposal Template.pdf" },
+      { "label": "Agenda (PDF)", "file": "./assets/agenda.pdf" },
       { "label": "Logistics note (PDF)", "file": "./assets/logistics-note.pdf" },
       { "label": "Sponsorship deck (PDF)", "file": "./assets/sponsorship-deck.pdf" }
     ]
