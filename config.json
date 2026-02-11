@@ -6,6 +6,10 @@
     "supportEmail": "afsnet@afreximbank.com",
     "phone": "+20-2-24564100",
     "defaultLang": "en"
+    "externalLinks": {
+  "afreximbankUrl": "https://www.afreximbank.com/",
+  "iatfUrl": "https://www.intrafricantradefair.com/"
+}
   },
 
   "event": {
