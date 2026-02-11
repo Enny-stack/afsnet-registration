@@ -5,7 +5,11 @@
     "tagline": "African Sub-Sovereign Governments Network",
     "supportEmail": "afsnet@afreximbank.com",
     "phone": "+20-2-24564100",
-    "defaultLang": "en"
+    "defaultLang": "en",
+    "externalLinks": {
+    "afreximbank": "https://www.afreximbank.com",
+    "iatf": "https://www.iatf.africa"
+  }
   },
 
   "event": {
@@ -15,12 +19,7 @@
     "venue": "Calabar International Convention Centre (CICC)",
     "format": "Hybrid"
   },
-
-  "externalLinks": {
-    "afreximbank": "https://www.afreximbank.com",
-    "iatf": "https://www.iatf.africa"
-  },
-
+  
   "content": {
     "en": {
       "home": {
