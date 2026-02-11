@@ -37,7 +37,7 @@ function injectHeader(cfg) {
               <img class="site-logo" src="./assets/logo/afsnet-logo.jpg" alt="AfSNET logo" />
               <div>
                 <h1>AfSNET</h1>
-                <p>Afreximbank programme</p>
+                <p>African Sub-Sovereign Governments Network</p>
               </div>
             </a>
 
