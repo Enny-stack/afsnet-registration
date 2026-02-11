@@ -77,6 +77,12 @@ function injectFooter(cfg) {
 
   const year = new Date().getFullYear();
 
+  // ✅ NEW: read external links from config.json (option C)
+  const afreximbankUrl =
+    cfg?.site?.externalLinks?.afreximbankUrl || "https://www.afreximbank.com/";
+  const iatfUrl =
+    cfg?.site?.externalLinks?.iatfUrl || "https://www.intrafricantradefair.com/";
+
   el.innerHTML = `
     <footer class="site-footer">
       <div class="container footer-container">
@@ -103,6 +109,12 @@ function injectFooter(cfg) {
             <p class="footer-copy">
               © ${year} Afreximbank / AfSNET. All rights reserved.
             </p>
+
+            <!-- ✅ NEW: External links (Afreximbank + IATF) -->
+            <div class="footer-links" style="margin-top:12px">
+              <a href="${afreximbankUrl}" target="_blank" rel="noopener">Afreximbank Website</a>
+              <a href="${iatfUrl}" target="_blank" rel="noopener">IATF Website</a>
+            </div>
           </div>
 
           <!-- MIDDLE: Quick Links -->
