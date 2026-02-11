@@ -311,10 +311,13 @@ function injectLanguageSwitcher() {
 
   // Apply language immediately
   applyLanguage(savedLang);
+applyConfigContent(window.__AFSNET_CFG, savedLang);
+ 
 
   // Switch instantly on change
   select.addEventListener("change", () => {
     applyLanguage(select.value);
+     applyConfigContent(window.__AFSNET_CFG, select.value);
   });
 }
 function applyConfigContent(cfg, lang){
