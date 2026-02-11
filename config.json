@@ -16,6 +16,11 @@
     "format": "Hybrid"
   },
 
+  "externalLinks": {
+    "afreximbank": "https://www.afreximbank.com",
+    "iatf": "https://www.iatf.africa"
+  },
+
   "content": {
     "en": {
       "home": {
@@ -23,201 +28,30 @@
         "headline": "Register for the AfSNET programme",
         "intro": "This portal supports participant registration and shares event information, travel guidance, hotels, and media resources. Replace placeholders with confirmed details."
       },
+
       "about": {
         "pill": "About AfSNET",
         "headline": "What the programme is, and why it exists",
-        "intro": "AfSNET (Africa Sub-Sovereign Network) is a structured platform that convenes sub-national governments (states, provinces, regions, counties, and cities) with investors, businesses, development partners, and technical experts to develop and accelerate bankable projects and partnerships. The programme exists to bridge the gap between sub-national development priorities and investable opportunities by strengthening project preparation, improving investor readiness, and enabling coordinated implementation. It supports the translation of local priorities in areas such as infrastructure, industrialization, agribusiness value chains, trade facilitation, and SME development into credible pipelines that can attract financing and deliver measurable development outcomes."
+        "intro": "AfSNET (Africa Sub-Sovereign Network) is a structured platform that convenes sub-national governments (states, provinces, regions, counties, and cities) with investors, businesses, development partners, and technical experts to develop and accelerate bankable projects and partnerships..."
       },
+
       "programme": {
         "pill": "Programme",
         "headline": "Programme overview",
         "intro": "High-level structure of sessions, roundtables, and meetings. Replace with confirmed agenda."
       },
-      "eventPage": {
-        "pill": "Event",
-        "headline": "Event information",
-        "intro": "Key logistics and event details."
-      },
-      "speakersPartners": {
-        "pill": "Speakers / Partners",
-        "headline": "Speakers and partners",
-        "intro": "Replace with confirmed speakers, moderators, and partners."
-      },
-      "travelVisa": {
-        "pill": "Travel & Visa",
-        "headline": "Travel and visa guidance",
-        "intro": "Provide entry requirements, visa process, and travel tips for the host country."
-      },
-      "mediaPress": {
-        "pill": "Media / Press",
-        "headline": "Media and press",
-        "intro": "Press contacts, accreditation instructions, and media resources."
-      },
-      "hotels": {
-        "pill": "Hotels",
-        "headline": "Recommended accommodation",
-        "intro": "Replace placeholders with negotiated hotels, booking codes, and cut-off dates.",
-        "venueProximity": "TBC",
-        "rateCode": "TBC",
-        "bookingGuidance": [
-          "Use the official rate code where provided.",
-          "Confirm the booking cut-off date before making payment.",
-          "Keep a copy of your booking confirmation."
-        ],
-        "transportNotes": [
-          "Airport transfer options will be shared closer to the event.",
-          "Allow buffer time during peak traffic hours."
-        ],
-        "list": [
-          { "name": "Hotel 1 (TBC)", "distance": "TBC", "rate": "TBC", "booking": "TBC" }
-        ]
-      },
+
       "apply": {
         "pill": "Apply",
         "headline": "Apply / Register",
         "intro": "Complete the registration form below. This is a static site, so submissions can be routed to an external form or email.",
         "externalFormUrl": "https://tally.so/r/gDMZLO"
       },
+
       "contact": {
         "pill": "Contact",
         "headline": "How to reach the AfSNET team",
         "intro": "Official contact details are managed in config.json."
-      }
-    },
-
-    "fr": {
-      "home": {
-        "pill": "Candidatures ouvertes",
-        "headline": "Inscrivez-vous au programme AfSNET",
-        "intro": "Ce portail permet l’inscription des participants et partage des informations sur l’événement, des conseils de voyage, des hôtels et des ressources médias. Remplacez les éléments provisoires par les détails confirmés."
-      },
-      "about": {
-        "pill": "À propos d’AfSNET",
-        "headline": "Qu’est-ce que le programme et pourquoi existe-t-il ?",
-        "intro": "AfSNET (Africa Sub-Sovereign Network) est une plateforme structurée qui réunit les gouvernements infranationaux (États, provinces, régions, comtés et villes) avec des investisseurs, des entreprises, des partenaires au développement et des experts techniques afin de développer et d’accélérer des projets et partenariats bancables. Le programme vise à combler l’écart entre les priorités de développement infranationales et les opportunités investissables, en renforçant la préparation des projets, en améliorant la capacité d’attraction des investisseurs et en facilitant une mise en œuvre coordonnée. Il soutient la transformation des priorités locales (infrastructures, industrialisation, chaînes de valeur agroalimentaires, facilitation du commerce, développement des PME) en pipelines crédibles capables d’attirer des financements et de produire des résultats mesurables."
-      },
-      "programme": {
-        "pill": "Programme",
-        "headline": "Aperçu du programme",
-        "intro": "Structure générale des sessions, tables rondes et réunions. À remplacer par l’agenda confirmé."
-      },
-      "eventPage": {
-        "pill": "Événement",
-        "headline": "Informations sur l’événement",
-        "intro": "Principales informations logistiques et détails de l’événement."
-      },
-      "speakersPartners": {
-        "pill": "Intervenants / Partenaires",
-        "headline": "Intervenants et partenaires",
-        "intro": "À remplacer par la liste confirmée des intervenants, modérateurs et partenaires."
-      },
-      "travelVisa": {
-        "pill": "Voyage & Visa",
-        "headline": "Conseils de voyage et visa",
-        "intro": "Indiquez les exigences d’entrée, la procédure de visa et les conseils de voyage pour le pays hôte."
-      },
-      "mediaPress": {
-        "pill": "Médias / Presse",
-        "headline": "Médias et presse",
-        "intro": "Contacts presse, instructions d’accréditation et ressources médias."
-      },
-      "hotels": {
-        "pill": "Hôtels",
-        "headline": "Hébergement recommandé",
-        "intro": "Remplacez les éléments provisoires par les hôtels négociés, codes de réservation et dates limites.",
-        "venueProximity": "À confirmer",
-        "rateCode": "À confirmer",
-        "bookingGuidance": [
-          "Utilisez le code tarifaire officiel lorsque disponible.",
-          "Vérifiez la date limite de réservation avant paiement.",
-          "Conservez une copie de votre confirmation de réservation."
-        ],
-        "transportNotes": [
-          "Les options de transfert aéroport seront partagées à l’approche de l’événement.",
-          "Prévoyez une marge de temps aux heures de pointe."
-        ],
-        "list": [
-          { "name": "Hôtel 1 (À confirmer)", "distance": "À confirmer", "rate": "À confirmer", "booking": "À confirmer" }
-        ]
-      },
-      "apply": {
-        "pill": "Candidater",
-        "headline": "Candidater / S’inscrire",
-        "intro": "Complétez le formulaire d’inscription ci-dessous. Le site est statique, les soumissions peuvent être envoyées via un formulaire externe ou par e-mail.",
-        "externalFormUrl": "https://tally.so/r/gDMZLO"
-      },
-      "contact": {
-        "pill": "Contact",
-        "headline": "Comment joindre l’équipe AfSNET",
-        "intro": "Les coordonnées officielles sont gérées dans config.json."
-      }
-    },
-
-    "ar": {
-      "home": {
-        "pill": "التسجيل مفتوح",
-        "headline": "سجّل في برنامج AfSNET",
-        "intro": "تدعم هذه البوابة تسجيل المشاركين وتعرض معلومات الفعالية وإرشادات السفر والفنادق ومواد الإعلام. يرجى استبدال البيانات المؤقتة بالتفاصيل المؤكدة."
-      },
-      "about": {
-        "pill": "عن AfSNET",
-        "headline": "ما هو البرنامج ولماذا تم إنشاؤه؟",
-        "intro": "AfSNET (شبكة أفريقيا دون السيادية) هي منصة منظمة تجمع الحكومات دون الوطنية (الولايات/الأقاليم/المحافظات/المقاطعات/المدن) مع المستثمرين والشركات وشركاء التنمية والخبراء الفنيين لتطوير وتسريع المشاريع والشراكات القابلة للتمويل. يهدف البرنامج إلى ردم الفجوة بين أولويات التنمية المحلية والفرص الاستثمارية عبر تعزيز إعداد المشاريع، وتحسين جاهزيتها للمستثمرين، وتمكين التنفيذ المنسق. كما يدعم تحويل الأولويات المحلية في مجالات مثل البنية التحتية، والتصنيع، وسلاسل القيمة الزراعية، وتيسير التجارة، وتنمية المؤسسات الصغيرة والمتوسطة إلى مسارات مشاريع موثوقة قادرة على جذب التمويل وتحقيق نتائج تنموية قابلة للقياس."
-      },
-      "programme": {
-        "pill": "البرنامج",
-        "headline": "نظرة عامة على البرنامج",
-        "intro": "الهيكل العام للجلسات والطاولات المستديرة والاجتماعات. يرجى استبداله بالجدول المؤكد."
-      },
-      "eventPage": {
-        "pill": "الفعالية",
-        "headline": "معلومات الفعالية",
-        "intro": "أهم المعلومات اللوجستية وتفاصيل الفعالية."
-      },
-      "speakersPartners": {
-        "pill": "المتحدثون / الشركاء",
-        "headline": "المتحدثون والشركاء",
-        "intro": "يرجى استبدال ذلك بالقائمة المؤكدة للمتحدثين والميسّرين والشركاء."
-      },
-      "travelVisa": {
-        "pill": "السفر والتأشيرة",
-        "headline": "إرشادات السفر والتأشيرة",
-        "intro": "يرجى توفير متطلبات الدخول وإجراءات التأشيرة ونصائح السفر لبلد الاستضافة."
-      },
-      "mediaPress": {
-        "pill": "الإعلام / الصحافة",
-        "headline": "الإعلام والصحافة",
-        "intro": "جهات الاتصال الإعلامية، تعليمات الاعتماد، ومواد الإعلام."
-      },
-      "hotels": {
-        "pill": "الفنادق",
-        "headline": "الإقامة الموصى بها",
-        "intro": "يرجى استبدال البيانات المؤقتة بالفنادق المتفق عليها وأكواد الحجز وتواريخ الإغلاق.",
-        "venueProximity": "سيتم التأكيد",
-        "rateCode": "سيتم التأكيد",
-        "bookingGuidance": [
-          "استخدم رمز السعر الرسمي عند توفره.",
-          "تحقق من تاريخ إغلاق الحجز قبل الدفع.",
-          "احتفظ بنسخة من تأكيد الحجز."
-        ],
-        "transportNotes": [
-          "ستتم مشاركة خيارات النقل من/إلى المطار قرب موعد الفعالية.",
-          "اترك وقتًا احتياطيًا خلال ساعات الذروة."
-        ],
-        "list": [
-          { "name": "فندق 1 (سيتم التأكيد)", "distance": "سيتم التأكيد", "rate": "سيتم التأكيد", "booking": "سيتم التأكيد" }
-        ]
-      },
-      "apply": {
-        "pill": "التسجيل",
-        "headline": "التقديم / التسجيل",
-        "intro": "أكمل نموذج التسجيل أدناه. هذا موقع ثابت، لذا يمكن توجيه الإرسال إلى نموذج خارجي أو بريد إلكتروني.",
-        "externalFormUrl": "https://tally.so/r/gDMZLO"
-      },
-      "contact": {
-        "pill": "اتصل بنا",
-        "headline": "كيفية التواصل مع فريق AfSNET",
-        "intro": "تتم إدارة بيانات الاتصال الرسمية داخل config.json."
       }
     }
   },
