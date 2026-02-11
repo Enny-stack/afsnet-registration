@@ -186,8 +186,53 @@ function wireApply(cfg) {
    LANGUAGE SYSTEM
 ================================= */
 
+/* ✅ FIX: fallback translations if cfg.i18n is missing */
+const FALLBACK_I18N = {
+  en: {
+    "nav.home": "Home",
+    "nav.about": "About",
+    "nav.programme": "Programme",
+    "nav.event": "Event",
+    "nav.speakers": "Speakers/Partners",
+    "nav.travel": "Travel & Visa",
+    "nav.media": "Media/Press",
+    "nav.hotels": "Hotels",
+    "nav.apply": "Apply",
+    "nav.contact": "Contact"
+  },
+  fr: {
+    "nav.home": "Accueil",
+    "nav.about": "À propos",
+    "nav.programme": "Programme",
+    "nav.event": "Événement",
+    "nav.speakers": "Intervenants / Partenaires",
+    "nav.travel": "Voyage & Visa",
+    "nav.media": "Médias / Presse",
+    "nav.hotels": "Hôtels",
+    "nav.apply": "Candidater",
+    "nav.contact": "Contact"
+  },
+  ar: {
+    "nav.home": "الرئيسية",
+    "nav.about": "عن البرنامج",
+    "nav.programme": "البرنامج",
+    "nav.event": "الفعالية",
+    "nav.speakers": "المتحدثون / الشركاء",
+    "nav.travel": "السفر والتأشيرة",
+    "nav.media": "الإعلام / الصحافة",
+    "nav.hotels": "الفنادق",
+    "nav.apply": "التسجيل",
+    "nav.contact": "اتصل بنا"
+  }
+};
+
 function applyLanguage(cfg, lang) {
-  const dict = cfg?.i18n?.[lang] || cfg?.i18n?.en;
+  /* ✅ FIX: use cfg.i18n if present, otherwise fallback dictionary */
+  const dict =
+    (cfg?.i18n && (cfg.i18n[lang] || cfg.i18n.en)) ||
+    FALLBACK_I18N[lang] ||
+    FALLBACK_I18N.en;
+
   if (!dict) return;
 
   document.querySelectorAll("[data-i18n]").forEach(el => {
@@ -207,13 +252,20 @@ function applyConfigContent(cfg, lang) {
 
   document.querySelectorAll("[data-config]").forEach(el => {
     const path = el.getAttribute("data-config");
-    const value = path.split(".").reduce((o, k) => (o ? o[k] : null), bundle);
-    if (value !== null) el.textContent = value;
+
+    /* ✅ FIX: try language bundle first, then fallback to global cfg (for event.*) */
+    let value = getByPath(bundle, path);
+    if (value === null) value = getByPath(cfg, path);
+
+    if (value !== null && typeof value !== "object") el.textContent = value;
   });
 
   document.querySelectorAll("[data-list]").forEach(ul => {
     const path = ul.getAttribute("data-list");
-    const items = path.split(".").reduce((o, k) => (o ? o[k] : null), bundle);
+
+    /* ✅ FIX: bundle first, then global cfg */
+    let items = getByPath(bundle, path);
+    if (items === null) items = getByPath(cfg, path);
 
     if (Array.isArray(items)) {
       ul.innerHTML = items.map(x => `<li>${x}</li>`).join("");
@@ -241,13 +293,13 @@ function injectLanguageSwitcher(cfg) {
 
   applyLanguage(cfg, savedLang);
   applyConfigContent(cfg, savedLang);
-  wireApply(cfg); // ✅ FIX: ensure Apply button gets the correct link on load
+  wireApply(cfg);
 
   select.addEventListener("change", () => {
     const lang = select.value;
     applyLanguage(cfg, lang);
     applyConfigContent(cfg, lang);
-    wireApply(cfg); // ✅ FIX: keep Apply link correct when language changes
+    wireApply(cfg);
   });
 }
 
@@ -265,5 +317,5 @@ document.addEventListener("DOMContentLoaded", async () => {
   applyLanguage(cfg, savedLang);
   applyConfigContent(cfg, savedLang);
 
-  wireApply(cfg); // ✅ FIX: Apply button link now activates
+  wireApply(cfg);
 });
