@@ -271,7 +271,9 @@ header{
   }
 }
 
-.footer-brand{display:flex;gap:12px;align-items:center}
+..footer-brand{display:flex;gap:12px;align-items:center}
+
+/* footer placeholder box (only needed if you still use <div class="footer-logo"></div>) */
 .footer-logo{
   width:44px;height:44px;border-radius:12px;
   background:linear-gradient(135deg,var(--green),var(--navy));
@@ -284,6 +286,37 @@ header{
   inset:10px;
   border-radius:10px;
   border:2px solid rgba(201,162,39,.95);
+}
+
+/* ✅ REAL IMAGE LOGO (Footer) — use this when you use <img class="footer-logo-img" ...> */
+.footer-logo-img{
+  width: 44px;              /* ✅ same size as header */
+  height: 44px;
+  object-fit: contain;
+  border-radius: 12px;
+  padding: 6px;
+
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(201,162,39,.30);
+  box-shadow: 0 8px 16px rgba(0,0,0,.20);
+
+  display: block;
+}
+
+/* ✅ HEADER REAL IMAGE LOGO — use this when you use <img class="site-logo" ...> */
+.site-logo{
+  width: 44px;              /* ✅ same size as footer */
+  height: 44px;
+  object-fit: contain;
+
+  border-radius: 12px;
+  padding: 6px;
+
+  background: rgba(255,255,255,.90);
+  border: 1px solid rgba(201,162,39,.35);
+  box-shadow: 0 8px 16px rgba(11,31,58,.18);
+
+  display: block;
 }
 
 /* AfSNET Title + tagline */
