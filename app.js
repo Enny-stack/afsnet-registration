@@ -163,6 +163,26 @@ function injectFooter(cfg) {
 }
 
 /* ================================
+   ✅ FIX ADDED: WIRE APPLY BUTTON
+   (This was missing, so the Tally link was never applied)
+================================= */
+function wireApply(cfg) {
+  const btn = document.getElementById("openExternalForm");
+  if (!btn) return;
+
+  const savedLang = localStorage.getItem("lang") || cfg?.site?.defaultLang || "en";
+  const url =
+    cfg?.content?.[savedLang]?.apply?.externalFormUrl ||
+    cfg?.content?.en?.apply?.externalFormUrl;
+
+  if (!url) return;
+
+  btn.setAttribute("href", url);
+  btn.setAttribute("target", "_blank");
+  btn.setAttribute("rel", "noopener");
+}
+
+/* ================================
    LANGUAGE SYSTEM
 ================================= */
 
@@ -221,11 +241,13 @@ function injectLanguageSwitcher(cfg) {
 
   applyLanguage(cfg, savedLang);
   applyConfigContent(cfg, savedLang);
+  wireApply(cfg); // ✅ FIX: ensure Apply button gets the correct link on load
 
   select.addEventListener("change", () => {
     const lang = select.value;
     applyLanguage(cfg, lang);
     applyConfigContent(cfg, lang);
+    wireApply(cfg); // ✅ FIX: keep Apply link correct when language changes
   });
 }
 
@@ -242,4 +264,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const savedLang = localStorage.getItem("lang") || "en";
   applyLanguage(cfg, savedLang);
   applyConfigContent(cfg, savedLang);
+
+  wireApply(cfg); // ✅ FIX: Apply button link now activates
 });
