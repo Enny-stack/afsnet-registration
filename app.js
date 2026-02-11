@@ -230,3 +230,90 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderDownloads(cfg);
   wireApply(cfg);
 });
+const translations = {
+  en: {
+    "nav.home": "Home",
+    "nav.about": "About",
+    "nav.programme": "Programme",
+    "nav.event": "Event",
+    "nav.speakers": "Speakers/Partners",
+    "nav.travel": "Travel & Visa",
+    "nav.media": "Media/Press",
+    "nav.hotels": "Hotels",
+    "nav.apply": "Apply",
+    "nav.contact": "Contact"
+  },
+
+  fr: {
+    "nav.home": "Accueil",
+    "nav.about": "À propos",
+    "nav.programme": "Programme",
+    "nav.event": "Événement",
+    "nav.speakers": "Intervenants / Partenaires",
+    "nav.travel": "Voyage & Visa",
+    "nav.media": "Médias / Presse",
+    "nav.hotels": "Hôtels",
+    "nav.apply": "Candidater",
+    "nav.contact": "Contact"
+  },
+
+  ar: {
+    "nav.home": "الرئيسية",
+    "nav.about": "عن البرنامج",
+    "nav.programme": "البرنامج",
+    "nav.event": "الفعالية",
+    "nav.speakers": "المتحدثون / الشركاء",
+    "nav.travel": "السفر والتأشيرة",
+    "nav.media": "الإعلام / الصحافة",
+    "nav.hotels": "الفنادق",
+    "nav.apply": "التسجيل",
+    "nav.contact": "اتصل بنا"
+  }
+};
+function applyLanguage(lang) {
+  const dict = translations[lang];
+  if (!dict) return;
+
+  // Replace all elements that have data-i18n
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+    if (dict[key]) el.textContent = dict[key];
+  });
+
+  // Arabic direction switch
+  if (lang === "ar") {
+    document.documentElement.setAttribute("dir", "rtl");
+  } else {
+    document.documentElement.setAttribute("dir", "ltr");
+  }
+
+  // Save choice
+  localStorage.setItem("lang", lang);
+}
+function injectLanguageSwitcher() {
+  const slot = document.getElementById("lang-slot");
+  if (!slot) return;
+
+  slot.innerHTML = `
+    <div class="lang-switch">
+      <select id="langSelect">
+        <option value="en">EN</option>
+        <option value="fr">FR</option>
+        <option value="ar">AR</option>
+      </select>
+    </div>
+  `;
+
+  const select = document.getElementById("langSelect");
+
+  const savedLang = localStorage.getItem("lang") || "en";
+  select.value = savedLang;
+
+  // Apply language immediately
+  applyLanguage(savedLang);
+
+  // Switch instantly on change
+  select.addEventListener("change", () => {
+    applyLanguage(select.value);
+  });
+}
