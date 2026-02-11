@@ -8,7 +8,9 @@ async function loadConfig() {
 }
 
 function getByPath(obj, path) {
-  return path.split(".").reduce((acc, k) => (acc && acc[k] !== undefined ? acc[k] : null), obj);
+  return path
+    .split(".")
+    .reduce((acc, k) => (acc && acc[k] !== undefined ? acc[k] : null), obj);
 }
 
 function setActiveNav() {
@@ -19,6 +21,9 @@ function setActiveNav() {
   });
 }
 
+/* ================================
+   HEADER + FOOTER INJECTION
+================================= */
 function injectHeader(cfg) {
   const el = document.getElementById("site-header");
   if (!el) return;
@@ -37,7 +42,7 @@ function injectHeader(cfg) {
               <img class="site-logo" src="${logo}" alt="${name} logo" />
               <div>
                 <h1>AfSNET</h1>
-                <p>African Sub-Sovereign Governments Network</p>
+                <p>${tagline}</p>
               </div>
             </a>
 
@@ -60,23 +65,12 @@ function injectHeader(cfg) {
       </div>
     </header>
   `;
-    // ✅ NOW the header exists, so we can inject language dropdown
-  injectLanguageSwitcher();
-}
-function injectLanguageSwitcher() {
-  const slot = document.getElementById("lang-slot");
-  if (!slot) return;
 
-  slot.innerHTML = `
-    <div class="lang-switch">
-      <select id="langSelect">
-        <option value="en">EN</option>
-        <option value="fr">FR</option>
-        <option value="ar">AR</option>
-      </select>
-    </div>
-  `;
+  // ✅ header now exists, inject language dropdown
+  injectLanguageSwitcher();
+  setActiveNav();
 }
+
 function injectFooter(cfg) {
   const el = document.getElementById("site-footer");
   if (!el) return;
@@ -89,12 +83,12 @@ function injectFooter(cfg) {
 
         <div class="footer-grid-3">
 
-          <!-- LEFT: Brand (must start at edge) -->
+          <!-- LEFT: Brand -->
           <div class="footer-col brand-col">
             <div class="footer-brand">
-             <img src="${cfg?.site?.logoSrc || './assets/logo/afsnet-logo.jpg'}"
-     class="footer-logo-img"
-     alt="AfSNET Logo" />
+              <img src="${cfg?.site?.logoSrc || "./assets/logo/afsnet-logo.jpg"}"
+                   class="footer-logo-img"
+                   alt="AfSNET Logo" />
 
               <div>
                 <p class="footer-title">
@@ -116,14 +110,14 @@ function injectFooter(cfg) {
             <h4>Quick links</h4>
             <div class="footer-links">
               <a href="./about.html">About</a>
-              <a href="./programme.html">Programmes</a>
-              <a href="./apply.html">Calls / Apply</a>
-              <a href="./event.html">Impact / Event</a>
+              <a href="./programme.html">Programme</a>
+              <a href="./apply.html">Apply</a>
+              <a href="./event.html">Event</a>
               <a href="./contact.html">Contact</a>
             </div>
           </div>
 
-          <!-- RIGHT: Address Box -->
+          <!-- RIGHT: Address -->
           <div class="footer-col address-col">
             <h4>Afreximbank Headquarters – Cairo, Egypt</h4>
 
@@ -131,20 +125,16 @@ function injectFooter(cfg) {
               <div class="line">
                 72 (B) El-Maahad El-Eshteraky Street – Heliopolis, Cairo 11341, Egypt
               </div>
-
               <div class="line">
                 <span class="label">Postal Address:</span>
                 P.O. Box 613 Heliopolis, Cairo 11757, Egypt
               </div>
-
               <div class="line">
                 <span class="label">Email:</span> afsnet@afreximbank.com
               </div>
-
               <div class="line">
                 <span class="label">Tel:</span> +20-2-24564100
               </div>
-
               <div class="line">
                 <span class="label">Fax:</span> +202-24564110; +202-24515008
               </div>
@@ -156,8 +146,12 @@ function injectFooter(cfg) {
     </footer>
   `;
 }
+
+/* ================================
+   CONTENT FILLERS (DEFAULT)
+================================= */
 function fillTextFromConfig(cfg) {
-  // data-config="path.to.value"
+  // data-config="path.to.value" (non-translated default areas)
   document.querySelectorAll("[data-config]").forEach(el => {
     const path = el.getAttribute("data-config");
     const val = getByPath(cfg, path);
@@ -188,6 +182,7 @@ function fillTextFromConfig(cfg) {
 function renderHotels(cfg) {
   const body = document.getElementById("hotelsBody");
   if (!body) return;
+
   const list = cfg.hotels?.list || [];
   body.innerHTML = list.map(h => `
     <tr>
@@ -202,6 +197,7 @@ function renderHotels(cfg) {
 function renderDownloads(cfg) {
   const ul = document.getElementById("downloadsList");
   if (!ul) return;
+
   const items = cfg.downloads?.items || [];
   ul.innerHTML = items.map(i => `
     <li><a href="${i.file}" target="_blank" rel="noopener">${i.label}</a></li>
@@ -212,6 +208,7 @@ function renderDownloads(cfg) {
 function wireApply(cfg) {
   const btn = document.getElementById("openExternalForm");
   if (!btn) return;
+
   const url = cfg.apply?.externalFormUrl;
   if (!url || url.includes("xxxxxxxx")) {
     btn.textContent = "External form (add link in config.json)";
@@ -221,15 +218,9 @@ function wireApply(cfg) {
   btn.setAttribute("href", url);
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
-  const cfg = await loadConfig();
-  injectHeader(cfg);
-  injectFooter(cfg);
-  fillTextFromConfig(cfg);
-  renderHotels(cfg);
-  renderDownloads(cfg);
-  wireApply(cfg);
-});
+/* ================================
+   LANGUAGE (NAV + PAGE CONTENT)
+================================= */
 const translations = {
   en: {
     "nav.home": "Home",
@@ -243,7 +234,6 @@ const translations = {
     "nav.apply": "Apply",
     "nav.contact": "Contact"
   },
-
   fr: {
     "nav.home": "Accueil",
     "nav.about": "À propos",
@@ -256,7 +246,6 @@ const translations = {
     "nav.apply": "Candidater",
     "nav.contact": "Contact"
   },
-
   ar: {
     "nav.home": "الرئيسية",
     "nav.about": "عن البرنامج",
@@ -270,33 +259,40 @@ const translations = {
     "nav.contact": "اتصل بنا"
   }
 };
+
 function applyLanguage(lang) {
   const dict = translations[lang];
   if (!dict) return;
 
-  // Replace all elements that have data-i18n
   document.querySelectorAll("[data-i18n]").forEach(el => {
     const key = el.getAttribute("data-i18n");
     if (dict[key]) el.textContent = dict[key];
   });
 
-  // Arabic direction switch
-  if (lang === "ar") {
-    document.documentElement.setAttribute("dir", "rtl");
-  } else {
-    document.documentElement.setAttribute("dir", "ltr");
-  }
+  document.documentElement.setAttribute("dir", lang === "ar" ? "rtl" : "ltr");
+  document.documentElement.setAttribute("lang", lang);
 
-  // Save choice
   localStorage.setItem("lang", lang);
 }
+
+function applyConfigContent(cfg, lang) {
+  const bundle = cfg?.content?.[lang] || cfg?.content?.en;
+  if (!bundle) return;
+
+  document.querySelectorAll("[data-config]").forEach(el => {
+    const path = el.getAttribute("data-config"); // e.g. "home.headline"
+    const value = path.split(".").reduce((o, k) => (o ? o[k] : undefined), bundle);
+    if (value !== undefined) el.textContent = value;
+  });
+}
+
 function injectLanguageSwitcher() {
   const slot = document.getElementById("lang-slot");
   if (!slot) return;
 
   slot.innerHTML = `
     <div class="lang-switch">
-      <select id="langSelect">
+      <select id="langSelect" aria-label="Language selector">
         <option value="en">EN</option>
         <option value="fr">FR</option>
         <option value="ar">AR</option>
@@ -305,29 +301,43 @@ function injectLanguageSwitcher() {
   `;
 
   const select = document.getElementById("langSelect");
-
   const savedLang = localStorage.getItem("lang") || "en";
   select.value = savedLang;
 
-  // Apply language immediately
+  // Apply immediately
   applyLanguage(savedLang);
-applyConfigContent(window.__AFSNET_CFG, savedLang);
- 
+  applyConfigContent(window.__AFSNET_CFG, savedLang);
 
-  // Switch instantly on change
+  // Switch instantly
   select.addEventListener("change", () => {
-    applyLanguage(select.value);
-     applyConfigContent(window.__AFSNET_CFG, select.value);
-  });
-}
-function applyConfigContent(cfg, lang){
-  const bundle = cfg?.content?.[lang] || cfg?.content?.en;
-  if (!bundle) return;
+    const lang = select.value;
+    localStorage.setItem("lang", lang);
 
-  // Fill any element with data-config="path.to.key"
-  document.querySelectorAll("[data-config]").forEach(el=>{
-    const path = el.getAttribute("data-config");  // e.g. "home.headline"
-    const value = path.split(".").reduce((o,k)=> (o ? o[k] : undefined), bundle);
-    if (value !== undefined) el.textContent = value;
+    applyLanguage(lang);
+    applyConfigContent(window.__AFSNET_CFG, lang);
   });
 }
+
+/* ================================
+   INIT
+================================= */
+document.addEventListener("DOMContentLoaded", async () => {
+  const cfg = await loadConfig();
+
+  // ✅ critical for language switching
+  window.__AFSNET_CFG = cfg;
+
+  injectHeader(cfg);
+  injectFooter(cfg);
+
+  // Fill default content first
+  fillTextFromConfig(cfg);
+  renderHotels(cfg);
+  renderDownloads(cfg);
+  wireApply(cfg);
+
+  // Then apply language (so it doesn't get overwritten)
+  const savedLang = localStorage.getItem("lang") || "en";
+  applyLanguage(savedLang);
+  applyConfigContent(cfg, savedLang);
+});
