@@ -66,36 +66,37 @@ function injectFooter(cfg) {
 
   const year = new Date().getFullYear();
 
-  const supportEmail = cfg?.site?.supportEmail || "afsnet@afreximbank.com";
-  const phone = cfg?.site?.phone || "TBC";
-  const logoSrc = cfg?.site?.logoSrc || "./assets/logo/afsnet-logo.jpg";
-
   el.innerHTML = `
     <footer class="site-footer">
-      <div class="container">
-        <div class="footer-grid">
+      <div class="container footer-container">
 
-          <!-- Left: brand -->
-          <div class="footer-col">
+        <div class="footer-grid-3">
+
+          <!-- LEFT: Brand (must start at edge) -->
+          <div class="footer-col brand-col">
             <div class="footer-brand">
-              <img class="footer-logo-img" src="${logoSrc}" alt="AfSNET logo" />
+              <img src="./assets/logo/afsnet-logo.png"
+                   class="footer-logo-img"
+                   alt="AfSNET Logo" />
+
               <div>
-                <p class="footer-title">African Sub-Sovereign Governments Network (AfSNET)</p>
+                <p class="footer-title">
+                  African Sub-Sovereign Governments Network (AfSNET)
+                </p>
                 <p class="footer-sub">
                   Connecting African states, investors, and projects through a trusted investment network.
                 </p>
               </div>
             </div>
 
-            <div class="footer-bottom">
+            <p class="footer-copy">
               © ${year} Afreximbank / AfSNET. All rights reserved.
-            </div>
+            </p>
           </div>
 
-          <!-- Right: links + address -->
-          <div class="footer-col">
-            <h4 class="footer-heading">Quick links</h4>
-
+          <!-- MIDDLE: Quick Links -->
+          <div class="footer-col links-col">
+            <h4>Quick links</h4>
             <div class="footer-links">
               <a href="./about.html">About</a>
               <a href="./programme.html">Programmes</a>
@@ -103,14 +104,15 @@ function injectFooter(cfg) {
               <a href="./event.html">Impact / Event</a>
               <a href="./contact.html">Contact</a>
             </div>
+          </div>
 
-            <div style="height:14px"></div>
+          <!-- RIGHT: Address Box -->
+          <div class="footer-col address-col">
+            <h4>Afreximbank Headquarters – Cairo, Egypt</h4>
 
             <div class="footer-contact">
-              <div class="line"><span class="label">Afreximbank Headquarters – Cairo, Egypt</span></div>
               <div class="line">
-                72 (B) El-Maahad El-Eshteraky Street – Heliopolis, Cairo<br/>
-                11341, Egypt
+                72 (B) El-Maahad El-Eshteraky Street – Heliopolis, Cairo 11341, Egypt
               </div>
 
               <div class="line">
@@ -119,12 +121,16 @@ function injectFooter(cfg) {
               </div>
 
               <div class="line">
-                <span class="label">Email:</span>
-                <a href="mailto:${supportEmail}">${supportEmail}</a>
+                <span class="label">Email:</span> afsnet@afreximbank.com
               </div>
 
-              <div class="line"><span class="label">Tel:</span> ${phone}</div>
-              <div class="line"><span class="label">Fax:</span> +202-24564110; +202-24515008</div>
+              <div class="line">
+                <span class="label">Tel:</span> +20-2-24564100
+              </div>
+
+              <div class="line">
+                <span class="label">Fax:</span> +202-24564110; +202-24515008
+              </div>
             </div>
           </div>
 
@@ -133,7 +139,6 @@ function injectFooter(cfg) {
     </footer>
   `;
 }
-
 function fillTextFromConfig(cfg) {
   // data-config="path.to.value"
   document.querySelectorAll("[data-config]").forEach(el => {
