@@ -24,13 +24,15 @@ function setActiveNav() {
 /* ================================
    HEADER + FOOTER INJECTION
 ================================= */
+
 function injectHeader(cfg) {
   const el = document.getElementById("site-header");
   if (!el) return;
 
   const logo = cfg?.site?.logoSrc || "./assets/logo/afsnet-logo.jpg";
   const name = cfg?.site?.name || "AfSNET";
-  const tagline = cfg?.site?.tagline || "African Sub-Sovereign Governments Network";
+  const tagline =
+    cfg?.site?.tagline || "African Sub-Sovereign Governments Network";
 
   el.innerHTML = `
     <header>
@@ -60,14 +62,14 @@ function injectHeader(cfg) {
             </nav>
 
             <div class="lang-slot" id="lang-slot"></div>
+
           </div>
         </div>
       </div>
     </header>
   `;
 
-  // ✅ header now exists, inject language dropdown
-  injectLanguageSwitcher();
+  injectLanguageSwitcher(cfg);
   setActiveNav();
 }
 
@@ -77,11 +79,12 @@ function injectFooter(cfg) {
 
   const year = new Date().getFullYear();
 
-  // ✅ NEW: read external links from config.json (option C)
   const afreximbankUrl =
     cfg?.site?.externalLinks?.afreximbankUrl || "https://www.afreximbank.com/";
+
   const iatfUrl =
-    cfg?.site?.externalLinks?.iatfUrl || "https://www.intrafricantradefair.com/";
+    cfg?.site?.externalLinks?.iatfUrl ||
+    "https://www.intrafricantradefair.com/";
 
   el.innerHTML = `
     <footer class="site-footer">
@@ -92,7 +95,7 @@ function injectFooter(cfg) {
           <!-- LEFT: Brand -->
           <div class="footer-col brand-col">
             <div class="footer-brand">
-              <img src="${cfg?.site?.logoSrc || "./assets/logo/afsnet-logo.jpg"}"
+              <img src="${cfg?.site?.logoSrc}"
                    class="footer-logo-img"
                    alt="AfSNET Logo" />
 
@@ -110,14 +113,17 @@ function injectFooter(cfg) {
               © ${year} Afreximbank / AfSNET. All rights reserved.
             </p>
 
-            <!-- ✅ NEW: External links (Afreximbank + IATF) -->
             <div class="footer-links" style="margin-top:12px">
-              <a href="${afreximbankUrl}" target="_blank" rel="noopener">Afreximbank Website</a>
-              <a href="${iatfUrl}" target="_blank" rel="noopener">IATF Website</a>
+              <a href="${afreximbankUrl}" target="_blank" rel="noopener">
+                Afreximbank Website
+              </a>
+              <a href="${iatfUrl}" target="_blank" rel="noopener">
+                IATF Website
+              </a>
             </div>
           </div>
 
-          <!-- MIDDLE: Quick Links -->
+          <!-- MIDDLE -->
           <div class="footer-col links-col">
             <h4>Quick links</h4>
             <div class="footer-links">
@@ -129,7 +135,7 @@ function injectFooter(cfg) {
             </div>
           </div>
 
-          <!-- RIGHT: Address -->
+          <!-- RIGHT -->
           <div class="footer-col address-col">
             <h4>Afreximbank Headquarters – Cairo, Egypt</h4>
 
@@ -147,9 +153,6 @@ function injectFooter(cfg) {
               <div class="line">
                 <span class="label">Tel:</span> +20-2-24564100
               </div>
-              <div class="line">
-                <span class="label">Fax:</span> +202-24564110; +202-24515008
-              </div>
             </div>
           </div>
 
@@ -160,120 +163,11 @@ function injectFooter(cfg) {
 }
 
 /* ================================
-   CONTENT FILLERS (DEFAULT)
+   LANGUAGE SYSTEM
 ================================= */
-function fillTextFromConfig(cfg) {
-  // data-config="path.to.value" (non-translated default areas)
-  document.querySelectorAll("[data-config]").forEach(el => {
-    const path = el.getAttribute("data-config");
-    const val = getByPath(cfg, path);
-    if (val !== null && typeof val !== "object") el.textContent = val;
-  });
 
-  // data-email="site.supportEmail"
-  document.querySelectorAll("[data-email]").forEach(el => {
-    const path = el.getAttribute("data-email");
-    const email = getByPath(cfg, path);
-    if (email) {
-      el.textContent = email;
-      el.setAttribute("href", `mailto:${email}`);
-    }
-  });
-
-  // data-list="path.to.array"
-  document.querySelectorAll("[data-list]").forEach(ul => {
-    const path = ul.getAttribute("data-list");
-    const items = getByPath(cfg, path);
-    if (Array.isArray(items)) {
-      ul.innerHTML = items.map(x => `<li>${x}</li>`).join("");
-      ul.classList.add("list");
-    }
-  });
-}
-
-function renderHotels(cfg) {
-  const body = document.getElementById("hotelsBody");
-  if (!body) return;
-
-  const list = cfg.hotels?.list || [];
-  body.innerHTML = list.map(h => `
-    <tr>
-      <td>${h.name || ""}</td>
-      <td>${h.distance || ""}</td>
-      <td>${h.rate || ""}</td>
-      <td>${h.booking || ""}</td>
-    </tr>
-  `).join("");
-}
-
-function renderDownloads(cfg) {
-  const ul = document.getElementById("downloadsList");
-  if (!ul) return;
-
-  const items = cfg.downloads?.items || [];
-  ul.innerHTML = items.map(i => `
-    <li><a href="${i.file}" target="_blank" rel="noopener">${i.label}</a></li>
-  `).join("");
-  ul.classList.add("list");
-}
-
-function wireApply(cfg) {
-  const btn = document.getElementById("openExternalForm");
-  if (!btn) return;
-
-  const url = cfg.apply?.externalFormUrl;
-  if (!url || url.includes("xxxxxxxx")) {
-    btn.textContent = "External form (add link in config.json)";
-    btn.setAttribute("href", "./contact.html");
-    return;
-  }
-  btn.setAttribute("href", url);
-}
-
-/* ================================
-   LANGUAGE (NAV + PAGE CONTENT)
-================================= */
-const translations = {
-  en: {
-    "nav.home": "Home",
-    "nav.about": "About",
-    "nav.programme": "Programme",
-    "nav.event": "Event",
-    "nav.speakers": "Speakers/Partners",
-    "nav.travel": "Travel & Visa",
-    "nav.media": "Media/Press",
-    "nav.hotels": "Hotels",
-    "nav.apply": "Apply",
-    "nav.contact": "Contact"
-  },
-  fr: {
-    "nav.home": "Accueil",
-    "nav.about": "À propos",
-    "nav.programme": "Programme",
-    "nav.event": "Événement",
-    "nav.speakers": "Intervenants / Partenaires",
-    "nav.travel": "Voyage & Visa",
-    "nav.media": "Médias / Presse",
-    "nav.hotels": "Hôtels",
-    "nav.apply": "Candidater",
-    "nav.contact": "Contact"
-  },
-  ar: {
-    "nav.home": "الرئيسية",
-    "nav.about": "عن البرنامج",
-    "nav.programme": "البرنامج",
-    "nav.event": "الفعالية",
-    "nav.speakers": "المتحدثون / الشركاء",
-    "nav.travel": "السفر والتأشيرة",
-    "nav.media": "الإعلام / الصحافة",
-    "nav.hotels": "الفنادق",
-    "nav.apply": "التسجيل",
-    "nav.contact": "اتصل بنا"
-  }
-};
-
-function applyLanguage(lang) {
-  const dict = translations[lang];
+function applyLanguage(cfg, lang) {
+  const dict = cfg?.i18n?.[lang] || cfg?.i18n?.en;
   if (!dict) return;
 
   document.querySelectorAll("[data-i18n]").forEach(el => {
@@ -292,19 +186,28 @@ function applyConfigContent(cfg, lang) {
   if (!bundle) return;
 
   document.querySelectorAll("[data-config]").forEach(el => {
-    const path = el.getAttribute("data-config"); // e.g. "home.headline"
-    const value = path.split(".").reduce((o, k) => (o ? o[k] : undefined), bundle);
-    if (value !== undefined) el.textContent = value;
+    const path = el.getAttribute("data-config");
+    const value = path.split(".").reduce((o, k) => (o ? o[k] : null), bundle);
+    if (value !== null) el.textContent = value;
+  });
+
+  document.querySelectorAll("[data-list]").forEach(ul => {
+    const path = ul.getAttribute("data-list");
+    const items = path.split(".").reduce((o, k) => (o ? o[k] : null), bundle);
+
+    if (Array.isArray(items)) {
+      ul.innerHTML = items.map(x => `<li>${x}</li>`).join("");
+    }
   });
 }
 
-function injectLanguageSwitcher() {
+function injectLanguageSwitcher(cfg) {
   const slot = document.getElementById("lang-slot");
   if (!slot) return;
 
   slot.innerHTML = `
     <div class="lang-switch">
-      <select id="langSelect" aria-label="Language selector">
+      <select id="langSelect">
         <option value="en">EN</option>
         <option value="fr">FR</option>
         <option value="ar">AR</option>
@@ -316,40 +219,27 @@ function injectLanguageSwitcher() {
   const savedLang = localStorage.getItem("lang") || "en";
   select.value = savedLang;
 
-  // Apply immediately
-  applyLanguage(savedLang);
-  applyConfigContent(window.__AFSNET_CFG, savedLang);
+  applyLanguage(cfg, savedLang);
+  applyConfigContent(cfg, savedLang);
 
-  // Switch instantly
   select.addEventListener("change", () => {
     const lang = select.value;
-    localStorage.setItem("lang", lang);
-
-    applyLanguage(lang);
-    applyConfigContent(window.__AFSNET_CFG, lang);
+    applyLanguage(cfg, lang);
+    applyConfigContent(cfg, lang);
   });
 }
 
 /* ================================
    INIT
 ================================= */
+
 document.addEventListener("DOMContentLoaded", async () => {
   const cfg = await loadConfig();
-
-  // ✅ critical for language switching
-  window.__AFSNET_CFG = cfg;
 
   injectHeader(cfg);
   injectFooter(cfg);
 
-  // Fill default content first
-  fillTextFromConfig(cfg);
-  renderHotels(cfg);
-  renderDownloads(cfg);
-  wireApply(cfg);
-
-  // Then apply language (so it doesn't get overwritten)
   const savedLang = localStorage.getItem("lang") || "en";
-  applyLanguage(savedLang);
+  applyLanguage(cfg, savedLang);
   applyConfigContent(cfg, savedLang);
 });
