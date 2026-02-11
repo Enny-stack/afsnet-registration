@@ -36,8 +36,8 @@ function injectHeader(cfg) {
             <a class="brand" href="./index.html" aria-label="${name} Home">
               <img class="site-logo" src="${logo}" alt="${name} logo" />
               <div>
-                <h1>${name}</h1>
-                <p>${tagline}</p>
+                <h1>AfSNET</h1>
+                <p>African Sub-Sovereign Governments Network</p>
               </div>
             </a>
 
@@ -59,6 +59,22 @@ function injectHeader(cfg) {
         </div>
       </div>
     </header>
+  `;
+    // ✅ NOW the header exists, so we can inject language dropdown
+  injectLanguageSwitcher();
+}
+function injectLanguageSwitcher() {
+  const slot = document.getElementById("lang-slot");
+  if (!slot) return;
+
+  slot.innerHTML = `
+    <div class="lang-switch">
+      <select id="langSelect">
+        <option value="en">EN</option>
+        <option value="fr">FR</option>
+        <option value="ar">AR</option>
+      </select>
+    </div>
   `;
 }
 function injectFooter(cfg) {
