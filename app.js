@@ -75,9 +75,9 @@ function injectFooter(cfg) {
           <!-- LEFT: Brand (must start at edge) -->
           <div class="footer-col brand-col">
             <div class="footer-brand">
-              <img src="./assets/logo/afsnet-logo.png"
-                   class="footer-logo-img"
-                   alt="AfSNET Logo" />
+             <img src="${cfg?.site?.logoSrc || './assets/logo/afsnet-logo.jpg'}"
+     class="footer-logo-img"
+     alt="AfSNET Logo" />
 
               <div>
                 <p class="footer-title">
