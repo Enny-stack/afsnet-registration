@@ -580,7 +580,7 @@ body.home::before{
 }
 
 .ticker-dot{
-  display: none;
+  display: inline-block;
   width: 8px;
   height: 8px;
   border-radius: 999px;
