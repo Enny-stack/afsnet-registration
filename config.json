@@ -67,13 +67,38 @@
       "home": {
         "pill": "Applications open",
         "headline": "Register for the AfSNET programme",
-        "intro": "This portal supports participant registration and shares event information, travel guidance, hotels, and media resources. Replace placeholders with confirmed details."
+        "intro": "This portal supports participant registration and shares event information, travel guidance, hotels, and media resources. Replace placeholders with confirmed details.",
+
+        "trackRecordTitle": "AfSNET Track Record",
+        "trackRecordStats": [
+          "5 Editions",
+          "900+ Participants",
+          "21 Countries Represented",
+          "USD 3.2bn+ Deals Facilitated"
+        ],
+        "trackRecordLinkText": "Learn more in About →"
       },
 
       "about": {
         "pill": "About AfSNET",
         "headline": "What the programme is, and why it exists",
-        "intro": "AfSNET (Africa Sub-Sovereign Network) is a structured platform that convenes sub-national governments (states, provinces, regions, counties, and cities) with investors, businesses, development partners, and technical experts to develop and accelerate bankable projects and partnerships."
+        "intro": "AfSNET (Africa Sub-Sovereign Network) is a structured platform that convenes sub-national governments (states, provinces, regions, counties, and cities) with investors, businesses, development partners, and technical experts to develop and accelerate bankable projects and partnerships.",
+
+        "objectivesTitle": "Objectives",
+        "objectives": [
+          "Enable investment-ready projects and deals",
+          "Connect investors with bankable opportunities",
+          "Accelerate partnerships and implementation"
+        ],
+
+        "editionsTitle": "Editions (Track Record)",
+        "editions": [
+          "1st Edition (2021): Durban, South Africa",
+          "2nd Edition (2022): Abuja, Nigeria",
+          "3rd Edition (2023): Cairo, Egypt — USD 1.5 billion deal closed",
+          "4th Edition: Kisumu, Kenya — 900+ participants, delegates from 21 countries, 200+ participants trained through IPA sessions, 13 major deals signed worth USD 1.7 billion",
+          "5th Edition: Algiers, Algeria"
+        ]
       },
 
       "programme": {
@@ -144,12 +169,37 @@
       "home": {
         "pill": "Candidatures ouvertes",
         "headline": "Inscrivez-vous au programme AfSNET",
-        "intro": "Ce portail permet l’inscription des participants et partage des informations sur l’événement, des conseils de voyage, des hôtels et des ressources médias. Remplacez les éléments provisoires par les détails confirmés."
+        "intro": "Ce portail permet l’inscription des participants et partage des informations sur l’événement, des conseils de voyage, des hôtels et des ressources médias. Remplacez les éléments provisoires par les détails confirmés.",
+
+        "trackRecordTitle": "Bilan AfSNET",
+        "trackRecordStats": [
+          "5 éditions",
+          "900+ participants",
+          "21 pays représentés",
+          "Plus de 3,2 Md USD de transactions facilitées"
+        ],
+        "trackRecordLinkText": "En savoir plus dans « À propos » →"
       },
       "about": {
         "pill": "À propos d’AfSNET",
         "headline": "Qu’est-ce que le programme et pourquoi existe-t-il ?",
-        "intro": "AfSNET (Africa Sub-Sovereign Network) est une plateforme structurée qui réunit les gouvernements infranationaux (États, provinces, régions, comtés et villes) avec des investisseurs, des entreprises, des partenaires au développement et des experts techniques afin de développer et d’accélérer des projets et partenariats bancables."
+        "intro": "AfSNET (Africa Sub-Sovereign Network) est une plateforme structurée qui réunit les gouvernements infranationaux (États, provinces, régions, comtés et villes) avec des investisseurs, des entreprises, des partenaires au développement et des experts techniques afin de développer et d’accélérer des projets et partenariats bancables.",
+
+        "objectivesTitle": "Objectifs",
+        "objectives": [
+          "Développer des projets et transactions prêts à l’investissement",
+          "Connecter les investisseurs à des opportunités bancables",
+          "Accélérer les partenariats et la mise en œuvre"
+        ],
+
+        "editionsTitle": "Éditions (bilan)",
+        "editions": [
+          "1re édition (2021) : Durban, Afrique du Sud",
+          "2e édition (2022) : Abuja, Nigeria",
+          "3e édition (2023) : Le Caire, Égypte — 1,5 Md USD de transaction conclue",
+          "4e édition : Kisumu, Kenya — 900+ participants, délégations de 21 pays, 200+ personnes formées via les sessions IPA, 13 accords majeurs signés pour 1,7 Md USD",
+          "5e édition : Alger, Algérie"
+        ]
       },
       "programme": {
         "pill": "Programme",
@@ -212,12 +262,37 @@
       "home": {
         "pill": "التسجيل مفتوح",
         "headline": "سجّل في برنامج AfSNET",
-        "intro": "تدعم هذه البوابة تسجيل المشاركين وتعرض معلومات الفعالية وإرشادات السفر والفنادق ومواد الإعلام. يرجى استبدال البيانات المؤقتة بالتفاصيل المؤكدة."
+        "intro": "تدعم هذه البوابة تسجيل المشاركين وتعرض معلومات الفعالية وإرشادات السفر والفنادق ومواد الإعلام. يرجى استبدال البيانات المؤقتة بالتفاصيل المؤكدة.",
+
+        "trackRecordTitle": "سجل إنجازات AfSNET",
+        "trackRecordStats": [
+          "5 دورات",
+          "أكثر من 900 مشارك",
+          "تمثيل 21 دولة",
+          "أكثر من 3.2 مليار دولار أمريكي من الصفقات المُيسّرة"
+        ],
+        "trackRecordLinkText": "اعرف المزيد في صفحة «عن البرنامج» →"
       },
       "about": {
         "pill": "عن AfSNET",
         "headline": "ما هو البرنامج ولماذا تم إنشاؤه؟",
-        "intro": "AfSNET (Africa Sub-Sovereign Network) هي منصة منظمة تجمع الحكومات دون الوطنية (الولايات/الأقاليم/المحافظات/المقاطعات/المدن) مع المستثمرين والشركات وشركاء التنمية والخبراء الفنيين لتطوير وتسريع المشاريع والشراكات القابلة للتمويل."
+        "intro": "AfSNET (Africa Sub-Sovereign Network) هي منصة منظمة تجمع الحكومات دون الوطنية (الولايات/الأقاليم/المحافظات/المقاطعات/المدن) مع المستثمرين والشركات وشركاء التنمية والخبراء الفنيين لتطوير وتسريع المشاريع والشراكات القابلة للتمويل.",
+
+        "objectivesTitle": "الأهداف",
+        "objectives": [
+          "تمكين مشاريع وصفقات جاهزة للاستثمار",
+          "ربط المستثمرين بفرص قابلة للتمويل",
+          "تسريع الشراكات والتنفيذ"
+        ],
+
+        "editionsTitle": "الدورات (سجل الفعاليات)",
+        "editions": [
+          "الدورة الأولى (2021): ديربان، جنوب أفريقيا",
+          "الدورة الثانية (2022): أبوجا، نيجيريا",
+          "الدورة الثالثة (2023): القاهرة، مصر — إغلاق صفقة بقيمة 1.5 مليار دولار أمريكي",
+          "الدورة الرابعة: كيسومو، كينيا — أكثر من 900 مشارك، وفود من 21 دولة، تدريب أكثر من 200 مشارك عبر جلسات IPA، توقيع 13 صفقة كبرى بقيمة 1.7 مليار دولار أمريكي",
+          "الدورة الخامسة: الجزائر، الجزائر"
+        ]
       },
       "programme": {
         "pill": "البرنامج",
