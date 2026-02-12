@@ -243,7 +243,7 @@ function wireApply(cfg, lang) {
 }
 
 /* ================================
-   ✅ ADDED: HOME ANNOUNCEMENT TICKER
+   ✅ HOME ANNOUNCEMENT TICKER
 ================================= */
 function initHomeTicker(cfg, lang) {
   const track = document.getElementById("homeTickerTrack");
@@ -259,7 +259,6 @@ function initHomeTicker(cfg, lang) {
     return;
   }
 
-  // Build one “item” (dot + text). We repeat it enough times for smooth scrolling.
   const itemHTML = `
     <span class="ticker-item">
       <span class="ticker-dot" aria-hidden="true"></span>
@@ -267,13 +266,127 @@ function initHomeTicker(cfg, lang) {
     </span>
   `;
 
-  // Repeat to exceed viewport width; duplicate again to support -50% animation loop.
   const repeated = new Array(10).fill(itemHTML).join("");
   track.innerHTML = repeated + repeated;
 }
 
 /* ================================
-   ✅ ADDED: SIMPLE SLIDER (OBJECTIVES)
+   ✅ ABOUT PAGE (CONFIG-DRIVEN)
+================================= */
+function renderAboutIntro(cfg, lang) {
+  const mount = document.getElementById("aboutIntro");
+  if (!mount) return;
+
+  const bundle = cfg?.content?.[lang]?.about || cfg?.content?.en?.about;
+  const paras = bundle?.introParagraphs;
+
+  if (!Array.isArray(paras) || !paras.length) {
+    mount.innerHTML = "";
+    return;
+  }
+
+  mount.innerHTML = paras
+    .map((p, idx) => `<p class="muted"${idx === paras.length - 1 ? ' style="margin-bottom:0"' : ""}>${p}</p>`)
+    .join("");
+}
+
+function renderAboutEditions(cfg, lang) {
+  const ul = document.getElementById("aboutEditionsList");
+  if (!ul) return;
+
+  const bundle = cfg?.content?.[lang]?.about || cfg?.content?.en?.about;
+  const editions = bundle?.editions || [];
+  ul.innerHTML = Array.isArray(editions) ? editions.map(x => `<li>${x}</li>`).join("") : "";
+}
+
+function renderAboutCtas(cfg, lang) {
+  const applyBtn = document.getElementById("aboutCtaApply");
+  const programmeBtn = document.getElementById("aboutCtaProgramme");
+  const eventBtn = document.getElementById("aboutCtaEvent");
+
+  if (!applyBtn && !programmeBtn && !eventBtn) return;
+
+  const bundle = cfg?.content?.[lang]?.about || cfg?.content?.en?.about;
+  const cta = bundle?.cta || cfg?.content?.en?.about?.cta || {};
+
+  if (applyBtn && cta.apply) applyBtn.textContent = cta.apply;
+  if (programmeBtn && cta.programme) programmeBtn.textContent = cta.programme;
+  if (eventBtn && cta.event) eventBtn.textContent = cta.event;
+}
+
+function renderAboutObjectives(cfg, lang) {
+  const scroller = document.getElementById("aboutObjectivesScroller");
+  if (!scroller) return;
+
+  const bundle = cfg?.content?.[lang]?.about || cfg?.content?.en?.about;
+  const objectives = bundle?.objectives || [];
+
+  if (!Array.isArray(objectives) || !objectives.length) {
+    scroller.innerHTML = "";
+    return;
+  }
+
+  scroller.innerHTML = objectives.map(o => `
+    <article class="snap-card" data-snap-card>
+      <div class="snap-img">
+        <img src="${o.image || ""}" alt="${(o.title || "").replace(/"/g, "&quot;")}">
+      </div>
+      <div class="snap-body">
+        <h4>${o.title || ""}</h4>
+        <p class="muted">${o.description || ""}</p>
+      </div>
+    </article>
+  `).join("");
+}
+
+function renderHowWorks(cfg, lang) {
+  const grid = document.getElementById("howWorksGrid");
+  if (!grid) return;
+
+  const bundle = cfg?.content?.[lang]?.about || cfg?.content?.en?.about;
+  const table = bundle?.howWorksTable || cfg?.content?.en?.about?.howWorksTable;
+
+  const headers = table?.headers || [];
+  const rows = table?.rows || [];
+
+  if (!Array.isArray(headers) || headers.length !== 3 || !Array.isArray(rows)) {
+    grid.innerHTML = "";
+    return;
+  }
+
+  const col0 = rows.map(r => r?.[0] ?? "");
+  const col1 = rows.map(r => r?.[1] ?? "");
+  const col2 = rows.map(r => r?.[2] ?? "");
+
+  grid.innerHTML = `
+    <div class="flow-col">
+      <div class="flow-head">${headers[0]}</div>
+      ${col0.map(x => `<div class="flow-row">${x}</div>`).join("")}
+    </div>
+    <div class="flow-col">
+      <div class="flow-head">${headers[1]}</div>
+      ${col1.map(x => `<div class="flow-row">${x}</div>`).join("")}
+    </div>
+    <div class="flow-col">
+      <div class="flow-head">${headers[2]}</div>
+      ${col2.map(x => `<div class="flow-row">${x}</div>`).join("")}
+    </div>
+  `;
+}
+
+function renderAboutPage(cfg, lang) {
+  renderAboutIntro(cfg, lang);
+  renderAboutEditions(cfg, lang);
+  renderAboutCtas(cfg, lang);
+  renderAboutObjectives(cfg, lang);
+  renderHowWorks(cfg, lang);
+
+  // Re-init slider after objectives injected
+  initSnapSlider("objectivesSlider");
+}
+
+/* ================================
+   ✅ SIMPLE SLIDER (OBJECTIVES)
 ================================= */
 function initSnapSlider(rootId) {
   const root = document.getElementById(rootId);
@@ -281,15 +394,30 @@ function initSnapSlider(rootId) {
 
   const scroller = root.querySelector("[data-snap-scroller]");
   const dotsWrap = root.querySelector("[data-snap-dots]");
-  const btnPrev = root.querySelector("[data-snap-prev]");
-  const btnNext = root.querySelector("[data-snap-next]");
+  let btnPrev = root.querySelector("[data-snap-prev]");
+  let btnNext = root.querySelector("[data-snap-next]");
 
   if (!scroller) return;
 
   const cards = Array.from(scroller.querySelectorAll("[data-snap-card]"));
-  if (!cards.length) return;
+  if (!cards.length) {
+    if (dotsWrap) dotsWrap.innerHTML = "";
+    return;
+  }
 
-  // Build dots
+  // ✅ Reset listeners safely by cloning buttons
+  if (btnPrev) {
+    const clone = btnPrev.cloneNode(true);
+    btnPrev.parentNode.replaceChild(clone, btnPrev);
+    btnPrev = clone;
+  }
+  if (btnNext) {
+    const clone = btnNext.cloneNode(true);
+    btnNext.parentNode.replaceChild(clone, btnNext);
+    btnNext = clone;
+  }
+
+  // Build dots fresh
   if (dotsWrap) {
     dotsWrap.innerHTML = cards
       .map((_, i) => `<button type="button" class="snap-dot" aria-label="Go to slide ${i + 1}" data-dot-index="${i}"></button>`)
@@ -303,7 +431,6 @@ function initSnapSlider(rootId) {
   }
 
   function currentIndex() {
-    // Find card closest to left edge
     const left = scroller.getBoundingClientRect().left;
     let best = 0;
     let bestDist = Infinity;
@@ -322,136 +449,44 @@ function initSnapSlider(rootId) {
   // Initial active
   setActive(0);
 
-  // Scroll listener updates active dot
-  let raf = null;
-  scroller.addEventListener("scroll", () => {
-    if (raf) cancelAnimationFrame(raf);
-    raf = requestAnimationFrame(() => setActive(currentIndex()));
-  });
+  // Replace scroll handler (avoid stacking listeners)
+  scroller.onscroll = () => {
+    window.requestAnimationFrame(() => setActive(currentIndex()));
+  };
 
   // Dot click
   dots.forEach(d => {
-    d.addEventListener("click", () => {
+    d.onclick = () => {
       const i = Number(d.getAttribute("data-dot-index"));
       scrollToIndex(i);
-    });
+    };
   });
 
   // Arrows
-  if (btnPrev) btnPrev.addEventListener("click", () => {
+  if (btnPrev) btnPrev.onclick = () => {
     const i = Math.max(0, currentIndex() - 1);
     scrollToIndex(i);
-  });
+  };
 
-  if (btnNext) btnNext.addEventListener("click", () => {
+  if (btnNext) btnNext.onclick = () => {
     const iNow = currentIndex();
+    const last = cards.length - 1;
 
-    // ✅ About-page behavior: if you're on the last card, jump to "How AfSNET works" and highlight it briefly
-    if (iNow === cards.length - 1) {
-      const target = document.getElementById("howAfsnetWorks");
+    // ✅ If last card, jump to How Works and highlight
+    if (iNow >= last) {
+      const target = document.getElementById("howWorks");
       if (target) {
         target.scrollIntoView({ behavior: "smooth", block: "start" });
-
-        // brief highlight without needing CSS changes
-        const prevOutline = target.style.outline;
-        const prevOutlineOffset = target.style.outlineOffset;
-        target.style.outline = "3px solid rgba(201,162,39,.85)";
-        target.style.outlineOffset = "10px";
-        setTimeout(() => {
-          target.style.outline = prevOutline;
-          target.style.outlineOffset = prevOutlineOffset;
-        }, 1200);
+        target.classList.remove("flash-highlight");
+        // force reflow for restart animation
+        void target.offsetWidth;
+        target.classList.add("flash-highlight");
       }
       return;
     }
 
-    const i = Math.min(cards.length - 1, iNow + 1);
-    scrollToIndex(i);
-  });
-}
-
-/* ================================
-   ✅ ADDED: ABOUT PAGE (CONFIG-DRIVEN OBJECTIVES + EDITIONS + HOW-WORKS)
-================================= */
-function renderAboutPage(cfg, lang) {
-  const bundle = cfg?.content?.[lang] || cfg?.content?.en;
-  const about = bundle?.about;
-  if (!about) return;
-
-  // Intro paragraphs (optional: about.introParagraphs[])
-  const wrap = document.getElementById("aboutIntroParagraphs");
-  if (wrap) {
-    const paras = Array.isArray(about.introParagraphs) ? about.introParagraphs : null;
-
-    // If introParagraphs exists, render them. Otherwise leave existing data-config intro in HTML.
-    if (paras && paras.length) {
-      wrap.innerHTML = paras
-        .map((t, idx) => `<p class="muted"${idx === paras.length - 1 ? ' style="margin-bottom:0"' : ""}>${t}</p>`)
-        .join("");
-    }
-  }
-
-  // Editions list
-  const editionsEl = document.getElementById("aboutEditionsList");
-  if (editionsEl && Array.isArray(about.editions)) {
-    editionsEl.innerHTML = about.editions.map(x => `<li>${x}</li>`).join("");
-    editionsEl.classList.add("list");
-  }
-
-  // Objectives slider cards (optional: about.objectivesCards[])
-  const scroller = document.getElementById("objectivesScroller");
-  if (scroller && Array.isArray(about.objectivesCards)) {
-    scroller.innerHTML = about.objectivesCards.map(card => {
-      const img = card?.image || "";
-      const alt = card?.alt || card?.title || "Objective";
-      const title = card?.title || "";
-      const desc = card?.description || "";
-      return `
-        <article class="snap-card" data-snap-card>
-          <div class="snap-img">
-            ${img ? `<img src="${img}" alt="${alt}">` : ``}
-          </div>
-          <div class="snap-body">
-            <h4>${title}</h4>
-            <p class="muted">${desc}</p>
-          </div>
-        </article>
-      `;
-    }).join("");
-
-    // Re-init slider after re-render
-    initSnapSlider("objectivesSlider");
-  }
-
-  // How AfSNET works table (optional: about.howWorksTable)
-  const grid = document.getElementById("howWorksGrid");
-  const table = about?.howWorksTable;
-  if (grid && table?.headers && Array.isArray(table?.rows)) {
-    const headers = table.headers;
-    const rows = table.rows;
-
-    // Expect 3 columns
-    if (headers.length >= 3) {
-      const col0 = rows.map(r => `<div class="flow-row">${r?.[0] ?? ""}</div>`).join("");
-      const col1 = rows.map(r => `<div class="flow-row">${r?.[1] ?? ""}</div>`).join("");
-      const col2 = rows.map(r => `<div class="flow-row">${r?.[2] ?? ""}</div>`).join("");
-
-      grid.innerHTML = `
-        <div class="flow-col">
-          <div class="flow-head">${headers[0]}</div>
-          ${col0}
-        </div>
-        <div class="flow-col">
-          <div class="flow-head">${headers[1]}</div>
-          ${col1}
-        </div>
-        <div class="flow-col">
-          <div class="flow-head">${headers[2]}</div>
-          ${col2}
-        </div>
-      `;
-    }
-  }
+    scrollToIndex(Math.min(last, iNow + 1));
+  };
 }
 
 /* ================================
@@ -475,11 +510,9 @@ function applyConfigContent(cfg, lang) {
   const bundle = cfg?.content?.[lang] || cfg?.content?.en;
   if (!bundle) return;
 
-  // Fill text nodes for language bundle (home.*, about.*, programme.*, etc.)
   document.querySelectorAll("[data-config]").forEach(el => {
     const path = el.getAttribute("data-config") || "";
 
-    // Skip ROOT fills here (they are handled by fillRootConfig)
     const isRoot =
       path.startsWith("site.") ||
       path.startsWith("event.") ||
@@ -493,7 +526,6 @@ function applyConfigContent(cfg, lang) {
     }
   });
 
-  // Lists from language bundle
   document.querySelectorAll("[data-list]").forEach(ul => {
     const path = ul.getAttribute("data-list");
     const items = getByPath(bundle, path);
@@ -503,9 +535,6 @@ function applyConfigContent(cfg, lang) {
       ul.classList.add("list");
     }
   });
-
-  // ✅ ADDED: About page dynamic blocks (only runs if elements exist)
-  renderAboutPage(cfg, lang);
 }
 
 function injectLanguageSwitcher(cfg) {
@@ -526,15 +555,16 @@ function injectLanguageSwitcher(cfg) {
   const savedLang = localStorage.getItem("lang") || cfg?.site?.defaultLang || "en";
   select.value = savedLang;
 
-  // Apply immediately
   applyLanguage(cfg, savedLang);
   fillRootConfig(cfg);
   applyConfigContent(cfg, savedLang);
   wireApply(cfg, savedLang);
   renderDownloads(cfg);
 
-  // ✅ ADDED: ensure ticker updates when language changes
   initHomeTicker(cfg, savedLang);
+
+  // ✅ render About page (only if About elements exist)
+  renderAboutPage(cfg, savedLang);
 
   select.addEventListener("change", () => {
     const lang = select.value;
@@ -544,8 +574,10 @@ function injectLanguageSwitcher(cfg) {
     wireApply(cfg, lang);
     renderDownloads(cfg);
 
-    // ✅ ADDED
     initHomeTicker(cfg, lang);
+
+    // ✅ re-render About content per language
+    renderAboutPage(cfg, lang);
   });
 }
 
@@ -566,7 +598,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderDownloads(cfg);
   wireApply(cfg, savedLang);
 
-  // ✅ ADDED: ticker + objective slider init (only runs if elements exist)
   initHomeTicker(cfg, savedLang);
-  initSnapSlider("objectivesSlider");
+
+  // ✅ About page config rendering + slider init
+  renderAboutPage(cfg, savedLang);
 });
