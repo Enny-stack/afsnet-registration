@@ -2,9 +2,27 @@ let CONFIG = null;
 
 async function loadConfig() {
   if (CONFIG) return CONFIG;
-  const res = await fetch("./config.json", { cache: "no-store" });
-  CONFIG = await res.json();
-  return CONFIG;
+
+  try {
+    const res = await fetch("./config.json", { cache: "no-store" });
+    if (!res.ok) throw new Error(`config.json fetch failed (${res.status})`);
+    CONFIG = await res.json();
+    return CONFIG;
+  } catch (err) {
+    console.error("❌ Failed to load config.json:", err);
+    // Don't crash silently — at least show something.
+    const body = document.querySelector("body");
+    if (body) {
+      body.innerHTML = `
+        <div style="max-width:900px;margin:40px auto;padding:16px;font-family:system-ui">
+          <h2>Site configuration error</h2>
+          <p>Please check <strong>config.json</strong> formatting (commas / quotes) and reload.</p>
+          <p style="color:#666">Open DevTools → Console to see the exact error.</p>
+        </div>
+      `;
+    }
+    throw err;
+  }
 }
 
 function getByPath(obj, path) {
@@ -31,8 +49,7 @@ function injectHeader(cfg) {
 
   const logo = cfg?.site?.logoSrc || "./assets/logo/afsnet-logo.jpg";
   const name = cfg?.site?.name || "AfSNET";
-  const tagline =
-    cfg?.site?.tagline || "African Sub-Sovereign Governments Network";
+  const tagline = cfg?.site?.tagline || "African Sub-Sovereign Governments Network";
 
   el.innerHTML = `
     <header>
@@ -43,7 +60,7 @@ function injectHeader(cfg) {
             <a class="brand" href="./index.html" aria-label="${name} Home">
               <img class="site-logo" src="${logo}" alt="${name} logo" />
               <div>
-                <h1>AfSNET</h1>
+                <h1>${name}</h1>
                 <p>${tagline}</p>
               </div>
             </a>
@@ -79,12 +96,16 @@ function injectFooter(cfg) {
 
   const year = new Date().getFullYear();
 
+  // Supports both naming styles safely (afreximbank / afreximbankUrl etc.)
   const afreximbankUrl =
-    cfg?.site?.externalLinks?.afreximbankUrl || "https://www.afreximbank.com/";
+    cfg?.site?.externalLinks?.afreximbankUrl ||
+    cfg?.site?.externalLinks?.afreximbank ||
+    "https://www.afreximbank.com";
 
   const iatfUrl =
     cfg?.site?.externalLinks?.iatfUrl ||
-    "https://www.intrafricantradefair.com/";
+    cfg?.site?.externalLinks?.iatf ||
+    "https://www.iatf.africa";
 
   el.innerHTML = `
     <footer class="site-footer">
@@ -95,7 +116,7 @@ function injectFooter(cfg) {
           <!-- LEFT: Brand -->
           <div class="footer-col brand-col">
             <div class="footer-brand">
-              <img src="${cfg?.site?.logoSrc}"
+              <img src="${cfg?.site?.logoSrc || "./assets/logo/afsnet-logo.jpg"}"
                    class="footer-logo-img"
                    alt="AfSNET Logo" />
 
@@ -114,12 +135,8 @@ function injectFooter(cfg) {
             </p>
 
             <div class="footer-links" style="margin-top:12px">
-              <a href="${afreximbankUrl}" target="_blank" rel="noopener">
-                Afreximbank Website
-              </a>
-              <a href="${iatfUrl}" target="_blank" rel="noopener">
-                IATF Website
-              </a>
+              <a href="${afreximbankUrl}" target="_blank" rel="noopener">Afreximbank Website</a>
+              <a href="${iatfUrl}" target="_blank" rel="noopener">IATF Website</a>
             </div>
           </div>
 
@@ -148,10 +165,10 @@ function injectFooter(cfg) {
                 P.O. Box 613 Heliopolis, Cairo 11757, Egypt
               </div>
               <div class="line">
-                <span class="label">Email:</span> afsnet@afreximbank.com
+                <span class="label">Email:</span> ${cfg?.site?.supportEmail || "afsnet@afreximbank.com"}
               </div>
               <div class="line">
-                <span class="label">Tel:</span> +20-2-24564100
+                <span class="label">Tel:</span> ${cfg?.site?.phone || "+20-2-24564100"}
               </div>
             </div>
           </div>
@@ -163,8 +180,38 @@ function injectFooter(cfg) {
 }
 
 /* ================================
-   ✅ FIX (2): RENDER DOWNLOADS LIST
-   Works with: <ul id="downloadsList"></ul>
+   ROOT (NON-LANGUAGE) FILL
+   - site.*, event.*, downloads.*
+================================= */
+function fillRootConfig(cfg) {
+  document.querySelectorAll("[data-config]").forEach(el => {
+    const path = el.getAttribute("data-config") || "";
+
+    // Only fill these from ROOT cfg:
+    const isRoot =
+      path.startsWith("site.") ||
+      path.startsWith("event.") ||
+      path.startsWith("downloads.");
+
+    if (!isRoot) return;
+
+    const val = getByPath(cfg, path);
+    if (val !== null && typeof val !== "object") el.textContent = val;
+  });
+
+  // data-email="site.supportEmail"
+  document.querySelectorAll("[data-email]").forEach(el => {
+    const path = el.getAttribute("data-email");
+    const email = getByPath(cfg, path);
+    if (email) {
+      el.textContent = email;
+      el.setAttribute("href", `mailto:${email}`);
+    }
+  });
+}
+
+/* ================================
+   DOWNLOADS
 ================================= */
 function renderDownloads(cfg) {
   const ul = document.getElementById("downloadsList");
@@ -174,19 +221,18 @@ function renderDownloads(cfg) {
   ul.innerHTML = items
     .map(i => `<li><a href="${i.file}" target="_blank" rel="noopener">${i.label}</a></li>`)
     .join("");
+  ul.classList.add("list");
 }
 
 /* ================================
-   ✅ FIX ADDED: WIRE APPLY BUTTON
-   (This was missing, so the Tally link was never applied)
+   APPLY BUTTON (TALLY)
 ================================= */
-function wireApply(cfg) {
+function wireApply(cfg, lang) {
   const btn = document.getElementById("openExternalForm");
   if (!btn) return;
 
-  const savedLang = localStorage.getItem("lang") || cfg?.site?.defaultLang || "en";
   const url =
-    cfg?.content?.[savedLang]?.apply?.externalFormUrl ||
+    cfg?.content?.[lang]?.apply?.externalFormUrl ||
     cfg?.content?.en?.apply?.externalFormUrl;
 
   if (!url) return;
@@ -197,98 +243,10 @@ function wireApply(cfg) {
 }
 
 /* ================================
-   LANGUAGE SYSTEM
+   LANGUAGE
 ================================= */
-
-/* ✅ FIX: fallback translations if cfg.i18n is missing */
-const FALLBACK_I18N = {
-  en: {
-    "nav.home": "Home",
-    "nav.about": "About",
-    "nav.programme": "Programme",
-    "nav.event": "Event",
-    "nav.speakers": "Speakers/Partners",
-    "nav.travel": "Travel & Visa",
-    "nav.media": "Media/Press",
-    "nav.hotels": "Hotels",
-    "nav.apply": "Apply",
-    "nav.contact": "Contact"
-  },
-  fr: {
-    "nav.home": "Accueil",
-    "nav.about": "À propos",
-    "nav.programme": "Programme",
-    "nav.event": "Événement",
-    "nav.speakers": "Intervenants / Partenaires",
-    "nav.travel": "Voyage & Visa",
-    "nav.media": "Médias / Presse",
-    "nav.hotels": "Hôtels",
-    "nav.apply": "Candidater",
-    "nav.contact": "Contact"
-  },
-  ar: {
-    "nav.home": "الرئيسية",
-    "nav.about": "عن البرنامج",
-    "nav.programme": "البرنامج",
-    "nav.event": "الفعالية",
-    "nav.speakers": "المتحدثون / الشركاء",
-    "nav.travel": "السفر والتأشيرة",
-    "nav.media": "الإعلام / الصحافة",
-    "nav.hotels": "الفنادق",
-    "nav.apply": "التسجيل",
-    "nav.contact": "اتصل بنا"
-  }
-};
-
-/* ================================
-   ✅ ADDED: helper + ticker render (NO other changes)
-================================= */
-function getLang(cfg) {
-  return localStorage.getItem("lang") || cfg?.site?.defaultLang || "en";
-}
-
-function t(cfg, key, lang) {
-  const dict =
-    (cfg?.i18n && (cfg.i18n[lang] || cfg.i18n.en)) ||
-    FALLBACK_I18N[lang] ||
-    FALLBACK_I18N.en;
-
-  return (dict && dict[key]) || null;
-}
-
-function escapeHtml(str) {
-  return String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-}
-
-function renderHomeTicker(cfg, langOverride) {
-  const track = document.getElementById("homeTickerTrack");
-  if (!track) return; // only on Home where ticker exists
-
-  const lang = langOverride || getLang(cfg);
-
-  // Prefer i18n key; fallback to cfg.home.announcement if you ever add it there
-  const msgRaw = t(cfg, "home.announcement", lang) || cfg?.home?.announcement;
-  if (!msgRaw) return;
-
-  const msg = escapeHtml(msgRaw);
-
-  // Two identical halves for smooth loop animation
-  const chunk = `<span class="ticker-item"><span class="ticker-dot"></span><span>${msg}</span></span>`;
-  track.innerHTML = chunk + chunk;
-}
-
 function applyLanguage(cfg, lang) {
-  /* ✅ FIX: use cfg.i18n if present, otherwise fallback dictionary */
-  const dict =
-    (cfg?.i18n && (cfg.i18n[lang] || cfg.i18n.en)) ||
-    FALLBACK_I18N[lang] ||
-    FALLBACK_I18N.en;
-
+  const dict = cfg?.i18n?.[lang] || cfg?.i18n?.en;
   if (!dict) return;
 
   document.querySelectorAll("[data-i18n]").forEach(el => {
@@ -298,7 +256,6 @@ function applyLanguage(cfg, lang) {
 
   document.documentElement.setAttribute("dir", lang === "ar" ? "rtl" : "ltr");
   document.documentElement.setAttribute("lang", lang);
-
   localStorage.setItem("lang", lang);
 }
 
@@ -306,25 +263,32 @@ function applyConfigContent(cfg, lang) {
   const bundle = cfg?.content?.[lang] || cfg?.content?.en;
   if (!bundle) return;
 
+  // Fill text nodes for language bundle (home.*, about.*, programme.*, etc.)
   document.querySelectorAll("[data-config]").forEach(el => {
-    const path = el.getAttribute("data-config");
+    const path = el.getAttribute("data-config") || "";
 
-    /* ✅ FIX: try language bundle first, then fallback to global cfg (for event.*) */
-    let value = getByPath(bundle, path);
-    if (value === null) value = getByPath(cfg, path);
+    // Skip ROOT fills here (they are handled by fillRootConfig)
+    const isRoot =
+      path.startsWith("site.") ||
+      path.startsWith("event.") ||
+      path.startsWith("downloads.");
 
-    if (value !== null && typeof value !== "object") el.textContent = value;
+    if (isRoot) return;
+
+    const value = getByPath(bundle, path);
+    if (value !== null && typeof value !== "object") {
+      el.textContent = value;
+    }
   });
 
+  // Lists from language bundle
   document.querySelectorAll("[data-list]").forEach(ul => {
     const path = ul.getAttribute("data-list");
-
-    /* ✅ FIX: bundle first, then global cfg */
-    let items = getByPath(bundle, path);
-    if (items === null) items = getByPath(cfg, path);
+    const items = getByPath(bundle, path);
 
     if (Array.isArray(items)) {
       ul.innerHTML = items.map(x => `<li>${x}</li>`).join("");
+      ul.classList.add("list");
     }
   });
 }
@@ -335,7 +299,7 @@ function injectLanguageSwitcher(cfg) {
 
   slot.innerHTML = `
     <div class="lang-switch">
-      <select id="langSelect">
+      <select id="langSelect" aria-label="Language selector">
         <option value="en">EN</option>
         <option value="fr">FR</option>
         <option value="ar">AR</option>
@@ -344,39 +308,38 @@ function injectLanguageSwitcher(cfg) {
   `;
 
   const select = document.getElementById("langSelect");
-  const savedLang = localStorage.getItem("lang") || "en";
+  const savedLang = localStorage.getItem("lang") || cfg?.site?.defaultLang || "en";
   select.value = savedLang;
 
+  // Apply immediately
   applyLanguage(cfg, savedLang);
+  fillRootConfig(cfg);
   applyConfigContent(cfg, savedLang);
-  wireApply(cfg);
-  renderHomeTicker(cfg, savedLang); // ✅ ADDED
+  wireApply(cfg, savedLang);
 
   select.addEventListener("change", () => {
     const lang = select.value;
     applyLanguage(cfg, lang);
+    fillRootConfig(cfg);
     applyConfigContent(cfg, lang);
-    wireApply(cfg);
-    renderHomeTicker(cfg, lang); // ✅ ADDED
+    wireApply(cfg, lang);
   });
 }
 
 /* ================================
    INIT
 ================================= */
-
 document.addEventListener("DOMContentLoaded", async () => {
   const cfg = await loadConfig();
 
   injectHeader(cfg);
   injectFooter(cfg);
 
-  const savedLang = localStorage.getItem("lang") || "en";
+  const savedLang = localStorage.getItem("lang") || cfg?.site?.defaultLang || "en";
+
   applyLanguage(cfg, savedLang);
+  fillRootConfig(cfg);
   applyConfigContent(cfg, savedLang);
-  renderHomeTicker(cfg, savedLang); // ✅ ADDED
-
-  renderDownloads(cfg); // ✅ FIX (2): downloads now render on any page that has <ul id="downloadsList"></ul>
-
-  wireApply(cfg);
+  renderDownloads(cfg);
+  wireApply(cfg, savedLang);
 });
