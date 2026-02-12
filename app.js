@@ -342,10 +342,116 @@ function initSnapSlider(rootId) {
     const i = Math.max(0, currentIndex() - 1);
     scrollToIndex(i);
   });
+
   if (btnNext) btnNext.addEventListener("click", () => {
-    const i = Math.min(cards.length - 1, currentIndex() + 1);
+    const iNow = currentIndex();
+
+    // ✅ About-page behavior: if you're on the last card, jump to "How AfSNET works" and highlight it briefly
+    if (iNow === cards.length - 1) {
+      const target = document.getElementById("howAfsnetWorks");
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+
+        // brief highlight without needing CSS changes
+        const prevOutline = target.style.outline;
+        const prevOutlineOffset = target.style.outlineOffset;
+        target.style.outline = "3px solid rgba(201,162,39,.85)";
+        target.style.outlineOffset = "10px";
+        setTimeout(() => {
+          target.style.outline = prevOutline;
+          target.style.outlineOffset = prevOutlineOffset;
+        }, 1200);
+      }
+      return;
+    }
+
+    const i = Math.min(cards.length - 1, iNow + 1);
     scrollToIndex(i);
   });
+}
+
+/* ================================
+   ✅ ADDED: ABOUT PAGE (CONFIG-DRIVEN OBJECTIVES + EDITIONS + HOW-WORKS)
+================================= */
+function renderAboutPage(cfg, lang) {
+  const bundle = cfg?.content?.[lang] || cfg?.content?.en;
+  const about = bundle?.about;
+  if (!about) return;
+
+  // Intro paragraphs (optional: about.introParagraphs[])
+  const wrap = document.getElementById("aboutIntroParagraphs");
+  if (wrap) {
+    const paras = Array.isArray(about.introParagraphs) ? about.introParagraphs : null;
+
+    // If introParagraphs exists, render them. Otherwise leave existing data-config intro in HTML.
+    if (paras && paras.length) {
+      wrap.innerHTML = paras
+        .map((t, idx) => `<p class="muted"${idx === paras.length - 1 ? ' style="margin-bottom:0"' : ""}>${t}</p>`)
+        .join("");
+    }
+  }
+
+  // Editions list
+  const editionsEl = document.getElementById("aboutEditionsList");
+  if (editionsEl && Array.isArray(about.editions)) {
+    editionsEl.innerHTML = about.editions.map(x => `<li>${x}</li>`).join("");
+    editionsEl.classList.add("list");
+  }
+
+  // Objectives slider cards (optional: about.objectivesCards[])
+  const scroller = document.getElementById("objectivesScroller");
+  if (scroller && Array.isArray(about.objectivesCards)) {
+    scroller.innerHTML = about.objectivesCards.map(card => {
+      const img = card?.image || "";
+      const alt = card?.alt || card?.title || "Objective";
+      const title = card?.title || "";
+      const desc = card?.description || "";
+      return `
+        <article class="snap-card" data-snap-card>
+          <div class="snap-img">
+            ${img ? `<img src="${img}" alt="${alt}">` : ``}
+          </div>
+          <div class="snap-body">
+            <h4>${title}</h4>
+            <p class="muted">${desc}</p>
+          </div>
+        </article>
+      `;
+    }).join("");
+
+    // Re-init slider after re-render
+    initSnapSlider("objectivesSlider");
+  }
+
+  // How AfSNET works table (optional: about.howWorksTable)
+  const grid = document.getElementById("howWorksGrid");
+  const table = about?.howWorksTable;
+  if (grid && table?.headers && Array.isArray(table?.rows)) {
+    const headers = table.headers;
+    const rows = table.rows;
+
+    // Expect 3 columns
+    if (headers.length >= 3) {
+      const col0 = rows.map(r => `<div class="flow-row">${r?.[0] ?? ""}</div>`).join("");
+      const col1 = rows.map(r => `<div class="flow-row">${r?.[1] ?? ""}</div>`).join("");
+      const col2 = rows.map(r => `<div class="flow-row">${r?.[2] ?? ""}</div>`).join("");
+
+      grid.innerHTML = `
+        <div class="flow-col">
+          <div class="flow-head">${headers[0]}</div>
+          ${col0}
+        </div>
+        <div class="flow-col">
+          <div class="flow-head">${headers[1]}</div>
+          ${col1}
+        </div>
+        <div class="flow-col">
+          <div class="flow-head">${headers[2]}</div>
+          ${col2}
+        </div>
+      `;
+    }
+  }
 }
 
 /* ================================
@@ -397,6 +503,9 @@ function applyConfigContent(cfg, lang) {
       ul.classList.add("list");
     }
   });
+
+  // ✅ ADDED: About page dynamic blocks (only runs if elements exist)
+  renderAboutPage(cfg, lang);
 }
 
 function injectLanguageSwitcher(cfg) {
