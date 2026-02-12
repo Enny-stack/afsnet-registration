@@ -22,28 +22,18 @@
 
         <h2 data-config="about.headline">AfSNET – Empowering Sub-Sovereign Governments in African Trade</h2>
 
-        <div id="aboutIntroParagraphs">
-          <p class="muted" data-config="about.intro">
-            In 2021, African Export-Import Bank (“Afreximbank” or “the Bank”) established the African Sub-Sovereign Governments Network (“AfSNET” or “the Network”) as a vehicle for promoting intra-African trade, investment and industrialisation at the Sub-Sovereign level.
-          </p>
-        </div>
+        <div id="aboutIntro"></div>
       </div>
 
-      <div class="card pad surface">
-        <div class="actions" style="margin-top:0">
-          <a class="btn primary" href="./apply.html" data-i18n="nav.apply">Apply / Register</a>
-          <a class="btn ghost" href="./programme.html" data-i18n="nav.programme">Programme</a>
-          <a class="btn ghost" href="./event.html" data-i18n="nav.event">Event details</a>
-        </div>
+      <div class="card pad hero-panel">
+        <div class="kicker" data-config="about.editionsTitle">Editions (Track Record)</div>
+        <ul class="list" id="aboutEditionsList"></ul>
 
-        <div class="kicker" style="margin-top:14px" data-config="about.editionsTitle">Editions (Track Record)</div>
-        <ul class="list" id="aboutEditionsList">
-          <li>1st Edition (2021): Durban, South Africa</li>
-          <li>2nd Edition (2022): Abuja, Nigeria</li>
-          <li>3rd Edition (2023): Cairo, Egypt — USD 1.5 billion deal closed</li>
-          <li>4th Edition: Kisumu, Kenya — 900+ participants, delegates from 21 countries, 200+ participants trained through IPA sessions, 13 major deals signed worth USD 1.7 billion</li>
-          <li>5th Edition: Algiers, Algeria</li>
-        </ul>
+        <div class="actions" id="aboutCtas">
+          <a class="btn primary" href="./apply.html" id="aboutCtaApply">Apply / Register</a>
+          <a class="btn ghost" href="./programme.html" id="aboutCtaProgramme">Programme</a>
+          <a class="btn ghost" href="./event.html" id="aboutCtaEvent">Event details</a>
+        </div>
       </div>
     </div>
   </section>
@@ -56,8 +46,8 @@
       <button class="snap-arrow prev" type="button" aria-label="Previous objective" data-snap-prev>‹</button>
       <button class="snap-arrow next" type="button" aria-label="Next objective" data-snap-next>›</button>
 
-      <div class="snap-scroller" data-snap-scroller id="objectivesScroller">
-        <!-- Cards will be rendered from config.json (about.objectivesCards) -->
+      <div class="snap-scroller" data-snap-scroller id="aboutObjectivesScroller">
+        <!-- injected by app.js from config.json -->
       </div>
 
       <div class="snap-dots" aria-label="Objectives pagination" data-snap-dots></div>
@@ -65,37 +55,12 @@
   </section>
 
   <!-- ================= HOW AFSNET WORKS ================= -->
-  <section class="card pad section" id="howAfsnetWorks">
+  <section class="card pad section" id="howWorks">
     <h3 style="margin-top:0" data-config="about.howWorksTitle">How AfSNET works</h3>
-    <p class="muted" style="margin-top:0" data-config="about.howWorksSubtitle">
-      A simple end-to-end flow for participants and partners.
-    </p>
+    <p class="muted" style="margin-top:0" data-config="about.howWorksSubtitle">A simple end-to-end flow for participants and partners.</p>
 
     <div class="flow-grid" id="howWorksGrid">
-      <!-- Grid will be rendered from config.json (about.howWorksTable) -->
-      <div class="flow-col">
-        <div class="flow-head">Stage</div>
-        <div class="flow-row">Registration</div>
-        <div class="flow-row">Curation</div>
-        <div class="flow-row">Engagement</div>
-        <div class="flow-row">Follow-up</div>
-      </div>
-
-      <div class="flow-col">
-        <div class="flow-head">What happens</div>
-        <div class="flow-row">Participants submit details and interests</div>
-        <div class="flow-row">Agenda and matchmaking aligned to priorities</div>
-        <div class="flow-row">Sessions, roundtables, B2B/B2G meetings</div>
-        <div class="flow-row">Post-event tracking and support</div>
-      </div>
-
-      <div class="flow-col">
-        <div class="flow-head">Output</div>
-        <div class="flow-row">Confirmed participant list</div>
-        <div class="flow-row">Programme + meeting plan</div>
-        <div class="flow-row">Next steps, pipeline notes</div>
-        <div class="flow-row">Updates and reporting</div>
-      </div>
+      <!-- injected by app.js from config.json -->
     </div>
   </section>
 
