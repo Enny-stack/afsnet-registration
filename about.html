@@ -1,4 +1,4 @@
-<!doctype html> 
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -14,20 +14,25 @@
 
 <main id="main" class="container">
 
+  <!-- ================= HERO / ABOUT INTRO ================= -->
   <section class="hero-banner section">
     <div class="grid">
       <div class="card pad hero">
-        <span class="pill" data-config="about.pill"></span>
-        <h2 data-config="about.headline"></h2>
-        <p class="muted" data-config="about.intro"></p>
+        <span class="pill">About AfSNET</span>
 
-        <!-- Objectives -->
-        <h3 style="margin-top:18px" data-config="about.objectivesTitle">Objectives</h3>
-        <ul class="list" data-list="about.objectives">
-          <li>Enable investment-ready projects and deals</li>
-          <li>Connect investors with bankable opportunities</li>
-          <li>Accelerate partnerships and implementation</li>
-        </ul>
+        <h2>AfSNET – Empowering Sub-Sovereign Governments in African Trade</h2>
+
+        <p class="muted">
+          In 2021, African Export-Import Bank (“Afreximbank” or “the Bank”) established the African Sub-Sovereign Governments Network (“AfSNET” or “the Network”) as a vehicle for promoting intra-African trade, investment and industrialisation at the Sub-Sovereign level.
+        </p>
+
+        <p class="muted">
+          The Bank defines an African Sub-Sovereign Government as a division of a sovereign State designated as a region, state, province, or local authority, with delineated governance and powers within which they operate. Typically, a sub-sovereign government will have its own legislature and mandate, which includes the collection of revenue, expenditure, socio-economic development, and promotion of trade and investment in the area under its jurisdiction.
+        </p>
+
+        <p class="muted" style="margin-bottom:0">
+          The Bank therefore established the African Sub-Sovereign Governments Network to promote intra-African trade and investment, educational and cultural exchanges and effective and active engagement among sub-sovereigns in the context of the African Continental Free Trade Area (AfCFTA), for the development and prosperity of the continent. The Network, therefore, aims to create an interactive platform for Government to Government (G2G), Business to Government (B2G) and Business to Business (B2B) information exchanges and creation of synergies in a structured and deliberate manner.
+        </p>
 
         <div class="actions">
           <a class="btn primary" href="./apply.html">Apply / Register</a>
@@ -37,66 +42,178 @@
       </div>
 
       <div class="card pad surface">
-        <div class="kicker" data-config="about.editionsTitle">Editions (Track Record)</div>
-
-        <ul class="list" data-list="about.editions">
+        <div class="kicker">Editions (Track Record)</div>
+        <ul class="list">
           <li>1st Edition (2021): Durban, South Africa</li>
           <li>2nd Edition (2022): Abuja, Nigeria</li>
           <li>3rd Edition (2023): Cairo, Egypt — USD 1.5 billion deal closed</li>
           <li>4th Edition: Kisumu, Kenya — 900+ participants, delegates from 21 countries, 200+ participants trained through IPA sessions, 13 major deals signed worth USD 1.7 billion</li>
           <li>5th Edition: Algiers, Algeria</li>
         </ul>
-
-        <div class="kicker" style="margin-top:14px" data-config="about.whoAttendTitle">Who should attend</div>
-        <ul class="list" data-list="about.whoAttend">
-          <li>Investors, DFIs, banks, funds</li>
-          <li>Project sponsors and deal teams</li>
-          <li>Government, agencies, regulators</li>
-          <li>Partners, ecosystem, media</li>
-        </ul>
       </div>
     </div>
   </section>
 
+  <!-- ================= KEY OBJECTIVES SLIDER ================= -->
   <section class="card pad section">
-    <h3 data-config="about.howWorksTitle">How AfSNET works</h3>
-    <p class="muted" style="margin-top:0" data-config="about.howWorksSubtitle">
-      A simple end-to-end flow for participants and partners.
-    </p>
+    <h3 style="margin-top:0">Key Objectives of AfSNET</h3>
 
-    <div class="table-wrap">
-      <div class="table-scroll">
-        <table aria-label="AfSNET process overview">
-          <thead>
-            <tr>
-              <th data-config="about.howWorksTable.headers.0">Stage</th>
-              <th data-config="about.howWorksTable.headers.1">What happens</th>
-              <th data-config="about.howWorksTable.headers.2">Output</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td data-config="about.howWorksTable.rows.0.0">Registration</td>
-              <td data-config="about.howWorksTable.rows.0.1">Participants submit details and interests</td>
-              <td data-config="about.howWorksTable.rows.0.2">Confirmed participant list</td>
-            </tr>
-            <tr>
-              <td data-config="about.howWorksTable.rows.1.0">Curation</td>
-              <td data-config="about.howWorksTable.rows.1.1">Agenda and matchmaking aligned to priorities</td>
-              <td data-config="about.howWorksTable.rows.1.2">Programme + meeting plan</td>
-            </tr>
-            <tr>
-              <td data-config="about.howWorksTable.rows.2.0">Engagement</td>
-              <td data-config="about.howWorksTable.rows.2.1">Sessions, roundtables, B2B/B2G meetings</td>
-              <td data-config="about.howWorksTable.rows.2.2">Next steps, pipeline notes</td>
-            </tr>
-            <tr>
-              <td data-config="about.howWorksTable.rows.3.0">Follow-up</td>
-              <td data-config="about.howWorksTable.rows.3.1">Post-event tracking and support</td>
-              <td data-config="about.howWorksTable.rows.3.2">Updates and reporting</td>
-            </tr>
-          </tbody>
-        </table>
+    <div id="objectivesSlider" class="snap-slider">
+      <button class="snap-arrow prev" type="button" aria-label="Previous objective" data-snap-prev>‹</button>
+      <button class="snap-arrow next" type="button" aria-label="Next objective" data-snap-next>›</button>
+
+      <div class="snap-scroller" data-snap-scroller>
+        <!-- Card 1 -->
+        <article class="snap-card" data-snap-card>
+          <div class="snap-img">
+            <img src="./assets/images/objectives/adi.jpg" alt="Implementing the African Direct Investment Initiative (ADI)">
+          </div>
+          <div class="snap-body">
+            <h4>Implementing the African Direct Investment Initiative (ADI)</h4>
+            <p class="muted">
+              To provide a platform for the practical implementation of the Bank’s African Direct Investment initiative by mobilising private capital within Africa and deploying it to deserving sub-sovereigns for industrialisation and developmental needs.
+            </p>
+          </div>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="snap-card" data-snap-card>
+          <div class="snap-img">
+            <img src="./assets/images/objectives/ppp.jpg" alt="Facilitating Public-Private Collaboration and Capacity Building">
+          </div>
+          <div class="snap-body">
+            <h4>Facilitating Public-Private Collaboration and Capacity Building</h4>
+            <p class="muted">
+              To provide a platform for public-private collaboration, peer learning, and capacity building, particularly for Investment Promotion Agencies (IPAs) at the sub-sovereign level.
+            </p>
+          </div>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="snap-card" data-snap-card>
+          <div class="snap-img">
+            <img src="./assets/images/objectives/thinktank.jpg" alt="Think Tank for Sub-Sovereign Trade & Investment">
+          </div>
+          <div class="snap-body">
+            <h4>Think Tank for Sub-Sovereign Trade & Investment</h4>
+            <p class="muted">
+              To act as a think tank and centre of excellence on trade and investment matters at the sub-sovereign level.
+            </p>
+          </div>
+        </article>
+
+        <!-- Card 4 -->
+        <article class="snap-card" data-snap-card>
+          <div class="snap-img">
+            <img src="./assets/images/objectives/afcfta.jpg" alt="Regional Integration & AfCFTA">
+          </div>
+          <div class="snap-body">
+            <h4>Regional Integration & AfCFTA</h4>
+            <p class="muted">
+              To deepen regional integration and support the implementation of the AfCFTA.
+            </p>
+          </div>
+        </article>
+
+        <!-- Card 5 -->
+        <article class="snap-card" data-snap-card>
+          <div class="snap-img">
+            <img src="./assets/images/objectives/matchmaking.jpg" alt="Investor Matchmaking & Local Partnerships">
+          </div>
+          <div class="snap-body">
+            <h4>Investor Matchmaking & Local Partnerships</h4>
+            <p class="muted">
+              To facilitate matchmaking and twinning between investors, the local private sector, and project sponsors under the aegis of sub-sovereign governments.
+            </p>
+          </div>
+        </article>
+
+        <!-- Card 6 -->
+        <article class="snap-card" data-snap-card>
+          <div class="snap-img">
+            <img src="./assets/images/objectives/infrastructure.jpg" alt="Promoting Infrastructure & Investment">
+          </div>
+          <div class="snap-body">
+            <h4>Promoting Infrastructure & Investment</h4>
+            <p class="muted">
+              To promote infrastructure, trade, and investment in sub-sovereign regions.
+            </p>
+          </div>
+        </article>
+
+        <!-- Card 7 -->
+        <article class="snap-card" data-snap-card>
+          <div class="snap-img">
+            <img src="./assets/images/objectives/collaboration.jpg" alt="Boosting Sub-Sovereign Investment Collaboration">
+          </div>
+          <div class="snap-body">
+            <h4>Boosting Sub-Sovereign Investment Collaboration</h4>
+            <p class="muted">
+              To enhance collaboration among sub-sovereigns on investment initiatives.
+            </p>
+          </div>
+        </article>
+
+        <!-- Card 8 -->
+        <article class="snap-card" data-snap-card>
+          <div class="snap-img">
+            <img src="./assets/images/objectives/products.jpg" alt="Driving Adoption of Afreximbank Products">
+          </div>
+          <div class="snap-body">
+            <h4>Driving Adoption of Afreximbank Products</h4>
+            <p class="muted">
+              To act as a conduit to drive adoption of the Bank’s products such as ATG, Border Markets, TRADAR Club, ETCs, Buyer Programme, SME Programme, How to Export, PPF, EPC Initiative, etc.
+            </p>
+          </div>
+        </article>
+
+        <!-- Card 9 -->
+        <article class="snap-card" data-snap-card>
+          <div class="snap-img">
+            <img src="./assets/images/objectives/deals.jpg" alt="Deals">
+          </div>
+          <div class="snap-body">
+            <h4>Deals</h4>
+            <p class="muted">
+              To support bankable investment deals in African regions.
+            </p>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="snap-dots" aria-label="Objectives pagination" data-snap-dots></div>
+    </div>
+  </section>
+
+  <!-- ================= HOW AFSNET WORKS ================= -->
+  <section class="card pad section">
+    <h3 style="margin-top:0">How AfSNET works</h3>
+    <p class="muted" style="margin-top:0">A simple end-to-end flow for participants and partners.</p>
+
+    <div class="flow-grid">
+      <div class="flow-col">
+        <div class="flow-head">Stage</div>
+        <div class="flow-row">Registration</div>
+        <div class="flow-row">Curation</div>
+        <div class="flow-row">Engagement</div>
+        <div class="flow-row">Follow-up</div>
+      </div>
+
+      <div class="flow-col">
+        <div class="flow-head">What happens</div>
+        <div class="flow-row">Participants submit details and interests</div>
+        <div class="flow-row">Agenda and matchmaking aligned to priorities</div>
+        <div class="flow-row">Sessions, roundtables, B2B/B2G meetings</div>
+        <div class="flow-row">Post-event tracking and support</div>
+      </div>
+
+      <div class="flow-col">
+        <div class="flow-head">Output</div>
+        <div class="flow-row">Confirmed participant list</div>
+        <div class="flow-row">Programme + meeting plan</div>
+        <div class="flow-row">Next steps, pipeline notes</div>
+        <div class="flow-row">Updates and reporting</div>
       </div>
     </div>
   </section>
