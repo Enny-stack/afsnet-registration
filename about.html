@@ -21,9 +21,10 @@
         <h2 data-config="about.headline"></h2>
         <p class="muted" data-config="about.intro"></p>
 
-        <!-- ✅ Moved Objectives HERE (below intro) -->
-        <h3 style="margin-top:18px">Objectives</h3>
-        <ul class="list">
+        <!-- ✅ Objectives pulled from config.json (EN/FR/AR) -->
+        <h3 style="margin-top:18px" data-config="about.objectivesTitle">Objectives</h3>
+        <ul class="list" data-list="about.objectives">
+          <!-- fallback (optional): remove these <li> if you want 100% config-driven -->
           <li>Enable investment-ready projects and deals</li>
           <li>Connect investors with bankable opportunities</li>
           <li>Accelerate partnerships and implementation</li>
@@ -36,11 +37,12 @@
         </div>
       </div>
 
-      <!-- ✅ Replaced right card content with Track Record (Editions) -->
+      <!-- ✅ Editions + Who should attend pulled from config.json (EN/FR/AR) -->
       <div class="card pad surface">
-        <div class="kicker">AfSNET Editions (Track Record)</div>
+        <div class="kicker" data-config="about.editionsTitle">AfSNET Editions (Track Record)</div>
 
-        <ul class="list">
+        <ul class="list" data-list="about.editions">
+          <!-- fallback (optional) -->
           <li><strong>1st Edition (2021):</strong> Durban, South Africa</li>
           <li><strong>2nd Edition (2022):</strong> Abuja, Nigeria</li>
           <li><strong>3rd Edition (2023):</strong> Cairo, Egypt — USD 1.5 billion deal closed</li>
@@ -48,9 +50,9 @@
           <li><strong>5th Edition:</strong> Algiers, Algeria</li>
         </ul>
 
-        <!-- Kept "Who should attend" as-is (just moved under the new block) -->
-        <div class="kicker" style="margin-top:14px">Who should attend</div>
-        <ul class="list">
+        <div class="kicker" style="margin-top:14px" data-config="about.attendTitle">Who should attend</div>
+        <ul class="list" data-list="about.attendList">
+          <!-- fallback (optional) -->
           <li>Investors, DFIs, banks, funds</li>
           <li>Project sponsors and deal teams</li>
           <li>Government, agencies, regulators</li>
@@ -61,20 +63,40 @@
   </section>
 
   <section class="card pad section">
-    <h3>How AfSNET works</h3>
-    <p class="muted" style="margin-top:0">A simple end-to-end flow for participants and partners.</p>
+    <h3 data-config="about.howTitle">How AfSNET works</h3>
+    <p class="muted" style="margin-top:0" data-config="about.howIntro">A simple end-to-end flow for participants and partners.</p>
 
     <div class="table-wrap">
       <div class="table-scroll">
         <table aria-label="AfSNET process overview">
           <thead>
-            <tr><th>Stage</th><th>What happens</th><th>Output</th></tr>
+            <tr>
+              <th data-config="about.table.stage">Stage</th>
+              <th data-config="about.table.what">What happens</th>
+              <th data-config="about.table.output">Output</th>
+            </tr>
           </thead>
           <tbody>
-            <tr><td>Registration</td><td>Participants submit details and interests</td><td>Confirmed participant list</td></tr>
-            <tr><td>Curation</td><td>Agenda and matchmaking aligned to priorities</td><td>Programme + meeting plan</td></tr>
-            <tr><td>Engagement</td><td>Sessions, roundtables, B2B/B2G meetings</td><td>Next steps, pipeline notes</td></tr>
-            <tr><td>Follow-up</td><td>Post-event tracking and support</td><td>Updates and reporting</td></tr>
+            <tr>
+              <td data-config="about.flow.0.stage">Registration</td>
+              <td data-config="about.flow.0.what">Participants submit details and interests</td>
+              <td data-config="about.flow.0.output">Confirmed participant list</td>
+            </tr>
+            <tr>
+              <td data-config="about.flow.1.stage">Curation</td>
+              <td data-config="about.flow.1.what">Agenda and matchmaking aligned to priorities</td>
+              <td data-config="about.flow.1.output">Programme + meeting plan</td>
+            </tr>
+            <tr>
+              <td data-config="about.flow.2.stage">Engagement</td>
+              <td data-config="about.flow.2.what">Sessions, roundtables, B2B/B2G meetings</td>
+              <td data-config="about.flow.2.output">Next steps, pipeline notes</td>
+            </tr>
+            <tr>
+              <td data-config="about.flow.3.stage">Follow-up</td>
+              <td data-config="about.flow.3.what">Post-event tracking and support</td>
+              <td data-config="about.flow.3.output">Updates and reporting</td>
+            </tr>
           </tbody>
         </table>
       </div>
