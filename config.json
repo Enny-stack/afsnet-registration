@@ -256,6 +256,15 @@
           "Include your full name and organisation",
           "Describe the issue and attach screenshots if possible"
         ]
+      },
+
+      "thankYou": {
+        "pill": "Submitted",
+        "headline": "Thank you — your registration has been received",
+        "messagePrefix": "We’ll contact you using the email you provided. For support, email ",
+        "messageSuffix": ".",
+        "backHome": "Back to Home",
+        "eventDetails": "Event details"
       }
     },
 
@@ -450,6 +459,15 @@
         "list": [
           { "name": "Hôtel 1 (À confirmer)", "distance": "À confirmer", "rate": "À confirmer", "booking": "À confirmer" }
         ]
+      },
+
+      "thankYou": {
+        "pill": "Envoyé",
+        "headline": "Merci — votre inscription a bien été reçue",
+        "messagePrefix": "Nous vous contacterons à l’adresse e-mail fournie. Pour toute assistance, écrivez à ",
+        "messageSuffix": ".",
+        "backHome": "Retour à l’accueil",
+        "eventDetails": "Détails de l’événement"
       }
     },
 
@@ -644,6 +662,15 @@
         "list": [
           { "name": "فندق 1 (سيتم التأكيد)", "distance": "سيتم التأكيد", "rate": "سيتم التأكيد", "booking": "سيتم التأكيد" }
         ]
+      },
+
+      "thankYou": {
+        "pill": "تم الإرسال",
+        "headline": "شكرًا لك — تم استلام تسجيلك بنجاح",
+        "messagePrefix": "سنقوم بالتواصل معك عبر البريد الإلكتروني الذي قدمته. للدعم، راسلنا على ",
+        "messageSuffix": ".",
+        "backHome": "العودة إلى الرئيسية",
+        "eventDetails": "تفاصيل الفعالية"
       }
     }
   },
