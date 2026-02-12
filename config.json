@@ -8,7 +8,9 @@
     "defaultLang": "en",
     "externalLinks": {
       "afreximbank": "https://www.afreximbank.com",
-      "iatf": "https://www.iatf.africa"
+      "iatf": "https://www.iatf.africa",
+      "afreximbankUrl": "https://www.afreximbank.com",
+      "iatfUrl": "https://www.iatf.africa"
     }
   },
 
@@ -76,7 +78,23 @@
           "21 Countries Represented",
           "USD 3.2bn+ Deals Facilitated"
         ],
-        "trackRecordLinkText": "Learn more in About →"
+        "trackRecordLinkText": "Learn more in About →",
+
+        "highlightsTitle": "AfSNET Highlights",
+        "highlights": [
+          "Investment and deal matchmaking",
+          "Sector roundtables and pipeline acceleration",
+          "Partnership engagement and implementation pathways",
+          "Policy and regulatory dialogue to unlock bankable projects",
+          "Networking, visibility, and post-event follow-through tracking"
+        ],
+        "whoAttendTitle": "Who should attend (example):",
+        "whoAttend": [
+          "Investors / financiers",
+          "Project sponsors and deal teams",
+          "Government / agencies",
+          "Partners / ecosystem / media"
+        ]
       },
 
       "about": {
@@ -98,37 +116,98 @@
           "3rd Edition (2023): Cairo, Egypt — USD 1.5 billion deal closed",
           "4th Edition: Kisumu, Kenya — 900+ participants, delegates from 21 countries, 200+ participants trained through IPA sessions, 13 major deals signed worth USD 1.7 billion",
           "5th Edition: Algiers, Algeria"
-        ]
+        ],
+
+        "whoAttendTitle": "Who should attend",
+        "whoAttend": [
+          "Investors, DFIs, banks, funds",
+          "Project sponsors and deal teams",
+          "Government, agencies, regulators",
+          "Partners, ecosystem, media"
+        ],
+
+        "howWorksTitle": "How AfSNET works",
+        "howWorksSubtitle": "A simple end-to-end flow for participants and partners.",
+        "howWorksTable": {
+          "headers": ["Stage", "What happens", "Output"],
+          "rows": [
+            ["Registration", "Participants submit details and interests", "Confirmed participant list"],
+            ["Curation", "Agenda and matchmaking aligned to priorities", "Programme + meeting plan"],
+            ["Engagement", "Sessions, roundtables, B2B/B2G meetings", "Next steps, pipeline notes"],
+            ["Follow-up", "Post-event tracking and support", "Updates and reporting"]
+          ]
+        }
       },
 
       "programme": {
         "pill": "Programme",
         "headline": "Programme overview",
-        "intro": "High-level structure of sessions, roundtables, and meetings. Replace with confirmed agenda."
+        "intro": "High-level structure of sessions, roundtables, and meetings. Replace with confirmed agenda.",
+
+        "typicalStructureTitle": "Typical structure (example)",
+        "typicalStructure": [
+          "Opening remarks & scene-setting",
+          "Sector roundtables",
+          "Investor pitch sessions",
+          "B2B / B2G matchmaking meetings",
+          "Closing and next steps"
+        ],
+
+        "downloadsTitle": "Downloads"
       },
 
       "eventPage": {
         "pill": "Event",
         "headline": "Event information",
-        "intro": "Key logistics and event details."
+        "intro": "Key logistics and event details.",
+
+        "onSiteTitle": "On-site expectations (example)",
+        "onSite": [
+          "Bring a valid ID and registration confirmation",
+          "Arrive early for badge collection",
+          "Follow venue security and access rules",
+          "Use the help desk for support and directions"
+        ]
       },
 
       "speakersPartners": {
         "pill": "Speakers / Partners",
         "headline": "Speakers and partners",
-        "intro": "Replace with confirmed speakers, moderators, and partners."
+        "intro": "Replace with confirmed speakers, moderators, and partners.",
+
+        "placeholderTitle": "What you can do here",
+        "placeholderItems": [
+          "Explore speakers and session leads",
+          "View partners and supporting organisations",
+          "Check for updates as the list is confirmed"
+        ]
       },
 
       "travelVisa": {
         "pill": "Travel & Visa",
         "headline": "Travel and visa guidance",
-        "intro": "Provide entry requirements, visa process, and travel tips for the host country."
+        "intro": "Provide entry requirements, visa process, and travel tips for the host country.",
+
+        "guidanceTitle": "Guidance (example)",
+        "guidance": [
+          "Check passport validity (6+ months recommended)",
+          "Confirm visa requirements for your nationality",
+          "Book flights early and keep copies of tickets",
+          "Use official accommodation guidance where available"
+        ]
       },
 
       "mediaPress": {
         "pill": "Media / Press",
         "headline": "Media and press",
-        "intro": "Press contacts, accreditation instructions, and media resources."
+        "intro": "Press contacts, accreditation instructions, and media resources.",
+
+        "mediaNoteTitle": "Media note (example)",
+        "mediaNotes": [
+          "Accreditation may be required for press access",
+          "Bring identification and proof of assignment where applicable",
+          "Follow on-site media guidelines and protocols"
+        ]
       },
 
       "hotels": {
@@ -155,13 +234,28 @@
         "pill": "Apply",
         "headline": "Apply / Register",
         "intro": "Complete the registration form below. This is a static site, so submissions can be routed to an external form or email.",
-        "externalFormUrl": "https://tally.so/r/gDMZLO"
+        "externalFormUrl": "https://tally.so/r/gDMZLO",
+
+        "whatPrepareTitle": "What to prepare",
+        "whatPrepare": [
+          "Your organisation details",
+          "Your role and participation interest",
+          "Project / investment priorities (if applicable)",
+          "Contact information"
+        ]
       },
 
       "contact": {
         "pill": "Contact",
         "headline": "How to reach the AfSNET team",
-        "intro": "Official contact details are managed in config.json."
+        "intro": "Official contact details are managed in config.json.",
+
+        "supportTitle": "Registration support",
+        "supportItems": [
+          "Email: afsnet@afreximbank.com",
+          "Include your full name and organisation",
+          "Describe the issue and attach screenshots if possible"
+        ]
       }
     },
 
@@ -178,8 +272,25 @@
           "21 pays représentés",
           "Plus de 3,2 Md USD de transactions facilitées"
         ],
-        "trackRecordLinkText": "En savoir plus dans « À propos » →"
+        "trackRecordLinkText": "En savoir plus dans « À propos » →",
+
+        "highlightsTitle": "Points forts d’AfSNET",
+        "highlights": [
+          "Mise en relation investisseurs et transactions",
+          "Tables rondes sectorielles et accélération du pipeline",
+          "Partenariats et voies de mise en œuvre",
+          "Dialogue politique et réglementaire pour débloquer des projets bancables",
+          "Réseautage, visibilité et suivi post-événement"
+        ],
+        "whoAttendTitle": "Qui devrait participer (exemple) :",
+        "whoAttend": [
+          "Investisseurs / financeurs",
+          "Sponsors de projets et équipes transactionnelles",
+          "Gouvernement / agences",
+          "Partenaires / écosystème / médias"
+        ]
       },
+
       "about": {
         "pill": "À propos d’AfSNET",
         "headline": "Qu’est-ce que le programme et pourquoi existe-t-il ?",
@@ -199,33 +310,128 @@
           "3e édition (2023) : Le Caire, Égypte — 1,5 Md USD de transaction conclue",
           "4e édition : Kisumu, Kenya — 900+ participants, délégations de 21 pays, 200+ personnes formées via les sessions IPA, 13 accords majeurs signés pour 1,7 Md USD",
           "5e édition : Alger, Algérie"
-        ]
+        ],
+
+        "whoAttendTitle": "Qui devrait participer",
+        "whoAttend": [
+          "Investisseurs, IFI, banques, fonds",
+          "Sponsors de projets et équipes transactionnelles",
+          "Gouvernement, agences, régulateurs",
+          "Partenaires, écosystème, médias"
+        ],
+
+        "howWorksTitle": "Comment fonctionne AfSNET",
+        "howWorksSubtitle": "Un parcours simple de bout en bout pour les participants et partenaires.",
+        "howWorksTable": {
+          "headers": ["Étape", "Ce qui se passe", "Résultat"],
+          "rows": [
+            ["Inscription", "Les participants soumettent leurs informations et intérêts", "Liste des participants confirmés"],
+            ["Curation", "Agenda et mise en relation alignés sur les priorités", "Programme + plan de réunions"],
+            ["Engagement", "Sessions, tables rondes, réunions B2B/B2G", "Prochaines étapes, notes de pipeline"],
+            ["Suivi", "Suivi post-événement et accompagnement", "Mises à jour et reporting"]
+          ]
+        }
       },
+
       "programme": {
         "pill": "Programme",
         "headline": "Aperçu du programme",
-        "intro": "Structure générale des sessions, tables rondes et réunions. À remplacer par l’agenda confirmé."
+        "intro": "Structure générale des sessions, tables rondes et réunions. À remplacer par l’agenda confirmé.",
+
+        "typicalStructureTitle": "Structure type (exemple)",
+        "typicalStructure": [
+          "Allocutions d’ouverture et cadrage",
+          "Tables rondes sectorielles",
+          "Sessions de pitch investisseurs",
+          "Rencontres B2B / B2G",
+          "Clôture et prochaines étapes"
+        ],
+
+        "downloadsTitle": "Téléchargements"
       },
+
       "eventPage": {
         "pill": "Événement",
         "headline": "Informations sur l’événement",
-        "intro": "Principales informations logistiques et détails de l’événement."
+        "intro": "Principales informations logistiques et détails de l’événement.",
+
+        "onSiteTitle": "Attentes sur site (exemple)",
+        "onSite": [
+          "Ayez une pièce d’identité valide et votre confirmation d’inscription",
+          "Arrivez tôt pour le retrait des badges",
+          "Respectez les règles de sécurité et d’accès du site",
+          "Utilisez le comptoir d’assistance pour l’orientation"
+        ]
       },
+
       "speakersPartners": {
         "pill": "Intervenants / Partenaires",
         "headline": "Intervenants et partenaires",
-        "intro": "À remplacer par la liste confirmée des intervenants, modérateurs et partenaires."
+        "intro": "À remplacer par la liste confirmée des intervenants, modérateurs et partenaires.",
+
+        "placeholderTitle": "Ce que vous pouvez faire ici",
+        "placeholderItems": [
+          "Consulter les intervenants et responsables de sessions",
+          "Voir les partenaires et organisations de soutien",
+          "Revenir pour les mises à jour à mesure que la liste est confirmée"
+        ]
       },
+
       "travelVisa": {
         "pill": "Voyage & Visa",
         "headline": "Conseils de voyage et visa",
-        "intro": "Indiquez les exigences d’entrée, la procédure de visa et les conseils de voyage pour le pays hôte."
+        "intro": "Indiquez les exigences d’entrée, la procédure de visa et les conseils de voyage pour le pays hôte.",
+
+        "guidanceTitle": "Conseils (exemple)",
+        "guidance": [
+          "Vérifiez la validité du passeport (6+ mois recommandé)",
+          "Confirmez les exigences de visa selon votre nationalité",
+          "Réservez les vols tôt et conservez les justificatifs",
+          "Utilisez les recommandations officielles d’hébergement si disponibles"
+        ]
       },
+
       "mediaPress": {
         "pill": "Médias / Presse",
         "headline": "Médias et presse",
-        "intro": "Contacts presse, instructions d’accréditation et ressources médias."
+        "intro": "Contacts presse, instructions d’accréditation et ressources médias.",
+
+        "mediaNoteTitle": "Note média (exemple)",
+        "mediaNotes": [
+          "Une accréditation peut être requise pour l’accès presse",
+          "Apportez une pièce d’identité et une lettre de mission si applicable",
+          "Respectez les consignes média et protocoles sur site"
+        ]
       },
+
+      "apply": {
+        "pill": "Candidater",
+        "headline": "Candidater / S’inscrire",
+        "intro": "Complétez le formulaire d’inscription ci-dessous. Le site est statique, les soumissions peuvent être envoyées via un formulaire externe ou par e-mail.",
+        "externalFormUrl": "https://tally.so/r/gDMZLO",
+
+        "whatPrepareTitle": "À préparer",
+        "whatPrepare": [
+          "Informations sur votre organisation",
+          "Votre rôle et intérêt de participation",
+          "Priorités projet / investissement (si applicable)",
+          "Coordonnées"
+        ]
+      },
+
+      "contact": {
+        "pill": "Contact",
+        "headline": "Comment joindre l’équipe AfSNET",
+        "intro": "Les coordonnées officielles sont gérées dans config.json.",
+
+        "supportTitle": "Assistance à l’inscription",
+        "supportItems": [
+          "Email : afsnet@afreximbank.com",
+          "Indiquez votre nom complet et organisation",
+          "Décrivez le problème et joignez des captures d’écran si possible"
+        ]
+      },
+
       "hotels": {
         "pill": "Hôtels",
         "headline": "Hébergement recommandé",
@@ -244,17 +450,6 @@
         "list": [
           { "name": "Hôtel 1 (À confirmer)", "distance": "À confirmer", "rate": "À confirmer", "booking": "À confirmer" }
         ]
-      },
-      "apply": {
-        "pill": "Candidater",
-        "headline": "Candidater / S’inscrire",
-        "intro": "Complétez le formulaire d’inscription ci-dessous. Le site est statique, les soumissions peuvent être envoyées via un formulaire externe ou par e-mail.",
-        "externalFormUrl": "https://tally.so/r/gDMZLO"
-      },
-      "contact": {
-        "pill": "Contact",
-        "headline": "Comment joindre l’équipe AfSNET",
-        "intro": "Les coordonnées officielles sont gérées dans config.json."
       }
     },
 
@@ -271,8 +466,25 @@
           "تمثيل 21 دولة",
           "أكثر من 3.2 مليار دولار أمريكي من الصفقات المُيسّرة"
         ],
-        "trackRecordLinkText": "اعرف المزيد في صفحة «عن البرنامج» →"
+        "trackRecordLinkText": "اعرف المزيد في صفحة «عن البرنامج» →",
+
+        "highlightsTitle": "أبرز محطات AfSNET",
+        "highlights": [
+          "التوفيق بين المستثمرين والصفقات",
+          "موائد مستديرة قطاعية وتسريع خط المشاريع",
+          "الشراكات ومسارات التنفيذ",
+          "حوار سياساتي وتنظيمي لفتح مشاريع قابلة للتمويل",
+          "شبكات العلاقات والظهور والمتابعة بعد الفعالية"
+        ],
+        "whoAttendTitle": "من الذي ينبغي أن يحضر (مثال):",
+        "whoAttend": [
+          "المستثمرون / الممولون",
+          "رعاة المشاريع وفرق الصفقات",
+          "الحكومة / الجهات",
+          "الشركاء / المنظومة / الإعلام"
+        ]
       },
+
       "about": {
         "pill": "عن AfSNET",
         "headline": "ما هو البرنامج ولماذا تم إنشاؤه؟",
@@ -292,33 +504,128 @@
           "الدورة الثالثة (2023): القاهرة، مصر — إغلاق صفقة بقيمة 1.5 مليار دولار أمريكي",
           "الدورة الرابعة: كيسومو، كينيا — أكثر من 900 مشارك، وفود من 21 دولة، تدريب أكثر من 200 مشارك عبر جلسات IPA، توقيع 13 صفقة كبرى بقيمة 1.7 مليار دولار أمريكي",
           "الدورة الخامسة: الجزائر، الجزائر"
-        ]
+        ],
+
+        "whoAttendTitle": "من الذي ينبغي أن يحضر",
+        "whoAttend": [
+          "المستثمرون، مؤسسات التمويل التنموي، البنوك، الصناديق",
+          "رعاة المشاريع وفرق الصفقات",
+          "الحكومة، الجهات، الجهات التنظيمية",
+          "الشركاء، المنظومة، الإعلام"
+        ],
+
+        "howWorksTitle": "كيف يعمل AfSNET",
+        "howWorksSubtitle": "مسار بسيط من البداية إلى النهاية للمشاركين والشركاء.",
+        "howWorksTable": {
+          "headers": ["المرحلة", "ما الذي يحدث", "المخرجات"],
+          "rows": [
+            ["التسجيل", "يقدم المشاركون بياناتهم واهتماماتهم", "قائمة المشاركين المؤكدة"],
+            ["التحضير", "مواءمة البرنامج والتوفيق وفق الأولويات", "البرنامج + خطة الاجتماعات"],
+            ["التفاعل", "جلسات وموائد مستديرة واجتماعات B2B/B2G", "الخطوات التالية وملاحظات المشاريع"],
+            ["المتابعة", "متابعة ما بعد الفعالية والدعم", "تحديثات وتقارير"]
+          ]
+        }
       },
+
       "programme": {
         "pill": "البرنامج",
         "headline": "نظرة عامة على البرنامج",
-        "intro": "الهيكل العام للجلسات والطاولات المستديرة والاجتماعات. يرجى استبداله بالجدول المؤكد."
+        "intro": "الهيكل العام للجلسات والطاولات المستديرة والاجتماعات. يرجى استبداله بالجدول المؤكد.",
+
+        "typicalStructureTitle": "الهيكل النموذجي (مثال)",
+        "typicalStructure": [
+          "كلمات افتتاحية وتحديد السياق",
+          "موائد مستديرة قطاعية",
+          "جلسات عرض للمستثمرين",
+          "لقاءات B2B / B2G",
+          "الختام والخطوات التالية"
+        ],
+
+        "downloadsTitle": "التنزيلات"
       },
+
       "eventPage": {
         "pill": "الفعالية",
         "headline": "معلومات الفعالية",
-        "intro": "أهم المعلومات اللوجستية وتفاصيل الفعالية."
+        "intro": "أهم المعلومات اللوجستية وتفاصيل الفعالية.",
+
+        "onSiteTitle": "توقعات الحضور في الموقع (مثال)",
+        "onSite": [
+          "إحضار بطاقة هوية سارية وتأكيد التسجيل",
+          "الحضور مبكرًا لاستلام البطاقات",
+          "الالتزام بقواعد الأمن والدخول في الموقع",
+          "استخدام مكتب المساعدة للدعم والإرشاد"
+        ]
       },
+
       "speakersPartners": {
         "pill": "المتحدثون / الشركاء",
         "headline": "المتحدثون والشركاء",
-        "intro": "يرجى استبدال ذلك بالقائمة المؤكدة للمتحدثين والميسّرين والشركاء."
+        "intro": "يرجى استبدال ذلك بالقائمة المؤكدة للمتحدثين والميسّرين والشركاء.",
+
+        "placeholderTitle": "ما الذي يمكنك فعله هنا",
+        "placeholderItems": [
+          "استعراض المتحدثين وقادة الجلسات",
+          "عرض الشركاء والجهات الداعمة",
+          "متابعة التحديثات مع تأكيد القائمة"
+        ]
       },
+
       "travelVisa": {
         "pill": "السفر والتأشيرة",
         "headline": "إرشادات السفر والتأشيرة",
-        "intro": "يرجى توفير متطلبات الدخول وإجراءات التأشيرة ونصائح السفر لبلد الاستضافة."
+        "intro": "يرجى توفير متطلبات الدخول وإجراءات التأشيرة ونصائح السفر لبلد الاستضافة.",
+
+        "guidanceTitle": "إرشادات (مثال)",
+        "guidance": [
+          "تحقق من صلاحية جواز السفر (6+ أشهر موصى بها)",
+          "تأكد من متطلبات التأشيرة حسب جنسيتك",
+          "احجز الرحلات مبكرًا واحتفظ بنسخ من التذاكر",
+          "استخدم إرشادات الإقامة الرسمية عند توفرها"
+        ]
       },
+
       "mediaPress": {
         "pill": "الإعلام / الصحافة",
         "headline": "الإعلام والصحافة",
-        "intro": "جهات الاتصال الإعلامية، تعليمات الاعتماد، ومواد الإعلام."
+        "intro": "جهات الاتصال الإعلامية، تعليمات الاعتماد، ومواد الإعلام.",
+
+        "mediaNoteTitle": "ملاحظة إعلامية (مثال)",
+        "mediaNotes": [
+          "قد تكون هناك حاجة لاعتماد للوصول الإعلامي",
+          "أحضر بطاقة تعريف وإثبات تكليف إذا لزم",
+          "اتبع إرشادات الإعلام والبروتوكولات في الموقع"
+        ]
       },
+
+      "apply": {
+        "pill": "التسجيل",
+        "headline": "التقديم / التسجيل",
+        "intro": "أكمل نموذج التسجيل أدناه. هذا موقع ثابت، لذا يمكن توجيه الإرسال إلى نموذج خارجي أو بريد إلكتروني.",
+        "externalFormUrl": "https://tally.so/r/gDMZLO",
+
+        "whatPrepareTitle": "ماذا تجهّز",
+        "whatPrepare": [
+          "بيانات المؤسسة/الجهة",
+          "دورك واهتمامك بالمشاركة",
+          "أولويات المشروع/الاستثمار (إن وجدت)",
+          "معلومات التواصل"
+        ]
+      },
+
+      "contact": {
+        "pill": "اتصل بنا",
+        "headline": "كيفية التواصل مع فريق AfSNET",
+        "intro": "تتم إدارة بيانات الاتصال الرسمية داخل config.json.",
+
+        "supportTitle": "دعم التسجيل",
+        "supportItems": [
+          "البريد الإلكتروني: afsnet@afreximbank.com",
+          "اذكر اسمك الكامل واسم الجهة",
+          "اشرح المشكلة وأرفق لقطات شاشة إن أمكن"
+        ]
+      },
+
       "hotels": {
         "pill": "الفنادق",
         "headline": "الإقامة الموصى بها",
@@ -337,17 +644,6 @@
         "list": [
           { "name": "فندق 1 (سيتم التأكيد)", "distance": "سيتم التأكيد", "rate": "سيتم التأكيد", "booking": "سيتم التأكيد" }
         ]
-      },
-      "apply": {
-        "pill": "التسجيل",
-        "headline": "التقديم / التسجيل",
-        "intro": "أكمل نموذج التسجيل أدناه. هذا موقع ثابت، لذا يمكن توجيه الإرسال إلى نموذج خارجي أو بريد إلكتروني.",
-        "externalFormUrl": "https://tally.so/r/gDMZLO"
-      },
-      "contact": {
-        "pill": "اتصل بنا",
-        "headline": "كيفية التواصل مع فريق AfSNET",
-        "intro": "تتم إدارة بيانات الاتصال الرسمية داخل config.json."
       }
     }
   },
