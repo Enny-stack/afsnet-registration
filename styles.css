@@ -239,6 +239,16 @@ header{
     linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.78));
 }
 
+/* ✅ Editions panel: match hero vibe */
+.hero-panel{
+  background:
+    radial-gradient(900px 500px at 15% 20%, rgba(201,162,39,.14), transparent 65%),
+    radial-gradient(700px 420px at 90% 10%, rgba(11,93,59,.10), transparent 60%),
+    rgba(255,255,255,.88);
+  border:1px solid rgba(201,162,39,.20);
+  box-shadow:0 12px 26px rgba(11,31,58,.10);
+}
+
 /* Surfaces for secondary cards */
 .surface{
   background:
@@ -348,7 +358,7 @@ header{
 
 /* ✅ HEADER REAL IMAGE LOGO — use this when you use <img class="site-logo" ...> */
 .site-logo{
-  width: 44px;              /* ✅ same size as footer */
+  width: 44px;
   height: 44px;
   object-fit: contain;
 
@@ -436,100 +446,7 @@ header{
   flex-wrap:wrap;
   font-size:13px;
 }
-/* ===== Map embed (responsive + clean) ===== */
-.map{
-  border-radius: 18px;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  box-shadow: 0 12px 28px rgba(11,31,58,.10);
-  background: #fff;
-}
-.map iframe{
-  width: 100%;
-  height: 360px;
-  border: 0;
-  display:block;
-}
-@media (max-width: 720px){
-  .map iframe{ height: 300px; }
-}
-/* ===== Map Card (matches surface layout) ===== */
-.map-card{
-  padding: 18px;
-  border-radius: 18px;
-  border: 1px solid rgba(201,162,39,.22);
 
-  background:
-    radial-gradient(900px 500px at 15% 20%, rgba(201,162,39,.14), transparent 65%),
-    radial-gradient(700px 420px at 90% 10%, rgba(11,93,59,.10), transparent 60%),
-    rgba(255,255,255,.92);
-
-  box-shadow: 0 12px 26px rgba(11,31,58,.10);
-}
-
-/* Map wrapper */
-.map-frame{
-  margin-top: 12px;
-  border-radius: 16px;
-  overflow: hidden;
-  border: 1px solid rgba(11,31,58,.14);
-}
-
-/* Embedded iframe */
-.map-frame iframe{
-  width: 100%;
-  height: 320px;
-  border: 0;
-  display: block;
-}
-
-/* Mobile */
-@media (max-width: 720px){
-  .map-frame iframe{
-    height: 260px;
-  }
-}
-/* ===== AfSNET Logo Size Fix (Header + Footer) ===== */
-
-/* Header logo */
-.site-logo{
-  width: 44px;              /* ✅ perfect badge size */
-  height: 44px;
-  object-fit: contain;
-
-  border-radius: 12px;
-  padding: 6px;
-
-  background: rgba(255,255,255,.90);
-  border: 1px solid rgba(201,162,39,.35);
-
-  box-shadow: 0 8px 16px rgba(11,31,58,.18);
-  display: block;
-}
-
-/* Footer logo image */
-.footer-logo-img{
-  width: 44px;              /* ✅ same as header */
-  height: 44px;
-  object-fit: contain;
-
-  border-radius: 12px;
-  padding: 6px;
-
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(201,162,39,.30);
-
-  box-shadow: 0 8px 16px rgba(0,0,0,.20);
-  display: block;
-}
-
-/* Align logo + text perfectly */
-.brand,
-.footer-brand{
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
 /* ===== Home Page Watermark (Premium Touch) ===== */
 body.home::before{
   content:"";
@@ -539,10 +456,11 @@ body.home::before{
   background: url("./assets/logo/afsnet-watermark.png") no-repeat center;
   background-size: 520px;
 
-  opacity: 0.05;              /* very subtle */
-  pointer-events: none;       /* never blocks clicks */
-  z-index: -1;                /* stays behind everything */
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: -1;
 }
+
 /* ===== Announcement ticker (Home moving strip) ===== */
 .ticker{
   margin: 10px auto 0;
@@ -583,6 +501,8 @@ body.home::before{
   display: inline-block;
   width: 8px;
   height: 8px;
+  min-width: 8px; /* ✅ ensure it can’t collapse */
+  min-height: 8px;
   border-radius: 999px;
   background: var(--gold);
   flex: 0 0 8px;
@@ -597,6 +517,7 @@ body.home::before{
 @media (prefers-reduced-motion: reduce){
   .ticker-track{ animation: none; }
 }
+
 /* ================================
    About: Objectives Slider
 ================================ */
@@ -626,7 +547,13 @@ body.home::before{
 
 .snap-card{
   scroll-snap-align: start;
-  background: rgba(255,255,255,.92);
+
+  /* ✅ light gold/green (not white) */
+  background:
+    radial-gradient(700px 240px at 10% 10%, rgba(201,162,39,.18), transparent 60%),
+    radial-gradient(700px 240px at 90% 10%, rgba(11,93,59,.12), transparent 60%),
+    rgba(255,255,255,.86);
+
   border: 1px solid rgba(201,162,39,.18);
   border-radius: 18px;
   overflow: hidden;
@@ -735,9 +662,19 @@ body.home::before{
 }
 .flow-row:last-child{ border-bottom: none; }
 
+/* ✅ Highlight “How AfSNET works” after slider last-next */
+.flash-highlight{
+  animation: flashGlow 1.4s ease-out 1;
+}
+@keyframes flashGlow{
+  0%   { box-shadow: 0 0 0 rgba(201,162,39,0); border-color: rgba(201,162,39,.18); }
+  35%  { box-shadow: 0 0 0 6px rgba(201,162,39,.18); border-color: rgba(201,162,39,.65); }
+  100% { box-shadow: 0 0 0 rgba(201,162,39,0); border-color: rgba(201,162,39,.18); }
+}
+
 /* ================================
    Ticker: slow down a bit (optional)
 ================================ */
 .ticker-track{
-  animation-duration: 32s; /* was 22s, slower */
+  animation-duration: 32s;
 }
