@@ -43,16 +43,17 @@
         </div>
       </div>
 
-      <!-- ✅ SAME CARD, ONLY CONTENT CHANGED -->
+      <!-- ✅ SAME CARD, ONLY CONTENT CHANGED (NOW TRANSLATABLE VIA config.json) -->
       <div class="card pad surface">
-        <div class="kicker">AfSNET Track Record</div>
+        <div class="kicker" data-config="home.trackRecord.title">AfSNET Track Record</div>
 
-        <p style="margin:10px 0 0;font-weight:850;color:var(--navy);line-height:1.35">
+        <p style="margin:10px 0 0;font-weight:850;color:var(--navy);line-height:1.35"
+           data-config="home.trackRecord.summary">
           5 Editions • 900+ Participants • 21 Countries Represented • USD 3.2bn+ Deals Facilitated
         </p>
 
         <p class="muted small" style="margin-top:12px">
-          <a href="./about.html">Learn more in About →</a>
+          <a href="./about.html" data-config="home.trackRecord.linkText">Learn more in About →</a>
         </p>
       </div>
 
@@ -60,11 +61,11 @@
   </section>
 
   <section class="card pad section">
-    <h3>AfSNET Highlights</h3>
+    <h3 data-config="home.highlights.title">AfSNET Highlights</h3>
     <div class="two">
       <div>
-        <ul class="list">
-            <li>Investment and deal matchmaking</li>
+        <ul class="list" data-list="home.highlights.items">
+          <li>Investment and deal matchmaking</li>
           <li>Sector roundtables and pipeline acceleration</li>
           <li>Partnership engagement and implementation pathways</li>
           <li>Policy and regulatory dialogue to unlock bankable projects</li>
@@ -72,8 +73,8 @@
         </ul>
       </div>
       <div>
-        <p class="muted" style="margin-top:0">Who should attend (example):</p>
-        <ul class="list">
+        <p class="muted" style="margin-top:0" data-config="home.attend.title">Who should attend (example):</p>
+        <ul class="list" data-list="home.attend.items">
           <li>Investors / financiers</li>
           <li>Project sponsors and deal teams</li>
           <li>Government / agencies</li>
