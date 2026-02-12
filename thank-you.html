@@ -1,4 +1,4 @@
-<!doctype html>
+<!doctype html> 
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -17,13 +17,17 @@
 <main id="main" class="container">
   <section class="hero-banner">
     <section class="card pad section hero">
-      <span class="pill">Submitted</span>
-      <h2>Thank you — your registration has been received</h2>
-      <p class="muted">We’ll contact you using the email you provided. For support, email <a data-email="site.supportEmail">afsnet@afreximbank.com</a>.</p>
+      <span class="pill" data-config="thankYou.pill">Submitted</span>
+      <h2 data-config="thankYou.headline">Thank you — your registration has been received</h2>
+
+      <p class="muted">
+        <span data-config="thankYou.messagePrefix">We’ll contact you using the email you provided. For support, email</span>
+        <a data-email="site.supportEmail">afsnet@afreximbank.com</a><span data-config="thankYou.messageSuffix">.</span>
+      </p>
 
       <div class="actions">
-        <a class="btn primary" href="./index.html">Back to Home</a>
-        <a class="btn ghost" href="./event.html">Event details</a>
+        <a class="btn primary" href="./index.html" data-config="thankYou.backHome">Back to Home</a>
+        <a class="btn ghost" href="./event.html" data-config="thankYou.eventDetails">Event details</a>
       </div>
     </section>
   </section>
