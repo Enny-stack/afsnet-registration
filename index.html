@@ -43,13 +43,16 @@
         </div>
       </div>
 
-      <!-- ✅ SAME CARD, ONLY CONTENT CHANGED (NOW TRANSLATABLE VIA config.json) -->
+      <!-- ✅ Track record (now fully config-driven + translatable) -->
       <div class="card pad surface">
         <div class="kicker" data-config="home.trackRecordTitle">AfSNET Track Record</div>
 
-        <p style="margin:10px 0 0;font-weight:850;color:var(--navy);line-height:1.35">
-          <span data-config="home.trackRecordStats">5 Editions • 900+ Participants • 21 Countries Represented • USD 3.2bn+ Deals Facilitated</span>
-        </p>
+        <ul class="list" data-list="home.trackRecordStats">
+          <li>5 Editions</li>
+          <li>900+ Participants</li>
+          <li>21 Countries Represented</li>
+          <li>USD 3.2bn+ Deals Facilitated</li>
+        </ul>
 
         <p class="muted small" style="margin-top:12px">
           <a href="./about.html" data-config="home.trackRecordLinkText">Learn more in About →</a>
