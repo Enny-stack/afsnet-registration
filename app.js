@@ -40,28 +40,6 @@ function setActiveNav() {
 }
 
 /* ================================
-   HOME TICKER (ANNOUNCEMENT SCROLLER)
-================================= */
-function wireHomeTicker(cfg, lang) {
-  const track = document.getElementById("homeTickerTrack");
-  if (!track) return;
-
-  const dict = cfg?.i18n?.[lang] || cfg?.i18n?.en || {};
-  const msg = dict["home.announcement"];
-
-  if (!msg) {
-    track.innerHTML = "";
-    return;
-  }
-
-  // Repeat the message to create a continuous scroll effect (CSS animates the track)
-  const repeat = 12;
-  track.innerHTML = Array.from({ length: repeat })
-    .map(() => `<span class="ticker-item">${msg}</span>`)
-    .join(" ");
-}
-
-/* ================================
    HEADER + FOOTER INJECTION
 ================================= */
 
@@ -265,6 +243,112 @@ function wireApply(cfg, lang) {
 }
 
 /* ================================
+   ✅ ADDED: HOME ANNOUNCEMENT TICKER
+================================= */
+function initHomeTicker(cfg, lang) {
+  const track = document.getElementById("homeTickerTrack");
+  if (!track) return;
+
+  const msg =
+    cfg?.i18n?.[lang]?.["home.announcement"] ||
+    cfg?.i18n?.en?.["home.announcement"] ||
+    "";
+
+  if (!msg.trim()) {
+    track.innerHTML = "";
+    return;
+  }
+
+  // Build one “item” (dot + text). We repeat it enough times for smooth scrolling.
+  const itemHTML = `
+    <span class="ticker-item">
+      <span class="ticker-dot" aria-hidden="true"></span>
+      <span class="ticker-text">${msg}</span>
+    </span>
+  `;
+
+  // Repeat to exceed viewport width; duplicate again to support -50% animation loop.
+  const repeated = new Array(10).fill(itemHTML).join("");
+  track.innerHTML = repeated + repeated;
+}
+
+/* ================================
+   ✅ ADDED: SIMPLE SLIDER (OBJECTIVES)
+================================= */
+function initSnapSlider(rootId) {
+  const root = document.getElementById(rootId);
+  if (!root) return;
+
+  const scroller = root.querySelector("[data-snap-scroller]");
+  const dotsWrap = root.querySelector("[data-snap-dots]");
+  const btnPrev = root.querySelector("[data-snap-prev]");
+  const btnNext = root.querySelector("[data-snap-next]");
+
+  if (!scroller) return;
+
+  const cards = Array.from(scroller.querySelectorAll("[data-snap-card]"));
+  if (!cards.length) return;
+
+  // Build dots
+  if (dotsWrap) {
+    dotsWrap.innerHTML = cards
+      .map((_, i) => `<button type="button" class="snap-dot" aria-label="Go to slide ${i + 1}" data-dot-index="${i}"></button>`)
+      .join("");
+  }
+
+  const dots = dotsWrap ? Array.from(dotsWrap.querySelectorAll(".snap-dot")) : [];
+
+  function setActive(index) {
+    dots.forEach((d, i) => d.classList.toggle("active", i === index));
+  }
+
+  function currentIndex() {
+    // Find card closest to left edge
+    const left = scroller.getBoundingClientRect().left;
+    let best = 0;
+    let bestDist = Infinity;
+    cards.forEach((c, i) => {
+      const d = Math.abs(c.getBoundingClientRect().left - left);
+      if (d < bestDist) { bestDist = d; best = i; }
+    });
+    return best;
+  }
+
+  function scrollToIndex(i) {
+    cards[i]?.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
+    setActive(i);
+  }
+
+  // Initial active
+  setActive(0);
+
+  // Scroll listener updates active dot
+  let raf = null;
+  scroller.addEventListener("scroll", () => {
+    if (raf) cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(() => setActive(currentIndex()));
+  });
+
+  // Dot click
+  dots.forEach(d => {
+    d.addEventListener("click", () => {
+      const i = Number(d.getAttribute("data-dot-index"));
+      scrollToIndex(i);
+    });
+  });
+
+  // Arrows
+  if (btnPrev) btnPrev.addEventListener("click", () => {
+    const i = Math.max(0, currentIndex() - 1);
+    scrollToIndex(i);
+  });
+  if (btnNext) btnNext.addEventListener("click", () => {
+    const i = Math.min(cards.length - 1, currentIndex() + 1);
+    scrollToIndex(i);
+  });
+}
+
+/* ================================
    LANGUAGE
 ================================= */
 function applyLanguage(cfg, lang) {
@@ -338,7 +422,10 @@ function injectLanguageSwitcher(cfg) {
   fillRootConfig(cfg);
   applyConfigContent(cfg, savedLang);
   wireApply(cfg, savedLang);
-  wireHomeTicker(cfg, savedLang);
+  renderDownloads(cfg);
+
+  // ✅ ADDED: ensure ticker updates when language changes
+  initHomeTicker(cfg, savedLang);
 
   select.addEventListener("change", () => {
     const lang = select.value;
@@ -346,7 +433,10 @@ function injectLanguageSwitcher(cfg) {
     fillRootConfig(cfg);
     applyConfigContent(cfg, lang);
     wireApply(cfg, lang);
-    wireHomeTicker(cfg, lang);
+    renderDownloads(cfg);
+
+    // ✅ ADDED
+    initHomeTicker(cfg, lang);
   });
 }
 
@@ -366,5 +456,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   applyConfigContent(cfg, savedLang);
   renderDownloads(cfg);
   wireApply(cfg, savedLang);
-  wireHomeTicker(cfg, savedLang);
+
+  // ✅ ADDED: ticker + objective slider init (only runs if elements exist)
+  initHomeTicker(cfg, savedLang);
+  initSnapSlider("objectivesSlider");
 });
