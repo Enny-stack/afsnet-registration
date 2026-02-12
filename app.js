@@ -40,6 +40,28 @@ function setActiveNav() {
 }
 
 /* ================================
+   HOME TICKER (ANNOUNCEMENT SCROLLER)
+================================= */
+function wireHomeTicker(cfg, lang) {
+  const track = document.getElementById("homeTickerTrack");
+  if (!track) return;
+
+  const dict = cfg?.i18n?.[lang] || cfg?.i18n?.en || {};
+  const msg = dict["home.announcement"];
+
+  if (!msg) {
+    track.innerHTML = "";
+    return;
+  }
+
+  // Repeat the message to create a continuous scroll effect (CSS animates the track)
+  const repeat = 12;
+  track.innerHTML = Array.from({ length: repeat })
+    .map(() => `<span class="ticker-item">${msg}</span>`)
+    .join(" ");
+}
+
+/* ================================
    HEADER + FOOTER INJECTION
 ================================= */
 
@@ -316,6 +338,7 @@ function injectLanguageSwitcher(cfg) {
   fillRootConfig(cfg);
   applyConfigContent(cfg, savedLang);
   wireApply(cfg, savedLang);
+  wireHomeTicker(cfg, savedLang);
 
   select.addEventListener("change", () => {
     const lang = select.value;
@@ -323,6 +346,7 @@ function injectLanguageSwitcher(cfg) {
     fillRootConfig(cfg);
     applyConfigContent(cfg, lang);
     wireApply(cfg, lang);
+    wireHomeTicker(cfg, lang);
   });
 }
 
@@ -342,4 +366,5 @@ document.addEventListener("DOMContentLoaded", async () => {
   applyConfigContent(cfg, savedLang);
   renderDownloads(cfg);
   wireApply(cfg, savedLang);
+  wireHomeTicker(cfg, savedLang);
 });
