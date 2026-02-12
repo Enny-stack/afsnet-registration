@@ -21,10 +21,9 @@
         <h2 data-config="about.headline"></h2>
         <p class="muted" data-config="about.intro"></p>
 
-        <!-- ✅ Objectives pulled from config.json (EN/FR/AR) -->
+        <!-- Objectives -->
         <h3 style="margin-top:18px" data-config="about.objectivesTitle">Objectives</h3>
         <ul class="list" data-list="about.objectives">
-          <!-- fallback (optional): remove these <li> if you want 100% config-driven -->
           <li>Enable investment-ready projects and deals</li>
           <li>Connect investors with bankable opportunities</li>
           <li>Accelerate partnerships and implementation</li>
@@ -37,22 +36,19 @@
         </div>
       </div>
 
-      <!-- ✅ Editions + Who should attend pulled from config.json (EN/FR/AR) -->
       <div class="card pad surface">
-        <div class="kicker" data-config="about.editionsTitle">AfSNET Editions (Track Record)</div>
+        <div class="kicker" data-config="about.editionsTitle">Editions (Track Record)</div>
 
         <ul class="list" data-list="about.editions">
-          <!-- fallback (optional) -->
-          <li><strong>1st Edition (2021):</strong> Durban, South Africa</li>
-          <li><strong>2nd Edition (2022):</strong> Abuja, Nigeria</li>
-          <li><strong>3rd Edition (2023):</strong> Cairo, Egypt — USD 1.5 billion deal closed</li>
-          <li><strong>4th Edition:</strong> Kisumu, Kenya — 900+ participants, delegates from 21 countries, 200+ participants trained through IPA sessions, 13 major deals signed worth USD 1.7 billion</li>
-          <li><strong>5th Edition:</strong> Algiers, Algeria</li>
+          <li>1st Edition (2021): Durban, South Africa</li>
+          <li>2nd Edition (2022): Abuja, Nigeria</li>
+          <li>3rd Edition (2023): Cairo, Egypt — USD 1.5 billion deal closed</li>
+          <li>4th Edition: Kisumu, Kenya — 900+ participants, delegates from 21 countries, 200+ participants trained through IPA sessions, 13 major deals signed worth USD 1.7 billion</li>
+          <li>5th Edition: Algiers, Algeria</li>
         </ul>
 
-        <div class="kicker" style="margin-top:14px" data-config="about.attendTitle">Who should attend</div>
-        <ul class="list" data-list="about.attendList">
-          <!-- fallback (optional) -->
+        <div class="kicker" style="margin-top:14px" data-config="about.whoAttendTitle">Who should attend</div>
+        <ul class="list" data-list="about.whoAttend">
           <li>Investors, DFIs, banks, funds</li>
           <li>Project sponsors and deal teams</li>
           <li>Government, agencies, regulators</li>
@@ -63,39 +59,41 @@
   </section>
 
   <section class="card pad section">
-    <h3 data-config="about.howTitle">How AfSNET works</h3>
-    <p class="muted" style="margin-top:0" data-config="about.howIntro">A simple end-to-end flow for participants and partners.</p>
+    <h3 data-config="about.howWorksTitle">How AfSNET works</h3>
+    <p class="muted" style="margin-top:0" data-config="about.howWorksSubtitle">
+      A simple end-to-end flow for participants and partners.
+    </p>
 
     <div class="table-wrap">
       <div class="table-scroll">
         <table aria-label="AfSNET process overview">
           <thead>
             <tr>
-              <th data-config="about.table.stage">Stage</th>
-              <th data-config="about.table.what">What happens</th>
-              <th data-config="about.table.output">Output</th>
+              <th data-config="about.howWorksTable.headers.0">Stage</th>
+              <th data-config="about.howWorksTable.headers.1">What happens</th>
+              <th data-config="about.howWorksTable.headers.2">Output</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td data-config="about.flow.0.stage">Registration</td>
-              <td data-config="about.flow.0.what">Participants submit details and interests</td>
-              <td data-config="about.flow.0.output">Confirmed participant list</td>
+              <td data-config="about.howWorksTable.rows.0.0">Registration</td>
+              <td data-config="about.howWorksTable.rows.0.1">Participants submit details and interests</td>
+              <td data-config="about.howWorksTable.rows.0.2">Confirmed participant list</td>
             </tr>
             <tr>
-              <td data-config="about.flow.1.stage">Curation</td>
-              <td data-config="about.flow.1.what">Agenda and matchmaking aligned to priorities</td>
-              <td data-config="about.flow.1.output">Programme + meeting plan</td>
+              <td data-config="about.howWorksTable.rows.1.0">Curation</td>
+              <td data-config="about.howWorksTable.rows.1.1">Agenda and matchmaking aligned to priorities</td>
+              <td data-config="about.howWorksTable.rows.1.2">Programme + meeting plan</td>
             </tr>
             <tr>
-              <td data-config="about.flow.2.stage">Engagement</td>
-              <td data-config="about.flow.2.what">Sessions, roundtables, B2B/B2G meetings</td>
-              <td data-config="about.flow.2.output">Next steps, pipeline notes</td>
+              <td data-config="about.howWorksTable.rows.2.0">Engagement</td>
+              <td data-config="about.howWorksTable.rows.2.1">Sessions, roundtables, B2B/B2G meetings</td>
+              <td data-config="about.howWorksTable.rows.2.2">Next steps, pipeline notes</td>
             </tr>
             <tr>
-              <td data-config="about.flow.3.stage">Follow-up</td>
-              <td data-config="about.flow.3.what">Post-event tracking and support</td>
-              <td data-config="about.flow.3.output">Updates and reporting</td>
+              <td data-config="about.howWorksTable.rows.3.0">Follow-up</td>
+              <td data-config="about.howWorksTable.rows.3.1">Post-event tracking and support</td>
+              <td data-config="about.howWorksTable.rows.3.2">Updates and reporting</td>
             </tr>
           </tbody>
         </table>
