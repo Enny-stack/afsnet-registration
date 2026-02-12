@@ -13,6 +13,7 @@
       "iatfUrl": "https://www.iatf.africa"
     }
   },
+
   "event": {
     "city": "Calabar, Cross River State",
     "country": "Nigeria",
@@ -20,6 +21,7 @@
     "venue": "Calabar International Convention Centre (CICC)",
     "format": "Hybrid"
   },
+
   "i18n": {
     "en": {
       "nav.home": "Home",
@@ -61,12 +63,14 @@
       "home.announcement": "مرحبًا بكم في الدورة السادسة لمؤتمر شبكة الحكومات دون السيادية الأفريقية (AfSNET)، والذي سيُعقد خلال 12–14 نوفمبر 2026 في كالابار، ولاية كروس ريفر، نيجيريا."
     }
   },
+
   "content": {
     "en": {
       "home": {
         "pill": "Applications open",
         "headline": "Register for the AfSNET programme",
         "intro": "This portal supports participant registration and shares event information, travel guidance, hotels, and media resources. Replace placeholders with confirmed details.",
+
         "trackRecordTitle": "AfSNET Track Record",
         "trackRecordStats": [
           "5 Editions",
@@ -75,6 +79,7 @@
           "USD 3.2bn+ Deals Facilitated"
         ],
         "trackRecordLinkText": "Learn more in About →",
+
         "highlightsTitle": "AfSNET Highlights",
         "highlights": [
           "Investment and deal matchmaking",
@@ -91,68 +96,23 @@
           "Partners / ecosystem / media"
         ]
       },
+
       "about": {
         "pill": "About AfSNET",
         "headline": "AfSNET – Empowering Sub-Sovereign Governments in African Trade",
-        "intro": "In 2021, African Export-Import Bank (“Afreximbank” or “the Bank”) established the African Sub-Sovereign Governments Network (“AfSNET” or “the Network”) as a vehicle for promoting intra-African trade, investment and industrialisation at the Sub-Sovereign level.",
+
         "introParagraphs": [
           "In 2021, African Export-Import Bank (“Afreximbank” or “the Bank”) established the African Sub-Sovereign Governments Network (“AfSNET” or “the Network”) as a vehicle for promoting intra-African trade, investment and industrialisation at the Sub-Sovereign level.",
           "The Bank defines an African Sub-Sovereign Government as a division of a sovereign State designated as a region, state, province, or local authority, with delineated governance and powers within which they operate. Typically, a sub-sovereign government will have its own legislature and mandate, which includes the collection of revenue, expenditure, socio-economic development, and promotion of trade and investment in the area under its jurisdiction.",
           "The Bank therefore established the African Sub-Sovereign Governments Network to promote intra-African trade and investment, educational and cultural exchanges and effective and active engagement among sub-sovereigns in the context of the African Continental Free Trade Area (AfCFTA), for the development and prosperity of the continent. The Network, therefore, aims to create an interactive platform for Government to Government (G2G), Business to Government (B2G) and Business to Business (B2B) information exchanges and creation of synergies in a structured and deliberate manner."
         ],
-        "objectivesTitle": "Key Objectives of AfSNET",
-        "objectives": [
-          "Enable investment-ready projects and deals",
-          "Connect investors with bankable opportunities",
-          "Accelerate partnerships and implementation"
-        ],
-        "objectivesCards": [
-          {
-            "title": "Implementing the African Direct Investment Initiative (ADI)",
-            "description": "To provide a platform for the practical implementation of the Bank’s African Direct Investment initiative by mobilising private capital within Africa and deploying it to deserving sub-sovereigns for industrialisation and developmental needs.",
-            "image": "./assets/images/about/objectives/01-adi.jpg"
-          },
-          {
-            "title": "Facilitating Public-Private Collaboration and Capacity Building",
-            "description": "To provide a platform for public-private collaboration, peer learning, and capacity building, particularly for Investment Promotion Agencies (IPAs) at the sub-sovereign level.",
-            "image": "./assets/images/about/objectives/02-capacity.jpg"
-          },
-          {
-            "title": "Think Tank for Sub-Sovereign Trade & Investment",
-            "description": "To act as a think tank and centre of excellence on trade and investment matters at the sub-sovereign level.",
-            "image": "./assets/images/about/objectives/03-thinktank.jpg"
-          },
-          {
-            "title": "Regional Integration & AfCFTA",
-            "description": "To deepen regional integration and support the implementation of the AfCFTA.",
-            "image": "./assets/images/about/objectives/04-afcfta.jpg"
-          },
-          {
-            "title": "Investor Matchmaking & Local Partnerships",
-            "description": "To facilitate matchmaking and twinning between investors, the local private sector, and project sponsors under the aegis of sub-sovereign governments.",
-            "image": "./assets/images/about/objectives/05-matchmaking.jpg"
-          },
-          {
-            "title": "Promoting Infrastructure & Investment",
-            "description": "To promote infrastructure, trade, and investment in sub-sovereign regions.",
-            "image": "./assets/images/about/objectives/06-infrastructure.jpg"
-          },
-          {
-            "title": "Boosting Sub-Sovereign Investment Collaboration",
-            "description": "To enhance collaboration among sub-sovereigns on investment initiatives.",
-            "image": "./assets/images/about/objectives/07-collaboration.jpg"
-          },
-          {
-            "title": "Driving Adoption of Afreximbank Products",
-            "description": "To act as a conduit to drive adoption of the Bank’s products such as ATG, Border Markets, TRADAR Club, ETCs, Buyer Programme, SME Programme, How to Export, PPF, EPC Initiative, etc.",
-            "image": "./assets/images/about/objectives/08-products.jpg"
-          },
-          {
-            "title": "Deals",
-            "description": "To support bankable investment deals in African regions.",
-            "image": "./assets/images/about/objectives/09-deals.jpg"
-          }
-        ],
+
+        "cta": {
+          "apply": "Apply / Register",
+          "programme": "Programme",
+          "event": "Event details"
+        },
+
         "editionsTitle": "Editions (Track Record)",
         "editions": [
           "1st Edition (2021): Durban, South Africa",
@@ -161,13 +121,56 @@
           "4th Edition: Kisumu, Kenya — 900+ participants, delegates from 21 countries, 200+ participants trained through IPA sessions, 13 major deals signed worth USD 1.7 billion",
           "5th Edition: Algiers, Algeria"
         ],
-        "whoAttendTitle": "Who should attend",
-        "whoAttend": [
-          "Investors, DFIs, banks, funds",
-          "Project sponsors and deal teams",
-          "Government, agencies, regulators",
-          "Partners, ecosystem, media"
+
+        "objectivesTitle": "Key Objectives of AfSNET",
+        "objectives": [
+          {
+            "title": "Implementing the African Direct Investment Initiative (ADI)",
+            "description": "To provide a platform for the practical implementation of the Bank’s African Direct Investment initiative by mobilising private capital within Africa and deploying it to deserving sub-sovereigns for industrialisation and developmental needs.",
+            "image": "./assets/images/objectives/adi.jpg"
+          },
+          {
+            "title": "Facilitating Public-Private Collaboration and Capacity Building",
+            "description": "To provide a platform for public-private collaboration, peer learning, and capacity building, particularly for Investment Promotion Agencies (IPAs) at the sub-sovereign level.",
+            "image": "./assets/images/objectives/ppp.jpg"
+          },
+          {
+            "title": "Think Tank for Sub-Sovereign Trade & Investment",
+            "description": "To act as a think tank and centre of excellence on trade and investment matters at the sub-sovereign level.",
+            "image": "./assets/images/objectives/thinktank.jpg"
+          },
+          {
+            "title": "Regional Integration & AfCFTA",
+            "description": "To deepen regional integration and support the implementation of the AfCFTA.",
+            "image": "./assets/images/objectives/afcfta.jpg"
+          },
+          {
+            "title": "Investor Matchmaking & Local Partnerships",
+            "description": "To facilitate matchmaking and twinning between investors, the local private sector, and project sponsors under the aegis of sub-sovereign governments.",
+            "image": "./assets/images/objectives/matchmaking.jpg"
+          },
+          {
+            "title": "Promoting Infrastructure & Investment",
+            "description": "To promote infrastructure, trade, and investment in sub-sovereign regions.",
+            "image": "./assets/images/objectives/infrastructure.jpg"
+          },
+          {
+            "title": "Boosting Sub-Sovereign Investment Collaboration",
+            "description": "To enhance collaboration among sub-sovereigns on investment initiatives.",
+            "image": "./assets/images/objectives/collaboration.jpg"
+          },
+          {
+            "title": "Driving Adoption of Afreximbank Products",
+            "description": "To act as a conduit to drive adoption of the Bank’s products such as ATG, Border Markets, TRADAR Club, ETCs, Buyer Programme, SME Programme, How to Export, PPF, EPC Initiative, etc.",
+            "image": "./assets/images/objectives/products.jpg"
+          },
+          {
+            "title": "Deals",
+            "description": "To support bankable investment deals in African regions.",
+            "image": "./assets/images/objectives/deals.jpg"
+          }
         ],
+
         "howWorksTitle": "How AfSNET works",
         "howWorksSubtitle": "A simple end-to-end flow for participants and partners.",
         "howWorksTable": {
@@ -180,10 +183,12 @@
           ]
         }
       },
+
       "programme": {
         "pill": "Programme",
         "headline": "Programme overview",
         "intro": "High-level structure of sessions, roundtables, and meetings. Replace with confirmed agenda.",
+
         "typicalStructureTitle": "Typical structure (example)",
         "typicalStructure": [
           "Opening remarks & scene-setting",
@@ -192,12 +197,15 @@
           "B2B / B2G matchmaking meetings",
           "Closing and next steps"
         ],
+
         "downloadsTitle": "Downloads"
       },
+
       "eventPage": {
         "pill": "Event",
         "headline": "Event information",
         "intro": "Key logistics and event details.",
+
         "onSiteTitle": "On-site expectations (example)",
         "onSite": [
           "Bring a valid ID and registration confirmation",
@@ -206,10 +214,12 @@
           "Use the help desk for support and directions"
         ]
       },
+
       "speakersPartners": {
         "pill": "Speakers / Partners",
         "headline": "Speakers and partners",
         "intro": "Replace with confirmed speakers, moderators, and partners.",
+
         "placeholderTitle": "What you can do here",
         "placeholderItems": [
           "Explore speakers and session leads",
@@ -217,10 +227,12 @@
           "Check for updates as the list is confirmed"
         ]
       },
+
       "travelVisa": {
         "pill": "Travel & Visa",
         "headline": "Travel and visa guidance",
         "intro": "Provide entry requirements, visa process, and travel tips for the host country.",
+
         "guidanceTitle": "Guidance (example)",
         "guidance": [
           "Check passport validity (6+ months recommended)",
@@ -229,10 +241,12 @@
           "Use official accommodation guidance where available"
         ]
       },
+
       "mediaPress": {
         "pill": "Media / Press",
         "headline": "Media and press",
         "intro": "Press contacts, accreditation instructions, and media resources.",
+
         "mediaNoteTitle": "Media note (example)",
         "mediaNotes": [
           "Accreditation may be required for press access",
@@ -240,6 +254,7 @@
           "Follow on-site media guidelines and protocols"
         ]
       },
+
       "hotels": {
         "pill": "Hotels",
         "headline": "Recommended accommodation",
@@ -256,19 +271,16 @@
           "Allow buffer time during peak traffic hours."
         ],
         "list": [
-          {
-            "name": "Hotel 1 (TBC)",
-            "distance": "TBC",
-            "rate": "TBC",
-            "booking": "TBC"
-          }
+          { "name": "Hotel 1 (TBC)", "distance": "TBC", "rate": "TBC", "booking": "TBC" }
         ]
       },
+
       "apply": {
         "pill": "Apply",
         "headline": "Apply / Register",
         "intro": "Complete the registration form below. This is a static site, so submissions can be routed to an external form or email.",
         "externalFormUrl": "https://tally.so/r/gDMZLO",
+
         "whatPrepareTitle": "What to prepare",
         "whatPrepare": [
           "Your organisation details",
@@ -277,10 +289,12 @@
           "Contact information"
         ]
       },
+
       "contact": {
         "pill": "Contact",
         "headline": "How to reach the AfSNET team",
         "intro": "Official contact details are managed in config.json.",
+
         "supportTitle": "Registration support",
         "supportItems": [
           "Email: afsnet@afreximbank.com",
@@ -288,6 +302,7 @@
           "Describe the issue and attach screenshots if possible"
         ]
       },
+
       "thankYou": {
         "pill": "Submitted",
         "headline": "Thank you — your registration has been received",
@@ -297,11 +312,13 @@
         "eventDetails": "Event details"
       }
     },
+
     "fr": {
       "home": {
         "pill": "Candidatures ouvertes",
         "headline": "Inscrivez-vous au programme AfSNET",
         "intro": "Ce portail permet l’inscription des participants et partage des informations sur l’événement, des conseils de voyage, des hôtels et des ressources médias. Remplacez les éléments provisoires par les détails confirmés.",
+
         "trackRecordTitle": "Bilan AfSNET",
         "trackRecordStats": [
           "5 éditions",
@@ -310,6 +327,7 @@
           "Plus de 3,2 Md USD de transactions facilitées"
         ],
         "trackRecordLinkText": "En savoir plus dans « À propos » →",
+
         "highlightsTitle": "Points forts d’AfSNET",
         "highlights": [
           "Mise en relation investisseurs et transactions",
@@ -326,68 +344,23 @@
           "Partenaires / écosystème / médias"
         ]
       },
+
       "about": {
         "pill": "À propos d’AfSNET",
-        "headline": "AfSNET – Autonomiser les gouvernements infranationaux dans le commerce africain",
-        "intro": "En 2021, la Banque africaine d’export-import (« Afreximbank » ou « la Banque ») a créé le Réseau des Gouvernements infranationaux africains (« AfSNET » ou « le Réseau ») comme vecteur de promotion du commerce intra-africain, de l’investissement et de l’industrialisation au niveau infranational.",
+        "headline": "AfSNET – Donner aux gouvernements infranationaux les moyens d’agir dans le commerce africain",
+
         "introParagraphs": [
-          "En 2021, la Banque africaine d’export-import (« Afreximbank » ou « la Banque ») a créé le Réseau des Gouvernements infranationaux africains (« AfSNET » ou « le Réseau ») comme vecteur de promotion du commerce intra-africain, de l’investissement et de l’industrialisation au niveau infranational.",
-          "La Banque définit un gouvernement infranational africain comme une division d’un État souverain désignée comme région, État, province ou autorité locale, avec une gouvernance et des pouvoirs délimités dans le cadre desquels elle opère. En général, un gouvernement infranational dispose de sa propre assemblée et d’un mandat incluant la collecte des recettes, les dépenses, le développement socio-économique, ainsi que la promotion du commerce et de l’investissement dans sa zone de compétence.",
-          "La Banque a donc établi le Réseau des Gouvernements infranationaux africains afin de promouvoir le commerce et l’investissement intra-africains, les échanges éducatifs et culturels, ainsi qu’un engagement efficace et actif entre entités infranationales dans le contexte de la Zone de libre-échange continentale africaine (ZLECAf), pour le développement et la prospérité du continent. Le Réseau vise ainsi à créer une plateforme interactive d’échanges d’informations et de synergies entre Gouvernement à Gouvernement (G2G), Entreprise à Gouvernement (B2G) et Entreprise à Entreprise (B2B), de manière structurée et délibérée."
+          "En 2021, la Banque Africaine d’Import-Export (« Afreximbank » ou « la Banque ») a créé le Réseau des Gouvernements infranationaux africains (« AfSNET » ou « le Réseau ») comme levier de promotion du commerce intra-africain, de l’investissement et de l’industrialisation au niveau infranational.",
+          "La Banque définit un Gouvernement infranational africain comme une division d’un État souverain désignée comme région, État, province ou autorité locale, disposant de pouvoirs et d’un périmètre de gouvernance clairement définis. En général, un gouvernement infranational possède sa propre assemblée et un mandat incluant la collecte de recettes, les dépenses, le développement socio-économique ainsi que la promotion du commerce et de l’investissement sur son territoire.",
+          "La Banque a donc mis en place AfSNET afin de promouvoir le commerce et l’investissement intra-africains, les échanges éducatifs et culturels, et une coopération active entre gouvernements infranationaux dans le cadre de la ZLECAf, au service du développement et de la prospérité du continent. Le Réseau vise ainsi à créer une plateforme interactive d’échanges et de synergies, de manière structurée et délibérée, entre Gouvernement à Gouvernement (G2G), Entreprise à Gouvernement (B2G) et Entreprise à Entreprise (B2B)."
         ],
-        "objectivesTitle": "Objectifs clés d’AfSNET",
-        "objectives": [
-          "Développer des projets et transactions prêts à l’investissement",
-          "Connecter les investisseurs à des opportunités bancables",
-          "Accélérer les partenariats et la mise en œuvre"
-        ],
-        "objectivesCards": [
-          {
-            "title": "Mettre en œuvre l’Initiative d’Investissement Direct Africain (ADI)",
-            "description": "Fournir une plateforme pour la mise en œuvre pratique de l’initiative ADI de la Banque, en mobilisant des capitaux privés en Afrique et en les déployant vers des entités infranationales méritantes pour l’industrialisation et les besoins de développement.",
-            "image": "./assets/images/about/objectives/01-adi.jpg"
-          },
-          {
-            "title": "Faciliter la collaboration public-privé et le renforcement des capacités",
-            "description": "Fournir une plateforme de collaboration public-privé, d’apprentissage entre pairs et de renforcement des capacités, en particulier pour les Agences de Promotion des Investissements (API) au niveau infranational.",
-            "image": "./assets/images/about/objectives/02-capacity.jpg"
-          },
-          {
-            "title": "Think tank du commerce et de l’investissement infranationaux",
-            "description": "Agir comme un think tank et un centre d’excellence sur les questions de commerce et d’investissement au niveau infranational.",
-            "image": "./assets/images/about/objectives/03-thinktank.jpg"
-          },
-          {
-            "title": "Intégration régionale & ZLECAf",
-            "description": "Approfondir l’intégration régionale et soutenir la mise en œuvre de la ZLECAf.",
-            "image": "./assets/images/about/objectives/04-afcfta.jpg"
-          },
-          {
-            "title": "Mise en relation des investisseurs & partenariats locaux",
-            "description": "Faciliter la mise en relation et le jumelage entre les investisseurs, le secteur privé local et les porteurs de projets sous l’égide des gouvernements infranationaux.",
-            "image": "./assets/images/about/objectives/05-matchmaking.jpg"
-          },
-          {
-            "title": "Promouvoir les infrastructures et l’investissement",
-            "description": "Promouvoir les infrastructures, le commerce et l’investissement dans les régions infranationales.",
-            "image": "./assets/images/about/objectives/06-infrastructure.jpg"
-          },
-          {
-            "title": "Renforcer la collaboration d’investissement entre entités infranationales",
-            "description": "Renforcer la collaboration entre entités infranationales sur des initiatives d’investissement.",
-            "image": "./assets/images/about/objectives/07-collaboration.jpg"
-          },
-          {
-            "title": "Accélérer l’adoption des produits d’Afreximbank",
-            "description": "Agir comme un canal pour accélérer l’adoption des produits de la Banque tels que ATG, Border Markets, TRADAR Club, ETCs, Buyer Programme, SME Programme, How to Export, PPF, EPC Initiative, etc.",
-            "image": "./assets/images/about/objectives/08-products.jpg"
-          },
-          {
-            "title": "Transactions",
-            "description": "Soutenir des transactions d’investissement bancables dans les régions africaines.",
-            "image": "./assets/images/about/objectives/09-deals.jpg"
-          }
-        ],
+
+        "cta": {
+          "apply": "Candidater / S’inscrire",
+          "programme": "Programme",
+          "event": "Détails de l’événement"
+        },
+
         "editionsTitle": "Éditions (bilan)",
         "editions": [
           "1re édition (2021) : Durban, Afrique du Sud",
@@ -396,13 +369,56 @@
           "4e édition : Kisumu, Kenya — 900+ participants, délégations de 21 pays, 200+ personnes formées via les sessions IPA, 13 accords majeurs signés pour 1,7 Md USD",
           "5e édition : Alger, Algérie"
         ],
-        "whoAttendTitle": "Qui devrait participer",
-        "whoAttend": [
-          "Investisseurs, IFI, banques, fonds",
-          "Sponsors de projets et équipes transactionnelles",
-          "Gouvernement, agences, régulateurs",
-          "Partenaires, écosystème, médias"
+
+        "objectivesTitle": "Objectifs clés d’AfSNET",
+        "objectives": [
+          {
+            "title": "Mise en œuvre de l’Initiative Africaine d’Investissement Direct (ADI)",
+            "description": "Fournir une plateforme pour la mise en œuvre pratique de l’initiative ADI de la Banque en mobilisant le capital privé en Afrique et en le déployant au profit des gouvernements infranationaux pour l’industrialisation et les besoins de développement.",
+            "image": "./assets/images/objectives/adi.jpg"
+          },
+          {
+            "title": "Collaboration public-privé et renforcement des capacités",
+            "description": "Fournir une plateforme de collaboration public-privé, d’apprentissage entre pairs et de renforcement des capacités, notamment pour les Agences de Promotion des Investissements (IPA) au niveau infranational.",
+            "image": "./assets/images/objectives/ppp.jpg"
+          },
+          {
+            "title": "Think tank sur le commerce et l’investissement infranationaux",
+            "description": "Agir comme think tank et centre d’excellence sur les questions de commerce et d’investissement au niveau infranational.",
+            "image": "./assets/images/objectives/thinktank.jpg"
+          },
+          {
+            "title": "Intégration régionale & ZLECAf",
+            "description": "Renforcer l’intégration régionale et soutenir la mise en œuvre de la ZLECAf.",
+            "image": "./assets/images/objectives/afcfta.jpg"
+          },
+          {
+            "title": "Mise en relation investisseurs & partenariats locaux",
+            "description": "Faciliter le matchmaking et les partenariats entre investisseurs, secteur privé local et porteurs de projets sous l’égide des gouvernements infranationaux.",
+            "image": "./assets/images/objectives/matchmaking.jpg"
+          },
+          {
+            "title": "Promotion des infrastructures & de l’investissement",
+            "description": "Promouvoir les infrastructures, le commerce et l’investissement dans les régions infranationales.",
+            "image": "./assets/images/objectives/infrastructure.jpg"
+          },
+          {
+            "title": "Renforcer la collaboration entre gouvernements infranationaux",
+            "description": "Améliorer la collaboration entre gouvernements infranationaux sur les initiatives d’investissement.",
+            "image": "./assets/images/objectives/collaboration.jpg"
+          },
+          {
+            "title": "Accélérer l’adoption des produits Afreximbank",
+            "description": "Servir de relais pour accélérer l’adoption des produits de la Banque tels que ATG, Border Markets, TRADAR Club, ETCs, Buyer Programme, SME Programme, How to Export, PPF, EPC Initiative, etc.",
+            "image": "./assets/images/objectives/products.jpg"
+          },
+          {
+            "title": "Transactions (Deals)",
+            "description": "Soutenir des transactions d’investissement bancables dans les régions africaines.",
+            "image": "./assets/images/objectives/deals.jpg"
+          }
         ],
+
         "howWorksTitle": "Comment fonctionne AfSNET",
         "howWorksSubtitle": "Un parcours simple de bout en bout pour les participants et partenaires.",
         "howWorksTable": {
@@ -415,10 +431,12 @@
           ]
         }
       },
+
       "programme": {
         "pill": "Programme",
         "headline": "Aperçu du programme",
         "intro": "Structure générale des sessions, tables rondes et réunions. À remplacer par l’agenda confirmé.",
+
         "typicalStructureTitle": "Structure type (exemple)",
         "typicalStructure": [
           "Allocutions d’ouverture et cadrage",
@@ -427,12 +445,15 @@
           "Rencontres B2B / B2G",
           "Clôture et prochaines étapes"
         ],
+
         "downloadsTitle": "Téléchargements"
       },
+
       "eventPage": {
         "pill": "Événement",
         "headline": "Informations sur l’événement",
         "intro": "Principales informations logistiques et détails de l’événement.",
+
         "onSiteTitle": "Attentes sur site (exemple)",
         "onSite": [
           "Ayez une pièce d’identité valide et votre confirmation d’inscription",
@@ -441,10 +462,12 @@
           "Utilisez le comptoir d’assistance pour l’orientation"
         ]
       },
+
       "speakersPartners": {
         "pill": "Intervenants / Partenaires",
         "headline": "Intervenants et partenaires",
         "intro": "À remplacer par la liste confirmée des intervenants, modérateurs et partenaires.",
+
         "placeholderTitle": "Ce que vous pouvez faire ici",
         "placeholderItems": [
           "Consulter les intervenants et responsables de sessions",
@@ -452,10 +475,12 @@
           "Revenir pour les mises à jour à mesure que la liste est confirmée"
         ]
       },
+
       "travelVisa": {
         "pill": "Voyage & Visa",
         "headline": "Conseils de voyage et visa",
         "intro": "Indiquez les exigences d’entrée, la procédure de visa et les conseils de voyage pour le pays hôte.",
+
         "guidanceTitle": "Conseils (exemple)",
         "guidance": [
           "Vérifiez la validité du passeport (6+ mois recommandé)",
@@ -464,10 +489,12 @@
           "Utilisez les recommandations officielles d’hébergement si disponibles"
         ]
       },
+
       "mediaPress": {
         "pill": "Médias / Presse",
         "headline": "Médias et presse",
         "intro": "Contacts presse, instructions d’accréditation et ressources médias.",
+
         "mediaNoteTitle": "Note média (exemple)",
         "mediaNotes": [
           "Une accréditation peut être requise pour l’accès presse",
@@ -475,11 +502,13 @@
           "Respectez les consignes média et protocoles sur site"
         ]
       },
+
       "apply": {
         "pill": "Candidater",
         "headline": "Candidater / S’inscrire",
         "intro": "Complétez le formulaire d’inscription ci-dessous. Le site est statique, les soumissions peuvent être envoyées via un formulaire externe ou par e-mail.",
         "externalFormUrl": "https://tally.so/r/gDMZLO",
+
         "whatPrepareTitle": "À préparer",
         "whatPrepare": [
           "Informations sur votre organisation",
@@ -488,10 +517,12 @@
           "Coordonnées"
         ]
       },
+
       "contact": {
         "pill": "Contact",
         "headline": "Comment joindre l’équipe AfSNET",
         "intro": "Les coordonnées officielles sont gérées dans config.json.",
+
         "supportTitle": "Assistance à l’inscription",
         "supportItems": [
           "Email : afsnet@afreximbank.com",
@@ -499,6 +530,7 @@
           "Décrivez le problème et joignez des captures d’écran si possible"
         ]
       },
+
       "hotels": {
         "pill": "Hôtels",
         "headline": "Hébergement recommandé",
@@ -515,14 +547,10 @@
           "Prévoyez une marge de temps aux heures de pointe."
         ],
         "list": [
-          {
-            "name": "Hôtel 1 (À confirmer)",
-            "distance": "À confirmer",
-            "rate": "À confirmer",
-            "booking": "À confirmer"
-          }
+          { "name": "Hôtel 1 (À confirmer)", "distance": "À confirmer", "rate": "À confirmer", "booking": "À confirmer" }
         ]
       },
+
       "thankYou": {
         "pill": "Envoyé",
         "headline": "Merci — votre inscription a bien été reçue",
@@ -532,11 +560,13 @@
         "eventDetails": "Détails de l’événement"
       }
     },
+
     "ar": {
       "home": {
         "pill": "التسجيل مفتوح",
         "headline": "سجّل في برنامج AfSNET",
         "intro": "تدعم هذه البوابة تسجيل المشاركين وتعرض معلومات الفعالية وإرشادات السفر والفنادق ومواد الإعلام. يرجى استبدال البيانات المؤقتة بالتفاصيل المؤكدة.",
+
         "trackRecordTitle": "سجل إنجازات AfSNET",
         "trackRecordStats": [
           "5 دورات",
@@ -545,6 +575,7 @@
           "أكثر من 3.2 مليار دولار أمريكي من الصفقات المُيسّرة"
         ],
         "trackRecordLinkText": "اعرف المزيد في صفحة «عن البرنامج» →",
+
         "highlightsTitle": "أبرز محطات AfSNET",
         "highlights": [
           "التوفيق بين المستثمرين والصفقات",
@@ -561,68 +592,23 @@
           "الشركاء / المنظومة / الإعلام"
         ]
       },
+
       "about": {
         "pill": "عن AfSNET",
         "headline": "AfSNET – تمكين الحكومات دون السيادية في التجارة الإفريقية",
-        "intro": "في عام 2021، أنشأ البنك الأفريقي للتصدير والاستيراد («أفريكسيم بنك» أو «البنك») شبكة الحكومات دون السيادية الأفريقية («AfSNET» أو «الشبكة») كوسيلة لتعزيز التجارة والاستثمار والتصنيع داخل أفريقيا على المستوى دون السيادي.",
+
         "introParagraphs": [
-          "في عام 2021، أنشأ البنك الأفريقي للتصدير والاستيراد («أفريكسيم بنك» أو «البنك») شبكة الحكومات دون السيادية الأفريقية («AfSNET» أو «الشبكة») كوسيلة لتعزيز التجارة والاستثمار والتصنيع داخل أفريقيا على المستوى دون السيادي.",
-          "يُعرّف البنك الحكومةَ الأفريقيةَ دون السيادية بأنها تقسيمٌ ضمن دولةٍ ذات سيادة يُصنّف كمنطقة أو ولاية أو إقليم أو سلطة محلية، وله حدود واضحة للحكم وصلاحيات يعمل ضمنها. وعادةً ما يكون للحكومة دون السيادية مجلسٌ تشريعي ومهام تشمل تحصيل الإيرادات والإنفاق والتنمية الاجتماعية والاقتصادية وتعزيز التجارة والاستثمار ضمن نطاق اختصاصها.",
-          "وعليه، أنشأ البنك شبكةَ الحكومات دون السيادية الأفريقية لتعزيز التجارة والاستثمار داخل أفريقيا، والتبادلات التعليمية والثقافية، والانخراط الفعّال بين الكيانات دون السيادية في سياق منطقة التجارة الحرة القارية الأفريقية (AfCFTA)، بما يخدم تنمية القارة وازدهارها. وتهدف الشبكة إلى إنشاء منصة تفاعلية لتبادل المعلومات وبناء أوجه التكامل بين حكومة إلى حكومة (G2G) وأعمال إلى حكومة (B2G) وأعمال إلى أعمال (B2B) بصورة منظمة ومقصودة."
+          "في عام 2021، أنشأ البنك الأفريقي للتصدير والاستيراد («أفريكسيم بنك» أو «البنك») شبكة الحكومات دون السيادية الأفريقية («AfSNET» أو «الشبكة») كأداة لتعزيز التجارة البينية الأفريقية والاستثمار والتصنيع على المستوى دون السيادي.",
+          "ويُعرِّف البنك الحكومة دون السيادية الأفريقية بأنها تقسيم داخل دولة ذات سيادة يُسمّى إقليماً أو ولاية أو مقاطعة أو سلطة محلية، ويتمتع بصلاحيات وحوكمة محددة ضمن نطاق اختصاصه. وعادةً ما يكون للحكومة دون السيادية مجلس تشريعي ومهام تشمل تحصيل الإيرادات والإنفاق والتنمية الاجتماعية-الاقتصادية وتعزيز التجارة والاستثمار داخل نطاقها.",
+          "وبناءً عليه، أنشأ البنك شبكة AfSNET لتعزيز التجارة والاستثمار داخل أفريقيا، والتبادل التعليمي والثقافي، والتفاعل الفعّال بين الحكومات دون السيادية في سياق منطقة التجارة الحرة القارية الأفريقية (AfCFTA)، بما يدعم تنمية القارة وازدهارها. وتهدف الشبكة إلى إنشاء منصة تفاعلية لتبادل المعلومات وبناء التآزر بصورة منظمة ومقصودة بين حكومة إلى حكومة (G2G) وأعمال إلى حكومة (B2G) وأعمال إلى أعمال (B2B)."
         ],
-        "objectivesTitle": "الأهداف الرئيسية لـ AfSNET",
-        "objectives": [
-          "تمكين مشاريع وصفقات جاهزة للاستثمار",
-          "ربط المستثمرين بفرص قابلة للتمويل",
-          "تسريع الشراكات والتنفيذ"
-        ],
-        "objectivesCards": [
-          {
-            "title": "تنفيذ مبادرة الاستثمار المباشر الأفريقية (ADI)",
-            "description": "توفير منصة للتنفيذ العملي لمبادرة الاستثمار المباشر الأفريقية التابعة للبنك عبر تعبئة رأس المال الخاص داخل أفريقيا وتوجيهه إلى الكيانات دون السيادية المستحقة لدعم التصنيع واحتياجات التنمية.",
-            "image": "./assets/images/about/objectives/01-adi.jpg"
-          },
-          {
-            "title": "تيسير التعاون بين القطاعين العام والخاص وبناء القدرات",
-            "description": "توفير منصة للتعاون بين القطاعين العام والخاص والتعلم بين الأقران وبناء القدرات، لا سيما لوكالات ترويج الاستثمار (IPAs) على المستوى دون السيادي.",
-            "image": "./assets/images/about/objectives/02-capacity.jpg"
-          },
-          {
-            "title": "مركز فكر للتجارة والاستثمار دون السيادي",
-            "description": "العمل كمركز فكر ومركز تميز في قضايا التجارة والاستثمار على المستوى دون السيادي.",
-            "image": "./assets/images/about/objectives/03-thinktank.jpg"
-          },
-          {
-            "title": "التكامل الإقليمي وAfCFTA",
-            "description": "تعميق التكامل الإقليمي ودعم تنفيذ منطقة التجارة الحرة القارية الأفريقية (AfCFTA).",
-            "image": "./assets/images/about/objectives/04-afcfta.jpg"
-          },
-          {
-            "title": "مواءمة المستثمرين والشراكات المحلية",
-            "description": "تيسير المواءمة والتوأمة بين المستثمرين والقطاع الخاص المحلي ورعاة المشاريع تحت مظلة الحكومات دون السيادية.",
-            "image": "./assets/images/about/objectives/05-matchmaking.jpg"
-          },
-          {
-            "title": "تعزيز البنية التحتية والاستثمار",
-            "description": "تعزيز البنية التحتية والتجارة والاستثمار في المناطق دون السيادية.",
-            "image": "./assets/images/about/objectives/06-infrastructure.jpg"
-          },
-          {
-            "title": "تعزيز التعاون الاستثماري بين الكيانات دون السيادية",
-            "description": "تعزيز التعاون بين الكيانات دون السيادية في مبادرات الاستثمار.",
-            "image": "./assets/images/about/objectives/07-collaboration.jpg"
-          },
-          {
-            "title": "دفع اعتماد منتجات أفريكسيم بنك",
-            "description": "العمل كقناة لدفع اعتماد منتجات البنك مثل ATG وBorder Markets وTRADAR Club وETCs وبرنامج المشتري وبرنامج SMEs وHow to Export وPPF ومبادرة EPC وغيرها.",
-            "image": "./assets/images/about/objectives/08-products.jpg"
-          },
-          {
-            "title": "الصفقات",
-            "description": "دعم صفقات استثمار قابلة للتمويل في المناطق الأفريقية.",
-            "image": "./assets/images/about/objectives/09-deals.jpg"
-          }
-        ],
+
+        "cta": {
+          "apply": "التقديم / التسجيل",
+          "programme": "البرنامج",
+          "event": "تفاصيل الفعالية"
+        },
+
         "editionsTitle": "الدورات (سجل الفعاليات)",
         "editions": [
           "الدورة الأولى (2021): ديربان، جنوب أفريقيا",
@@ -631,13 +617,56 @@
           "الدورة الرابعة: كيسومو، كينيا — أكثر من 900 مشارك، وفود من 21 دولة، تدريب أكثر من 200 مشارك عبر جلسات IPA، توقيع 13 صفقة كبرى بقيمة 1.7 مليار دولار أمريكي",
           "الدورة الخامسة: الجزائر، الجزائر"
         ],
-        "whoAttendTitle": "من الذي ينبغي أن يحضر",
-        "whoAttend": [
-          "المستثمرون، مؤسسات التمويل التنموي، البنوك، الصناديق",
-          "رعاة المشاريع وفرق الصفقات",
-          "الحكومة، الجهات، الجهات التنظيمية",
-          "الشركاء، المنظومة، الإعلام"
+
+        "objectivesTitle": "الأهداف الرئيسية لـ AfSNET",
+        "objectives": [
+          {
+            "title": "تنفيذ مبادرة الاستثمار المباشر الأفريقي (ADI)",
+            "description": "توفير منصة للتطبيق العملي لمبادرة الاستثمار المباشر الأفريقي التابعة للبنك عبر تعبئة رأس المال الخاص داخل أفريقيا وتوجيهه إلى الحكومات دون السيادية المستحقة لدعم التصنيع واحتياجات التنمية.",
+            "image": "./assets/images/objectives/adi.jpg"
+          },
+          {
+            "title": "تعزيز التعاون بين القطاعين العام والخاص وبناء القدرات",
+            "description": "توفير منصة للتعاون العام-الخاص والتعلم من الأقران وبناء القدرات، لا سيما لوكالات ترويج الاستثمار (IPAs) على المستوى دون السيادي.",
+            "image": "./assets/images/objectives/ppp.jpg"
+          },
+          {
+            "title": "بيت خبرة للتجارة والاستثمار على المستوى دون السيادي",
+            "description": "العمل كمركز تفكير وتميز في قضايا التجارة والاستثمار على المستوى دون السيادي.",
+            "image": "./assets/images/objectives/thinktank.jpg"
+          },
+          {
+            "title": "التكامل الإقليمي وAfCFTA",
+            "description": "تعميق التكامل الإقليمي ودعم تنفيذ منطقة التجارة الحرة القارية الأفريقية (AfCFTA).",
+            "image": "./assets/images/objectives/afcfta.jpg"
+          },
+          {
+            "title": "مواءمة المستثمرين وبناء شراكات محلية",
+            "description": "تسهيل التوفيق والشراكات بين المستثمرين والقطاع الخاص المحلي ورعاة المشاريع تحت مظلة الحكومات دون السيادية.",
+            "image": "./assets/images/objectives/matchmaking.jpg"
+          },
+          {
+            "title": "تعزيز البنية التحتية والاستثمار",
+            "description": "الترويج للبنية التحتية والتجارة والاستثمار في المناطق دون السيادية.",
+            "image": "./assets/images/objectives/infrastructure.jpg"
+          },
+          {
+            "title": "تعزيز التعاون الاستثماري بين الحكومات دون السيادية",
+            "description": "تعزيز التعاون بين الحكومات دون السيادية في مبادرات الاستثمار.",
+            "image": "./assets/images/objectives/collaboration.jpg"
+          },
+          {
+            "title": "دفع تبنّي منتجات أفريكسيم بنك",
+            "description": "العمل كقناة لدفع تبني منتجات البنك مثل ATG وBorder Markets وTRADAR Club وETCs وBuyer Programme وSME Programme وHow to Export وPPF وEPC Initiative وغيرها.",
+            "image": "./assets/images/objectives/products.jpg"
+          },
+          {
+            "title": "الصفقات",
+            "description": "دعم صفقات استثمارية قابلة للتمويل في المناطق الأفريقية.",
+            "image": "./assets/images/objectives/deals.jpg"
+          }
         ],
+
         "howWorksTitle": "كيف يعمل AfSNET",
         "howWorksSubtitle": "مسار بسيط من البداية إلى النهاية للمشاركين والشركاء.",
         "howWorksTable": {
@@ -650,10 +679,12 @@
           ]
         }
       },
+
       "programme": {
         "pill": "البرنامج",
         "headline": "نظرة عامة على البرنامج",
         "intro": "الهيكل العام للجلسات والطاولات المستديرة والاجتماعات. يرجى استبداله بالجدول المؤكد.",
+
         "typicalStructureTitle": "الهيكل النموذجي (مثال)",
         "typicalStructure": [
           "كلمات افتتاحية وتحديد السياق",
@@ -662,12 +693,15 @@
           "لقاءات B2B / B2G",
           "الختام والخطوات التالية"
         ],
+
         "downloadsTitle": "التنزيلات"
       },
+
       "eventPage": {
         "pill": "الفعالية",
         "headline": "معلومات الفعالية",
         "intro": "أهم المعلومات اللوجستية وتفاصيل الفعالية.",
+
         "onSiteTitle": "توقعات الحضور في الموقع (مثال)",
         "onSite": [
           "إحضار بطاقة هوية سارية وتأكيد التسجيل",
@@ -676,10 +710,12 @@
           "استخدام مكتب المساعدة للدعم والإرشاد"
         ]
       },
+
       "speakersPartners": {
         "pill": "المتحدثون / الشركاء",
         "headline": "المتحدثون والشركاء",
         "intro": "يرجى استبدال ذلك بالقائمة المؤكدة للمتحدثين والميسّرين والشركاء.",
+
         "placeholderTitle": "ما الذي يمكنك فعله هنا",
         "placeholderItems": [
           "استعراض المتحدثين وقادة الجلسات",
@@ -687,10 +723,12 @@
           "متابعة التحديثات مع تأكيد القائمة"
         ]
       },
+
       "travelVisa": {
         "pill": "السفر والتأشيرة",
         "headline": "إرشادات السفر والتأشيرة",
         "intro": "يرجى توفير متطلبات الدخول وإجراءات التأشيرة ونصائح السفر لبلد الاستضافة.",
+
         "guidanceTitle": "إرشادات (مثال)",
         "guidance": [
           "تحقق من صلاحية جواز السفر (6+ أشهر موصى بها)",
@@ -699,10 +737,12 @@
           "استخدم إرشادات الإقامة الرسمية عند توفرها"
         ]
       },
+
       "mediaPress": {
         "pill": "الإعلام / الصحافة",
         "headline": "الإعلام والصحافة",
         "intro": "جهات الاتصال الإعلامية، تعليمات الاعتماد، ومواد الإعلام.",
+
         "mediaNoteTitle": "ملاحظة إعلامية (مثال)",
         "mediaNotes": [
           "قد تكون هناك حاجة لاعتماد للوصول الإعلامي",
@@ -710,11 +750,13 @@
           "اتبع إرشادات الإعلام والبروتوكولات في الموقع"
         ]
       },
+
       "apply": {
         "pill": "التسجيل",
         "headline": "التقديم / التسجيل",
         "intro": "أكمل نموذج التسجيل أدناه. هذا موقع ثابت، لذا يمكن توجيه الإرسال إلى نموذج خارجي أو بريد إلكتروني.",
         "externalFormUrl": "https://tally.so/r/gDMZLO",
+
         "whatPrepareTitle": "ماذا تجهّز",
         "whatPrepare": [
           "بيانات المؤسسة/الجهة",
@@ -723,10 +765,12 @@
           "معلومات التواصل"
         ]
       },
+
       "contact": {
         "pill": "اتصل بنا",
         "headline": "كيفية التواصل مع فريق AfSNET",
         "intro": "تتم إدارة بيانات الاتصال الرسمية داخل config.json.",
+
         "supportTitle": "دعم التسجيل",
         "supportItems": [
           "البريد الإلكتروني: afsnet@afreximbank.com",
@@ -734,6 +778,7 @@
           "اشرح المشكلة وأرفق لقطات شاشة إن أمكن"
         ]
       },
+
       "hotels": {
         "pill": "الفنادق",
         "headline": "الإقامة الموصى بها",
@@ -750,14 +795,10 @@
           "اترك وقتًا احتياطيًا خلال ساعات الذروة."
         ],
         "list": [
-          {
-            "name": "فندق 1 (سيتم التأكيد)",
-            "distance": "سيتم التأكيد",
-            "rate": "سيتم التأكيد",
-            "booking": "سيتم التأكيد"
-          }
+          { "name": "فندق 1 (سيتم التأكيد)", "distance": "سيتم التأكيد", "rate": "سيتم التأكيد", "booking": "سيتم التأكيد" }
         ]
       },
+
       "thankYou": {
         "pill": "تم الإرسال",
         "headline": "شكرًا لك — تم استلام تسجيلك بنجاح",
@@ -768,20 +809,12 @@
       }
     }
   },
+
   "downloads": {
     "items": [
-      {
-        "label": "Investment Proposal Template (PDF)",
-        "file": "./assets/investment-proposal-template.pdf"
-      },
-      {
-        "label": "Logistics note (PDF)",
-        "file": "./assets/logistics-note.pdf"
-      },
-      {
-        "label": "Sponsorship deck (PDF)",
-        "file": "./assets/sponsorship-deck.pdf"
-      }
+      { "label": "Investment Proposal Template (PDF)", "file": "./assets/investment-proposal-template.pdf" },
+      { "label": "Logistics note (PDF)", "file": "./assets/logistics-note.pdf" },
+      { "label": "Sponsorship deck (PDF)", "file": "./assets/sponsorship-deck.pdf" }
     ]
   }
 }
