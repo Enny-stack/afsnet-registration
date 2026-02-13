@@ -190,6 +190,12 @@ header{
 .hero h2{font-size:34px;line-height:1.15;margin:10px 0}
 .hero p{margin:0 0 14px;font-size:15px}
 
+/* ✅ FIX 1: About page paragraph alignment */
+.hero p{
+  text-align: justify;
+  text-justify: inter-word;
+}
+
 .pill{
   display:inline-flex;gap:8px;align-items:center;
   padding:8px 10px;border-radius:999px;
@@ -210,6 +216,27 @@ header{
 
 /* Buttons */
 .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+
+/* ✅ FIX 2: Keep About page buttons on ONE LINE (desktop) */
+.actions{
+  display: flex;
+  gap: 10px;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+.actions .btn{
+  flex: 1;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* ✅ Extra nerd tip: stack buttons on mobile */
+@media (max-width: 720px){
+  .actions{
+    flex-wrap: wrap;
+  }
+}
+
 .btn{
   display:inline-flex;align-items:center;justify-content:center;
   padding:12px 14px;border-radius:14px;
