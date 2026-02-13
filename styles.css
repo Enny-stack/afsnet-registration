@@ -517,7 +517,7 @@ body.home::before{
   gap: 48px;
   white-space: nowrap;
   will-change: transform;
-  animation: tickerScroll 50s linear infinite;
+  animation: tickerScroll 60s linear infinite;
 }
 
 .ticker-track:hover{
