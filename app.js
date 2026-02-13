@@ -608,3 +608,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   // ✅ About page config rendering + slider init
   renderAboutPage(cfg, savedLang);
 });
+// Preloader: hide when page is ready
+window.addEventListener("load", () => {
+  const preloader = document.getElementById("preloader");
+  if (!preloader) return;
+
+  preloader.classList.add("is-hidden");
+  setTimeout(() => preloader.remove(), 450);
+});
