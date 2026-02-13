@@ -678,3 +678,12 @@ body.home::before{
 .ticker-track{
   animation-duration: 32s;
 }
+/* ✅ FIX: Force map block to span full width inside grid layouts */
+.grid .map,
+.grid .map-card,
+.grid .map-frame,
+.two .map,
+.two .map-card,
+.two .map-frame{
+  grid-column: 1 / -1;
+}
