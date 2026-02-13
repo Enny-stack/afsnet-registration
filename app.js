@@ -268,6 +268,11 @@ function initHomeTicker(cfg, lang) {
 
   const repeated = new Array(10).fill(itemHTML).join("");
   track.innerHTML = repeated + repeated;
+
+  // ✅ Force animation to restart immediately (fixes delay on language switch)
+  track.style.animation = "none";
+  track.offsetHeight; // force reflow
+  track.style.animation = "";
 }
 
 /* ================================
