@@ -693,3 +693,31 @@ body.home::before{
   margin-left: 50%;
   transform: translateX(-50%);
 }
+/* ================================
+   CONTACT MAP — FULL WIDTH STRIP
+   (matches your sketch layout)
+================================ */
+
+/* Break map out of the container */
+.map-card{
+  width: 100vw;                 /* full screen width */
+  margin-left: calc(-50vw + 50%); /* escape the container */
+  border-radius: 0;             /* strip look */
+  padding: 26px 40px;
+}
+
+/* Keep content centered inside */
+.map-card h3,
+.map-card p,
+.map-frame{
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Make the map long + professional */
+.map-frame iframe{
+  height: 420px;                /* longer map */
+  width: 100%;
+  border-radius: 18px;
+}
