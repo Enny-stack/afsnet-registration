@@ -281,6 +281,15 @@ header{
   display:flex;
   flex-direction:column;
 }
+/* ✅ Editions panel: match hero vibe */
+.hero-panel{
+  background:
+    radial-gradient(900px 500px at 15% 20%, rgba(201,162,39,.14), transparent 65%),
+    radial-gradient(700px 420px at 90% 10%, rgba(11,93,59,.10), transparent 60%),
+    rgba(255,255,255,.88);
+  border:1px solid rgba(201,162,39,.20);
+  box-shadow:0 12px 26px rgba(11,31,58,.10);
+}
 .hero-panel .actions{
   margin-top:auto;
 }
