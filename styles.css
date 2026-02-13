@@ -687,3 +687,9 @@ body.home::before{
 .two .map-frame{
   grid-column: 1 / -1;
 }
+/* ✅ FIX: Contact page map should span full width (break out of container) */
+.map-card{
+  width: min(1400px, calc(100vw - 44px));
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
