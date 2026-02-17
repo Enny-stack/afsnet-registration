@@ -832,7 +832,7 @@ body.home::before{
   width: 45%;
   border-radius: 999px;
   background: linear-gradient(90deg, rgba(201,162,39,.15), rgba(201,162,39,.95), rgba(201,162,39,.15));
-  animation: barMove 1.2s ease-in-out infinite;
+  animation: barMove 10s ease-in-out infinite;
 }
 
 @keyframes barMove{
