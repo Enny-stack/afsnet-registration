@@ -795,7 +795,7 @@ body.home::before{
   border-radius: 999px;
   border: 5px solid rgba(255,255,255,.18);
   border-top-color: rgba(201,162,39,.95);
-  animation: spin 1s linear infinite;
+  animation: spin 10s linear infinite;
 }
 
 @keyframes spin{ to { transform: rotate(360deg); } }
