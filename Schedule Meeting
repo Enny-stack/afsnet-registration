@@ -1,0 +1,76 @@
+```html
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Schedule AfSNET meetings (B2B / B2G / G2G)" />
+  <title>AfSNET | Schedule Meeting</title>
+
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="./app.js" defer></script>
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div id="site-header"></div>
+
+<main id="main" class="container">
+
+  <section class="hero-banner section">
+    <div class="grid">
+      <div class="card pad hero">
+        <span class="pill">Meetings</span>
+        <h2>Schedule a Meeting</h2>
+        <p class="muted">
+          Book your preferred time for B2B, B2G, or G2G meetings with the AfSNET team.
+        </p>
+
+        <div class="meta" role="list" aria-label="Meeting types">
+          <div class="chip" role="listitem"><strong>B2B:</strong> Business to Business</div>
+          <div class="chip" role="listitem"><strong>B2G:</strong> Business to Government</div>
+          <div class="chip" role="listitem"><strong>G2G:</strong> Government to Government</div>
+        </div>
+      </div>
+
+      <div class="card pad surface">
+        <div class="kicker">Before you book</div>
+        <ul class="list">
+          <li>Use your official email address for confirmation.</li>
+          <li>Select the correct meeting type in the booking form.</li>
+          <li>Include a short agenda so we can prepare.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section card pad">
+    <h3 style="margin-top:0">Book your meeting</h3>
+    <p class="muted" style="margin-top:6px;margin-bottom:16px;">
+      Choose a date and time below. You will receive an email confirmation once your booking is completed.
+    </p>
+
+    <div class="booking-frame">
+      <iframe
+        src="https://outlook.office.com/book/AfSNETB2BB2GScheduler1@afreximbank.onmicrosoft.com/"
+        width="100%"
+        height="800"
+        frameborder="0"
+        scrolling="yes"
+        style="border:0"
+        title="AfSNET Microsoft Bookings Scheduler">
+      </iframe>
+    </div>
+
+    <p class="muted small" style="margin-top:10px">
+      Tip: If the scheduler does not load, please try refreshing the page or opening it in a new tab.
+    </p>
+  </section>
+
+</main>
+
+<div id="site-footer"></div>
+</body>
+</html>
+```
