@@ -22,7 +22,7 @@ function setActiveNav() {
 }
 
 /* ================================
-   HEADER + FOOTER INJECTION
+   HEADER INJECTION (NO DROPDOWNS)
 ================================= */
 
 function injectHeader(cfg) {
@@ -38,9 +38,7 @@ function injectHeader(cfg) {
     .map(l => `<option value="${l}">${String(l).toUpperCase()}</option>`)
     .join("");
 
-  // ✅ NORMAL LINKS (NO DROPDOWNS)
-  // Make sure these file names match EXACTLY what you have in your repo:
-  // about.html, media-press.html, hotels.html
+  // ✅ Make sure these filenames match your repo EXACTLY
   el.innerHTML = `
     <header>
       <div class="header-shell">
@@ -62,9 +60,9 @@ function injectHeader(cfg) {
                 <a href="./programme.html" data-i18n="nav.programme">Programme</a>
                 <a href="./schedule.html" data-i18n="nav.schedule">Schedule Meeting</a>
                 <a href="./event.html" data-i18n="nav.event">Event</a>
-                <a href="./media-press.html" data-i18n="nav.mediaPress">Media &amp; Press</a>
-                <a href="./speakers-partners.html" data-i18n="nav.speakersPartners">Speakers / Partners</a>
-                <a href="./travel-visa.html" data-i18n="nav.travelVisa">Travel &amp; Visa</a>
+                <a href="./speakers-partners.html" data-i18n="nav.speakersPartners">Speakers/Partners</a>
+                <a href="./media-press.html" data-i18n="nav.mediaPress">Media/Press</a>
+                <a href="./travel-visa.html" data-i18n="nav.travelVisa">Travel & Visa</a>
                 <a href="./hotels.html" data-i18n="nav.hotels">Hotels</a>
               </nav>
 
@@ -75,7 +73,6 @@ function injectHeader(cfg) {
             </div>
 
             <div class="lang-switch">
-              <label class="sr-only" for="langSelect">Language</label>
               <select id="langSelect" aria-label="Language selector">
                 ${langOptions}
               </select>
@@ -88,17 +85,32 @@ function injectHeader(cfg) {
   `;
 }
 
+/* ================================
+   FOOTER INJECTION (RESTORE STYLES)
+   IMPORTANT: Uses your existing
+   .footer-links a styling
+================================= */
+
 function injectFooter(cfg) {
   const el = document.getElementById("site-footer");
   if (!el) return;
 
   const logoSrc = cfg?.site?.logoSrc || "./assets/logo/afsnet-logo.jpg";
   const name = cfg?.site?.name || "AfSNET";
-  const tagline = cfg?.site?.tagline || "";
+  const tagline = cfg?.site?.tagline || "African Sub-Sovereign Governments Network";
+
   const supportEmail = cfg?.site?.supportEmail || "afsnet@afreximbank.com";
   const phone = cfg?.site?.phone || "";
-  const afreximbank = cfg?.site?.externalLinks?.afreximbankUrl || cfg?.site?.externalLinks?.afreximbank || "#";
-  const iatf = cfg?.site?.externalLinks?.iatfUrl || cfg?.site?.externalLinks?.iatf || "#";
+
+  const afreximbankUrl =
+    cfg?.site?.externalLinks?.afreximbankUrl ||
+    cfg?.site?.externalLinks?.afreximbank ||
+    "https://www.afreximbank.com";
+
+  const iatfUrl =
+    cfg?.site?.externalLinks?.iatfUrl ||
+    cfg?.site?.externalLinks?.iatf ||
+    "https://www.iatf.africa";
 
   el.innerHTML = `
     <footer class="site-footer">
@@ -114,19 +126,20 @@ function injectFooter(cfg) {
               </div>
             </div>
 
-            <p style="margin-top:12px; color: rgba(255,255,255,.78); max-width: 420px;">
+            <p style="margin-top:12px; color: rgba(255,255,255,.78); max-width: 520px;">
               <span data-i18n="footer.aboutLine">
                 Connecting African states, investors, and projects through a trusted investment network.
               </span>
             </p>
 
-            <div class="footer-bottom" style="border-top:none; padding-top:0;">
-              <div>© 2026 ${name}. <span data-i18n="footer.rights">All rights reserved.</span></div>
+            <!-- ✅ THESE TWO BUTTONS USE YOUR EXISTING FOOTER PILL STYLE -->
+            <div class="footer-links" style="margin-top:14px;">
+              <a href="${afreximbankUrl}" target="_blank" rel="noopener" data-i18n="footer.afreximbankWebsite">Afreximbank Website</a>
+              <a href="${iatfUrl}" target="_blank" rel="noopener" data-i18n="footer.iatfWebsite">IATF Website</a>
             </div>
 
-            <div class="actions" style="margin-top:10px;">
-              <a class="btn ghost" href="${afreximbank}" target="_blank" rel="noopener" data-i18n="footer.afreximbankWebsite">Afreximbank Website</a>
-              <a class="btn ghost" href="${iatf}" target="_blank" rel="noopener" data-i18n="footer.iatfWebsite">IATF Website</a>
+            <div class="footer-bottom" style="margin-top:16px;">
+              <div>© 2026 Afreximbank / AfSNET. <span data-i18n="footer.rights">All rights reserved.</span></div>
             </div>
           </div>
 
@@ -135,20 +148,23 @@ function injectFooter(cfg) {
             <div class="footer-links">
               <a href="./about.html" data-i18n="nav.about">About</a>
               <a href="./programme.html" data-i18n="nav.programme">Programme</a>
+              <a href="./apply.html" data-i18n="nav.apply">Apply</a>
               <a href="./event.html" data-i18n="nav.event">Event</a>
-              <a href="./media-press.html" data-i18n="nav.mediaPress">Media &amp; Press</a>
-              <a href="./hotels.html" data-i18n="nav.hotels">Hotels</a>
               <a href="./contact.html" data-i18n="nav.contact">Contact</a>
             </div>
           </div>
 
           <div class="footer-col address-col">
-            <h4 data-i18n="footer.hq">Headquarters</h4>
+            <h4 data-i18n="footer.hq">Afreximbank Headquarters – Cairo, Egypt</h4>
+
             <div class="footer-contact">
               <div>
                 <div class="label" data-i18n="footer.emailLabel">Email:</div>
-                <div class="line"><a href="mailto:${supportEmail}" style="color: rgba(255,255,255,.88)">${supportEmail}</a></div>
+                <div class="line">
+                  <a href="mailto:${supportEmail}" style="color: rgba(255,255,255,.88)">${supportEmail}</a>
+                </div>
               </div>
+
               <div>
                 <div class="label" data-i18n="footer.telLabel">Tel:</div>
                 <div class="line">${phone}</div>
@@ -163,7 +179,7 @@ function injectFooter(cfg) {
 }
 
 /* ================================
-   LANGUAGE + I18N
+   I18N: DO NOT BLANK CONTENT
 ================================= */
 
 function applyLangDir(lang) {
@@ -173,12 +189,14 @@ function applyLangDir(lang) {
 }
 
 function applyI18n(cfg, lang) {
-  // ✅ Never blank content if translation missing
   document.querySelectorAll("[data-i18n]").forEach(el => {
     const key = el.getAttribute("data-i18n");
     if (!key) return;
 
+    // ✅ fallback to English
     const t = cfg?.i18n?.[lang]?.[key] ?? cfg?.i18n?.en?.[key];
+
+    // ✅ do nothing if missing (prevents blanks)
     if (t === null || t === undefined || t === "") return;
 
     el.textContent = t;
@@ -196,6 +214,7 @@ function applyConfigContent(cfg, lang) {
     const mode = el.getAttribute("data-config-mode") || "text";
     const val = getByPath(bundle, path);
 
+    // ✅ do nothing if missing (prevents blanks)
     if (val === null || val === undefined || val === "") return;
 
     if (mode === "html") el.innerHTML = val;
@@ -239,8 +258,9 @@ function setupLanguageSwitch(cfg) {
 }
 
 /* ================================
-   PRELOADER
+   PRELOADER (IF PRESENT)
 ================================= */
+
 function setupPreloader() {
   const pre = document.querySelector(".preloader");
   if (!pre) return;
@@ -254,13 +274,13 @@ function setupPreloader() {
 /* ================================
    INIT
 ================================= */
+
 (async function init() {
   const cfg = await loadConfig();
   injectHeader(cfg);
   injectFooter(cfg);
 
   setupLanguageSwitch(cfg);
-
   setActiveNav();
   setupPreloader();
 })();
