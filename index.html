@@ -54,15 +54,26 @@
         <p class="muted" data-config="home.intro"></p>
 
         <div class="meta" role="list" aria-label="Quick facts">
-          <div class="chip" role="listitem"><strong>Dates:</strong> <span data-config="event.dates">TBC</span></div>
-          <div class="chip" role="listitem"><strong>Location:</strong> <span data-config="event.city">TBC</span>, <span data-config="event.country">TBC</span></div>
-          <div class="chip" role="listitem"><strong>Format:</strong> <span data-config="event.format">Hybrid</span></div>
+          <div class="chip" role="listitem">
+            <strong data-i18n="home.label.dates">Dates:</strong>
+            <span data-config="event.dates">TBC</span>
+          </div>
+
+          <div class="chip" role="listitem">
+            <strong data-i18n="home.label.location">Location:</strong>
+            <span data-config="event.city">TBC</span>, <span data-config="event.country">TBC</span>
+          </div>
+
+          <div class="chip" role="listitem">
+            <strong data-i18n="home.label.format">Format:</strong>
+            <span data-config="event.format">Hybrid</span>
+          </div>
         </div>
 
         <div class="actions">
-          <a class="btn primary" href="./apply.html">Apply / Register</a>
-          <a class="btn ghost" href="./programme.html">Programme</a>
-          <a class="btn ghost" href="./event.html">Event details</a>
+          <a class="btn primary" href="./apply.html" data-i18n="home.btn.apply">Apply / Register</a>
+          <a class="btn ghost" href="./programme.html" data-i18n="home.btn.programme">Programme</a>
+          <a class="btn ghost" href="./event.html" data-i18n="home.btn.event">Event details</a>
         </div>
       </div>
 
@@ -93,14 +104,13 @@
 
     </div>
   </section>
-  <!-- ✅ IMPORTANT: hero-banner + grid CLOSED properly above -->
 
   <!-- =========================
        VIDEO (full width)
   ========================== -->
   <section class="card pad section video-block">
-    <h3>AfSNET Highlights Video</h3>
-    <p class="muted" style="margin-top:6px">
+    <h3 data-i18n="home.video.title">AfSNET Highlights Video</h3>
+    <p class="muted" style="margin-top:6px" data-i18n="home.video.subtitle">
       A short preview of what to expect at the 6th Edition of AfSNET in Calabar, Cross River State.
     </p>
 
