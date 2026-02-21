@@ -41,8 +41,13 @@
 
 <main id="main" class="container">
 
+  <!-- =========================
+       HERO (2 cards only)
+  ========================== -->
   <section class="hero-banner section">
     <div class="grid">
+
+      <!-- LEFT: Register card -->
       <div class="card pad hero">
         <span class="pill" data-config="home.pill">Applications open</span>
         <h2 data-config="home.headline"></h2>
@@ -61,31 +66,38 @@
         </div>
       </div>
 
- <!-- ✅ Track record (now fully config-driven + translatable) -->
-<div class="card pad surface track-card">
-  <div class="kicker" data-config="home.trackRecordTitle">AfSNET Track Record</div>
+      <!-- RIGHT: Track record card -->
+      <div class="card pad surface track-card">
+        <div class="kicker" data-config="home.trackRecordTitle">AfSNET Track Record</div>
 
-  <ul class="list" data-list="home.trackRecordStats">
-    <li>5 Editions</li>
-    <li>900+ Participants</li>
-    <li>21 Countries Represented</li>
-    <li>USD 3.2bn+ Deals Facilitated</li>
-  </ul>
+        <ul class="list" data-list="home.trackRecordStats">
+          <li>5 Editions</li>
+          <li>900+ Participants</li>
+          <li>21 Countries Represented</li>
+          <li>USD 3.2bn+ Deals Facilitated</li>
+        </ul>
 
-  <p class="muted small" style="margin-top:12px">
-    <a href="./about.html" data-config="home.trackRecordLinkText">
-      Learn more in About →
-    </a>
-  </p>
+        <p class="muted small" style="margin-top:12px">
+          <a href="./about.html" data-config="home.trackRecordLinkText">
+            Learn more in About →
+          </a>
+        </p>
 
-  <!-- ✅ Booking Button Added -->
-  <div class="track-cta">
-    <a class="btn primary" href="./schedule.html" data-i18n="nav.schedule">
-      Schedule Meeting
-    </a>
-  </div>
-</div>
-  <!-- 🎥 AfSNET Video (inserted between Hero and Highlights) -->
+        <!-- ✅ Booking Button (FORCED to the bottom) -->
+        <div class="bottom-slot">
+          <a class="btn primary" href="./schedule.html" data-i18n="nav.schedule">
+            Schedule Meeting
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <!-- ✅ IMPORTANT: hero-banner + grid CLOSED properly above -->
+
+  <!-- =========================
+       VIDEO (full width)
+  ========================== -->
   <section class="card pad section video-block">
     <h3>AfSNET Highlights Video</h3>
     <p class="muted" style="margin-top:6px">
@@ -104,8 +116,10 @@
       </iframe>
     </div>
   </section>
-  <!-- ✅ End Video -->
 
+  <!-- =========================
+       HIGHLIGHTS (full width)
+  ========================== -->
   <section class="card pad section">
     <h3 data-config="home.highlightsTitle">AfSNET Highlights</h3>
     <div class="two">
