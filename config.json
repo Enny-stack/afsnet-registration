@@ -27,6 +27,7 @@
       "nav.home": "Home",
       "nav.about": "About",
       "nav.programme": "Programme",
+      "nav.schedule": "Schedule",
       "nav.event": "Event",
       "nav.speakers": "Speakers/Partners",
       "nav.travel": "Travel & Visa",
@@ -40,6 +41,7 @@
       "nav.home": "Accueil",
       "nav.about": "À propos",
       "nav.programme": "Programme",
+      "nav.schedule": "Planifier",
       "nav.event": "Événement",
       "nav.speakers": "Intervenants / Partenaires",
       "nav.travel": "Voyage & Visa",
@@ -53,6 +55,7 @@
       "nav.home": "الرئيسية",
       "nav.about": "عن البرنامج",
       "nav.programme": "البرنامج",
+      "nav.schedule": "حجز اجتماع",
       "nav.event": "الفعالية",
       "nav.speakers": "المتحدثون / الشركاء",
       "nav.travel": "السفر والتأشيرة",
@@ -94,7 +97,11 @@
           "Project sponsors and deal teams",
           "Government / agencies",
           "Partners / ecosystem / media"
-        ]
+        ],
+
+        "videoTitle": "Conference Video",
+        "videoSubtitle": "Watch highlights and key moments from AfSNET.",
+        "videoCaption": "AfSNET 2026 — Calabar, Cross River State"
       },
 
       "about": {
@@ -182,6 +189,26 @@
             ["Follow-up", "Post-event tracking and support", "Updates and reporting"]
           ]
         }
+      },
+
+      "scheduleMeeting": {
+        "pill": "Meetings",
+        "headline": "Schedule a Meeting",
+        "intro": "Book your preferred time for B2B, B2G, or G2G meetings with the AfSNET team.",
+        "meetingTypes": {
+          "b2b": "Business to Business",
+          "b2g": "Business to Government",
+          "g2g": "Government to Government"
+        },
+        "beforeTitle": "Before you book",
+        "beforeList": [
+          "Use your official email address for confirmation.",
+          "Select the correct meeting type in the booking form.",
+          "Include a short agenda so we can prepare."
+        ],
+        "bookTitle": "Book your meeting",
+        "bookIntro": "Choose a date and time below. You will receive an email confirmation once your booking is completed.",
+        "tip": "Tip: If the scheduler does not load, please try refreshing the page or opening it in a new tab."
       },
 
       "programme": {
@@ -342,7 +369,11 @@
           "Sponsors de projets et équipes transactionnelles",
           "Gouvernement / agences",
           "Partenaires / écosystème / médias"
-        ]
+        ],
+
+        "videoTitle": "Vidéo de la conférence",
+        "videoSubtitle": "Découvrez les temps forts et moments clés d’AfSNET.",
+        "videoCaption": "AfSNET 2026 — Calabar, État de Cross River"
       },
 
       "about": {
@@ -430,6 +461,26 @@
             ["Suivi", "Suivi post-événement et accompagnement", "Mises à jour et reporting"]
           ]
         }
+      },
+
+      "scheduleMeeting": {
+        "pill": "Réunions",
+        "headline": "Planifier une réunion",
+        "intro": "Réservez le créneau de votre choix pour une réunion B2B, B2G ou G2G avec l’équipe AfSNET.",
+        "meetingTypes": {
+          "b2b": "Entreprise à Entreprise",
+          "b2g": "Entreprise à Gouvernement",
+          "g2g": "Gouvernement à Gouvernement"
+        },
+        "beforeTitle": "Avant de réserver",
+        "beforeList": [
+          "Utilisez votre adresse e-mail officielle pour la confirmation.",
+          "Sélectionnez le bon type de réunion dans le formulaire.",
+          "Ajoutez un court ordre du jour afin que nous puissions nous préparer."
+        ],
+        "bookTitle": "Réservez votre réunion",
+        "bookIntro": "Choisissez une date et une heure ci-dessous. Vous recevrez un e-mail de confirmation une fois la réservation terminée.",
+        "tip": "Astuce : si le planificateur ne se charge pas, actualisez la page ou ouvrez-le dans un nouvel onglet."
       },
 
       "programme": {
@@ -590,7 +641,11 @@
           "رعاة المشاريع وفرق الصفقات",
           "الحكومة / الجهات",
           "الشركاء / المنظومة / الإعلام"
-        ]
+        ],
+
+        "videoTitle": "فيديو المؤتمر",
+        "videoSubtitle": "شاهد أبرز اللحظات والمحطات الرئيسية في AfSNET.",
+        "videoCaption": "AfSNET 2026 — كالابار، ولاية كروس ريفر"
       },
 
       "about": {
@@ -678,6 +733,26 @@
             ["المتابعة", "متابعة ما بعد الفعالية والدعم", "تحديثات وتقارير"]
           ]
         }
+      },
+
+      "scheduleMeeting": {
+        "pill": "الاجتماعات",
+        "headline": "حجز اجتماع",
+        "intro": "احجز الوقت المناسب لاجتماعات B2B أو B2G أو G2G مع فريق AfSNET.",
+        "meetingTypes": {
+          "b2b": "أعمال إلى أعمال",
+          "b2g": "أعمال إلى حكومة",
+          "g2g": "حكومة إلى حكومة"
+        },
+        "beforeTitle": "قبل الحجز",
+        "beforeList": [
+          "استخدم بريدك الإلكتروني الرسمي لتلقي التأكيد.",
+          "اختر نوع الاجتماع الصحيح داخل نموذج الحجز.",
+          "أضف أجندة قصيرة حتى نتمكن من التحضير."
+        ],
+        "bookTitle": "احجز اجتماعك",
+        "bookIntro": "اختر التاريخ والوقت أدناه. ستتلقى رسالة تأكيد عبر البريد الإلكتروني بعد إتمام الحجز.",
+        "tip": "نصيحة: إذا لم يتم تحميل الجدول، جرّب تحديث الصفحة أو فتحه في علامة تبويب جديدة."
       },
 
       "programme": {
