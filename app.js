@@ -30,11 +30,65 @@ function getByPath(obj, path) {
     .reduce((acc, k) => (acc && acc[k] !== undefined ? acc[k] : null), obj);
 }
 
+/* ✅ Updated to support dropdown buttons as active too */
 function setActiveNav() {
   const file = location.pathname.split("/").pop() || "index.html";
+
+  // clear active on links
+  document.querySelectorAll(".nav a").forEach(a => a.classList.remove("active"));
+
+  // set active on matching link
   document.querySelectorAll(".nav a").forEach(a => {
     const href = (a.getAttribute("href") || "").replace("./", "");
-    if (href === file) a.classList.add("active");
+    if (href === file) {
+      a.classList.add("active");
+
+      // if inside dropdown, highlight the dropdown toggle too
+      const parentDropdown = a.closest(".nav-item.has-dropdown");
+      if (parentDropdown) {
+        const toggle = parentDropdown.querySelector(".dropdown-toggle");
+        if (toggle) toggle.classList.add("active");
+      }
+    }
+  });
+}
+
+/* ================================
+   ✅ DROPDOWN NAV WIRING
+================================= */
+function wireDropdownNav() {
+  const items = Array.from(document.querySelectorAll(".nav-item.has-dropdown"));
+  if (!items.length) return;
+
+  function closeAll() {
+    items.forEach(it => {
+      it.classList.remove("open");
+      const btn = it.querySelector(".dropdown-toggle");
+      if (btn) btn.setAttribute("aria-expanded", "false");
+    });
+  }
+
+  items.forEach(it => {
+    const btn = it.querySelector(".dropdown-toggle");
+    if (!btn) return;
+
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const isOpen = it.classList.contains("open");
+      closeAll();
+      if (!isOpen) {
+        it.classList.add("open");
+        btn.setAttribute("aria-expanded", "true");
+      }
+    });
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".nav-item.has-dropdown")) closeAll();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeAll();
   });
 }
 
@@ -50,7 +104,7 @@ function injectHeader(cfg) {
   const name = cfg?.site?.name || "AfSNET";
   const tagline = cfg?.site?.tagline || "African Sub-Sovereign Governments Network";
 
-  // Small inline layout fix (so you don’t have to touch CSS just for alignment)
+  // Small inline layout fix + ✅ Dropdown CSS inside the SAME style block
   const headerLayoutCSS = `
     <style>
       .topbar {
@@ -82,6 +136,89 @@ function injectHeader(cfg) {
       }
       /* RTL: keep actions on the far left visually, and avoid weird scattering */
       html[dir="rtl"] .nav-actions { margin-left:0; margin-right:auto; }
+
+      /* ================================
+         ✅ DROPDOWN CSS (ADDED HERE)
+      ================================= */
+
+      .nav-item{ position:relative; display:inline-flex; align-items:center; }
+
+      .nav-link.dropdown-toggle{
+        background:transparent;
+        border:1px solid transparent;
+        cursor:pointer;
+        font:inherit;
+        color:inherit;
+        padding:8px 10px;
+        border-radius:999px;
+        position:relative;
+        transition: transform .15s ease, background .15s ease, border-color .15s ease, box-shadow .15s ease;
+        white-space:nowrap;
+      }
+
+      .nav-link.dropdown-toggle:hover{
+        transform: translateY(-1px);
+        border-color: rgba(201,162,39,.35);
+        background: rgba(201,162,39,.10);
+        box-shadow: 0 10px 22px rgba(11,31,58,.10);
+      }
+
+      /* underline effect like your .nav a */
+      .nav-link.dropdown-toggle::after{
+        content:"";
+        position:absolute;
+        left:12px;
+        right:12px;
+        bottom:7px;
+        height:2px;
+        background: linear-gradient(90deg, rgba(201,162,39,0), rgba(201,162,39,.9), rgba(201,162,39,0));
+        opacity:0;
+        transform: scaleX(.6);
+        transition: opacity .15s ease, transform .15s ease;
+        border-radius:999px;
+      }
+      .nav-link.dropdown-toggle:hover::after{
+        opacity:1;
+        transform: scaleX(1);
+      }
+
+      /* active state for dropdown button */
+      .nav-link.dropdown-toggle.active{
+        border-color: rgba(201,162,39,.35);
+        background: rgba(201,162,39,.10);
+      }
+
+      .dropdown{
+        position:absolute;
+        top:calc(100% + 8px);
+        left:0;
+        min-width:220px;
+        background: rgba(255,255,255,.96);
+        border:1px solid rgba(11,31,58,.12);
+        border-radius:14px;
+        box-shadow: 0 18px 46px rgba(11,31,58,.14);
+        padding:8px;
+        display:none;
+        z-index:999;
+      }
+
+      .dropdown a{
+        display:block;
+        padding:10px 10px;
+        border-radius:12px;
+      }
+
+      .dropdown a:hover{
+        background: rgba(201,162,39,.10);
+        border-color: transparent;
+        transform:none;
+        box-shadow:none;
+      }
+
+      .nav-item.open .dropdown{ display:block; }
+
+      /* RTL support */
+      html[dir="rtl"] .dropdown{ left:auto; right:0; }
     </style>
   `;
 
@@ -101,24 +238,56 @@ function injectHeader(cfg) {
             </a>
 
             <div class="header-nav-wrap">
-              <!-- Primary links -->
+
+              <!-- ✅ Primary links WITH DROPDOWNS -->
               <nav class="nav nav-primary" aria-label="Primary navigation">
-                <a href="./index.html" data-i18n="nav.home">Home</a>
-                <a href="./about.html" data-i18n="nav.about">About</a>
+
+                <!-- Home dropdown -->
+                <div class="nav-item has-dropdown">
+                  <button class="nav-link dropdown-toggle" type="button" data-i18n="nav.home" aria-expanded="false">
+                    Home
+                  </button>
+                  <div class="dropdown">
+                    <a href="./index.html" data-i18n="nav.home">Home</a>
+                    <a href="./about.html" data-i18n="nav.about">About</a>
+                  </div>
+                </div>
+
                 <a href="./programme.html" data-i18n="nav.programme">Programme</a>
                 <a href="./schedule.html" data-i18n="nav.schedule">Schedule Meeting</a>
-                <a href="./event.html" data-i18n="nav.event">Event</a>
+
+                <!-- Event dropdown -->
+                <div class="nav-item has-dropdown">
+                  <button class="nav-link dropdown-toggle" type="button" data-i18n="nav.event" aria-expanded="false">
+                    Event
+                  </button>
+                  <div class="dropdown">
+                    <a href="./event.html" data-i18n="nav.event">Event</a>
+                    <a href="./media-press.html" data-i18n="nav.media">Media/Press</a>
+                  </div>
+                </div>
+
                 <a href="./speakers-partners.html" data-i18n="nav.speakers">Speakers/Partners</a>
-                <a href="./travel-visa.html" data-i18n="nav.travel">Travel & Visa</a>
-                <a href="./media-press.html" data-i18n="nav.media">Media/Press</a>
+
+                <!-- Travel dropdown -->
+                <div class="nav-item has-dropdown">
+                  <button class="nav-link dropdown-toggle" type="button" data-i18n="nav.travel" aria-expanded="false">
+                    Travel & Visa
+                  </button>
+                  <div class="dropdown">
+                    <a href="./travel-visa.html" data-i18n="nav.travel">Travel & Visa</a>
+                    <a href="./hotels.html" data-i18n="nav.hotels">Hotels</a>
+                  </div>
+                </div>
+
               </nav>
 
-              <!-- Actions on the far right (your circled area) -->
+              <!-- Actions on the far right -->
               <nav class="nav nav-actions" aria-label="Quick actions">
-                <a href="./hotels.html" data-i18n="nav.hotels">Hotels</a>
                 <a class="cta" href="./apply.html" data-i18n="nav.apply">Apply</a>
                 <a href="./contact.html" data-i18n="nav.contact">Contact</a>
               </nav>
+
             </div>
 
             <div class="lang-slot" id="lang-slot"></div>
@@ -130,7 +299,10 @@ function injectHeader(cfg) {
   `;
 
   injectLanguageSwitcher(cfg);
+
+  // must run after HTML is injected
   setActiveNav();
+  wireDropdownNav();
 }
 
 function injectFooter(cfg) {
@@ -572,13 +744,13 @@ function refreshPage(cfg, lang) {
   fillRootConfig(cfg);
   applyConfigContent(cfg, lang);
 
-  // optional per-page enhancers (safe: they only run if IDs exist)
   wireApply(cfg, lang);
   renderDownloads(cfg);
   initHomeTicker(cfg, lang);
   renderAboutPage(cfg, lang);
 
   setActiveNav();
+  wireDropdownNav();
 }
 
 function injectLanguageSwitcher(cfg) {
@@ -616,11 +788,20 @@ document.addEventListener("DOMContentLoaded", async () => {
   injectFooter(cfg);
 });
 
-// Preloader: hide when page is ready
-window.addEventListener("load", () => {
+/* ================================
+   ✅ PRELOADER FIX (DON’T WAIT FOR IFRAMES)
+================================= */
+function hidePreloader() {
   const preloader = document.getElementById("preloader");
   if (!preloader) return;
 
+  if (preloader.classList.contains("is-hidden")) return;
+
   preloader.classList.add("is-hidden");
   setTimeout(() => preloader.remove(), 450);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(hidePreloader, 250);
+  setTimeout(hidePreloader, 2500);
 });
