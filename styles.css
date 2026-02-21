@@ -296,8 +296,17 @@ header{
   display:flex;
   flex-direction:column;
 }
-.track-card .bottom-slot{
+
+/* ✅ supports BOTH html variants:
+   - <div class="bottom-slot"> (recommended)
+   - <div class="track-cta"> (your current one)
+*/
+.track-card .bottom-slot,
+.track-card .track-cta{
   margin-top:auto;
+  padding-top:14px;
+  display:flex;
+  justify-content:flex-start;
 }
 
 /* Tables (NO spill) */
@@ -711,7 +720,7 @@ body.home::before{
 }
 
 /* ================================
-   ✅ FIXED: Booking frame (was broken CSS)
+   ✅ FIXED: Booking frame (clean + valid)
 ================================= */
 .booking-frame{
   width:100%;
