@@ -30,12 +30,14 @@ function getByPath(obj, path) {
     .reduce((acc, k) => (acc && acc[k] !== undefined ? acc[k] : null), obj);
 }
 
-/* ✅ Updated to support dropdown buttons as active too */
+/* ✅ Updated: clear + set active on dropdown buttons too */
 function setActiveNav() {
   const file = location.pathname.split("/").pop() || "index.html";
 
-  // clear active on links
-  document.querySelectorAll(".nav a").forEach(a => a.classList.remove("active"));
+  // clear active on links + dropdown buttons
+  document.querySelectorAll(".nav a, .dropdown-toggle").forEach(el =>
+    el.classList.remove("active")
+  );
 
   // set active on matching link
   document.querySelectorAll(".nav a").forEach(a => {
@@ -104,184 +106,7 @@ function injectHeader(cfg) {
   const name = cfg?.site?.name || "AfSNET";
   const tagline = cfg?.site?.tagline || "African Sub-Sovereign Governments Network";
 
-  const headerLayoutCSS = `
-  <style>
-    /* ================================
-       HEADER LAYOUT (FIXED)
-    ================================= */
-    .topbar{
-      display:flex;
-      align-items:center;
-      gap:24px;
-      flex-wrap:nowrap;
-    }
-
-    .brand{
-      flex:0 0 auto;
-      display:flex;
-      align-items:center;
-      gap:12px;
-      text-decoration:none;
-      min-width:260px;
-    }
-
-    .site-logo{
-      width:44px;
-      height:44px;
-      object-fit:contain;
-      border-radius:12px;
-      flex:0 0 auto;
-    }
-
-    .brand h1{
-      margin:0;
-      font-size:28px;     /* ✅ reduce AfSNET */
-      line-height:1.05;
-      letter-spacing:.2px;
-    }
-
-    .brand p{
-      margin:4px 0 0;
-      font-size:13px;
-      line-height:1.2;
-      opacity:.78;
-    }
-
-    .header-nav-wrap{
-      flex:1 1 auto;
-      display:flex;
-      align-items:center;
-      justify-content:flex-end;
-      gap:18px;
-      min-width:0;
-    }
-
-    /* keep nav on one straight line (desktop) */
-    .nav-primary{
-      display:flex;
-      flex-wrap:nowrap;     /* ✅ straight line */
-      align-items:center;
-      gap:10px 16px;
-      min-width:0;
-    }
-
-    .nav-primary a,
-    .nav-link.dropdown-toggle{
-      white-space:nowrap;   /* ✅ prevent breaking into two lines */
-    }
-
-    .nav-actions{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      white-space:nowrap;
-      flex:0 0 auto;
-    }
-
-    /* keep actions on the far end */
-    .nav-actions{ margin-left:auto; }
-
-    /* RTL: keep actions visually aligned */
-    html[dir="rtl"] .nav-actions{ margin-left:0; margin-right:auto; }
-
-    /* ================================
-       DROPDOWN (SAFE + CLEAN)
-    ================================= */
-    .nav-item{ position:relative; display:inline-flex; align-items:center; }
-
-    .nav-link.dropdown-toggle{
-      background:transparent;
-      border:1px solid transparent;
-      cursor:pointer;
-      font:inherit;
-      color:inherit;
-      padding:8px 10px;
-      border-radius:999px;
-      position:relative;
-      transition: transform .15s ease, background .15s ease, border-color .15s ease, box-shadow .15s ease;
-    }
-
-    .nav-link.dropdown-toggle:hover{
-      transform: translateY(-1px);
-      border-color: rgba(201,162,39,.35);
-      background: rgba(201,162,39,.10);
-      box-shadow: 0 10px 22px rgba(11,31,58,.10);
-    }
-
-    .nav-link.dropdown-toggle::after{
-      content:"";
-      position:absolute;
-      left:12px;
-      right:12px;
-      bottom:7px;
-      height:2px;
-      background: linear-gradient(90deg, rgba(201,162,39,0), rgba(201,162,39,.9), rgba(201,162,39,0));
-      opacity:0;
-      transform: scaleX(.6);
-      transition: opacity .15s ease, transform .15s ease;
-      border-radius:999px;
-    }
-
-    .nav-link.dropdown-toggle:hover::after{
-      opacity:1;
-      transform: scaleX(1);
-    }
-
-    .nav-link.dropdown-toggle.active{
-      border-color: rgba(201,162,39,.35);
-      background: rgba(201,162,39,.10);
-    }
-
-    .dropdown{
-      position:absolute;
-      top:calc(100% + 10px);
-      left:0;
-      min-width:220px;
-      background: rgba(255,255,255,.98);
-      border:1px solid rgba(11,31,58,.12);
-      border-radius:14px;
-      box-shadow: 0 18px 46px rgba(11,31,58,.14);
-      padding:8px;
-      display:none;
-      z-index:9999;
-    }
-
-    .dropdown a{
-      display:block;
-      padding:10px 10px;
-      border-radius:12px;
-    }
-
-    .dropdown a:hover{
-      background: rgba(201,162,39,.10);
-      transform:none;
-      box-shadow:none;
-    }
-
-    .nav-item.open .dropdown{ display:block; }
-
-    html[dir="rtl"] .dropdown{ left:auto; right:0; }
-
-    /* ================================
-       RESPONSIVE: allow wrap only when needed
-    ================================= */
-    @media (max-width: 1100px){
-      .header-nav-wrap{ flex-wrap:wrap; justify-content:flex-start; }
-      .nav-primary{ flex-wrap:wrap; }
-      .nav-actions{ margin-left:0; }
-    }
-
-    @media (max-width: 820px){
-      .topbar{ flex-wrap:wrap; }
-      .brand{ width:100%; }
-      .header-nav-wrap{ width:100%; }
-      .nav-actions{ margin-left:auto; }
-    }
-  </style>
-  `;
-
   el.innerHTML = `
-    ${headerLayoutCSS}
     <header>
       <div class="header-shell">
         <div class="header-inner">
@@ -299,6 +124,7 @@ function injectHeader(cfg) {
 
               <nav class="nav nav-primary" aria-label="Primary navigation">
 
+                <!-- Home dropdown -->
                 <div class="nav-item has-dropdown">
                   <button class="nav-link dropdown-toggle" type="button" data-i18n="nav.home" aria-expanded="false">
                     Home
@@ -312,6 +138,7 @@ function injectHeader(cfg) {
                 <a href="./programme.html" data-i18n="nav.programme">Programme</a>
                 <a href="./schedule.html" data-i18n="nav.schedule">Schedule Meeting</a>
 
+                <!-- Event dropdown -->
                 <div class="nav-item has-dropdown">
                   <button class="nav-link dropdown-toggle" type="button" data-i18n="nav.event" aria-expanded="false">
                     Event
@@ -324,6 +151,7 @@ function injectHeader(cfg) {
 
                 <a href="./speakers-partners.html" data-i18n="nav.speakers">Speakers/Partners</a>
 
+                <!-- Travel dropdown -->
                 <div class="nav-item has-dropdown">
                   <button class="nav-link dropdown-toggle" type="button" data-i18n="nav.travel" aria-expanded="false">
                     Travel & Visa
@@ -339,12 +167,11 @@ function injectHeader(cfg) {
               <nav class="nav nav-actions" aria-label="Quick actions">
                 <a class="cta" href="./apply.html" data-i18n="nav.apply">Apply</a>
                 <a href="./contact.html" data-i18n="nav.contact">Contact</a>
-
-                <!-- ✅ Keep language selector aligned with actions -->
-                <div class="lang-slot" id="lang-slot"></div>
               </nav>
 
             </div>
+
+            <div class="lang-slot" id="lang-slot"></div>
 
           </div>
         </div>
@@ -353,9 +180,12 @@ function injectHeader(cfg) {
   `;
 
   injectLanguageSwitcher(cfg);
+
+  // must run after HTML is injected
   setActiveNav();
   wireDropdownNav();
 }
+
 function injectFooter(cfg) {
   const el = document.getElementById("site-footer");
   if (!el) return;
