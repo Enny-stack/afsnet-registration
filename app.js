@@ -3,110 +3,31 @@ let CONFIG = null;
 async function loadConfig() {
   if (CONFIG) return CONFIG;
 
-  const res = await fetch("./config.json", { cache: "no-store" });
-  if (!res.ok) throw new Error(`Failed to load config.json (${res.status})`);
-  CONFIG = await res.json();
-  return CONFIG;
+  try {
+    const res = await fetch("./config.json", { cache: "no-store" });
+    if (!res.ok) throw new Error(`config.json fetch failed (${res.status})`);
+    CONFIG = await res.json();
+    return CONFIG;
+  } catch (err) {
+    console.error("❌ Failed to load config.json:", err);
+    const body = document.querySelector("body");
+    if (body) {
+      body.innerHTML = `
+        <div style="max-width:900px;margin:40px auto;padding:16px;font-family:system-ui">
+          <h2>Site configuration error</h2>
+          <p>Please check <strong>config.json</strong> formatting (commas / quotes) and reload.</p>
+          <p style="color:#666">Open DevTools → Console to see the exact error.</p>
+        </div>
+      `;
+    }
+    throw err;
+  }
 }
 
 function getByPath(obj, path) {
-  if (!obj || !path) return null;
-  return path.split(".").reduce((acc, k) => (acc && acc[k] !== undefined ? acc[k] : null), obj);
-}
-
-function getLang(cfg) {
-  const url = new URL(window.location.href);
-  const urlLang = url.searchParams.get("lang");
-  const saved = localStorage.getItem("lang");
-  const def = cfg?.site?.defaultLang || "en";
-  const lang = (urlLang || saved || def).toLowerCase();
-  return ["en", "fr", "ar"].includes(lang) ? lang : def;
-}
-
-function setLang(lang) {
-  localStorage.setItem("lang", lang);
-  // keep URL clean; reload is simplest for static sites
-  const url = new URL(window.location.href);
-  url.searchParams.delete("lang");
-  window.location.href = url.toString();
-}
-
-function setHtmlLangDir(lang) {
-  document.documentElement.lang = lang || "en";
-  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
-}
-
-function t(cfg, lang, key) {
-  const val =
-    cfg?.i18n?.[lang]?.[key] ??
-    cfg?.i18n?.en?.[key] ??
-    null;
-  return typeof val === "string" ? val : null;
-}
-
-function c(cfg, lang, path) {
-  // content lookup with fallback to English
-  const val =
-    getByPath(cfg?.content?.[lang], path) ??
-    getByPath(cfg?.content?.en, path) ??
-    null;
-  return val;
-}
-
-function applyI18n(cfg, lang) {
-  // Translate data-i18n elements if translation exists;
-  // if missing, KEEP existing text (do not blank it).
-  document.querySelectorAll("[data-i18n]").forEach(el => {
-    const key = el.getAttribute("data-i18n");
-    if (!key) return;
-    const translated = t(cfg, lang, key);
-    if (translated !== null) el.textContent = translated;
-  });
-}
-
-function applyContent(cfg, lang) {
-  // Populate text nodes from content.* using data-config
-  document.querySelectorAll("[data-config]").forEach(el => {
-    const path = el.getAttribute("data-config");
-    if (!path) return;
-    const val = c(cfg, lang, path);
-    if (val === null || val === undefined) return;
-
-    // only set text for primitives
-    if (typeof val === "string" || typeof val === "number") {
-      el.textContent = String(val);
-    }
-  });
-
-  // Populate UL/OL lists from arrays using data-list
-  document.querySelectorAll("[data-list]").forEach(el => {
-    const path = el.getAttribute("data-list");
-    if (!path) return;
-
-    const val = c(cfg, lang, path);
-    if (!Array.isArray(val)) return;
-
-    // clear and rebuild list
-    el.innerHTML = "";
-    val.forEach(item => {
-      if (typeof item !== "string") return;
-      const li = document.createElement("li");
-      li.textContent = item;
-      el.appendChild(li);
-    });
-  });
-}
-
-function applyEmailLinks(cfg) {
-  document.querySelectorAll("[data-email]").forEach(a => {
-    const path = a.getAttribute("data-email");
-    if (!path) return;
-    const email = getByPath(cfg, path);
-    if (!email || typeof email !== "string") return;
-
-    a.textContent = email;
-    a.setAttribute("href", `mailto:${email}`);
-  });
+  return path
+    .split(".")
+    .reduce((acc, k) => (acc && acc[k] !== undefined ? acc[k] : null), obj);
 }
 
 function setActiveNav() {
@@ -117,50 +38,99 @@ function setActiveNav() {
   });
 }
 
-function injectHeader(cfg, lang) {
+/* ================================
+   HEADER + FOOTER INJECTION
+================================= */
+
+function injectHeader(cfg) {
   const el = document.getElementById("site-header");
   if (!el) return;
 
-  const logoSrc = cfg?.site?.logoSrc || cfg?.site?.logo || "./assets/logo/afsnet-logo.jpg";
-  const siteName = cfg?.site?.name || "AfSNET";
+  const logo = cfg?.site?.logoSrc || "./assets/logo/afsnet-logo.jpg";
+  const name = cfg?.site?.name || "AfSNET";
+  const tagline = cfg?.site?.tagline || "African Sub-Sovereign Governments Network";
+
+  // Small inline layout fix (so you don’t have to touch CSS just for alignment)
+  const headerLayoutCSS = `
+    <style>
+      .topbar {
+        display:flex;
+        align-items:center;
+        gap:16px;
+      }
+      .brand { flex:0 0 auto; display:flex; align-items:center; gap:12px; text-decoration:none; }
+      .header-nav-wrap {
+        flex: 1 1 auto;
+        display:flex;
+        align-items:center;
+        gap:16px;
+        min-width: 0;
+      }
+      .nav-primary {
+        display:flex;
+        flex-wrap:wrap;
+        gap:12px 18px;
+        align-items:center;
+        min-width: 0;
+      }
+      .nav-actions {
+        margin-left:auto;
+        display:flex;
+        align-items:center;
+        gap:14px;
+        white-space:nowrap;
+      }
+      /* RTL: keep actions on the far left visually, and avoid weird scattering */
+      html[dir="rtl"] .nav-actions { margin-left:0; margin-right:auto; }
+    </style>
+  `;
 
   el.innerHTML = `
-    <header class="site-header">
-      <div class="container header-inner">
-        <a class="brand" href="./index.html" aria-label="${siteName}">
-          <img class="brand-logo" src="${logoSrc}" alt="${siteName} logo" />
-          <span class="brand-text">
-            <span class="brand-name">${siteName}</span>
-            <span class="brand-tagline">${cfg?.site?.tagline || ""}</span>
-          </span>
-        </a>
+    ${headerLayoutCSS}
+    <header>
+      <div class="header-shell">
+        <div class="header-inner">
+          <div class="topbar">
 
-        <nav class="nav" aria-label="Primary">
-          <a href="./index.html" data-i18n="nav.home">Home</a>
-          <a href="./about.html" data-i18n="nav.about">About</a>
-          <a href="./programme.html" data-i18n="nav.programme">Programme</a>
-          <a href="./schedule-meeting.html" data-i18n="nav.schedule">Schedule Meeting</a>
-          <a href="./event.html" data-i18n="nav.event">Event</a>
-          <a href="./speakers-partners.html" data-i18n="nav.speakers">Speakers/Partners</a>
-          <a href="./travel-visa.html" data-i18n="nav.travel">Travel & Visa</a>
-          <a href="./media-press.html" data-i18n="nav.media">Media/Press</a>
-          <a href="./hotels.html" data-i18n="nav.hotels">Hotels</a>
-          <a class="cta" href="./apply.html" data-i18n="nav.apply">Apply</a>
-          <a href="./contact.html" data-i18n="nav.contact">Contact</a>
-        </nav>
+            <a class="brand" href="./index.html" aria-label="${name} Home">
+              <img class="site-logo" src="${logo}" alt="${name} logo" />
+              <div>
+                <h1>${name}</h1>
+                <p>${tagline}</p>
+              </div>
+            </a>
 
-        <div class="lang-switch" aria-label="Language switcher">
-          <button type="button" class="btn tiny ${lang === "en" ? "primary" : "ghost"}" data-lang="en">EN</button>
-          <button type="button" class="btn tiny ${lang === "fr" ? "primary" : "ghost"}" data-lang="fr">FR</button>
-          <button type="button" class="btn tiny ${lang === "ar" ? "primary" : "ghost"}" data-lang="ar">AR</button>
+            <div class="header-nav-wrap">
+              <!-- Primary links -->
+              <nav class="nav nav-primary" aria-label="Primary navigation">
+                <a href="./index.html" data-i18n="nav.home">Home</a>
+                <a href="./about.html" data-i18n="nav.about">About</a>
+                <a href="./programme.html" data-i18n="nav.programme">Programme</a>
+                <a href="./schedule.html" data-i18n="nav.schedule">Schedule Meeting</a>
+                <a href="./event.html" data-i18n="nav.event">Event</a>
+                <a href="./speakers-partners.html" data-i18n="nav.speakers">Speakers/Partners</a>
+                <a href="./travel-visa.html" data-i18n="nav.travel">Travel & Visa</a>
+                <a href="./media-press.html" data-i18n="nav.media">Media/Press</a>
+              </nav>
+
+              <!-- Actions on the far right (your circled area) -->
+              <nav class="nav nav-actions" aria-label="Quick actions">
+                <a href="./hotels.html" data-i18n="nav.hotels">Hotels</a>
+                <a class="cta" href="./apply.html" data-i18n="nav.apply">Apply</a>
+                <a href="./contact.html" data-i18n="nav.contact">Contact</a>
+              </nav>
+            </div>
+
+            <div class="lang-slot" id="lang-slot"></div>
+
+          </div>
         </div>
       </div>
     </header>
   `;
 
-  el.querySelectorAll("[data-lang]").forEach(btn => {
-    btn.addEventListener("click", () => setLang(btn.getAttribute("data-lang")));
-  });
+  injectLanguageSwitcher(cfg);
+  setActiveNav();
 }
 
 function injectFooter(cfg) {
@@ -168,102 +138,489 @@ function injectFooter(cfg) {
   if (!el) return;
 
   const year = new Date().getFullYear();
-  const afrex = cfg?.site?.externalLinks?.afreximbankUrl || cfg?.site?.externalLinks?.afreximbank || "https://www.afreximbank.com";
-  const iatf = cfg?.site?.externalLinks?.iatfUrl || cfg?.site?.externalLinks?.iatf || "https://www.iatf.africa";
+
+  const afreximbankUrl =
+    cfg?.site?.externalLinks?.afreximbankUrl ||
+    cfg?.site?.externalLinks?.afreximbank ||
+    "https://www.afreximbank.com";
+
+  const iatfUrl =
+    cfg?.site?.externalLinks?.iatfUrl ||
+    cfg?.site?.externalLinks?.iatf ||
+    "https://www.iatf.africa";
 
   el.innerHTML = `
     <footer class="site-footer">
-      <div class="container footer-inner">
-        <div class="muted small">© ${year} ${cfg?.site?.name || "AfSNET"}</div>
-        <div class="footer-links small">
-          <a href="${afrex}" target="_blank" rel="noopener">Afreximbank</a>
-          <span class="muted">•</span>
-          <a href="${iatf}" target="_blank" rel="noopener">IATF</a>
+      <div class="container footer-container">
+
+        <div class="footer-grid-3">
+
+          <div class="footer-col brand-col">
+            <div class="footer-brand">
+              <img src="${cfg?.site?.logoSrc || "./assets/logo/afsnet-logo.jpg"}"
+                   class="footer-logo-img"
+                   alt="AfSNET Logo" />
+
+              <div>
+                <p class="footer-title">
+                  African Sub-Sovereign Governments Network (AfSNET)
+                </p>
+                <p class="footer-sub">
+                  Connecting African states, investors, and projects through a trusted investment network.
+                </p>
+              </div>
+            </div>
+
+            <p class="footer-copy">
+              © ${year} Afreximbank / AfSNET. All rights reserved.
+            </p>
+
+            <div class="footer-links" style="margin-top:12px">
+              <a href="${afreximbankUrl}" target="_blank" rel="noopener">Afreximbank Website</a>
+              <a href="${iatfUrl}" target="_blank" rel="noopener">IATF Website</a>
+            </div>
+          </div>
+
+          <div class="footer-col links-col">
+            <h4>Quick links</h4>
+            <div class="footer-links">
+              <a href="./about.html">About</a>
+              <a href="./programme.html">Programme</a>
+              <a href="./apply.html">Apply</a>
+              <a href="./event.html">Event</a>
+              <a href="./contact.html">Contact</a>
+            </div>
+          </div>
+
+          <div class="footer-col address-col">
+            <h4>Afreximbank Headquarters – Cairo, Egypt</h4>
+
+            <div class="footer-contact">
+              <div class="line">
+                72 (B) El-Maahad El-Eshteraky Street – Heliopolis, Cairo 11341, Egypt
+              </div>
+              <div class="line">
+                <span class="label">Postal Address:</span>
+                P.O. Box 613 Heliopolis, Cairo 11757, Egypt
+              </div>
+              <div class="line">
+                <span class="label">Email:</span> ${cfg?.site?.supportEmail || "afsnet@afreximbank.com"}
+              </div>
+              <div class="line">
+                <span class="label">Tel:</span> ${cfg?.site?.phone || "+20-2-24564100"}
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </footer>
   `;
 }
 
-function setupApplyExternalForm(cfg, lang) {
+/* ================================
+   ROOT (NON-LANGUAGE) FILL
+================================= */
+function fillRootConfig(cfg) {
+  document.querySelectorAll("[data-config]").forEach(el => {
+    const path = el.getAttribute("data-config") || "";
+
+    const isRoot =
+      path.startsWith("site.") ||
+      path.startsWith("event.") ||
+      path.startsWith("downloads.");
+
+    if (!isRoot) return;
+
+    const val = getByPath(cfg, path);
+    if (val !== null && typeof val !== "object") el.textContent = val;
+  });
+
+  document.querySelectorAll("[data-email]").forEach(el => {
+    const path = el.getAttribute("data-email");
+    const email = getByPath(cfg, path);
+    if (email) {
+      el.textContent = email;
+      el.setAttribute("href", `mailto:${email}`);
+    }
+  });
+}
+
+/* ================================
+   DOWNLOADS
+================================= */
+function renderDownloads(cfg) {
+  const ul = document.getElementById("downloadsList");
+  if (!ul) return;
+
+  const items = cfg?.downloads?.items || [];
+  ul.innerHTML = items
+    .map(i => `<li><a href="${i.file}" target="_blank" rel="noopener">${i.label}</a></li>`)
+    .join("");
+  ul.classList.add("list");
+}
+
+/* ================================
+   APPLY BUTTON (TALLY)
+================================= */
+function wireApply(cfg, lang) {
   const btn = document.getElementById("openExternalForm");
   if (!btn) return;
 
   const url =
-    c(cfg, lang, "apply.externalFormUrl") ||
-    c(cfg, "en", "apply.externalFormUrl");
+    cfg?.content?.[lang]?.apply?.externalFormUrl ||
+    cfg?.content?.en?.apply?.externalFormUrl;
 
-  if (typeof url === "string" && url.trim()) {
-    btn.setAttribute("href", url.trim());
-  }
+  if (!url) return;
+
+  btn.setAttribute("href", url);
+  btn.setAttribute("target", "_blank");
+  btn.setAttribute("rel", "noopener");
 }
 
-function renderHotels(cfg, lang) {
-  const tbody = document.getElementById("hotelsBody");
-  if (!tbody) return;
+/* ================================
+   HOME ANNOUNCEMENT TICKER
+================================= */
+function initHomeTicker(cfg, lang) {
+  const track = document.getElementById("homeTickerTrack");
+  if (!track) return;
 
-  const list = c(cfg, lang, "hotels.list") || [];
-  if (!Array.isArray(list)) return;
+  const msg =
+    cfg?.i18n?.[lang]?.["home.announcement"] ||
+    cfg?.i18n?.en?.["home.announcement"] ||
+    "";
 
-  tbody.innerHTML = "";
+  if (!msg.trim()) {
+    track.innerHTML = "";
+    return;
+  }
 
-  list.forEach(row => {
-    if (!row || typeof row !== "object") return;
+  const itemHTML = `
+    <span class="ticker-item">
+      <span class="ticker-dot" aria-hidden="true"></span>
+      <span class="ticker-text">${msg}</span>
+    </span>
+  `;
 
-    const tr = document.createElement("tr");
+  const repeated = new Array(10).fill(itemHTML).join("");
+  track.innerHTML = repeated + repeated;
 
-    const tdName = document.createElement("td");
-    tdName.textContent = row.name ?? "";
-    tr.appendChild(tdName);
+  track.style.animation = "none";
+  track.offsetHeight;
+  track.style.animation = "";
+}
 
-    const tdDist = document.createElement("td");
-    tdDist.textContent = row.distance ?? "";
-    tr.appendChild(tdDist);
+/* ================================
+   ABOUT PAGE (CONFIG-DRIVEN)
+================================= */
+function renderAboutIntro(cfg, lang) {
+  const mount = document.getElementById("aboutIntro");
+  if (!mount) return;
 
-    const tdRate = document.createElement("td");
-    tdRate.textContent = row.rate ?? "";
-    tr.appendChild(tdRate);
+  const bundle = cfg?.content?.[lang]?.about || cfg?.content?.en?.about;
+  const paras = bundle?.introParagraphs;
 
-    const tdBooking = document.createElement("td");
-    const booking = row.booking ?? "";
-    if (typeof booking === "string" && booking.trim().startsWith("http")) {
-      const a = document.createElement("a");
-      a.href = booking.trim();
-      a.target = "_blank";
-      a.rel = "noopener";
-      a.textContent = booking.trim();
-      tdBooking.appendChild(a);
-    } else {
-      tdBooking.textContent = booking;
+  if (!Array.isArray(paras) || !paras.length) {
+    mount.innerHTML = "";
+    return;
+  }
+
+  mount.innerHTML = paras
+    .map((p, idx) => `<p class="muted"${idx === paras.length - 1 ? ' style="margin-bottom:0"' : ""}>${p}</p>`)
+    .join("");
+}
+
+function renderAboutEditions(cfg, lang) {
+  const ul = document.getElementById("aboutEditionsList");
+  if (!ul) return;
+
+  const bundle = cfg?.content?.[lang]?.about || cfg?.content?.en?.about;
+  const editions = bundle?.editions || [];
+  ul.innerHTML = Array.isArray(editions) ? editions.map(x => `<li>${x}</li>`).join("") : "";
+}
+
+function renderAboutCtas(cfg, lang) {
+  const applyBtn = document.getElementById("aboutCtaApply");
+  const programmeBtn = document.getElementById("aboutCtaProgramme");
+  const eventBtn = document.getElementById("aboutCtaEvent");
+
+  if (!applyBtn && !programmeBtn && !eventBtn) return;
+
+  const bundle = cfg?.content?.[lang]?.about || cfg?.content?.en?.about;
+  const cta = bundle?.cta || cfg?.content?.en?.about?.cta || {};
+
+  if (applyBtn && cta.apply) applyBtn.textContent = cta.apply;
+  if (programmeBtn && cta.programme) programmeBtn.textContent = cta.programme;
+  if (eventBtn && cta.event) eventBtn.textContent = cta.event;
+}
+
+function renderAboutObjectives(cfg, lang) {
+  const scroller = document.getElementById("aboutObjectivesScroller");
+  if (!scroller) return;
+
+  const bundle = cfg?.content?.[lang]?.about || cfg?.content?.en?.about;
+  const objectives = bundle?.objectives || [];
+
+  if (!Array.isArray(objectives) || !objectives.length) {
+    scroller.innerHTML = "";
+    return;
+  }
+
+  scroller.innerHTML = objectives.map(o => `
+    <article class="snap-card" data-snap-card>
+      <div class="snap-img">
+        <img src="${o.image || ""}" alt="${(o.title || "").replace(/"/g, "&quot;")}">
+      </div>
+      <div class="snap-body">
+        <h4>${o.title || ""}</h4>
+        <p class="muted">${o.description || ""}</p>
+      </div>
+    </article>
+  `).join("");
+}
+
+function renderHowWorks(cfg, lang) {
+  const grid = document.getElementById("howWorksGrid");
+  if (!grid) return;
+
+  const bundle = cfg?.content?.[lang]?.about || cfg?.content?.en?.about;
+  const table = bundle?.howWorksTable || cfg?.content?.en?.about?.howWorksTable;
+
+  const headers = table?.headers || [];
+  const rows = table?.rows || [];
+
+  if (!Array.isArray(headers) || headers.length !== 3 || !Array.isArray(rows)) {
+    grid.innerHTML = "";
+    return;
+  }
+
+  const col0 = rows.map(r => r?.[0] ?? "");
+  const col1 = rows.map(r => r?.[1] ?? "");
+  const col2 = rows.map(r => r?.[2] ?? "");
+
+  grid.innerHTML = `
+    <div class="flow-col">
+      <div class="flow-head">${headers[0]}</div>
+      ${col0.map(x => `<div class="flow-row">${x}</div>`).join("")}
+    </div>
+    <div class="flow-col">
+      <div class="flow-head">${headers[1]}</div>
+      ${col1.map(x => `<div class="flow-row">${x}</div>`).join("")}
+    </div>
+    <div class="flow-col">
+      <div class="flow-head">${headers[2]}</div>
+      ${col2.map(x => `<div class="flow-row">${x}</div>`).join("")}
+    </div>
+  `;
+}
+
+function renderAboutPage(cfg, lang) {
+  renderAboutIntro(cfg, lang);
+  renderAboutEditions(cfg, lang);
+  renderAboutCtas(cfg, lang);
+  renderAboutObjectives(cfg, lang);
+  renderHowWorks(cfg, lang);
+  initSnapSlider("objectivesSlider");
+}
+
+/* ================================
+   SIMPLE SLIDER (OBJECTIVES)
+================================= */
+function initSnapSlider(rootId) {
+  const root = document.getElementById(rootId);
+  if (!root) return;
+
+  const scroller = root.querySelector("[data-snap-scroller]");
+  const dotsWrap = root.querySelector("[data-snap-dots]");
+  let btnPrev = root.querySelector("[data-snap-prev]");
+  let btnNext = root.querySelector("[data-snap-next]");
+
+  if (!scroller) return;
+
+  const cards = Array.from(scroller.querySelectorAll("[data-snap-card]"));
+  if (!cards.length) {
+    if (dotsWrap) dotsWrap.innerHTML = "";
+    return;
+  }
+
+  if (btnPrev) {
+    const clone = btnPrev.cloneNode(true);
+    btnPrev.parentNode.replaceChild(clone, btnPrev);
+    btnPrev = clone;
+  }
+  if (btnNext) {
+    const clone = btnNext.cloneNode(true);
+    btnNext.parentNode.replaceChild(clone, btnNext);
+    btnNext = clone;
+  }
+
+  if (dotsWrap) {
+    dotsWrap.innerHTML = cards
+      .map((_, i) => `<button type="button" class="snap-dot" aria-label="Go to slide ${i + 1}" data-dot-index="${i}"></button>`)
+      .join("");
+  }
+
+  const dots = dotsWrap ? Array.from(dotsWrap.querySelectorAll(".snap-dot")) : [];
+
+  function setActive(index) {
+    dots.forEach((d, i) => d.classList.toggle("active", i === index));
+  }
+
+  function currentIndex() {
+    const left = scroller.getBoundingClientRect().left;
+    let best = 0;
+    let bestDist = Infinity;
+    cards.forEach((c, i) => {
+      const d = Math.abs(c.getBoundingClientRect().left - left);
+      if (d < bestDist) { bestDist = d; best = i; }
+    });
+    return best;
+  }
+
+  function scrollToIndex(i) {
+    cards[i]?.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
+    setActive(i);
+  }
+
+  setActive(0);
+
+  scroller.onscroll = () => {
+    window.requestAnimationFrame(() => setActive(currentIndex()));
+  };
+
+  dots.forEach(d => {
+    d.onclick = () => {
+      const i = Number(d.getAttribute("data-dot-index"));
+      scrollToIndex(i);
+    };
+  });
+
+  if (btnPrev) btnPrev.onclick = () => {
+    const i = Math.max(0, currentIndex() - 1);
+    scrollToIndex(i);
+  };
+
+  if (btnNext) btnNext.onclick = () => {
+    const iNow = currentIndex();
+    const last = cards.length - 1;
+
+    if (iNow >= last) {
+      const target = document.getElementById("howWorks");
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+        target.classList.remove("flash-highlight");
+        void target.offsetWidth;
+        target.classList.add("flash-highlight");
+      }
+      return;
     }
-    tr.appendChild(tdBooking);
 
-    tbody.appendChild(tr);
+    scrollToIndex(Math.min(last, iNow + 1));
+  };
+}
+
+/* ================================
+   LANGUAGE
+================================= */
+function applyLanguage(cfg, lang) {
+  const dict = cfg?.i18n?.[lang] || cfg?.i18n?.en;
+  if (!dict) return;
+
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+    if (dict[key]) el.textContent = dict[key];
+  });
+
+  document.documentElement.setAttribute("dir", lang === "ar" ? "rtl" : "ltr");
+  document.documentElement.setAttribute("lang", lang);
+  localStorage.setItem("lang", lang);
+}
+
+function applyConfigContent(cfg, lang) {
+  const bundle = cfg?.content?.[lang] || cfg?.content?.en;
+  if (!bundle) return;
+
+  document.querySelectorAll("[data-config]").forEach(el => {
+    const path = el.getAttribute("data-config") || "";
+
+    const isRoot =
+      path.startsWith("site.") ||
+      path.startsWith("event.") ||
+      path.startsWith("downloads.");
+
+    if (isRoot) return;
+
+    const value = getByPath(bundle, path);
+    if (value !== null && typeof value !== "object") {
+      el.textContent = value;
+    }
+  });
+
+  document.querySelectorAll("[data-list]").forEach(ul => {
+    const path = ul.getAttribute("data-list");
+    const items = getByPath(bundle, path);
+
+    if (Array.isArray(items)) {
+      ul.innerHTML = items.map(x => `<li>${x}</li>`).join("");
+      ul.classList.add("list");
+    }
   });
 }
 
-async function init() {
-  try {
-    const cfg = await loadConfig();
-    const lang = getLang(cfg);
+function refreshPage(cfg, lang) {
+  applyLanguage(cfg, lang);
+  fillRootConfig(cfg);
+  applyConfigContent(cfg, lang);
 
-    setHtmlLangDir(lang);
+  // optional per-page enhancers (safe: they only run if IDs exist)
+  wireApply(cfg, lang);
+  renderDownloads(cfg);
+  initHomeTicker(cfg, lang);
+  renderAboutPage(cfg, lang);
 
-    injectHeader(cfg, lang);
-    injectFooter(cfg);
-
-    // apply translations/content AFTER header/footer injection
-    applyI18n(cfg, lang);
-    applyContent(cfg, lang);
-
-    applyEmailLinks(cfg);
-    setupApplyExternalForm(cfg, lang);
-    renderHotels(cfg, lang);
-
-    setActiveNav();
-  } catch (err) {
-    console.error(err);
-  }
+  setActiveNav();
 }
 
-document.addEventListener("DOMContentLoaded", init);
+function injectLanguageSwitcher(cfg) {
+  const slot = document.getElementById("lang-slot");
+  if (!slot) return;
+
+  slot.innerHTML = `
+    <div class="lang-switch">
+      <select id="langSelect" aria-label="Language selector">
+        <option value="en">EN</option>
+        <option value="fr">FR</option>
+        <option value="ar">AR</option>
+      </select>
+    </div>
+  `;
+
+  const select = document.getElementById("langSelect");
+  const savedLang = localStorage.getItem("lang") || cfg?.site?.defaultLang || "en";
+  select.value = savedLang;
+
+  refreshPage(cfg, savedLang);
+
+  select.addEventListener("change", () => {
+    const lang = select.value;
+    refreshPage(cfg, lang);
+  });
+}
+
+/* ================================
+   INIT
+================================= */
+document.addEventListener("DOMContentLoaded", async () => {
+  const cfg = await loadConfig();
+  injectHeader(cfg);
+  injectFooter(cfg);
+});
+
+// Preloader: hide when page is ready
+window.addEventListener("load", () => {
+  const preloader = document.getElementById("preloader");
+  if (!preloader) return;
+
+  preloader.classList.add("is-hidden");
+  setTimeout(() => preloader.remove(), 450);
+});
