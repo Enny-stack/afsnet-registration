@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="./styles.css" />
   <script src="./app.js" defer></script>
 </head>
+
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
 <div id="site-header"></div>
@@ -21,18 +22,14 @@
         <p class="muted" data-config="mediaPress.intro"></p>
 
         <div class="actions">
-          <a class="btn primary" href="./apply.html">Apply / Register</a>
-          <a class="btn ghost" href="./contact.html">Press contact</a>
+          <a class="btn primary" href="./apply.html" data-i18n="media.btn.apply">Apply / Register</a>
+          <a class="btn ghost" href="./contact.html" data-i18n="media.btn.contact">Press contact</a>
         </div>
       </div>
 
       <div class="card pad surface">
-        <div class="kicker" data-config="mediaPress.mediaNoteTitle">Media notes (example)</div>
-        <ul class="list" data-list="mediaPress.mediaNotes">
-          <li>Accreditation required for media coverage</li>
-          <li>Use official event branding and naming</li>
-          <li>Direct interview requests via the AfSNET team</li>
-        </ul>
+        <div class="kicker" data-config="mediaPress.mediaNoteTitle"></div>
+        <ul class="list" data-list="mediaPress.mediaNotes"></ul>
       </div>
     </div>
   </section>
