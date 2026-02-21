@@ -20,33 +20,29 @@
   <section class="hero-banner section">
     <div class="grid">
       <div class="card pad hero">
-        <span class="pill">Meetings</span>
-        <h2>Schedule a Meeting</h2>
-        <p class="muted">
+        <span class="pill" data-config="scheduleMeeting.pill">Meetings</span>
+        <h2 data-config="scheduleMeeting.headline">Schedule a Meeting</h2>
+        <p class="muted" data-config="scheduleMeeting.intro">
           Book your preferred time for B2B, B2G, or G2G meetings with the AfSNET team.
         </p>
 
         <div class="meta" role="list" aria-label="Meeting types">
-          <div class="chip" role="listitem"><strong>B2B:</strong> Business to Business</div>
-          <div class="chip" role="listitem"><strong>B2G:</strong> Business to Government</div>
-          <div class="chip" role="listitem"><strong>G2G:</strong> Government to Government</div>
+          <div class="chip" role="listitem"><strong>B2B:</strong> <span data-config="scheduleMeeting.meetingTypes.b2b">Business to Business</span></div>
+          <div class="chip" role="listitem"><strong>B2G:</strong> <span data-config="scheduleMeeting.meetingTypes.b2g">Business to Government</span></div>
+          <div class="chip" role="listitem"><strong>G2G:</strong> <span data-config="scheduleMeeting.meetingTypes.g2g">Government to Government</span></div>
         </div>
       </div>
 
       <div class="card pad surface">
-        <div class="kicker">Before you book</div>
-        <ul class="list">
-          <li>Use your official email address for confirmation.</li>
-          <li>Select the correct meeting type in the booking form.</li>
-          <li>Include a short agenda so we can prepare.</li>
-        </ul>
+        <div class="kicker" data-config="scheduleMeeting.beforeTitle">Before you book</div>
+        <ul class="list" data-list="scheduleMeeting.beforeList"></ul>
       </div>
     </div>
   </section>
 
   <section class="section card pad">
-    <h3 style="margin-top:0">Book your meeting</h3>
-    <p class="muted" style="margin-top:6px;margin-bottom:16px;">
+    <h3 style="margin-top:0" data-config="scheduleMeeting.bookTitle">Book your meeting</h3>
+    <p class="muted" style="margin-top:6px;margin-bottom:16px;" data-config="scheduleMeeting.bookIntro">
       Choose a date and time below. You will receive an email confirmation once your booking is completed.
     </p>
 
@@ -62,7 +58,7 @@
       </iframe>
     </div>
 
-    <p class="muted small" style="margin-top:10px">
+    <p class="muted small" style="margin-top:10px" data-config="scheduleMeeting.tip">
       Tip: If the scheduler does not load, please try refreshing the page or opening it in a new tab.
     </p>
   </section>
