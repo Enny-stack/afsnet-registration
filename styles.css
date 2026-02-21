@@ -893,3 +893,20 @@ border-radius:12px
 overflow:hidden;
 background:#fff;
 }
+/* Make Track Record card stretch vertically */
+.track-card{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Push button to bottom of card */
+.track-cta{
+  margin-top: auto;
+  padding-top: 20px;
+}
+
+.track-cta .btn{
+  width: 100%;
+  text-align: center;
+}
