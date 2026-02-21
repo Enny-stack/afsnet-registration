@@ -41,7 +41,7 @@
       "nav.home": "Accueil",
       "nav.about": "À propos",
       "nav.programme": "Programme",
-      "nav.schedule": "Planifier une réunion"
+      "nav.schedule": "Planifier une réunion",
       "nav.event": "Événement",
       "nav.speakers": "Intervenants / Partenaires",
       "nav.travel": "Voyage & Visa",
@@ -55,7 +55,7 @@
       "nav.home": "الرئيسية",
       "nav.about": "عن البرنامج",
       "nav.programme": "البرنامج",
-     "nav.schedule": "جدولة اجتماع"
+      "nav.schedule": "جدولة اجتماع",
       "nav.event": "الفعالية",
       "nav.speakers": "المتحدثون / الشركاء",
       "nav.travel": "السفر والتأشيرة",
@@ -193,7 +193,7 @@
 
       "scheduleMeeting": {
         "pill": "Meetings",
-        "headline": "Schedule a Meeting",
+        "headline": "Schedule Meeting",
         "intro": "Book your preferred time for B2B, B2G, or G2G meetings with the AfSNET team.",
         "meetingTypes": {
           "b2b": "Business to Business",
@@ -737,7 +737,7 @@
 
       "scheduleMeeting": {
         "pill": "الاجتماعات",
-        "headline": "حجز اجتماع",
+        "headline": "جدولة اجتماع",
         "intro": "احجز الوقت المناسب لاجتماعات B2B أو B2G أو G2G مع فريق AfSNET.",
         "meetingTypes": {
           "b2b": "أعمال إلى أعمال",
