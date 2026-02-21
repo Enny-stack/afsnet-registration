@@ -104,122 +104,180 @@ function injectHeader(cfg) {
   const name = cfg?.site?.name || "AfSNET";
   const tagline = cfg?.site?.tagline || "African Sub-Sovereign Governments Network";
 
-  // Small inline layout fix + ✅ Dropdown CSS inside the SAME style block
   const headerLayoutCSS = `
   <style>
-    .topbar {
+    /* ================================
+       HEADER LAYOUT (FIXED)
+    ================================= */
+    .topbar{
       display:flex;
       align-items:center;
-      gap:16px;
+      gap:24px;
+      flex-wrap:nowrap;
     }
-    .brand { flex:0 0 auto; display:flex; align-items:center; gap:
-      .header-nav-wrap {
-        flex: 1 1 auto;
-        display:flex;
-        align-items:center;
-        gap:16px;
-        min-width: 0;
-      }
-      .nav-primary {
-        display:flex;
-        flex-wrap:wrap;
-        gap:12px 18px;
-        align-items:center;
-        min-width: 0;
-      }
-      .nav-actions {
-        margin-left:auto;
-        display:flex;
-        align-items:center;
-        gap:14px;
-        white-space:nowrap;
-      }
-      /* RTL: keep actions on the far left visually, and avoid weird scattering */
-      html[dir="rtl"] .nav-actions { margin-left:0; margin-right:auto; }
 
-      /* ================================
-         ✅ DROPDOWN CSS (ADDED HERE)
-      ================================= */
+    .brand{
+      flex:0 0 auto;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      text-decoration:none;
+      min-width:260px;
+    }
 
-      .nav-item{ position:relative; display:inline-flex; align-items:center; }
+    .site-logo{
+      width:44px;
+      height:44px;
+      object-fit:contain;
+      border-radius:12px;
+      flex:0 0 auto;
+    }
 
-      .nav-link.dropdown-toggle{
-        background:transparent;
-        border:1px solid transparent;
-        cursor:pointer;
-        font:inherit;
-        color:inherit;
-        padding:8px 10px;
-        border-radius:999px;
-        position:relative;
-        transition: transform .15s ease, background .15s ease, border-color .15s ease, box-shadow .15s ease;
-        white-space:nowrap;
-      }
+    .brand h1{
+      margin:0;
+      font-size:28px;     /* ✅ reduce AfSNET */
+      line-height:1.05;
+      letter-spacing:.2px;
+    }
 
-      .nav-link.dropdown-toggle:hover{
-        transform: translateY(-1px);
-        border-color: rgba(201,162,39,.35);
-        background: rgba(201,162,39,.10);
-        box-shadow: 0 10px 22px rgba(11,31,58,.10);
-      }
+    .brand p{
+      margin:4px 0 0;
+      font-size:13px;
+      line-height:1.2;
+      opacity:.78;
+    }
 
-      /* underline effect like your .nav a */
-      .nav-link.dropdown-toggle::after{
-        content:"";
-        position:absolute;
-        left:12px;
-        right:12px;
-        bottom:7px;
-        height:2px;
-        background: linear-gradient(90deg, rgba(201,162,39,0), rgba(201,162,39,.9), rgba(201,162,39,0));
-        opacity:0;
-        transform: scaleX(.6);
-        transition: opacity .15s ease, transform .15s ease;
-        border-radius:999px;
-      }
-      .nav-link.dropdown-toggle:hover::after{
-        opacity:1;
-        transform: scaleX(1);
-      }
+    .header-nav-wrap{
+      flex:1 1 auto;
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      gap:18px;
+      min-width:0;
+    }
 
-      /* active state for dropdown button */
-      .nav-link.dropdown-toggle.active{
-        border-color: rgba(201,162,39,.35);
-        background: rgba(201,162,39,.10);
-      }
+    /* keep nav on one straight line (desktop) */
+    .nav-primary{
+      display:flex;
+      flex-wrap:nowrap;     /* ✅ straight line */
+      align-items:center;
+      gap:10px 16px;
+      min-width:0;
+    }
 
-      .dropdown{
-        position:absolute;
-        top:calc(100% + 8px);
-        left:0;
-        min-width:220px;
-        background: rgba(255,255,255,.96);
-        border:1px solid rgba(11,31,58,.12);
-        border-radius:14px;
-        box-shadow: 0 18px 46px rgba(11,31,58,.14);
-        padding:8px;
-        display:none;
-        z-index:999;
-      }
+    .nav-primary a,
+    .nav-link.dropdown-toggle{
+      white-space:nowrap;   /* ✅ prevent breaking into two lines */
+    }
 
-      .dropdown a{
-        display:block;
-        padding:10px 10px;
-        border-radius:12px;
-      }
+    .nav-actions{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      white-space:nowrap;
+      flex:0 0 auto;
+    }
 
-      .dropdown a:hover{
-        background: rgba(201,162,39,.10);
-        border-color: transparent;
-        transform:none;
-        box-shadow:none;
-      }
+    /* keep actions on the far end */
+    .nav-actions{ margin-left:auto; }
 
-      .nav-item.open .dropdown{ display:block; }
+    /* RTL: keep actions visually aligned */
+    html[dir="rtl"] .nav-actions{ margin-left:0; margin-right:auto; }
 
-      /* RTL support */
-      html[dir="rtl"] .dropdown{ left:auto; right:0; }
-    </style>
+    /* ================================
+       DROPDOWN (SAFE + CLEAN)
+    ================================= */
+    .nav-item{ position:relative; display:inline-flex; align-items:center; }
+
+    .nav-link.dropdown-toggle{
+      background:transparent;
+      border:1px solid transparent;
+      cursor:pointer;
+      font:inherit;
+      color:inherit;
+      padding:8px 10px;
+      border-radius:999px;
+      position:relative;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease, box-shadow .15s ease;
+    }
+
+    .nav-link.dropdown-toggle:hover{
+      transform: translateY(-1px);
+      border-color: rgba(201,162,39,.35);
+      background: rgba(201,162,39,.10);
+      box-shadow: 0 10px 22px rgba(11,31,58,.10);
+    }
+
+    .nav-link.dropdown-toggle::after{
+      content:"";
+      position:absolute;
+      left:12px;
+      right:12px;
+      bottom:7px;
+      height:2px;
+      background: linear-gradient(90deg, rgba(201,162,39,0), rgba(201,162,39,.9), rgba(201,162,39,0));
+      opacity:0;
+      transform: scaleX(.6);
+      transition: opacity .15s ease, transform .15s ease;
+      border-radius:999px;
+    }
+
+    .nav-link.dropdown-toggle:hover::after{
+      opacity:1;
+      transform: scaleX(1);
+    }
+
+    .nav-link.dropdown-toggle.active{
+      border-color: rgba(201,162,39,.35);
+      background: rgba(201,162,39,.10);
+    }
+
+    .dropdown{
+      position:absolute;
+      top:calc(100% + 10px);
+      left:0;
+      min-width:220px;
+      background: rgba(255,255,255,.98);
+      border:1px solid rgba(11,31,58,.12);
+      border-radius:14px;
+      box-shadow: 0 18px 46px rgba(11,31,58,.14);
+      padding:8px;
+      display:none;
+      z-index:9999;
+    }
+
+    .dropdown a{
+      display:block;
+      padding:10px 10px;
+      border-radius:12px;
+    }
+
+    .dropdown a:hover{
+      background: rgba(201,162,39,.10);
+      transform:none;
+      box-shadow:none;
+    }
+
+    .nav-item.open .dropdown{ display:block; }
+
+    html[dir="rtl"] .dropdown{ left:auto; right:0; }
+
+    /* ================================
+       RESPONSIVE: allow wrap only when needed
+    ================================= */
+    @media (max-width: 1100px){
+      .header-nav-wrap{ flex-wrap:wrap; justify-content:flex-start; }
+      .nav-primary{ flex-wrap:wrap; }
+      .nav-actions{ margin-left:0; }
+    }
+
+    @media (max-width: 820px){
+      .topbar{ flex-wrap:wrap; }
+      .brand{ width:100%; }
+      .header-nav-wrap{ width:100%; }
+      .nav-actions{ margin-left:auto; }
+    }
+  </style>
   `;
 
   el.innerHTML = `
@@ -231,7 +289,7 @@ function injectHeader(cfg) {
 
             <a class="brand" href="./index.html" aria-label="${name} Home">
               <img class="site-logo" src="${logo}" alt="${name} logo" />
-              <div>
+              <div class="brand-text">
                 <h1>${name}</h1>
                 <p>${tagline}</p>
               </div>
@@ -239,10 +297,8 @@ function injectHeader(cfg) {
 
             <div class="header-nav-wrap">
 
-              <!-- ✅ Primary links WITH DROPDOWNS -->
               <nav class="nav nav-primary" aria-label="Primary navigation">
 
-                <!-- Home dropdown -->
                 <div class="nav-item has-dropdown">
                   <button class="nav-link dropdown-toggle" type="button" data-i18n="nav.home" aria-expanded="false">
                     Home
@@ -256,7 +312,6 @@ function injectHeader(cfg) {
                 <a href="./programme.html" data-i18n="nav.programme">Programme</a>
                 <a href="./schedule.html" data-i18n="nav.schedule">Schedule Meeting</a>
 
-                <!-- Event dropdown -->
                 <div class="nav-item has-dropdown">
                   <button class="nav-link dropdown-toggle" type="button" data-i18n="nav.event" aria-expanded="false">
                     Event
@@ -269,7 +324,6 @@ function injectHeader(cfg) {
 
                 <a href="./speakers-partners.html" data-i18n="nav.speakers">Speakers/Partners</a>
 
-                <!-- Travel dropdown -->
                 <div class="nav-item has-dropdown">
                   <button class="nav-link dropdown-toggle" type="button" data-i18n="nav.travel" aria-expanded="false">
                     Travel & Visa
@@ -282,15 +336,15 @@ function injectHeader(cfg) {
 
               </nav>
 
-              <!-- Actions on the far right -->
               <nav class="nav nav-actions" aria-label="Quick actions">
                 <a class="cta" href="./apply.html" data-i18n="nav.apply">Apply</a>
                 <a href="./contact.html" data-i18n="nav.contact">Contact</a>
+
+                <!-- ✅ Keep language selector aligned with actions -->
+                <div class="lang-slot" id="lang-slot"></div>
               </nav>
 
             </div>
-
-            <div class="lang-slot" id="lang-slot"></div>
 
           </div>
         </div>
@@ -299,12 +353,9 @@ function injectHeader(cfg) {
   `;
 
   injectLanguageSwitcher(cfg);
-
-  // must run after HTML is injected
   setActiveNav();
   wireDropdownNav();
 }
-
 function injectFooter(cfg) {
   const el = document.getElementById("site-footer");
   if (!el) return;
