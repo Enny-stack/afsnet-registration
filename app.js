@@ -106,13 +106,13 @@ function injectHeader(cfg) {
 
   // Small inline layout fix + ✅ Dropdown CSS inside the SAME style block
   const headerLayoutCSS = `
-    <style>
-      .topbar {
-        display:flex;
-        align-items:center;
-        gap:16px;
-      }
-      .brand { flex:0 0 auto; display:flex; align-items:center; gap:12px; text-decoration:none; }
+  <style>
+    .topbar {
+      display:flex;
+      align-items:center;
+      gap:16px;
+    }
+    .brand { flex:0 0 auto; display:flex; align-items:center; gap:
       .header-nav-wrap {
         flex: 1 1 auto;
         display:flex;
