@@ -1,4 +1,5 @@
 let CONFIG = null;
+let DROPDOWN_WIRED = false;
 
 async function loadConfig() {
   if (CONFIG) return CONFIG;
@@ -30,57 +31,57 @@ function getByPath(obj, path) {
     .reduce((acc, k) => (acc && acc[k] !== undefined ? acc[k] : null), obj);
 }
 
-/* ✅ Updated: clear + set active on dropdown buttons too */
+/* ✅ Active nav (supports dropdown children + parent highlight) */
 function setActiveNav() {
   const file = location.pathname.split("/").pop() || "index.html";
 
-  // clear active on links + dropdown buttons
-  document.querySelectorAll(".nav a, .dropdown-toggle").forEach(el =>
-    el.classList.remove("active")
-  );
+  document.querySelectorAll(".nav a").forEach(a => a.classList.remove("active"));
 
-  // set active on matching link
   document.querySelectorAll(".nav a").forEach(a => {
     const href = (a.getAttribute("href") || "").replace("./", "");
     if (href === file) {
       a.classList.add("active");
 
-      // if inside dropdown, highlight the dropdown toggle too
       const parentDropdown = a.closest(".nav-item.has-dropdown");
       if (parentDropdown) {
-        const toggle = parentDropdown.querySelector(".dropdown-toggle");
-        if (toggle) toggle.classList.add("active");
+        const parentLink = parentDropdown.querySelector(":scope > a");
+        if (parentLink) parentLink.classList.add("active");
       }
     }
   });
 }
 
 /* ================================
-   ✅ DROPDOWN NAV WIRING
+   ✅ DROPDOWN NAV (Hover on desktop, tap-to-open on touch)
 ================================= */
 function wireDropdownNav() {
+  if (DROPDOWN_WIRED) return;
   const items = Array.from(document.querySelectorAll(".nav-item.has-dropdown"));
   if (!items.length) return;
 
+  const isTouchLike = () =>
+    window.matchMedia("(hover: none), (pointer: coarse)").matches;
+
   function closeAll() {
-    items.forEach(it => {
-      it.classList.remove("open");
-      const btn = it.querySelector(".dropdown-toggle");
-      if (btn) btn.setAttribute("aria-expanded", "false");
-    });
+    items.forEach(it => it.classList.remove("open"));
   }
 
+  // Touch devices: first tap opens dropdown, second tap navigates
   items.forEach(it => {
-    const btn = it.querySelector(".dropdown-toggle");
-    if (!btn) return;
+    const topLink = it.querySelector(":scope > a");
+    if (!topLink) return;
 
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
+    topLink.addEventListener("click", (e) => {
+      if (!isTouchLike()) return; // desktop: allow normal click navigation
+
       const isOpen = it.classList.contains("open");
-      closeAll();
       if (!isOpen) {
+        e.preventDefault();
+        closeAll();
         it.classList.add("open");
-        btn.setAttribute("aria-expanded", "true");
+      } else {
+        // second tap: allow navigation, but close others
+        closeAll();
       }
     });
   });
@@ -92,6 +93,8 @@ function wireDropdownNav() {
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") closeAll();
   });
+
+  DROPDOWN_WIRED = true;
 }
 
 /* ================================
@@ -112,6 +115,7 @@ function injectHeader(cfg) {
         <div class="header-inner">
           <div class="topbar">
 
+            <!-- Brand -->
             <a class="brand" href="./index.html" aria-label="${name} Home">
               <img class="site-logo" src="${logo}" alt="${name} logo" />
               <div class="brand-text">
@@ -120,17 +124,14 @@ function injectHeader(cfg) {
               </div>
             </a>
 
+            <!-- Nav -->
             <div class="header-nav-wrap">
 
               <nav class="nav nav-primary" aria-label="Primary navigation">
-
-                <!-- Home dropdown -->
+                <!-- Home dropdown: shows About -->
                 <div class="nav-item has-dropdown">
-                  <button class="nav-link dropdown-toggle" type="button" data-i18n="nav.home" aria-expanded="false">
-                    Home
-                  </button>
-                  <div class="dropdown">
-                    <a href="./index.html" data-i18n="nav.home">Home</a>
+                  <a class="nav-drop" href="./index.html" data-i18n="nav.home">Home</a>
+                  <div class="dropdown" role="menu" aria-label="Home menu">
                     <a href="./about.html" data-i18n="nav.about">About</a>
                   </div>
                 </div>
@@ -138,30 +139,23 @@ function injectHeader(cfg) {
                 <a href="./programme.html" data-i18n="nav.programme">Programme</a>
                 <a href="./schedule.html" data-i18n="nav.schedule">Schedule Meeting</a>
 
-                <!-- Event dropdown -->
+                <!-- Event dropdown: shows Media/Press -->
                 <div class="nav-item has-dropdown">
-                  <button class="nav-link dropdown-toggle" type="button" data-i18n="nav.event" aria-expanded="false">
-                    Event
-                  </button>
-                  <div class="dropdown">
-                    <a href="./event.html" data-i18n="nav.event">Event</a>
+                  <a class="nav-drop" href="./event.html" data-i18n="nav.event">Event</a>
+                  <div class="dropdown" role="menu" aria-label="Event menu">
                     <a href="./media-press.html" data-i18n="nav.media">Media/Press</a>
                   </div>
                 </div>
 
                 <a href="./speakers-partners.html" data-i18n="nav.speakers">Speakers/Partners</a>
 
-                <!-- Travel dropdown -->
+                <!-- Travel dropdown: shows Hotels -->
                 <div class="nav-item has-dropdown">
-                  <button class="nav-link dropdown-toggle" type="button" data-i18n="nav.travel" aria-expanded="false">
-                    Travel & Visa
-                  </button>
-                  <div class="dropdown">
-                    <a href="./travel-visa.html" data-i18n="nav.travel">Travel & Visa</a>
+                  <a class="nav-drop" href="./travel-visa.html" data-i18n="nav.travel">Travel & Visa</a>
+                  <div class="dropdown" role="menu" aria-label="Travel menu">
                     <a href="./hotels.html" data-i18n="nav.hotels">Hotels</a>
                   </div>
                 </div>
-
               </nav>
 
               <nav class="nav nav-actions" aria-label="Quick actions">
@@ -171,6 +165,7 @@ function injectHeader(cfg) {
 
             </div>
 
+            <!-- Language -->
             <div class="lang-slot" id="lang-slot"></div>
 
           </div>
@@ -181,9 +176,9 @@ function injectHeader(cfg) {
 
   injectLanguageSwitcher(cfg);
 
-  // must run after HTML is injected
-  setActiveNav();
+  // Wire dropdowns once header exists
   wireDropdownNav();
+  setActiveNav();
 }
 
 function injectFooter(cfg) {
@@ -631,9 +626,9 @@ function refreshPage(cfg, lang) {
   renderAboutPage(cfg, lang);
 
   setActiveNav();
-  wireDropdownNav();
 }
 
+/* Language switcher UI */
 function injectLanguageSwitcher(cfg) {
   const slot = document.getElementById("lang-slot");
   if (!slot) return;
