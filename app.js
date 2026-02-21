@@ -65,21 +65,27 @@ function injectHeader(cfg) {
               </div>
             </a>
 
+            <!-- ✅ UPDATED: split nav into left + right groups -->
             <nav class="nav" aria-label="Primary navigation">
-              <a href="./index.html" data-i18n="nav.home">Home</a>
-              <a href="./about.html" data-i18n="nav.about">About</a>
-              <a href="./programme.html" data-i18n="nav.programme">Programme</a>
+              <div class="nav-left">
+                <a href="./index.html" data-i18n="nav.home">Home</a>
+                <a href="./about.html" data-i18n="nav.about">About</a>
+                <a href="./programme.html" data-i18n="nav.programme">Programme</a>
 
-              <!-- ✅ ADDED: Schedule Meeting -->
-              <a href="./schedule.html" data-i18n="nav.schedule">Schedule Meeting</a>
+                <!-- ✅ ADDED: Schedule Meeting -->
+                <a href="./schedule.html" data-i18n="nav.schedule">Schedule Meeting</a>
 
-              <a href="./event.html" data-i18n="nav.event">Event</a>
-              <a href="./speakers-partners.html" data-i18n="nav.speakers">Speakers/Partners</a>
-              <a href="./travel-visa.html" data-i18n="nav.travel">Travel & Visa</a>
-              <a href="./media-press.html" data-i18n="nav.media">Media/Press</a>
-              <a href="./hotels.html" data-i18n="nav.hotels">Hotels</a>
-              <a class="cta" href="./apply.html" data-i18n="nav.apply">Apply</a>
-              <a href="./contact.html" data-i18n="nav.contact">Contact</a>
+                <a href="./event.html" data-i18n="nav.event">Event</a>
+                <a href="./speakers-partners.html" data-i18n="nav.speakers">Speakers/Partners</a>
+                <a href="./travel-visa.html" data-i18n="nav.travel">Travel & Visa</a>
+                <a href="./media-press.html" data-i18n="nav.media">Media/Press</a>
+              </div>
+
+              <div class="nav-right">
+                <a href="./hotels.html" data-i18n="nav.hotels">Hotels</a>
+                <a class="cta" href="./apply.html" data-i18n="nav.apply">Apply</a>
+                <a href="./contact.html" data-i18n="nav.contact">Contact</a>
+              </div>
             </nav>
 
             <div class="lang-slot" id="lang-slot"></div>
