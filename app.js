@@ -10,7 +10,6 @@ async function loadConfig() {
     return CONFIG;
   } catch (err) {
     console.error("❌ Failed to load config.json:", err);
-    // Don't crash silently — at least show something.
     const body = document.querySelector("body");
     if (body) {
       body.innerHTML = `
@@ -51,7 +50,43 @@ function injectHeader(cfg) {
   const name = cfg?.site?.name || "AfSNET";
   const tagline = cfg?.site?.tagline || "African Sub-Sovereign Governments Network";
 
+  // Small inline layout fix (so you don’t have to touch CSS just for alignment)
+  const headerLayoutCSS = `
+    <style>
+      .topbar {
+        display:flex;
+        align-items:center;
+        gap:16px;
+      }
+      .brand { flex:0 0 auto; display:flex; align-items:center; gap:12px; text-decoration:none; }
+      .header-nav-wrap {
+        flex: 1 1 auto;
+        display:flex;
+        align-items:center;
+        gap:16px;
+        min-width: 0;
+      }
+      .nav-primary {
+        display:flex;
+        flex-wrap:wrap;
+        gap:12px 18px;
+        align-items:center;
+        min-width: 0;
+      }
+      .nav-actions {
+        margin-left:auto;
+        display:flex;
+        align-items:center;
+        gap:14px;
+        white-space:nowrap;
+      }
+      /* RTL: keep actions on the far left visually, and avoid weird scattering */
+      html[dir="rtl"] .nav-actions { margin-left:0; margin-right:auto; }
+    </style>
+  `;
+
   el.innerHTML = `
+    ${headerLayoutCSS}
     <header>
       <div class="header-shell">
         <div class="header-inner">
@@ -65,28 +100,26 @@ function injectHeader(cfg) {
               </div>
             </a>
 
-            <!-- ✅ UPDATED: split nav into left + right groups -->
-            <nav class="nav" aria-label="Primary navigation">
-              <div class="nav-left">
+            <div class="header-nav-wrap">
+              <!-- Primary links -->
+              <nav class="nav nav-primary" aria-label="Primary navigation">
                 <a href="./index.html" data-i18n="nav.home">Home</a>
                 <a href="./about.html" data-i18n="nav.about">About</a>
                 <a href="./programme.html" data-i18n="nav.programme">Programme</a>
-
-                <!-- ✅ ADDED: Schedule Meeting -->
                 <a href="./schedule.html" data-i18n="nav.schedule">Schedule Meeting</a>
-
                 <a href="./event.html" data-i18n="nav.event">Event</a>
                 <a href="./speakers-partners.html" data-i18n="nav.speakers">Speakers/Partners</a>
                 <a href="./travel-visa.html" data-i18n="nav.travel">Travel & Visa</a>
                 <a href="./media-press.html" data-i18n="nav.media">Media/Press</a>
-              </div>
+              </nav>
 
-              <div class="nav-right">
+              <!-- Actions on the far right (your circled area) -->
+              <nav class="nav nav-actions" aria-label="Quick actions">
                 <a href="./hotels.html" data-i18n="nav.hotels">Hotels</a>
                 <a class="cta" href="./apply.html" data-i18n="nav.apply">Apply</a>
                 <a href="./contact.html" data-i18n="nav.contact">Contact</a>
-              </div>
-            </nav>
+              </nav>
+            </div>
 
             <div class="lang-slot" id="lang-slot"></div>
 
@@ -246,7 +279,7 @@ function wireApply(cfg, lang) {
 }
 
 /* ================================
-   ✅ HOME ANNOUNCEMENT TICKER
+   HOME ANNOUNCEMENT TICKER
 ================================= */
 function initHomeTicker(cfg, lang) {
   const track = document.getElementById("homeTickerTrack");
@@ -273,12 +306,12 @@ function initHomeTicker(cfg, lang) {
   track.innerHTML = repeated + repeated;
 
   track.style.animation = "none";
-  track.offsetHeight; // force reflow
+  track.offsetHeight;
   track.style.animation = "";
 }
 
 /* ================================
-   ✅ ABOUT PAGE (CONFIG-DRIVEN)
+   ABOUT PAGE (CONFIG-DRIVEN)
 ================================= */
 function renderAboutIntro(cfg, lang) {
   const mount = document.getElementById("aboutIntro");
@@ -387,12 +420,11 @@ function renderAboutPage(cfg, lang) {
   renderAboutCtas(cfg, lang);
   renderAboutObjectives(cfg, lang);
   renderHowWorks(cfg, lang);
-
   initSnapSlider("objectivesSlider");
 }
 
 /* ================================
-   ✅ SIMPLE SLIDER (OBJECTIVES)
+   SIMPLE SLIDER (OBJECTIVES)
 ================================= */
 function initSnapSlider(rootId) {
   const root = document.getElementById(rootId);
@@ -535,6 +567,20 @@ function applyConfigContent(cfg, lang) {
   });
 }
 
+function refreshPage(cfg, lang) {
+  applyLanguage(cfg, lang);
+  fillRootConfig(cfg);
+  applyConfigContent(cfg, lang);
+
+  // optional per-page enhancers (safe: they only run if IDs exist)
+  wireApply(cfg, lang);
+  renderDownloads(cfg);
+  initHomeTicker(cfg, lang);
+  renderAboutPage(cfg, lang);
+
+  setActiveNav();
+}
+
 function injectLanguageSwitcher(cfg) {
   const slot = document.getElementById("lang-slot");
   if (!slot) return;
@@ -553,24 +599,11 @@ function injectLanguageSwitcher(cfg) {
   const savedLang = localStorage.getItem("lang") || cfg?.site?.defaultLang || "en";
   select.value = savedLang;
 
-  // ✅ Single source of truth: init everything here
-  applyLanguage(cfg, savedLang);
-  fillRootConfig(cfg);
-  applyConfigContent(cfg, savedLang);
-  wireApply(cfg, savedLang);
-  renderDownloads(cfg);
-  initHomeTicker(cfg, savedLang);
-  renderAboutPage(cfg, savedLang);
+  refreshPage(cfg, savedLang);
 
   select.addEventListener("change", () => {
     const lang = select.value;
-    applyLanguage(cfg, lang);
-    fillRootConfig(cfg);
-    applyConfigContent(cfg, lang);
-    wireApply(cfg, lang);
-    renderDownloads(cfg);
-    initHomeTicker(cfg, lang);
-    renderAboutPage(cfg, lang);
+    refreshPage(cfg, lang);
   });
 }
 
@@ -579,12 +612,8 @@ function injectLanguageSwitcher(cfg) {
 ================================= */
 document.addEventListener("DOMContentLoaded", async () => {
   const cfg = await loadConfig();
-
   injectHeader(cfg);
   injectFooter(cfg);
-
-  // ✅ IMPORTANT: Do NOT re-run applyLanguage/applyConfigContent here.
-  // injectLanguageSwitcher() already did the full initialization.
 });
 
 // Preloader: hide when page is ready
