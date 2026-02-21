@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="./styles.css" />
   <script src="./app.js" defer></script>
 </head>
+
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
 <div id="site-header"></div>
@@ -21,19 +22,25 @@
         <p class="muted" data-config="apply.intro"></p>
 
         <div class="actions">
-          <a class="btn primary" id="openExternalForm" target="_blank" rel="noopener">Open registration form</a>
-          <a class="btn ghost" href="./contact.html">Need help?</a>
+          <a
+            class="btn primary"
+            id="openExternalForm"
+            data-i18n="apply.btn.openForm"
+            target="_blank"
+            rel="noopener"
+          >
+            Open registration form
+          </a>
+
+          <a class="btn ghost" href="./contact.html" data-i18n="apply.btn.needHelp">
+            Need help?
+          </a>
         </div>
       </div>
 
       <div class="card pad surface">
-        <div class="kicker" data-config="apply.whatPrepareTitle">What to prepare</div>
-        <ul class="list" data-list="apply.whatPrepare">
-          <li>Full name and organisation</li>
-          <li>Role / category (Investor, Government, Partner, Media)</li>
-          <li>Country and contact details</li>
-          <li>Areas of interest for matchmaking</li>
-        </ul>
+        <div class="kicker" data-config="apply.whatPrepareTitle"></div>
+        <ul class="list" data-list="apply.whatPrepare"></ul>
       </div>
     </div>
   </section>
