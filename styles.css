@@ -886,3 +886,10 @@ body.home::before{
   height: 420px;
   border: 0;
 }
+.booking-frame
+width:100%
+min-height:800px;
+border-radius:12px
+overflow:hidden;
+background:#fff;
+}
