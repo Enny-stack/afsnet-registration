@@ -100,7 +100,6 @@ function injectFooter(cfg) {
 
   const year = new Date().getFullYear();
 
-  // Supports both naming styles safely (afreximbank / afreximbankUrl etc.)
   const afreximbankUrl =
     cfg?.site?.externalLinks?.afreximbankUrl ||
     cfg?.site?.externalLinks?.afreximbank ||
@@ -117,7 +116,6 @@ function injectFooter(cfg) {
 
         <div class="footer-grid-3">
 
-          <!-- LEFT: Brand -->
           <div class="footer-col brand-col">
             <div class="footer-brand">
               <img src="${cfg?.site?.logoSrc || "./assets/logo/afsnet-logo.jpg"}"
@@ -144,7 +142,6 @@ function injectFooter(cfg) {
             </div>
           </div>
 
-          <!-- MIDDLE -->
           <div class="footer-col links-col">
             <h4>Quick links</h4>
             <div class="footer-links">
@@ -156,7 +153,6 @@ function injectFooter(cfg) {
             </div>
           </div>
 
-          <!-- RIGHT -->
           <div class="footer-col address-col">
             <h4>Afreximbank Headquarters – Cairo, Egypt</h4>
 
@@ -185,13 +181,11 @@ function injectFooter(cfg) {
 
 /* ================================
    ROOT (NON-LANGUAGE) FILL
-   - site.*, event.*, downloads.*
 ================================= */
 function fillRootConfig(cfg) {
   document.querySelectorAll("[data-config]").forEach(el => {
     const path = el.getAttribute("data-config") || "";
 
-    // Only fill these from ROOT cfg:
     const isRoot =
       path.startsWith("site.") ||
       path.startsWith("event.") ||
@@ -203,7 +197,6 @@ function fillRootConfig(cfg) {
     if (val !== null && typeof val !== "object") el.textContent = val;
   });
 
-  // data-email="site.supportEmail"
   document.querySelectorAll("[data-email]").forEach(el => {
     const path = el.getAttribute("data-email");
     const email = getByPath(cfg, path);
@@ -273,7 +266,6 @@ function initHomeTicker(cfg, lang) {
   const repeated = new Array(10).fill(itemHTML).join("");
   track.innerHTML = repeated + repeated;
 
-  // ✅ Force animation to restart immediately (fixes delay on language switch)
   track.style.animation = "none";
   track.offsetHeight; // force reflow
   track.style.animation = "";
@@ -390,7 +382,6 @@ function renderAboutPage(cfg, lang) {
   renderAboutObjectives(cfg, lang);
   renderHowWorks(cfg, lang);
 
-  // Re-init slider after objectives injected
   initSnapSlider("objectivesSlider");
 }
 
@@ -414,7 +405,6 @@ function initSnapSlider(rootId) {
     return;
   }
 
-  // ✅ Reset listeners safely by cloning buttons
   if (btnPrev) {
     const clone = btnPrev.cloneNode(true);
     btnPrev.parentNode.replaceChild(clone, btnPrev);
@@ -426,7 +416,6 @@ function initSnapSlider(rootId) {
     btnNext = clone;
   }
 
-  // Build dots fresh
   if (dotsWrap) {
     dotsWrap.innerHTML = cards
       .map((_, i) => `<button type="button" class="snap-dot" aria-label="Go to slide ${i + 1}" data-dot-index="${i}"></button>`)
@@ -455,15 +444,12 @@ function initSnapSlider(rootId) {
     setActive(i);
   }
 
-  // Initial active
   setActive(0);
 
-  // Replace scroll handler (avoid stacking listeners)
   scroller.onscroll = () => {
     window.requestAnimationFrame(() => setActive(currentIndex()));
   };
 
-  // Dot click
   dots.forEach(d => {
     d.onclick = () => {
       const i = Number(d.getAttribute("data-dot-index"));
@@ -471,7 +457,6 @@ function initSnapSlider(rootId) {
     };
   });
 
-  // Arrows
   if (btnPrev) btnPrev.onclick = () => {
     const i = Math.max(0, currentIndex() - 1);
     scrollToIndex(i);
@@ -481,13 +466,11 @@ function initSnapSlider(rootId) {
     const iNow = currentIndex();
     const last = cards.length - 1;
 
-    // ✅ If last card, jump to How Works and highlight
     if (iNow >= last) {
       const target = document.getElementById("howWorks");
       if (target) {
         target.scrollIntoView({ behavior: "smooth", block: "start" });
         target.classList.remove("flash-highlight");
-        // force reflow for restart animation
         void target.offsetWidth;
         target.classList.add("flash-highlight");
       }
@@ -564,15 +547,13 @@ function injectLanguageSwitcher(cfg) {
   const savedLang = localStorage.getItem("lang") || cfg?.site?.defaultLang || "en";
   select.value = savedLang;
 
+  // ✅ Single source of truth: init everything here
   applyLanguage(cfg, savedLang);
   fillRootConfig(cfg);
   applyConfigContent(cfg, savedLang);
   wireApply(cfg, savedLang);
   renderDownloads(cfg);
-
   initHomeTicker(cfg, savedLang);
-
-  // ✅ render About page (only if About elements exist)
   renderAboutPage(cfg, savedLang);
 
   select.addEventListener("change", () => {
@@ -582,10 +563,7 @@ function injectLanguageSwitcher(cfg) {
     applyConfigContent(cfg, lang);
     wireApply(cfg, lang);
     renderDownloads(cfg);
-
     initHomeTicker(cfg, lang);
-
-    // ✅ re-render About content per language
     renderAboutPage(cfg, lang);
   });
 }
@@ -599,19 +577,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   injectHeader(cfg);
   injectFooter(cfg);
 
-  const savedLang = localStorage.getItem("lang") || cfg?.site?.defaultLang || "en";
-
-  applyLanguage(cfg, savedLang);
-  fillRootConfig(cfg);
-  applyConfigContent(cfg, savedLang);
-  renderDownloads(cfg);
-  wireApply(cfg, savedLang);
-
-  initHomeTicker(cfg, savedLang);
-
-  // ✅ About page config rendering + slider init
-  renderAboutPage(cfg, savedLang);
+  // ✅ IMPORTANT: Do NOT re-run applyLanguage/applyConfigContent here.
+  // injectLanguageSwitcher() already did the full initialization.
 });
+
 // Preloader: hide when page is ready
 window.addEventListener("load", () => {
   const preloader = document.getElementById("preloader");
