@@ -731,3 +731,32 @@ body.home::before{
   border:1px solid rgba(11,31,58,.14);
   box-shadow:0 12px 26px rgba(11,31,58,.10);
 }
+/* Header nav layout: left links + right links */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+/* Left group can wrap if needed */
+.nav-left {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  min-width: 0;
+}
+
+/* ✅ Right group stays pushed to the right (even when it drops to a new line) */
+.nav-right {
+  margin-left: auto;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+/* Optional: keep these from breaking ugly */
+.nav a {
+  white-space: nowrap;
