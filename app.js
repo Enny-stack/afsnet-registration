@@ -71,7 +71,7 @@ function injectHeader(cfg) {
               <a href="./programme.html" data-i18n="nav.programme">Programme</a>
 
               <!-- ✅ ADDED: Schedule Meeting -->
-              <a href="./schedule.html" data-i18n="nav.schedule">Schedule</a>
+              <a href="./schedule.html" data-i18n="nav.schedule">Schedule Meeting</a>
 
               <a href="./event.html" data-i18n="nav.event">Event</a>
               <a href="./speakers-partners.html" data-i18n="nav.speakers">Speakers/Partners</a>
