@@ -69,6 +69,10 @@ function injectHeader(cfg) {
               <a href="./index.html" data-i18n="nav.home">Home</a>
               <a href="./about.html" data-i18n="nav.about">About</a>
               <a href="./programme.html" data-i18n="nav.programme">Programme</a>
+
+              <!-- ✅ ADDED: Schedule Meeting -->
+              <a href="./schedule.html" data-i18n="nav.schedule">Schedule</a>
+
               <a href="./event.html" data-i18n="nav.event">Event</a>
               <a href="./speakers-partners.html" data-i18n="nav.speakers">Speakers/Partners</a>
               <a href="./travel-visa.html" data-i18n="nav.travel">Travel & Visa</a>
