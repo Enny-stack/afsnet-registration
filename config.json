@@ -35,8 +35,22 @@
       "nav.hotels": "Hotels",
       "nav.apply": "Apply",
       "nav.contact": "Contact",
-      "home.announcement": "Welcome to the 6th Edition Conference of the African Sub-Sovereign Governments Network (AfSNET), taking place 12–14 November 2026 in Calabar, Cross River State, Nigeria."
+
+      "home.announcement": "Welcome to the 6th Edition Conference of the African Sub-Sovereign Governments Network (AfSNET), taking place 12–14 November 2026 in Calabar, Cross River State, Nigeria.",
+
+      "home.label.dates": "Dates:",
+      "home.label.location": "Location:",
+      "home.label.format": "Format:",
+
+      "home.btn.apply": "Apply / Register",
+      "home.btn.programme": "Programme",
+      "home.btn.event": "Event details",
+      "home.btn.learnMoreAbout": "Learn more in About →",
+
+      "home.video.title": "AfSNET Highlights Video",
+      "home.video.subtitle": "A short preview of what to expect at the 6th Edition of AfSNET in Calabar, Cross River State."
     },
+
     "fr": {
       "nav.home": "Accueil",
       "nav.about": "À propos",
@@ -49,8 +63,22 @@
       "nav.hotels": "Hôtels",
       "nav.apply": "Candidater",
       "nav.contact": "Contact",
-      "home.announcement": "Bienvenue à la 6e édition de la Conférence du Réseau des Gouvernements infranationaux africains (AfSNET), qui se tiendra du 12 au 14 novembre 2026 à Calabar, État de Cross River, Nigeria."
+
+      "home.announcement": "Bienvenue à la 6e édition de la Conférence du Réseau des Gouvernements infranationaux africains (AfSNET), qui se tiendra du 12 au 14 novembre 2026 à Calabar, État de Cross River, Nigeria.",
+
+      "home.label.dates": "Dates :",
+      "home.label.location": "Lieu :",
+      "home.label.format": "Format :",
+
+      "home.btn.apply": "Candidater / S’inscrire",
+      "home.btn.programme": "Programme",
+      "home.btn.event": "Détails de l’événement",
+      "home.btn.learnMoreAbout": "En savoir plus dans « À propos » →",
+
+      "home.video.title": "Vidéo des temps forts AfSNET",
+      "home.video.subtitle": "Un aperçu rapide de ce qui vous attend lors de la 6e édition d’AfSNET à Calabar, État de Cross River."
     },
+
     "ar": {
       "nav.home": "الرئيسية",
       "nav.about": "عن البرنامج",
@@ -63,7 +91,20 @@
       "nav.hotels": "الفنادق",
       "nav.apply": "التسجيل",
       "nav.contact": "اتصل بنا",
-      "home.announcement": "مرحبًا بكم في الدورة السادسة لمؤتمر شبكة الحكومات دون السيادية الأفريقية (AfSNET)، والذي سيُعقد خلال 12–14 نوفمبر 2026 في كالابار، ولاية كروس ريفر، نيجيريا."
+
+      "home.announcement": "مرحبًا بكم في الدورة السادسة لمؤتمر شبكة الحكومات دون السيادية الأفريقية (AfSNET)، والذي سيُعقد خلال 12–14 نوفمبر 2026 في كالابار، ولاية كروس ريفر، نيجيريا.",
+
+      "home.label.dates": "التواريخ:",
+      "home.label.location": "الموقع:",
+      "home.label.format": "النوع:",
+
+      "home.btn.apply": "التقديم / التسجيل",
+      "home.btn.programme": "البرنامج",
+      "home.btn.event": "تفاصيل الفعالية",
+      "home.btn.learnMoreAbout": "اعرف المزيد في «عن البرنامج» →",
+
+      "home.video.title": "فيديو أبرز محطات AfSNET",
+      "home.video.subtitle": "لمحة قصيرة عمّا يمكن توقعه في الدورة السادسة من AfSNET في كالابار، ولاية كروس ريفر."
     }
   },
 
@@ -99,8 +140,6 @@
           "Partners / ecosystem / media"
         ],
 
-        "videoHeading": "AfSNET Highlights Video",
-        "videoIntro": "A short preview of what to expect at the 6th Edition of AfSNET in Calabar, Cross River State.",
         "videoTitle": "Conference Video",
         "videoSubtitle": "Watch highlights and key moments from AfSNET.",
         "videoCaption": "AfSNET 2026 — Calabar, Cross River State"
@@ -279,7 +318,7 @@
         "mediaNoteTitle": "Media note (example)",
         "mediaNotes": [
           "Accreditation may be required for press access",
-          "Bring identification and proof of assignment where applicable",
+          "Bring identification and proof of assignment where applicable)",
           "Follow on-site media guidelines and protocols"
         ]
       },
@@ -373,8 +412,6 @@
           "Partenaires / écosystème / médias"
         ],
 
-        "videoHeading": "AfSNET — Vidéo des temps forts",
-        "videoIntro": "Un court aperçu de ce à quoi s’attendre pour la 6e édition d’AfSNET à Calabar, État de Cross River.",
         "videoTitle": "Vidéo de la conférence",
         "videoSubtitle": "Découvrez les temps forts et moments clés d’AfSNET.",
         "videoCaption": "AfSNET 2026 — Calabar, État de Cross River"
@@ -465,154 +502,6 @@
             ["Suivi", "Suivi post-événement et accompagnement", "Mises à jour et reporting"]
           ]
         }
-      },
-
-      "scheduleMeeting": {
-        "pill": "Réunions",
-        "headline": "Planifier une réunion",
-        "intro": "Réservez le créneau de votre choix pour une réunion B2B, B2G ou G2G avec l’équipe AfSNET.",
-        "meetingTypes": {
-          "b2b": "Entreprise à Entreprise",
-          "b2g": "Entreprise à Gouvernement",
-          "g2g": "Gouvernement à Gouvernement"
-        },
-        "beforeTitle": "Avant de réserver",
-        "beforeList": [
-          "Utilisez votre adresse e-mail officielle pour la confirmation.",
-          "Sélectionnez le bon type de réunion dans le formulaire.",
-          "Ajoutez un court ordre du jour afin que nous puissions nous préparer."
-        ],
-        "bookTitle": "Réservez votre réunion",
-        "bookIntro": "Choisissez une date et une heure ci-dessous. Vous recevrez un e-mail de confirmation une fois la réservation terminée.",
-        "tip": "Astuce : si le planificateur ne se charge pas, actualisez la page ou ouvrez-le dans un nouvel onglet."
-      },
-
-      "programme": {
-        "pill": "Programme",
-        "headline": "Aperçu du programme",
-        "intro": "Structure générale des sessions, tables rondes et réunions. À remplacer par l’agenda confirmé.",
-
-        "typicalStructureTitle": "Structure type (exemple)",
-        "typicalStructure": [
-          "Allocutions d’ouverture et cadrage",
-          "Tables rondes sectorielles",
-          "Sessions de pitch investisseurs",
-          "Rencontres B2B / G2G / B2G",
-          "Clôture et prochaines étapes"
-        ],
-
-        "downloadsTitle": "Téléchargements"
-      },
-
-      "eventPage": {
-        "pill": "Événement",
-        "headline": "Informations sur l’événement",
-        "intro": "Principales informations logistiques et détails de l’événement.",
-
-        "onSiteTitle": "Attentes sur site (exemple)",
-        "onSite": [
-          "Ayez une pièce d’identité valide et votre confirmation d’inscription",
-          "Arrivez tôt pour le retrait des badges",
-          "Respectez les règles de sécurité et d’accès du site",
-          "Utilisez le comptoir d’assistance pour l’orientation"
-        ]
-      },
-
-      "speakersPartners": {
-        "pill": "Intervenants / Partenaires",
-        "headline": "Intervenants et partenaires",
-        "intro": "À remplacer par la liste confirmée des intervenants, modérateurs et partenaires.",
-
-        "placeholderTitle": "Ce que vous pouvez faire ici",
-        "placeholderItems": [
-          "Consulter les intervenants et responsables de sessions",
-          "Voir les partenaires et organisations de soutien",
-          "Revenir pour les mises à jour à mesure que la liste est confirmée"
-        ]
-      },
-
-      "travelVisa": {
-        "pill": "Voyage & Visa",
-        "headline": "Conseils de voyage et visa",
-        "intro": "Indiquez les exigences d’entrée, la procédure de visa et les conseils de voyage pour le pays hôte.",
-
-        "guidanceTitle": "Conseils (exemple)",
-        "guidance": [
-          "Vérifiez la validité du passeport (6+ mois recommandé)",
-          "Confirmez les exigences de visa selon votre nationalité",
-          "Réservez les vols tôt et conservez les justificatifs",
-          "Utilisez les recommandations officielles d’hébergement si disponibles"
-        ]
-      },
-
-      "mediaPress": {
-        "pill": "Médias / Presse",
-        "headline": "Médias et presse",
-        "intro": "Contacts presse, instructions d’accréditation et ressources médias.",
-
-        "mediaNoteTitle": "Note média (exemple)",
-        "mediaNotes": [
-          "Une accréditation peut être requise pour l’accès presse",
-          "Apportez une pièce d’identité et une lettre de mission si applicable",
-          "Respectez les consignes média et protocoles sur site"
-        ]
-      },
-
-      "apply": {
-        "pill": "Candidater",
-        "headline": "Candidater / S’inscrire",
-        "intro": "Complétez le formulaire d’inscription ci-dessous. Le site est statique, les soumissions peuvent être envoyées via un formulaire externe ou par e-mail.",
-        "externalFormUrl": "https://tally.so/r/gDMZLO",
-
-        "whatPrepareTitle": "À préparer",
-        "whatPrepare": [
-          "Informations sur votre organisation",
-          "Votre rôle et intérêt de participation",
-          "Priorités projet / investissement (si applicable)",
-          "Coordonnées"
-        ]
-      },
-
-      "contact": {
-        "pill": "Contact",
-        "headline": "Comment joindre l’équipe AfSNET",
-        "intro": "Les coordonnées officielles sont gérées dans config.json.",
-
-        "supportTitle": "Assistance à l’inscription",
-        "supportItems": [
-          "Email : afsnet@afreximbank.com",
-          "Indiquez votre nom complet et organisation",
-          "Décrivez le problème et joignez des captures d’écran si possible"
-        ]
-      },
-
-      "hotels": {
-        "pill": "Hôtels",
-        "headline": "Hébergement recommandé",
-        "intro": "Remplacez les éléments provisoires par les hôtels négociés, codes de réservation et dates limites.",
-        "venueProximity": "À confirmer",
-        "rateCode": "À confirmer",
-        "bookingGuidance": [
-          "Utilisez le code tarifaire officiel lorsque disponible.",
-          "Vérifiez la date limite de réservation avant paiement.",
-          "Conservez une copie de votre confirmation de réservation."
-        ],
-        "transportNotes": [
-          "Les options de transfert aéroport seront partagées à l’approche de l’événement.",
-          "Prévoyez une marge de temps aux heures de pointe."
-        ],
-        "list": [
-          { "name": "Hôtel 1 (À confirmer)", "distance": "À confirmer", "rate": "À confirmer", "booking": "À confirmer" }
-        ]
-      },
-
-      "thankYou": {
-        "pill": "Envoyé",
-        "headline": "Merci — votre inscription a bien été reçue",
-        "messagePrefix": "Nous vous contacterons à l’adresse e-mail fournie. Pour toute assistance, écrivez à ",
-        "messageSuffix": ".",
-        "backHome": "Retour à l’accueil",
-        "eventDetails": "Détails de l’événement"
       }
     },
 
@@ -647,8 +536,6 @@
           "الشركاء / المنظومة / الإعلام"
         ],
 
-        "videoHeading": "فيديو أبرز محطات AfSNET",
-        "videoIntro": "لمحة قصيرة عمّا يمكن توقعه في الدورة السادسة لـ AfSNET في كالابار، ولاية كروس ريفر.",
         "videoTitle": "فيديو المؤتمر",
         "videoSubtitle": "شاهد أبرز اللحظات والمحطات الرئيسية في AfSNET.",
         "videoCaption": "AfSNET 2026 — كالابار، ولاية كروس ريفر"
@@ -739,154 +626,6 @@
             ["المتابعة", "متابعة ما بعد الفعالية والدعم", "تحديثات وتقارير"]
           ]
         }
-      },
-
-      "scheduleMeeting": {
-        "pill": "الاجتماعات",
-        "headline": "جدولة اجتماع",
-        "intro": "احجز الوقت المناسب لاجتماعات B2B أو B2G أو G2G مع فريق AfSNET.",
-        "meetingTypes": {
-          "b2b": "أعمال إلى أعمال",
-          "b2g": "أعمال إلى حكومة",
-          "g2g": "حكومة إلى حكومة"
-        },
-        "beforeTitle": "قبل الحجز",
-        "beforeList": [
-          "استخدم بريدك الإلكتروني الرسمي لتلقي التأكيد.",
-          "اختر نوع الاجتماع الصحيح داخل نموذج الحجز.",
-          "أضف أجندة قصيرة حتى نتمكن من التحضير."
-        ],
-        "bookTitle": "احجز اجتماعك",
-        "bookIntro": "اختر التاريخ والوقت أدناه. ستتلقى رسالة تأكيد عبر البريد الإلكتروني بعد إتمام الحجز.",
-        "tip": "نصيحة: إذا لم يتم تحميل الجدول، جرّب تحديث الصفحة أو فتحه في علامة تبويب جديدة."
-      },
-
-      "programme": {
-        "pill": "البرنامج",
-        "headline": "نظرة عامة على البرنامج",
-        "intro": "الهيكل العام للجلسات والطاولات المستديرة والاجتماعات. يرجى استبداله بالجدول المؤكد.",
-
-        "typicalStructureTitle": "الهيكل النموذجي (مثال)",
-        "typicalStructure": [
-          "كلمات افتتاحية وتحديد السياق",
-          "موائد مستديرة قطاعية",
-          "جلسات عرض للمستثمرين",
-          "لقاءات B2B / G2G / B2G",
-          "الختام والخطوات التالية"
-        ],
-
-        "downloadsTitle": "التنزيلات"
-      },
-
-      "eventPage": {
-        "pill": "الفعالية",
-        "headline": "معلومات الفعالية",
-        "intro": "أهم المعلومات اللوجستية وتفاصيل الفعالية.",
-
-        "onSiteTitle": "توقعات الحضور في الموقع (مثال)",
-        "onSite": [
-          "إحضار بطاقة هوية سارية وتأكيد التسجيل",
-          "الحضور مبكرًا لاستلام البطاقات",
-          "الالتزام بقواعد الأمن والدخول في الموقع",
-          "استخدام مكتب المساعدة للدعم والإرشاد"
-        ]
-      },
-
-      "speakersPartners": {
-        "pill": "المتحدثون / الشركاء",
-        "headline": "المتحدثون والشركاء",
-        "intro": "يرجى استبدال ذلك بالقائمة المؤكدة للمتحدثين والميسّرين والشركاء.",
-
-        "placeholderTitle": "ما الذي يمكنك فعله هنا",
-        "placeholderItems": [
-          "استعراض المتحدثين وقادة الجلسات",
-          "عرض الشركاء والجهات الداعمة",
-          "متابعة التحديثات مع تأكيد القائمة"
-        ]
-      },
-
-      "travelVisa": {
-        "pill": "السفر والتأشيرة",
-        "headline": "إرشادات السفر والتأشيرة",
-        "intro": "يرجى توفير متطلبات الدخول وإجراءات التأشيرة ونصائح السفر لبلد الاستضافة.",
-
-        "guidanceTitle": "إرشادات (مثال)",
-        "guidance": [
-          "تحقق من صلاحية جواز السفر (6+ أشهر موصى بها)",
-          "تأكد من متطلبات التأشيرة حسب جنسيتك",
-          "احجز الرحلات مبكرًا واحتفظ بنسخ من التذاكر",
-          "استخدم إرشادات الإقامة الرسمية عند توفرها"
-        ]
-      },
-
-      "mediaPress": {
-        "pill": "الإعلام / الصحافة",
-        "headline": "الإعلام والصحافة",
-        "intro": "جهات الاتصال الإعلامية، تعليمات الاعتماد، ومواد الإعلام.",
-
-        "mediaNoteTitle": "ملاحظة إعلامية (مثال)",
-        "mediaNotes": [
-          "قد تكون هناك حاجة لاعتماد للوصول الإعلامي",
-          "أحضر بطاقة تعريف وإثبات تكليف إذا لزم",
-          "اتبع إرشادات الإعلام والبروتوكولات في الموقع"
-        ]
-      },
-
-      "apply": {
-        "pill": "التسجيل",
-        "headline": "التقديم / التسجيل",
-        "intro": "أكمل نموذج التسجيل أدناه. هذا موقع ثابت، لذا يمكن توجيه الإرسال إلى نموذج خارجي أو بريد إلكتروني.",
-        "externalFormUrl": "https://tally.so/r/gDMZLO",
-
-        "whatPrepareTitle": "ماذا تجهّز",
-        "whatPrepare": [
-          "بيانات المؤسسة/الجهة",
-          "دورك واهتمامك بالمشاركة",
-          "أولويات المشروع/الاستثمار (إن وجدت)",
-          "معلومات التواصل"
-        ]
-      },
-
-      "contact": {
-        "pill": "اتصل بنا",
-        "headline": "كيفية التواصل مع فريق AfSNET",
-        "intro": "تتم إدارة بيانات الاتصال الرسمية داخل config.json.",
-
-        "supportTitle": "دعم التسجيل",
-        "supportItems": [
-          "البريد الإلكتروني: afsnet@afreximbank.com",
-          "اذكر اسمك الكامل واسم الجهة",
-          "اشرح المشكلة وأرفق لقطات شاشة إن أمكن"
-        ]
-      },
-
-      "hotels": {
-        "pill": "الفنادق",
-        "headline": "الإقامة الموصى بها",
-        "intro": "يرجى استبدال البيانات المؤقتة بالفنادق المتفق عليها وأكواد الحجز وتواريخ الإغلاق.",
-        "venueProximity": "سيتم التأكيد",
-        "rateCode": "سيتم التأكيد",
-        "bookingGuidance": [
-          "استخدم رمز السعر الرسمي عند توفره.",
-          "تحقق من تاريخ إغلاق الحجز قبل الدفع.",
-          "احتفظ بنسخة من تأكيد الحجز."
-        ],
-        "transportNotes": [
-          "ستتم مشاركة خيارات النقل من/إلى المطار قرب موعد الفعالية.",
-          "اترك وقتًا احتياطيًا خلال ساعات الذروة."
-        ],
-        "list": [
-          { "name": "فندق 1 (سيتم التأكيد)", "distance": "سيتم التأكيد", "rate": "سيتم التأكيد", "booking": "سيتم التأكيد" }
-        ]
-      },
-
-      "thankYou": {
-        "pill": "تم الإرسال",
-        "headline": "شكرًا لك — تم استلام تسجيلك بنجاح",
-        "messagePrefix": "سنقوم بالتواصل معك عبر البريد الإلكتروني الذي قدمته. للدعم، راسلنا على ",
-        "messageSuffix": ".",
-        "backHome": "العودة إلى الرئيسية",
-        "eventDetails": "تفاصيل الفعالية"
       }
     }
   },
