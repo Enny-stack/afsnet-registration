@@ -50,43 +50,7 @@ function injectHeader(cfg) {
   const name = cfg?.site?.name || "AfSNET";
   const tagline = cfg?.site?.tagline || "African Sub-Sovereign Governments Network";
 
-  // Small inline layout fix (so you don’t have to touch CSS just for alignment)
-  const headerLayoutCSS = `
-    <style>
-      .topbar {
-        display:flex;
-        align-items:center;
-        gap:16px;
-      }
-      .brand { flex:0 0 auto; display:flex; align-items:center; gap:12px; text-decoration:none; }
-      .header-nav-wrap {
-        flex: 1 1 auto;
-        display:flex;
-        align-items:center;
-        gap:16px;
-        min-width: 0;
-      }
-      .nav-primary {
-        display:flex;
-        flex-wrap:wrap;
-        gap:12px 18px;
-        align-items:center;
-        min-width: 0;
-      }
-      .nav-actions {
-        margin-left:auto;
-        display:flex;
-        align-items:center;
-        gap:14px;
-        white-space:nowrap;
-      }
-      /* RTL: keep actions on the far left visually, and avoid weird scattering */
-      html[dir="rtl"] .nav-actions { margin-left:0; margin-right:auto; }
-    </style>
-  `;
-
   el.innerHTML = `
-    ${headerLayoutCSS}
     <header>
       <div class="header-shell">
         <div class="header-inner">
@@ -94,14 +58,13 @@ function injectHeader(cfg) {
 
             <a class="brand" href="./index.html" aria-label="${name} Home">
               <img class="site-logo" src="${logo}" alt="${name} logo" />
-              <div>
+              <div class="brand-text">
                 <h1>${name}</h1>
                 <p>${tagline}</p>
               </div>
             </a>
 
             <div class="header-nav-wrap">
-              <!-- Primary links -->
               <nav class="nav nav-primary" aria-label="Primary navigation">
                 <a href="./index.html" data-i18n="nav.home">Home</a>
                 <a href="./about.html" data-i18n="nav.about">About</a>
@@ -113,7 +76,6 @@ function injectHeader(cfg) {
                 <a href="./media-press.html" data-i18n="nav.media">Media/Press</a>
               </nav>
 
-              <!-- Actions on the far right (your circled area) -->
               <nav class="nav nav-actions" aria-label="Quick actions">
                 <a href="./hotels.html" data-i18n="nav.hotels">Hotels</a>
                 <a class="cta" href="./apply.html" data-i18n="nav.apply">Apply</a>
@@ -572,7 +534,6 @@ function refreshPage(cfg, lang) {
   fillRootConfig(cfg);
   applyConfigContent(cfg, lang);
 
-  // optional per-page enhancers (safe: they only run if IDs exist)
   wireApply(cfg, lang);
   renderDownloads(cfg);
   initHomeTicker(cfg, lang);
