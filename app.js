@@ -1,3 +1,11 @@
+/* ================================
+   AfSNET Portal - app.js (fixed)
+   - fixes ticker blinking (no DOM rebuild)
+   - removes "Registration open" chip completely
+   - adds theme line under announcement (localized)
+   - keeps countdown (optional, not required to remove)
+================================= */
+
 let CONFIG = null;
 
 async function loadConfig() {
@@ -85,7 +93,7 @@ function injectHeader(cfg) {
     </header>
   `;
 
-  injectLanguageSwitcher(cfg); // only renders the dropdown + wires change handler
+  injectLanguageSwitcher(cfg); // dropdown + handler only
   setActiveNav();
 }
 
@@ -162,12 +170,10 @@ function injectFooter(cfg) {
 function fillRootConfig(cfg) {
   document.querySelectorAll("[data-config]").forEach(el => {
     const path = el.getAttribute("data-config") || "";
-
     const isRoot =
       path.startsWith("site.") ||
       path.startsWith("event.") ||
       path.startsWith("downloads.");
-
     if (!isRoot) return;
 
     const val = getByPath(cfg, path);
@@ -218,10 +224,14 @@ function wireApply(cfg, lang) {
 
 /* ================================
    SUMMIT / TICKER (ROTATING)
+   - NO DOM rebuild = no blinking
+   - removes "Registration open" chip
+   - adds theme line
 ================================= */
 let __tickerTimer = null;
+let __tickerIdx = 0;
 
-function parseEventStartDate(cfg){
+function parseEventStartDate(cfg) {
   const raw = (cfg?.event?.dates || "").trim();
   if (!raw) return null;
 
@@ -235,7 +245,9 @@ function parseEventStartDate(cfg){
   const yearMatch = cleaned.match(/\b(20\d{2})\b/);
   const year = yearMatch ? Number(yearMatch[1]) : null;
 
-  const monthMatch = cleaned.match(/\b(January|February|March|April|May|June|July|August|September|October|November|December)\b/i);
+  const monthMatch = cleaned.match(
+    /\b(January|February|March|April|May|June|July|August|September|October|November|December)\b/i
+  );
   const monthName = monthMatch ? monthMatch[1] : null;
 
   const dayMatch = cleaned.match(/\b(\d{1,2})(?:\s*-\s*\d{1,2})?\b/);
@@ -247,12 +259,12 @@ function parseEventStartDate(cfg){
   return isNaN(d.getTime()) ? null : d;
 }
 
-function formatCountdown(targetDate, lang){
+function formatCountdown(targetDate, lang) {
   const now = new Date();
   const diff = targetDate.getTime() - now.getTime();
 
   if (diff <= 0) {
-    return { label: (lang==="fr"?"En cours":lang==="ar"?"جارٍ الآن":"Live"), isLive: true };
+    return { label: (lang === "fr" ? "En cours" : lang === "ar" ? "جارٍ الآن" : "Live"), isLive: true };
   }
 
   const totalMinutes = Math.floor(diff / 60000);
@@ -260,26 +272,31 @@ function formatCountdown(targetDate, lang){
   const hours = Math.floor((totalMinutes - days * 60 * 24) / 60);
   const mins = totalMinutes - days * 60 * 24 - hours * 60;
 
-  const dLbl = (lang==="fr") ? "j" : (lang==="ar") ? "ي" : "d";
-  const hLbl = (lang==="fr") ? "h" : (lang==="ar") ? "س" : "h";
-  const mLbl = (lang==="fr") ? "min" : (lang==="ar") ? "د" : "m";
+  const dLbl = (lang === "fr") ? "j" : (lang === "ar") ? "ي" : "d";
+  const hLbl = (lang === "fr") ? "h" : (lang === "ar") ? "س" : "h";
+  const mLbl = (lang === "fr") ? "min" : (lang === "ar") ? "د" : "m";
 
   return { label: `${days}${dLbl} ${hours}${hLbl} ${mins}${mLbl}`, isLive: false };
 }
 
-function summitStatusText(lang, startDate){
-  const now = new Date();
+function getThemeText(lang) {
+  return (lang === "fr")
+    ? "Thème : Accélérer l’industrialisation infranationale : le rôle du commerce et de l’investissement à l’ère de la ZLECAf"
+    : (lang === "ar")
+    ? "الموضوع: تسريع التصنيع على المستوى دون السيادي: دور التجارة والاستثمار في عصر منطقة التجارة الحرة القارية الأفريقية"
+    : "Theme: Scaling Up Sub-Sovereign Industrialisation: The Role of Trade and Investment in the AfCFTA Era";
+}
 
-  if (!startDate) {
-    return (lang==="fr") ? "Mise à jour" : (lang==="ar") ? "تحديث" : "Update";
-  }
+function getLabelText(lang) {
+  return (lang === "fr") ? "MISE À JOUR"
+    : (lang === "ar") ? "تحديث"
+    : "SUMMIT UPDATE";
+}
 
-  const diff = startDate.getTime() - now.getTime();
-
-  if (diff <= 0) return (lang==="fr") ? "En cours" : (lang==="ar") ? "جارٍ الآن" : "Live";
-  if (diff <= (3 * 24 * 60 * 60 * 1000)) return (lang==="fr") ? "Bientôt" : (lang==="ar") ? "قريبًا" : "Upcoming";
-
-  return (lang==="fr") ? "Inscriptions ouvertes" : (lang==="ar") ? "التسجيل مفتوح" : "Registration open";
+function getStartsInText(lang) {
+  return (lang === "fr") ? "Début dans"
+    : (lang === "ar") ? "يبدأ خلال"
+    : "Starts in";
 }
 
 function initHomeTicker(cfg, lang) {
@@ -291,25 +308,32 @@ function initHomeTicker(cfg, lang) {
     cfg?.i18n?.en?.["home.announcement"] ||
     "";
 
-  if (!msg.trim()) return;
+  const section = track.closest(".ticker");
+  if (!msg.trim()) {
+    if (section) section.style.display = "none";
+    return;
+  }
+  if (section) section.style.display = "";
 
-  // Build layout only if not already built
+  // Split into sentences/lines ONLY (safe for dates like 12–14)
+  const slides = msg
+    .split(/(?:\.\s+|\n+)/)
+    .map(s => s.trim())
+    .filter(Boolean);
+
+  const list = slides.length ? slides : [msg.trim()];
+
+  const startDate = parseEventStartDate(cfg);
+  const cd = startDate ? formatCountdown(startDate, lang) : null;
+
+  // ✅ Build layout ONCE
   if (!track.querySelector(".summit-ui")) {
-
-    const startDate = parseEventStartDate(cfg);
-    const cd = startDate ? formatCountdown(startDate, lang) : null;
-
-    const label =
-      (lang === "fr") ? "MISE À JOUR" :
-      (lang === "ar") ? "تحديث" :
-      "SUMMIT UPDATE";
-
     track.innerHTML = `
       <div class="summit-ui">
         <div class="summit-left">
           <div class="summit-label">
-            <span class="status-dot"></span>
-            <span>${label}</span>
+            <span class="status-dot" aria-hidden="true"></span>
+            <span class="summit-label-text"></span>
           </div>
         </div>
 
@@ -319,92 +343,70 @@ function initHomeTicker(cfg, lang) {
         </div>
 
         <div class="summit-right">
-          ${cd ? `
-            <div class="countdown">
-              <small>Starts in</small>
-              <span>${cd.label}</span>
-            </div>
-          ` : ``}
+          <div class="countdown" id="countdownBox" style="display:none">
+            <small class="countdown-small"></small>
+            <span class="countdown-span"></span>
+          </div>
 
           <div class="summit-actions">
-            <a class="btn ghost" href="./event.html">Details</a>
-            <a class="btn primary" href="./apply.html">Register</a>
+            <a class="btn ghost" href="./event.html" data-ticker-details>Details</a>
+            <a class="btn primary" href="./apply.html" data-ticker-register>Register</a>
           </div>
         </div>
       </div>
     `;
   }
-  
-    const slide = document.getElementById("tickerSlide");
-  const themeEl = document.getElementById("summitTheme");
 
-  const slides = msg
-    .split(/(?:\.\s+|\n+)/)
-    .map(s => s.trim())
-    .filter(Boolean);
+  // ✅ Update texts (no rebuild)
+  const labelEl = track.querySelector(".summit-label-text");
+  if (labelEl) labelEl.textContent = getLabelText(lang);
 
-  let idx = 0;
-  slide.textContent = slides[idx];
+  const detailsBtn = track.querySelector("[data-ticker-details]");
+  const regBtn = track.querySelector("[data-ticker-register]");
+  if (detailsBtn) detailsBtn.textContent = (lang === "fr") ? "Détails" : (lang === "ar") ? "التفاصيل" : "Details";
+  if (regBtn) regBtn.textContent = (lang === "fr") ? "S’inscrire" : (lang === "ar") ? "سجّل الآن" : "Register";
 
-  themeEl.textContent =
-    "Theme: Scaling Up Sub-Sovereign Industrialisation: The Role of Trade and Investment in the AfCFTA Era";
+  const themeEl = track.querySelector("#summitTheme");
+  if (themeEl) themeEl.textContent = getThemeText(lang);
+
+  const cdBox = track.querySelector("#countdownBox");
+  const cdSmall = track.querySelector(".countdown-small");
+  const cdSpan = track.querySelector(".countdown-span");
+
+  if (cd && cdBox && cdSmall && cdSpan) {
+    cdBox.style.display = "";
+    cdSmall.textContent = getStartsInText(lang);
+    cdSpan.textContent = cd.label;
+  } else if (cdBox) {
+    cdBox.style.display = "none";
+  }
+
+  const slideEl = track.querySelector("#tickerSlide");
+  if (!slideEl) return;
+
+  // ✅ Start from existing index (prevents visible jump)
+  if (__tickerIdx >= list.length) __tickerIdx = 0;
+  slideEl.textContent = list[__tickerIdx];
 
   if (__tickerTimer) clearInterval(__tickerTimer);
 
-  __tickerTimer = setInterval(() => {
-    slide.classList.add("is-out");
-
-    setTimeout(() => {
-      idx = (idx + 1) % slides.length;
-      slide.textContent = slides[idx];
-      slide.classList.remove("is-out");
-    }, 300);
-
-  }, 4500);
-}
-    slideEl = track.querySelector("#tickerSlide");
-  } else {
-    // ✅ Update label/status/countdown without rebuilding entire bar
-    const labelEl = track.querySelector(".summit-label span:last-child");
-    const statusEl = track.querySelector(".summit-status span:last-child");
-    if (labelEl) labelEl.textContent = label;
-    if (statusEl) statusEl.textContent = status;
-
-    const cdSmall = track.querySelector(".countdown small");
-    const cdSpan = track.querySelector(".countdown span");
-    if (cd && cdSmall && cdSpan) {
-      cdSmall.textContent = (lang==="fr")?"Début dans":(lang==="ar")?"يبدأ خلال":"Starts in";
-      cdSpan.textContent = cd.label;
-    }
-  }
-
-  if (!slideEl) return;
-
-  let idx = 0;
-  slideEl.textContent = slides[idx];
-
-  const intervalMs = Math.max(2500, Number(cfg?.site?.tickerRotateMs) || 4200);
+  const intervalMs = Math.max(2500, Number(cfg?.site?.tickerRotateMs) || 4500);
 
   __tickerTimer = setInterval(() => {
+    // If only 1 item, don’t animate
+    if (list.length <= 1) return;
+
     slideEl.classList.add("is-out");
 
     setTimeout(() => {
-      idx = (idx + 1) % slides.length;
-      slideEl.textContent = slides[idx];
-     const themeEl = document.getElementById("summitTheme");
-if (themeEl) {
-  themeEl.textContent =
-    (lang === "fr")
-      ? "Thème : Accélérer l’industrialisation infranationale : le rôle du commerce et de l’investissement à l’ère de la ZLECAf"
-      : (lang === "ar")
-      ? "الموضوع: تسريع التصنيع على المستوى دون السيادي: دور التجارة والاستثمار في عصر منطقة التجارة الحرة القارية الأفريقية"
-      : "Theme: Scaling Up Sub-Sovereign Industrialisation: The Role of Trade and Investment in the AfCFTA Era";
-}
+      __tickerIdx = (__tickerIdx + 1) % list.length;
+      slideEl.textContent = list[__tickerIdx];
       slideEl.classList.remove("is-out");
-    }, 350);
+    }, 280);
 
   }, intervalMs);
 }
+
 /* ================================
    ABOUT PAGE (CONFIG-DRIVEN)
 ================================= */
@@ -638,12 +640,10 @@ function applyConfigContent(cfg, lang) {
 
   document.querySelectorAll("[data-config]").forEach(el => {
     const path = el.getAttribute("data-config") || "";
-
     const isRoot =
       path.startsWith("site.") ||
       path.startsWith("event.") ||
       path.startsWith("downloads.");
-
     if (isRoot) return;
 
     const value = getByPath(bundle, path);
@@ -663,7 +663,7 @@ function applyConfigContent(cfg, lang) {
   });
 }
 
-/* ✅ Only renders dropdown + attaches handler (NO double apply/init inside) */
+/* Dropdown only + handler (NO double init) */
 function injectLanguageSwitcher(cfg) {
   const slot = document.getElementById("lang-slot");
   if (!slot) return;
@@ -707,7 +707,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const savedLang = localStorage.getItem("lang") || cfg?.site?.defaultLang || "en";
 
-  // ✅ Run ONCE here (prevents blinking / double ticker)
   applyLanguage(cfg, savedLang);
   fillRootConfig(cfg);
   applyConfigContent(cfg, savedLang);
