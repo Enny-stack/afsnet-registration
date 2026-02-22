@@ -588,7 +588,10 @@ body.home::before{
    HOME ANNOUNCEMENT (Option C: Rotating Fade)
 ================================= */
 @media (prefers-reduced-motion: reduce){
-  .ticker-slide{ transition: none; }
+  .ticker-slide.is-out{
+  opacity:.25;             /* not fully off */
+  transform:translateY(4px);
+}
 }
 
 /* ✅ RTL support for Arabic */
