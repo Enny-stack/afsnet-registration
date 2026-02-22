@@ -703,16 +703,16 @@ function injectLanguageSwitcher(cfg) {
   const savedLang = localStorage.getItem("lang") || cfg?.site?.defaultLang || "en";
   select.value = savedLang;
 
+ // If header injected the language switcher, it already applied language + content + ticker.
+if (!document.getElementById("langSelect")) {
   applyLanguage(cfg, savedLang);
   fillRootConfig(cfg);
   applyConfigContent(cfg, savedLang);
-  wireApply(cfg, savedLang);
   renderDownloads(cfg);
-
+  wireApply(cfg, savedLang);
   initHomeTicker(cfg, savedLang);
-
-  // ✅ render About page (only if About elements exist)
   renderAboutPage(cfg, savedLang);
+}
 
   select.addEventListener("change", () => {
     const lang = select.value;
