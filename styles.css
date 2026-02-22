@@ -570,7 +570,10 @@ body.home::before{
   z-index: -1;
 }
 
-/* ===== Announcement ticker ===== */
+/* =========================
+   HOME TICKER — ANIMATED TYPE TEXT
+   (replaces the scrolling marquee)
+========================= */
 .ticker{
   margin: 10px auto 0;
   width: min(1200px, calc(100% - 32px));
@@ -580,36 +583,79 @@ body.home::before{
   backdrop-filter: blur(10px);
   overflow: hidden;
 }
-.ticker-viewport{overflow: hidden;padding: 10px 14px;}
+
+.ticker-viewport{
+  overflow: hidden;
+  padding: 10px 14px;
+}
+
 .ticker-track{
+  display: flex;
+  align-items: center;
+  min-height: 28px;
+}
+
+/* Keep your dot + font styles */
+.ticker-item{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 650;
+  color: var(--navy);
+}
+
+.ticker-dot{
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  min-width: 8px;
+  min-height: 8px;
+  border-radius: 999px;
+  background: var(--gold);
+  flex: 0 0 8px;
+}
+
+/* ✅ Animated typed text (always completes) */
+.ticker-text{
   display: inline-block;
   white-space: nowrap;
-  font-weight: 700;
-  color: var(--navy);
-  letter-spacing: .2px;
+  overflow: hidden;
 
-  /* Typewriter caret */
-  border-right: 3px solid rgba(11,31,58,.65);
+  /* caret */
+  border-right: 2px solid var(--gold);
   padding-right: 6px;
-  animation: tickerCaretBlink 1s step-end infinite;
+
+  /* animation controls (JS sets --chars) */
+  width: 0;
+  animation:
+    afsnetTyping 8s steps(var(--chars, 80)) infinite,
+    afsnetCaret 0.85s step-end infinite;
 }
 
-/* No hover pause needed anymore (not scrolling) */
-/* Remove .ticker-track:hover rule */
+/* Force restart when language changes (JS toggles .restart) */
+.ticker-text.restart{
+  animation: none !important;
+}
 
-@keyframes tickerCaretBlink{
-  50%{ border-color: transparent; }
+@keyframes afsnetTyping{
+  0%   { width: 0; }
+  45%  { width: calc(var(--chars, 80) * 1ch); } /* finishes typing */
+  75%  { width: calc(var(--chars, 80) * 1ch); } /* hold full text */
+  100% { width: 0; }                             /* reset */
+}
+
+@keyframes afsnetCaret{
+  0%, 100% { border-right-color: transparent; }
+  50%      { border-right-color: var(--gold); }
 }
 
 @media (prefers-reduced-motion: reduce){
-  .ticker-track{ animation: none; border-right: none; }
-}
-@keyframes tickerScroll{
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-@media (prefers-reduced-motion: reduce){
-  .ticker-track{ animation: none; }
+  .ticker-text{
+    animation: none;
+    width: auto;
+    border-right: none;
+    padding-right: 0;
+  }
 }
 
 /* ================================
