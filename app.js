@@ -269,7 +269,7 @@ function initHomeTicker(cfg, lang) {
   if (section) section.style.display = "";
 
   const rawParts = msg
-    .split(/(?:\.\s+| — | – |\n+)/)
+   .split(/(?:\.\s+|\n+)/)
     .map(s => s.trim())
     .filter(Boolean);
 
