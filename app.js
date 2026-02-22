@@ -243,11 +243,7 @@ function wireApply(cfg, lang) {
 }
 
 /* ================================
-   ✅ HOME ANNOUNCEMENT TICKER (TYPEWRITER)
-   ✅ FIXES:
-   - Ensures track has correct structure even if CSS expects .ticker-track inline-flex
-   - Cleans up previous timers on language switch
-   - Keeps the "track" element stable (no inner repeated items)
+   ✅ HOME ANNOUNCEMENT — ANIMATED TYPE TEXT
 ================================= */
 function initHomeTicker(cfg, lang) {
   const track = document.getElementById("homeTickerTrack");
@@ -258,75 +254,36 @@ function initHomeTicker(cfg, lang) {
     cfg?.i18n?.en?.["home.announcement"] ||
     "";
 
-  // Clear if empty
   if (!msg.trim()) {
-    track.textContent = "";
+    track.innerHTML = "";
     return;
   }
 
-  // ✅ Ensure the track is usable with your existing ticker CSS
-  // (Some CSS assumes the track is inline-flex / nowrap / etc.)
-  track.classList.add("ticker-track");
-  track.style.whiteSpace = "nowrap";
+  // Build the same visual structure (dot + text)
+  track.innerHTML = `
+    <span class="ticker-item">
+      <span class="ticker-dot" aria-hidden="true"></span>
+      <span class="ticker-text"></span>
+    </span>
+  `;
 
-  // ✅ Stop any previous typing loop (important when switching languages)
-  if (track._typeTimer) clearTimeout(track._typeTimer);
-
-  const text = msg.trim();
-  let i = 0;
-  let deleting = false;
-
-  // ✅ Use a dedicated span to avoid layout jitters and keep HTML clean
-  // (Prevents accidental injection / markup issues)
-  track.innerHTML = `<span class="ticker-item"><span class="ticker-dot" aria-hidden="true"></span><span class="ticker-text"></span></span>`;
   const textEl = track.querySelector(".ticker-text");
+  if (!textEl) return;
 
-  const TYPE_SPEED = 28;
-  const DELETE_SPEED = 16;
-  const HOLD_FULL = 1400;
-  const HOLD_EMPTY = 400;
+  // Set the text
+  textEl.textContent = msg.trim();
 
-  function tick() {
-    // Reduced motion: show full message, no animation
-    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      if (textEl) textEl.textContent = text;
-      return;
-    }
+  // Set character count for the steps() animation
+  // (minimum 20 so short messages still animate nicely)
+  const chars = Math.max(20, msg.trim().length);
+  textEl.style.setProperty("--chars", chars);
 
-    if (!textEl) return;
-
-    if (!deleting) {
-      i++;
-      textEl.textContent = text.slice(0, i);
-
-      if (i >= text.length) {
-        track._typeTimer = setTimeout(() => {
-          deleting = true;
-          tick();
-        }, HOLD_FULL);
-        return;
-      }
-
-      track._typeTimer = setTimeout(tick, TYPE_SPEED);
-    } else {
-      i--;
-      textEl.textContent = text.slice(0, i);
-
-      if (i <= 0) {
-        track._typeTimer = setTimeout(() => {
-          deleting = false;
-          tick();
-        }, HOLD_EMPTY);
-        return;
-      }
-
-      track._typeTimer = setTimeout(tick, DELETE_SPEED);
-    }
-  }
-
-  tick();
+  // ✅ Force animation restart (important on language switch)
+  textEl.classList.add("restart");
+  // force reflow
+  void textEl.offsetWidth;
+  textEl.classList.remove("restart");
 }
-
 /* ================================
    ✅ ABOUT PAGE (CONFIG-DRIVEN)
 ================================= */
