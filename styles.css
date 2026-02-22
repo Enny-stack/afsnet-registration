@@ -733,8 +733,8 @@ html[dir="rtl"] .ticker-badge{
 }
 
 .summit-slide.is-out{
-  opacity: 0;
-  transform: translateY(6px);
+  opacity: .25;          /* don’t go to 0 */
+  transform: translateY(4px);
 }
 
 .summit-right{
