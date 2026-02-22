@@ -243,7 +243,7 @@ function wireApply(cfg, lang) {
 }
 
 /* ================================
-   ✅ HOME ANNOUNCEMENT TICKER
+   ✅ HOME ANNOUNCEMENT TICKER (TYPEWRITER)
 ================================= */
 function initHomeTicker(cfg, lang) {
   const track = document.getElementById("homeTickerTrack");
@@ -254,25 +254,67 @@ function initHomeTicker(cfg, lang) {
     cfg?.i18n?.en?.["home.announcement"] ||
     "";
 
+  // Clear if empty
   if (!msg.trim()) {
-    track.innerHTML = "";
+    track.textContent = "";
     return;
   }
 
-  const itemHTML = `
-    <span class="ticker-item">
-      <span class="ticker-dot" aria-hidden="true"></span>
-      <span class="ticker-text">${msg}</span>
-    </span>
-  `;
+  // Stop any previous typing loop (important when switching languages)
+  if (track._typeTimer) clearTimeout(track._typeTimer);
 
-  const repeated = new Array(10).fill(itemHTML).join("");
-  track.innerHTML = repeated + repeated;
+  // Typewriter state
+  const text = msg.trim();
+  let i = 0;
+  let deleting = false;
 
-  // ✅ Force animation to restart immediately (fixes delay on language switch)
-  track.style.animation = "none";
-  track.offsetHeight; // force reflow
-  track.style.animation = "";
+  // Make sure we start clean
+  track.textContent = "";
+
+  const TYPE_SPEED = 28;     // typing speed (ms)
+  const DELETE_SPEED = 16;   // deleting speed (ms)
+  const HOLD_FULL = 1400;    // pause when full text typed
+  const HOLD_EMPTY = 400;    // pause when cleared
+
+  function tick() {
+    // If user prefers reduced motion, just show full text
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      track.textContent = text;
+      return;
+    }
+
+    if (!deleting) {
+      i++;
+      track.textContent = text.slice(0, i);
+
+      if (i >= text.length) {
+        // Hold full text, then start deleting (optional loop)
+        track._typeTimer = setTimeout(() => {
+          deleting = true;
+          tick();
+        }, HOLD_FULL);
+        return;
+      }
+
+      track._typeTimer = setTimeout(tick, TYPE_SPEED);
+    } else {
+      i--;
+      track.textContent = text.slice(0, i);
+
+      if (i <= 0) {
+        // Hold empty, then type again
+        track._typeTimer = setTimeout(() => {
+          deleting = false;
+          tick();
+        }, HOLD_EMPTY);
+        return;
+      }
+
+      track._typeTimer = setTimeout(tick, DELETE_SPEED);
+    }
+  }
+
+  tick();
 }
 
 /* ================================
