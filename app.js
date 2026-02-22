@@ -243,63 +243,68 @@ function wireApply(cfg, lang) {
 }
 
 /* ================================
-   ✅ HOME ANNOUNCEMENT (Option A: Banner)
+   ✅ HOME ANNOUNCEMENT (Option C: Rotating Fade)
 ================================= */
+let __tickerTimer = null;
+
 function initHomeTicker(cfg, lang) {
   const track = document.getElementById("homeTickerTrack");
   if (!track) return;
 
   const section = track.closest(".ticker");
-
   const msg =
     cfg?.i18n?.[lang]?.["home.announcement"] ||
     cfg?.i18n?.en?.["home.announcement"] ||
     "";
+
+  if (__tickerTimer) {
+    clearInterval(__tickerTimer);
+    __tickerTimer = null;
+  }
 
   if (!msg.trim()) {
     track.innerHTML = "";
     if (section) section.style.display = "none";
     return;
   }
-
   if (section) section.style.display = "";
 
-  // Build DOM safely (no risky innerHTML injection)
-  track.innerHTML = "";
+  // Split message into readable chunks (by sentences or “—”)
+  const rawParts = msg
+    .split(/(?:\.\s+| — | – |\n+)/)
+    .map(s => s.trim())
+    .filter(Boolean);
 
-  const notice = document.createElement("div");
-  notice.className = "ticker-notice";
+  const parts = rawParts.length ? rawParts : [msg.trim()];
 
-  const badge = document.createElement("div");
-  badge.className = "ticker-badge";
+  track.innerHTML = `
+    <div class="ticker-rotate">
+      <div class="ticker-badge">
+        <span class="ticker-dot" aria-hidden="true"></span>
+        <span class="ticker-badge-text">${
+          (lang === "fr") ? "Annonce" : (lang === "ar") ? "إعلان" : "Announcement"
+        }</span>
+      </div>
+      <div class="ticker-slide" id="tickerSlide"></div>
+    </div>
+  `;
 
-  const dot = document.createElement("span");
-  dot.className = "ticker-dot";
-  dot.setAttribute("aria-hidden", "true");
+  const slide = document.getElementById("tickerSlide");
+  if (!slide) return;
 
-  const badgeText = document.createElement("span");
-  badgeText.className = "ticker-badge-text";
-  badgeText.textContent =
-    (lang === "fr") ? "Annonce" :
-    (lang === "ar") ? "إعلان" :
-    "Announcement";
+  let idx = 0;
+  slide.textContent = parts[idx];
 
-  badge.appendChild(dot);
-  badge.appendChild(badgeText);
+  const intervalMs = Number(cfg?.site?.tickerRotateMs) || 3500;
 
-  const text = document.createElement("div");
-  text.className = "ticker-text";
-  text.textContent = msg;
-
-  notice.appendChild(badge);
-  notice.appendChild(text);
-
-  track.appendChild(notice);
-
-  // Force fade animation to restart on language switch
-  notice.style.animation = "none";
-  notice.offsetHeight; // reflow
-  notice.style.animation = "";
+  __tickerTimer = setInterval(() => {
+    slide.classList.add("is-out");
+    setTimeout(() => {
+      idx = (idx + 1) % parts.length;
+      slide.textContent = parts[idx];
+      slide.classList.remove("is-out");
+    }, 220);
+  }, Math.max(2000, intervalMs));
 }
 /* ================================
    ✅ ABOUT PAGE (CONFIG-DRIVEN)
