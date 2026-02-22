@@ -334,6 +334,7 @@ function initHomeTicker(cfg, lang) {
       </div>
     `;
   }
+  
     const slide = document.getElementById("tickerSlide");
   const themeEl = document.getElementById("summitTheme");
 
