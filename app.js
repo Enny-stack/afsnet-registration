@@ -286,79 +286,81 @@ function initHomeTicker(cfg, lang) {
   const track = document.getElementById("homeTickerTrack");
   if (!track) return;
 
-  const section = track.closest(".ticker");
-
   const msg =
     cfg?.i18n?.[lang]?.["home.announcement"] ||
     cfg?.i18n?.en?.["home.announcement"] ||
     "";
 
-  // stop previous rotation
-  if (__tickerTimer) {
-    clearInterval(__tickerTimer);
-    __tickerTimer = null;
-  }
+  if (!msg.trim()) return;
 
-  if (!msg.trim()) {
-    track.innerHTML = "";
-    if (section) section.style.display = "none";
-    return;
-  }
-  if (section) section.style.display = "";
+  // Build layout only if not already built
+  if (!track.querySelector(".summit-ui")) {
 
-  const parts = msg
+    const startDate = parseEventStartDate(cfg);
+    const cd = startDate ? formatCountdown(startDate, lang) : null;
+
+    const label =
+      (lang === "fr") ? "MISE À JOUR" :
+      (lang === "ar") ? "تحديث" :
+      "SUMMIT UPDATE";
+
+    track.innerHTML = `
+      <div class="summit-ui">
+        <div class="summit-left">
+          <div class="summit-label">
+            <span class="status-dot"></span>
+            <span>${label}</span>
+          </div>
+        </div>
+
+        <div class="summit-middle">
+          <div class="summit-slide" id="tickerSlide"></div>
+          <div class="summit-theme" id="summitTheme"></div>
+        </div>
+
+        <div class="summit-right">
+          ${cd ? `
+            <div class="countdown">
+              <small>Starts in</small>
+              <span>${cd.label}</span>
+            </div>
+          ` : ``}
+
+          <div class="summit-actions">
+            <a class="btn ghost" href="./event.html">Details</a>
+            <a class="btn primary" href="./apply.html">Register</a>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+    const slide = document.getElementById("tickerSlide");
+  const themeEl = document.getElementById("summitTheme");
+
+  const slides = msg
     .split(/(?:\.\s+|\n+)/)
     .map(s => s.trim())
     .filter(Boolean);
 
-  const slides = parts.length ? parts : [msg.trim()];
+  let idx = 0;
+  slide.textContent = slides[idx];
 
-  const startDate = parseEventStartDate(cfg);
-  const cd = startDate ? formatCountdown(startDate, lang) : null;
+  themeEl.textContent =
+    "Theme: Scaling Up Sub-Sovereign Industrialisation: The Role of Trade and Investment in the AfCFTA Era";
 
-  const label =
-    (lang === "fr") ? "MISE À JOUR" :
-    (lang === "ar") ? "تحديث" :
-    "SUMMIT UPDATE";
+  if (__tickerTimer) clearInterval(__tickerTimer);
 
-  // ✅ If already rendered once, do NOT rebuild the whole HTML.
-  // Just update text + restart interval.
-  let slideEl = track.querySelector("#tickerSlide");
+  __tickerTimer = setInterval(() => {
+    slide.classList.add("is-out");
 
-  if (!slideEl) {
-   track.innerHTML = `
-  <div class="summit-ui">
-    <div class="summit-left">
-      <div class="summit-label">
-        <span class="status-dot" aria-hidden="true"></span>
-        <span>${label}</span>
-      </div>
-    </div>
+    setTimeout(() => {
+      idx = (idx + 1) % slides.length;
+      slide.textContent = slides[idx];
+      slide.classList.remove("is-out");
+    }, 300);
 
-    <div class="summit-middle">
-      <div class="summit-slide" id="tickerSlide"></div>
-      <div class="summit-theme" id="summitTheme"></div>
-    </div>
-
-    <div class="summit-right">
-      ${cd ? `
-        <div class="countdown" aria-label="Countdown">
-          <small>${(lang==="fr")?"Début dans":(lang==="ar")?"يبدأ خلال":"Starts in"}</small>
-          <span>${cd.label}</span>
-        </div>
-      ` : ``}
-
-      <div class="summit-actions">
-        <a class="btn ghost" href="./event.html">
-          ${(lang==="fr")?"Détails":(lang==="ar")?"التفاصيل":"Details"}
-        </a>
-        <a class="btn primary" href="./apply.html">
-          ${(lang==="fr")?"S’inscrire":(lang==="ar")?"سجّل الآن":"Register"}
-        </a>
-      </div>
-    </div>
-  </div>
-`;
+  }, 4500);
+}
     slideEl = track.querySelector("#tickerSlide");
   } else {
     // ✅ Update label/status/countdown without rebuilding entire bar
