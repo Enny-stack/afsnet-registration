@@ -643,6 +643,130 @@ html[dir="rtl"] .ticker-badge{
   .ticker-slide{ transition: none; }
 }
 /* ================================
+   SUMMIT STATUS BAR (Upgrade)
+================================= */
+.summit-bar .ticker-track{ display:block; }
+
+.summit-ui{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  flex-wrap:nowrap;
+}
+
+.summit-left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width: 230px;
+}
+
+.summit-label{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 12px;
+  border-radius:999px;
+  background: rgba(11,93,59,.08);
+  border:1px solid rgba(11,93,59,.18);
+  color: var(--navy);
+  font-weight: 900;
+  font-size: 12px;
+  letter-spacing: .3px;
+  white-space: nowrap;
+}
+
+.summit-status{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 12px;
+  border-radius:999px;
+  border:1px solid rgba(201,162,39,.35);
+  background: rgba(201,162,39,.10);
+  color: var(--navy);
+  font-weight: 850;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.status-dot{
+  width:8px;height:8px;border-radius:999px;
+  background: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201,162,39,.18);
+  flex: 0 0 8px;
+}
+
+.summit-middle{
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.summit-slide{
+  font-weight: 800;
+  color: var(--navy);
+  line-height: 1.35;
+  transition: opacity .35s ease, transform .35s ease;
+  opacity: 1;
+  transform: translateY(0);
+  word-break: break-word;
+}
+
+.summit-slide.is-out{
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+.summit-right{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  white-space: nowrap;
+}
+
+.countdown{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 12px;
+  border-radius:999px;
+  background: rgba(255,255,255,.9);
+  border:1px solid rgba(11,31,58,.14);
+  font-weight: 900;
+  color: var(--navy);
+}
+
+.countdown small{
+  font-weight: 850;
+  color: var(--muted);
+}
+
+.summit-actions{
+  display:flex;
+  gap:8px;
+}
+
+.summit-actions .btn{
+  padding:10px 12px;
+  border-radius: 999px;
+}
+
+/* Responsive */
+@media (max-width: 860px){
+  .summit-ui{ flex-wrap: wrap; }
+  .summit-left{ min-width: 0; }
+  .summit-right{ width: 100%; justify-content:flex-start; flex-wrap: wrap; }
+}
+
+/* RTL support */
+html[dir="rtl"] .summit-ui{ flex-direction: row-reverse; }
+html[dir="rtl"] .summit-right{ justify-content:flex-end; }
+html[dir="rtl"] .summit-middle{ text-align:right; }
+
+@media (prefers-reduced-motion: reduce){
+  .summit-slide{ transition: none; }
+}
+/* ================================
    About: Objectives Slider
 ================================ */
 .snap-slider{position: relative;margin-top: 14px;}
