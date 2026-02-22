@@ -300,6 +300,7 @@ function initHomeTicker(cfg, lang) {
     cfg?.i18n?.en?.["home.announcement"] ||
     "";
 
+  // stop previous rotation
   if (__tickerTimer) {
     clearInterval(__tickerTimer);
     __tickerTimer = null;
@@ -312,7 +313,6 @@ function initHomeTicker(cfg, lang) {
   }
   if (section) section.style.display = "";
 
-  // Only split on full stops + new lines (avoid breaking "12–14")
   const parts = msg
     .split(/(?:\.\s+|\n+)/)
     .map(s => s.trim())
@@ -329,66 +329,81 @@ function initHomeTicker(cfg, lang) {
     (lang === "ar") ? "تحديث" :
     "SUMMIT UPDATE";
 
-  track.innerHTML = `
-    <div class="summit-ui">
-      <div class="summit-left">
-        <div class="summit-label">
-          <span class="status-dot" aria-hidden="true"></span>
-          <span>${label}</span>
-        </div>
-        <div class="summit-status">
-          <span class="status-dot" aria-hidden="true"></span>
-          <span>${status}</span>
-        </div>
-      </div>
+  // ✅ If already rendered once, do NOT rebuild the whole HTML.
+  // Just update text + restart interval.
+  let slideEl = track.querySelector("#tickerSlide");
 
-      <div class="summit-middle">
-        <div class="summit-slide" id="tickerSlide"></div>
-      </div>
-
-      <div class="summit-right">
-        ${cd ? `
-          <div class="countdown" aria-label="Countdown">
-            <small>${(lang==="fr")?"Début dans":(lang==="ar")?"يبدأ خلال":"Starts in"}</small>
-            <span>${cd.label}</span>
+  if (!slideEl) {
+    track.innerHTML = `
+      <div class="summit-ui">
+        <div class="summit-left">
+          <div class="summit-label">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span>${label}</span>
           </div>
-        ` : ``}
+          <div class="summit-status">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span>${status}</span>
+          </div>
+        </div>
 
-        <div class="summit-actions">
-          <a class="btn ghost" href="./event.html">
-            ${(lang==="fr")?"Détails":(lang==="ar")?"التفاصيل":"Details"}
-          </a>
-          <a class="btn primary" href="./apply.html">
-            ${(lang==="fr")?"S’inscrire":(lang==="ar")?"سجّل الآن":"Register"}
-          </a>
+        <div class="summit-middle">
+          <div class="summit-slide" id="tickerSlide"></div>
+        </div>
+
+        <div class="summit-right">
+          ${cd ? `
+            <div class="countdown" aria-label="Countdown">
+              <small>${(lang==="fr")?"Début dans":(lang==="ar")?"يبدأ خلال":"Starts in"}</small>
+              <span>${cd.label}</span>
+            </div>
+          ` : ``}
+
+          <div class="summit-actions">
+            <a class="btn ghost" href="./event.html">
+              ${(lang==="fr")?"Détails":(lang==="ar")?"التفاصيل":"Details"}
+            </a>
+            <a class="btn primary" href="./apply.html">
+              ${(lang==="fr")?"S’inscrire":(lang==="ar")?"سجّل الآن":"Register"}
+            </a>
+          </div>
         </div>
       </div>
-    </div>
-  `;
+    `;
+    slideEl = track.querySelector("#tickerSlide");
+  } else {
+    // ✅ Update label/status/countdown without rebuilding entire bar
+    const labelEl = track.querySelector(".summit-label span:last-child");
+    const statusEl = track.querySelector(".summit-status span:last-child");
+    if (labelEl) labelEl.textContent = label;
+    if (statusEl) statusEl.textContent = status;
 
-  const slide = track.querySelector("#tickerSlide");
-  if (!slide) return;
+    const cdSmall = track.querySelector(".countdown small");
+    const cdSpan = track.querySelector(".countdown span");
+    if (cd && cdSmall && cdSpan) {
+      cdSmall.textContent = (lang==="fr")?"Début dans":(lang==="ar")?"يبدأ خلال":"Starts in";
+      cdSpan.textContent = cd.label;
+    }
+  }
+
+  if (!slideEl) return;
 
   let idx = 0;
-  slide.textContent = slides[idx];
+  slideEl.textContent = slides[idx];
 
   const intervalMs = Math.max(2500, Number(cfg?.site?.tickerRotateMs) || 4200);
 
-  // Small delay prevents “blink” on initial render
-  setTimeout(() => {
-    __tickerTimer = setInterval(() => {
-      slide.classList.add("is-out");
+  __tickerTimer = setInterval(() => {
+    slideEl.classList.add("is-out");
 
-      setTimeout(() => {
-        idx = (idx + 1) % slides.length;
-        slide.textContent = slides[idx];
-        slide.classList.remove("is-out");
-      }, 350);
+    setTimeout(() => {
+      idx = (idx + 1) % slides.length;
+      slideEl.textContent = slides[idx];
+      slideEl.classList.remove("is-out");
+    }, 350);
 
-    }, intervalMs);
-  }, 250);
+  }, intervalMs);
 }
-
 /* ================================
    ABOUT PAGE (CONFIG-DRIVEN)
 ================================= */
