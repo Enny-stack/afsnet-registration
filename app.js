@@ -314,7 +314,6 @@ function initHomeTicker(cfg, lang) {
   const slides = parts.length ? parts : [msg.trim()];
 
   const startDate = parseEventStartDate(cfg);
-  const status = summitStatusText(lang, startDate);
   const cd = startDate ? formatCountdown(startDate, lang) : null;
 
   const label =
@@ -327,42 +326,39 @@ function initHomeTicker(cfg, lang) {
   let slideEl = track.querySelector("#tickerSlide");
 
   if (!slideEl) {
-    track.innerHTML = `
-      <div class="summit-ui">
-        <div class="summit-left">
-          <div class="summit-label">
-            <span class="status-dot" aria-hidden="true"></span>
-            <span>${label}</span>
-          </div>
-          <div class="summit-status">
-            <span class="status-dot" aria-hidden="true"></span>
-            <span>${status}</span>
-          </div>
-        </div>
-
-        <div class="summit-middle">
-          <div class="summit-slide" id="tickerSlide"></div>
-        </div>
-
-        <div class="summit-right">
-          ${cd ? `
-            <div class="countdown" aria-label="Countdown">
-              <small>${(lang==="fr")?"Début dans":(lang==="ar")?"يبدأ خلال":"Starts in"}</small>
-              <span>${cd.label}</span>
-            </div>
-          ` : ``}
-
-          <div class="summit-actions">
-            <a class="btn ghost" href="./event.html">
-              ${(lang==="fr")?"Détails":(lang==="ar")?"التفاصيل":"Details"}
-            </a>
-            <a class="btn primary" href="./apply.html">
-              ${(lang==="fr")?"S’inscrire":(lang==="ar")?"سجّل الآن":"Register"}
-            </a>
-          </div>
-        </div>
+   track.innerHTML = `
+  <div class="summit-ui">
+    <div class="summit-left">
+      <div class="summit-label">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span>${label}</span>
       </div>
-    `;
+    </div>
+
+    <div class="summit-middle">
+      <div class="summit-slide" id="tickerSlide"></div>
+      <div class="summit-theme" id="summitTheme"></div>
+    </div>
+
+    <div class="summit-right">
+      ${cd ? `
+        <div class="countdown" aria-label="Countdown">
+          <small>${(lang==="fr")?"Début dans":(lang==="ar")?"يبدأ خلال":"Starts in"}</small>
+          <span>${cd.label}</span>
+        </div>
+      ` : ``}
+
+      <div class="summit-actions">
+        <a class="btn ghost" href="./event.html">
+          ${(lang==="fr")?"Détails":(lang==="ar")?"التفاصيل":"Details"}
+        </a>
+        <a class="btn primary" href="./apply.html">
+          ${(lang==="fr")?"S’inscrire":(lang==="ar")?"سجّل الآن":"Register"}
+        </a>
+      </div>
+    </div>
+  </div>
+`;
     slideEl = track.querySelector("#tickerSlide");
   } else {
     // ✅ Update label/status/countdown without rebuilding entire bar
@@ -392,6 +388,15 @@ function initHomeTicker(cfg, lang) {
     setTimeout(() => {
       idx = (idx + 1) % slides.length;
       slideEl.textContent = slides[idx];
+     const themeEl = document.getElementById("summitTheme");
+if (themeEl) {
+  themeEl.textContent =
+    (lang === "fr")
+      ? "Thème : Accélérer l’industrialisation infranationale : le rôle du commerce et de l’investissement à l’ère de la ZLECAf"
+      : (lang === "ar")
+      ? "الموضوع: تسريع التصنيع على المستوى دون السيادي: دور التجارة والاستثمار في عصر منطقة التجارة الحرة القارية الأفريقية"
+      : "Theme: Scaling Up Sub-Sovereign Industrialisation: The Role of Trade and Investment in the AfCFTA Era";
+}
       slideEl.classList.remove("is-out");
     }, 350);
 
