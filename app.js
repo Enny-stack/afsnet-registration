@@ -244,6 +244,10 @@ function wireApply(cfg, lang) {
 
 /* ================================
    ✅ HOME ANNOUNCEMENT TICKER (TYPEWRITER)
+   ✅ FIXES:
+   - Ensures track has correct structure even if CSS expects .ticker-track inline-flex
+   - Cleans up previous timers on language switch
+   - Keeps the "track" element stable (no inner repeated items)
 ================================= */
 function initHomeTicker(cfg, lang) {
   const track = document.getElementById("homeTickerTrack");
@@ -260,35 +264,42 @@ function initHomeTicker(cfg, lang) {
     return;
   }
 
-  // Stop any previous typing loop (important when switching languages)
+  // ✅ Ensure the track is usable with your existing ticker CSS
+  // (Some CSS assumes the track is inline-flex / nowrap / etc.)
+  track.classList.add("ticker-track");
+  track.style.whiteSpace = "nowrap";
+
+  // ✅ Stop any previous typing loop (important when switching languages)
   if (track._typeTimer) clearTimeout(track._typeTimer);
 
-  // Typewriter state
   const text = msg.trim();
   let i = 0;
   let deleting = false;
 
-  // Make sure we start clean
-  track.textContent = "";
+  // ✅ Use a dedicated span to avoid layout jitters and keep HTML clean
+  // (Prevents accidental injection / markup issues)
+  track.innerHTML = `<span class="ticker-item"><span class="ticker-dot" aria-hidden="true"></span><span class="ticker-text"></span></span>`;
+  const textEl = track.querySelector(".ticker-text");
 
-  const TYPE_SPEED = 28;     // typing speed (ms)
-  const DELETE_SPEED = 16;   // deleting speed (ms)
-  const HOLD_FULL = 1400;    // pause when full text typed
-  const HOLD_EMPTY = 400;    // pause when cleared
+  const TYPE_SPEED = 28;
+  const DELETE_SPEED = 16;
+  const HOLD_FULL = 1400;
+  const HOLD_EMPTY = 400;
 
   function tick() {
-    // If user prefers reduced motion, just show full text
+    // Reduced motion: show full message, no animation
     if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      track.textContent = text;
+      if (textEl) textEl.textContent = text;
       return;
     }
 
+    if (!textEl) return;
+
     if (!deleting) {
       i++;
-      track.textContent = text.slice(0, i);
+      textEl.textContent = text.slice(0, i);
 
       if (i >= text.length) {
-        // Hold full text, then start deleting (optional loop)
         track._typeTimer = setTimeout(() => {
           deleting = true;
           tick();
@@ -299,10 +310,9 @@ function initHomeTicker(cfg, lang) {
       track._typeTimer = setTimeout(tick, TYPE_SPEED);
     } else {
       i--;
-      track.textContent = text.slice(0, i);
+      textEl.textContent = text.slice(0, i);
 
       if (i <= 0) {
-        // Hold empty, then type again
         track._typeTimer = setTimeout(() => {
           deleting = false;
           tick();
