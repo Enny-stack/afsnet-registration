@@ -99,8 +99,22 @@ header{
   color:inherit;
   margin-top:-2px;
 }
-.brand-text h1{font-size:14px;margin:0;letter-spacing:.2px}
-.brand-text p{margin:0;font-size:12px;color:var(--muted)}
+/* Brand text styles (your HTML uses .brand > div > h1,p) */
+.brand h1{
+  margin:0;
+  font-size:28px;          /* adjust if you want smaller/larger */
+  line-height:1.05;
+  letter-spacing:.2px;
+  font-weight:950;
+}
+
+.brand p{
+  margin:6px 0 0;
+  font-size:14px;
+  line-height:1.25;
+  color:var(--muted);
+  max-width: 240px;        /* keeps it neat like a summit portal */
+}
 
 /* Nav container */
 .header-nav-wrap{
