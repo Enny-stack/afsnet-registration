@@ -573,6 +573,18 @@ body.home::before{
 /* ================================
    HOME ANNOUNCEMENT (Option C: Rotating Fade)
 ================================= */
+@media (prefers-reduced-motion: reduce){
+  .ticker-slide{ transition: none; }
+}
+
+/* ✅ RTL support for Arabic */
+html[dir="rtl"] .ticker-rotate{
+  flex-direction: row-reverse;
+  text-align: right;
+}
+html[dir="rtl"] .ticker-badge{
+  align-self: flex-end;
+}
 .ticker{
   margin: 10px auto 0;
   width: min(1200px, calc(100% - 32px));
