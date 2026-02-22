@@ -243,11 +243,13 @@ function wireApply(cfg, lang) {
 }
 
 /* ================================
-   ✅ HOME ANNOUNCEMENT — ANIMATED TYPE TEXT
+   ✅ HOME ANNOUNCEMENT (Option A: Banner)
 ================================= */
 function initHomeTicker(cfg, lang) {
   const track = document.getElementById("homeTickerTrack");
   if (!track) return;
+
+  const section = track.closest(".ticker");
 
   const msg =
     cfg?.i18n?.[lang]?.["home.announcement"] ||
@@ -256,33 +258,48 @@ function initHomeTicker(cfg, lang) {
 
   if (!msg.trim()) {
     track.innerHTML = "";
+    if (section) section.style.display = "none";
     return;
   }
 
-  // Build the same visual structure (dot + text)
-  track.innerHTML = `
-    <span class="ticker-item">
-      <span class="ticker-dot" aria-hidden="true"></span>
-      <span class="ticker-text"></span>
-    </span>
-  `;
+  if (section) section.style.display = "";
 
-  const textEl = track.querySelector(".ticker-text");
-  if (!textEl) return;
+  // Build DOM safely (no risky innerHTML injection)
+  track.innerHTML = "";
 
-  // Set the text
-  textEl.textContent = msg.trim();
+  const notice = document.createElement("div");
+  notice.className = "ticker-notice";
 
-  // Set character count for the steps() animation
-  // (minimum 20 so short messages still animate nicely)
-  const chars = Math.max(20, msg.trim().length);
-  textEl.style.setProperty("--chars", chars);
+  const badge = document.createElement("div");
+  badge.className = "ticker-badge";
 
-  // ✅ Force animation restart (important on language switch)
-  textEl.classList.add("restart");
-  // force reflow
-  void textEl.offsetWidth;
-  textEl.classList.remove("restart");
+  const dot = document.createElement("span");
+  dot.className = "ticker-dot";
+  dot.setAttribute("aria-hidden", "true");
+
+  const badgeText = document.createElement("span");
+  badgeText.className = "ticker-badge-text";
+  badgeText.textContent =
+    (lang === "fr") ? "Annonce" :
+    (lang === "ar") ? "إعلان" :
+    "Announcement";
+
+  badge.appendChild(dot);
+  badge.appendChild(badgeText);
+
+  const text = document.createElement("div");
+  text.className = "ticker-text";
+  text.textContent = msg;
+
+  notice.appendChild(badge);
+  notice.appendChild(text);
+
+  track.appendChild(notice);
+
+  // Force fade animation to restart on language switch
+  notice.style.animation = "none";
+  notice.offsetHeight; // reflow
+  notice.style.animation = "";
 }
 /* ================================
    ✅ ABOUT PAGE (CONFIG-DRIVEN)
