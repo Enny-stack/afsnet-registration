@@ -1,10 +1,3 @@
-/* ================================
-   AfSNET app.js (FIXED)
-   - Prevents double-initialization (language + ticker flicker)
-   - Keeps rotating summit announcement stable
-   - Language switch only re-renders what it should
-================================= */
-
 let CONFIG = null;
 
 async function loadConfig() {
