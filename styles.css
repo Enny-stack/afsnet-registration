@@ -662,6 +662,52 @@ html[dir="rtl"] .ticker-badge{
 @media (prefers-reduced-motion: reduce){
   .ticker-slide{ transition: none; }
 }
+/* Make the announcement bar look like a premium summit ribbon */
+.ticker{
+  background: linear-gradient(135deg, rgba(11,93,59,.10), rgba(201,162,39,.10), rgba(255,255,255,.92));
+  border: 1px solid rgba(201,162,39,.25);
+  box-shadow: 0 18px 44px rgba(11,31,58,.10);
+}
+
+/* Space + alignment: prevents overlap */
+.summit-ui{
+  padding: 12px 14px;
+  border-radius: 16px;
+}
+
+/* Keep left label slim */
+.summit-left{
+  min-width: 0;
+}
+
+/* Middle takes space; allows wrapping properly */
+.summit-middle{
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Rotating message wraps nicely */
+.summit-slide{
+  font-weight: 850;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+
+/* Theme line under the announcement */
+.summit-theme{
+  margin-top: 6px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--green);
+  opacity: .95;
+}
+
+/* On smaller screens stack cleanly */
+@media (max-width: 860px){
+  .summit-ui{ flex-wrap: wrap; }
+  .summit-right{ width:100%; justify-content:flex-start; flex-wrap: wrap; }
+}
 /* ================================
    SUMMIT STATUS BAR (Upgrade)
 ================================= */
