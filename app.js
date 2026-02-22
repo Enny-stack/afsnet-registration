@@ -1,3 +1,10 @@
+/* ================================
+   AfSNET app.js (FIXED)
+   - Prevents double-initialization (language + ticker flicker)
+   - Keeps rotating summit announcement stable
+   - Language switch only re-renders what it should
+================================= */
+
 let CONFIG = null;
 
 async function loadConfig() {
@@ -10,7 +17,6 @@ async function loadConfig() {
     return CONFIG;
   } catch (err) {
     console.error("❌ Failed to load config.json:", err);
-    // Don't crash silently — at least show something.
     const body = document.querySelector("body");
     if (body) {
       body.innerHTML = `
@@ -59,7 +65,7 @@ function injectHeader(cfg) {
 
             <a class="brand" href="./index.html" aria-label="${name} Home">
               <img class="site-logo" src="${logo}" alt="${name} logo" />
-              <div>
+              <div class="brand-text">
                 <h1>${name}</h1>
                 <p>${tagline}</p>
               </div>
@@ -86,7 +92,7 @@ function injectHeader(cfg) {
     </header>
   `;
 
-  injectLanguageSwitcher(cfg);
+  injectLanguageSwitcher(cfg); // only renders the dropdown + wires change handler
   setActiveNav();
 }
 
@@ -96,7 +102,6 @@ function injectFooter(cfg) {
 
   const year = new Date().getFullYear();
 
-  // Supports both naming styles safely (afreximbank / afreximbankUrl etc.)
   const afreximbankUrl =
     cfg?.site?.externalLinks?.afreximbankUrl ||
     cfg?.site?.externalLinks?.afreximbank ||
@@ -110,29 +115,20 @@ function injectFooter(cfg) {
   el.innerHTML = `
     <footer class="site-footer">
       <div class="container footer-container">
-
         <div class="footer-grid-3">
 
-          <!-- LEFT: Brand -->
           <div class="footer-col brand-col">
             <div class="footer-brand">
               <img src="${cfg?.site?.logoSrc || "./assets/logo/afsnet-logo.jpg"}"
                    class="footer-logo-img"
                    alt="AfSNET Logo" />
-
               <div>
-                <p class="footer-title">
-                  African Sub-Sovereign Governments Network (AfSNET)
-                </p>
-                <p class="footer-sub">
-                  Connecting African states, investors, and projects through a trusted investment network.
-                </p>
+                <p class="footer-title">African Sub-Sovereign Governments Network (AfSNET)</p>
+                <p class="footer-sub">Connecting African states, investors, and projects through a trusted investment network.</p>
               </div>
             </div>
 
-            <p class="footer-copy">
-              © ${year} Afreximbank / AfSNET. All rights reserved.
-            </p>
+            <p class="footer-copy">© ${year} Afreximbank / AfSNET. All rights reserved.</p>
 
             <div class="footer-links" style="margin-top:12px">
               <a href="${afreximbankUrl}" target="_blank" rel="noopener">Afreximbank Website</a>
@@ -140,7 +136,6 @@ function injectFooter(cfg) {
             </div>
           </div>
 
-          <!-- MIDDLE -->
           <div class="footer-col links-col">
             <h4>Quick links</h4>
             <div class="footer-links">
@@ -152,24 +147,13 @@ function injectFooter(cfg) {
             </div>
           </div>
 
-          <!-- RIGHT -->
           <div class="footer-col address-col">
             <h4>Afreximbank Headquarters – Cairo, Egypt</h4>
-
             <div class="footer-contact">
-              <div class="line">
-                72 (B) El-Maahad El-Eshteraky Street – Heliopolis, Cairo 11341, Egypt
-              </div>
-              <div class="line">
-                <span class="label">Postal Address:</span>
-                P.O. Box 613 Heliopolis, Cairo 11757, Egypt
-              </div>
-              <div class="line">
-                <span class="label">Email:</span> ${cfg?.site?.supportEmail || "afsnet@afreximbank.com"}
-              </div>
-              <div class="line">
-                <span class="label">Tel:</span> ${cfg?.site?.phone || "+20-2-24564100"}
-              </div>
+              <div class="line">72 (B) El-Maahad El-Eshteraky Street – Heliopolis, Cairo 11341, Egypt</div>
+              <div class="line"><span class="label">Postal Address:</span> P.O. Box 613 Heliopolis, Cairo 11757, Egypt</div>
+              <div class="line"><span class="label">Email:</span> ${cfg?.site?.supportEmail || "afsnet@afreximbank.com"}</div>
+              <div class="line"><span class="label">Tel:</span> ${cfg?.site?.phone || "+20-2-24564100"}</div>
             </div>
           </div>
 
@@ -181,13 +165,11 @@ function injectFooter(cfg) {
 
 /* ================================
    ROOT (NON-LANGUAGE) FILL
-   - site.*, event.*, downloads.*
 ================================= */
 function fillRootConfig(cfg) {
   document.querySelectorAll("[data-config]").forEach(el => {
     const path = el.getAttribute("data-config") || "";
 
-    // Only fill these from ROOT cfg:
     const isRoot =
       path.startsWith("site.") ||
       path.startsWith("event.") ||
@@ -199,7 +181,6 @@ function fillRootConfig(cfg) {
     if (val !== null && typeof val !== "object") el.textContent = val;
   });
 
-  // data-email="site.supportEmail"
   document.querySelectorAll("[data-email]").forEach(el => {
     const path = el.getAttribute("data-email");
     const email = getByPath(cfg, path);
@@ -242,80 +223,69 @@ function wireApply(cfg, lang) {
   btn.setAttribute("rel", "noopener");
 }
 
+/* ================================
+   SUMMIT / TICKER (ROTATING)
+================================= */
 let __tickerTimer = null;
 
 function parseEventStartDate(cfg){
-  // Best effort:
-  // Your config has: "12th-14th, November, 2026"
   const raw = (cfg?.event?.dates || "").trim();
   if (!raw) return null;
 
-  // Extract something like "12" and "November" and "2026"
-  // Examples handled:
-  // "12th-14th, November, 2026"
-  // "12–14 November 2026"
-  // "12-14 November 2026"
   const cleaned = raw
-    .replace(/(\d+)(st|nd|rd|th)/gi, "$1")   // 12th -> 12
-    .replace(/[–—]/g, "-")                  // en dash -> hyphen
+    .replace(/(\d+)(st|nd|rd|th)/gi, "$1")
+    .replace(/[–—]/g, "-")
     .replace(/,/g, " ")
     .replace(/\s+/g, " ")
     .trim();
 
-  // Find year
   const yearMatch = cleaned.match(/\b(20\d{2})\b/);
   const year = yearMatch ? Number(yearMatch[1]) : null;
 
-  // Find month name
   const monthMatch = cleaned.match(/\b(January|February|March|April|May|June|July|August|September|October|November|December)\b/i);
   const monthName = monthMatch ? monthMatch[1] : null;
 
-  // Find first day number (before a dash, or standalone)
   const dayMatch = cleaned.match(/\b(\d{1,2})(?:\s*-\s*\d{1,2})?\b/);
   const day = dayMatch ? Number(dayMatch[1]) : null;
 
   if (!year || !monthName || !day) return null;
 
-  // Create a Date in local time at 09:00 to avoid timezone edge issues
   const d = new Date(`${monthName} ${day}, ${year} 09:00:00`);
   return isNaN(d.getTime()) ? null : d;
 }
 
 function formatCountdown(targetDate, lang){
   const now = new Date();
-  let diff = targetDate.getTime() - now.getTime();
+  const diff = targetDate.getTime() - now.getTime();
 
-  if (diff <= 0) return { label: (lang==="fr"?"En cours":lang==="ar"?"جارٍ الآن":"Live"), isLive: true };
+  if (diff <= 0) {
+    return { label: (lang==="fr"?"En cours":lang==="ar"?"جارٍ الآن":"Live"), isLive: true };
+  }
 
   const totalMinutes = Math.floor(diff / 60000);
   const days = Math.floor(totalMinutes / (60 * 24));
   const hours = Math.floor((totalMinutes - days * 60 * 24) / 60);
   const mins = totalMinutes - days * 60 * 24 - hours * 60;
 
-  // Localized tiny label
   const dLbl = (lang==="fr") ? "j" : (lang==="ar") ? "ي" : "d";
   const hLbl = (lang==="fr") ? "h" : (lang==="ar") ? "س" : "h";
   const mLbl = (lang==="fr") ? "min" : (lang==="ar") ? "د" : "m";
 
-  return {
-    label: `${days}${dLbl} ${hours}${hLbl} ${mins}${mLbl}`,
-    isLive: false
-  };
+  return { label: `${days}${dLbl} ${hours}${hLbl} ${mins}${mLbl}`, isLive: false };
 }
 
-function summitStatusText(cfg, lang, startDate){
+function summitStatusText(lang, startDate){
   const now = new Date();
+
   if (!startDate) {
     return (lang==="fr") ? "Mise à jour" : (lang==="ar") ? "تحديث" : "Update";
   }
 
-  // If within 3 days to start => "Upcoming"
   const diff = startDate.getTime() - now.getTime();
 
   if (diff <= 0) return (lang==="fr") ? "En cours" : (lang==="ar") ? "جارٍ الآن" : "Live";
   if (diff <= (3 * 24 * 60 * 60 * 1000)) return (lang==="fr") ? "Bientôt" : (lang==="ar") ? "قريبًا" : "Upcoming";
 
-  // Otherwise assume registration open (matches your current messaging)
   return (lang==="fr") ? "Inscriptions ouvertes" : (lang==="ar") ? "التسجيل مفتوح" : "Registration open";
 }
 
@@ -342,7 +312,7 @@ function initHomeTicker(cfg, lang) {
   }
   if (section) section.style.display = "";
 
-  // Split into sentences / lines ONLY (avoid breaking dates like 12–14)
+  // Only split on full stops + new lines (avoid breaking "12–14")
   const parts = msg
     .split(/(?:\.\s+|\n+)/)
     .map(s => s.trim())
@@ -351,7 +321,7 @@ function initHomeTicker(cfg, lang) {
   const slides = parts.length ? parts : [msg.trim()];
 
   const startDate = parseEventStartDate(cfg);
-  const status = summitStatusText(cfg, lang, startDate);
+  const status = summitStatusText(lang, startDate);
   const cd = startDate ? formatCountdown(startDate, lang) : null;
 
   const label =
@@ -396,7 +366,7 @@ function initHomeTicker(cfg, lang) {
     </div>
   `;
 
-  const slide = document.getElementById("tickerSlide");
+  const slide = track.querySelector("#tickerSlide");
   if (!slide) return;
 
   let idx = 0;
@@ -404,7 +374,7 @@ function initHomeTicker(cfg, lang) {
 
   const intervalMs = Math.max(2500, Number(cfg?.site?.tickerRotateMs) || 4200);
 
-  // Let first paint settle (prevents “blink” feeling)
+  // Small delay prevents “blink” on initial render
   setTimeout(() => {
     __tickerTimer = setInterval(() => {
       slide.classList.add("is-out");
@@ -416,10 +386,11 @@ function initHomeTicker(cfg, lang) {
       }, 350);
 
     }, intervalMs);
-  }, 600);
+  }, 250);
 }
+
 /* ================================
-   ✅ ABOUT PAGE (CONFIG-DRIVEN)
+   ABOUT PAGE (CONFIG-DRIVEN)
 ================================= */
 function renderAboutIntro(cfg, lang) {
   const mount = document.getElementById("aboutIntro");
@@ -529,12 +500,11 @@ function renderAboutPage(cfg, lang) {
   renderAboutObjectives(cfg, lang);
   renderHowWorks(cfg, lang);
 
-  // Re-init slider after objectives injected
   initSnapSlider("objectivesSlider");
 }
 
 /* ================================
-   ✅ SIMPLE SLIDER (OBJECTIVES)
+   SIMPLE SLIDER (OBJECTIVES)
 ================================= */
 function initSnapSlider(rootId) {
   const root = document.getElementById(rootId);
@@ -553,7 +523,6 @@ function initSnapSlider(rootId) {
     return;
   }
 
-  // ✅ Reset listeners safely by cloning buttons
   if (btnPrev) {
     const clone = btnPrev.cloneNode(true);
     btnPrev.parentNode.replaceChild(clone, btnPrev);
@@ -565,7 +534,6 @@ function initSnapSlider(rootId) {
     btnNext = clone;
   }
 
-  // Build dots fresh
   if (dotsWrap) {
     dotsWrap.innerHTML = cards
       .map((_, i) => `<button type="button" class="snap-dot" aria-label="Go to slide ${i + 1}" data-dot-index="${i}"></button>`)
@@ -594,15 +562,12 @@ function initSnapSlider(rootId) {
     setActive(i);
   }
 
-  // Initial active
   setActive(0);
 
-  // Replace scroll handler (avoid stacking listeners)
   scroller.onscroll = () => {
     window.requestAnimationFrame(() => setActive(currentIndex()));
   };
 
-  // Dot click
   dots.forEach(d => {
     d.onclick = () => {
       const i = Number(d.getAttribute("data-dot-index"));
@@ -610,7 +575,6 @@ function initSnapSlider(rootId) {
     };
   });
 
-  // Arrows
   if (btnPrev) btnPrev.onclick = () => {
     const i = Math.max(0, currentIndex() - 1);
     scrollToIndex(i);
@@ -620,13 +584,11 @@ function initSnapSlider(rootId) {
     const iNow = currentIndex();
     const last = cards.length - 1;
 
-    // ✅ If last card, jump to How Works and highlight
     if (iNow >= last) {
       const target = document.getElementById("howWorks");
       if (target) {
         target.scrollIntoView({ behavior: "smooth", block: "start" });
         target.classList.remove("flash-highlight");
-        // force reflow for restart animation
         void target.offsetWidth;
         target.classList.add("flash-highlight");
       }
@@ -685,6 +647,7 @@ function applyConfigContent(cfg, lang) {
   });
 }
 
+/* ✅ Only renders dropdown + attaches handler (NO double apply/init inside) */
 function injectLanguageSwitcher(cfg) {
   const slot = document.getElementById("lang-slot");
   if (!slot) return;
@@ -703,19 +666,9 @@ function injectLanguageSwitcher(cfg) {
   const savedLang = localStorage.getItem("lang") || cfg?.site?.defaultLang || "en";
   select.value = savedLang;
 
- // If header injected the language switcher, it already applied language + content + ticker.
-if (!document.getElementById("langSelect")) {
-  applyLanguage(cfg, savedLang);
-  fillRootConfig(cfg);
-  applyConfigContent(cfg, savedLang);
-  renderDownloads(cfg);
-  wireApply(cfg, savedLang);
-  initHomeTicker(cfg, savedLang);
-  renderAboutPage(cfg, savedLang);
-}
-
   select.addEventListener("change", () => {
     const lang = select.value;
+
     applyLanguage(cfg, lang);
     fillRootConfig(cfg);
     applyConfigContent(cfg, lang);
@@ -723,14 +676,12 @@ if (!document.getElementById("langSelect")) {
     renderDownloads(cfg);
 
     initHomeTicker(cfg, lang);
-
-    // ✅ re-render About content per language
     renderAboutPage(cfg, lang);
   });
 }
 
 /* ================================
-   INIT
+   INIT (single source of truth)
 ================================= */
 document.addEventListener("DOMContentLoaded", async () => {
   const cfg = await loadConfig();
@@ -740,6 +691,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const savedLang = localStorage.getItem("lang") || cfg?.site?.defaultLang || "en";
 
+  // ✅ Run ONCE here (prevents blinking / double ticker)
   applyLanguage(cfg, savedLang);
   fillRootConfig(cfg);
   applyConfigContent(cfg, savedLang);
@@ -747,10 +699,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   wireApply(cfg, savedLang);
 
   initHomeTicker(cfg, savedLang);
-
-  // ✅ About page config rendering + slider init
   renderAboutPage(cfg, savedLang);
 });
+
 // Preloader: hide when page is ready
 window.addEventListener("load", () => {
   const preloader = document.getElementById("preloader");
