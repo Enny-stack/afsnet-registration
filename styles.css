@@ -570,94 +570,87 @@ body.home::before{
   z-index: -1;
 }
 
-/* =========================
-   HOME TICKER — ANIMATED TYPE TEXT
-   (replaces the scrolling marquee)
-========================= */
+/* ================================
+   HOME ANNOUNCEMENT (Option A: Banner)
+================================= */
 .ticker{
   margin: 10px auto 0;
   width: min(1200px, calc(100% - 32px));
   border-radius: 16px;
   border: 1px solid var(--line);
-  background: rgba(255,255,255,.8);
+  background: rgba(255,255,255,.85);
   backdrop-filter: blur(10px);
   overflow: hidden;
 }
 
 .ticker-viewport{
-  overflow: hidden;
-  padding: 10px 14px;
+  padding: 12px 14px;
 }
 
+/* ✅ Stop treating it like a scrolling track */
 .ticker-track{
-  display: flex;
-  align-items: center;
-  min-height: 28px;
+  display: block;
+  white-space: normal;
+  animation: none !important;
+  will-change: auto;
 }
 
-/* Keep your dot + font styles */
-.ticker-item{
+/* Banner layout */
+.ticker-notice{
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  line-height: 1.35;
+  color: var(--navy);
+  animation: tickerFadeIn 320ms ease-out both;
+}
+
+.ticker-badge{
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  font-weight: 650;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(201,162,39,.35);
+  background: rgba(201,162,39,.10);
+  font-weight: 800;
+  font-size: 12.5px;
   color: var(--navy);
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 
 .ticker-dot{
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  min-width: 8px;
-  min-height: 8px;
+  width: 10px;
+  height: 10px;
   border-radius: 999px;
   background: var(--gold);
-  flex: 0 0 8px;
+  box-shadow: 0 0 0 4px rgba(201,162,39,.18);
+  flex: 0 0 10px;
+  margin-top: 2px;
 }
 
-/* ✅ Animated typed text (always completes) */
+/* Full readable text (wraps) */
 .ticker-text{
-  display: inline-block;
-  white-space: nowrap;
-  overflow: hidden;
-
-  /* caret */
-  border-right: 2px solid var(--gold);
-  padding-right: 6px;
-
-  /* animation controls (JS sets --chars) */
-  width: 0;
-  animation:
-    afsnetTyping 8s steps(var(--chars, 80)) infinite,
-    afsnetCaret 0.85s step-end infinite;
+  font-weight: 650;
+  color: var(--navy);
+  overflow-wrap: anywhere;
 }
 
-/* Force restart when language changes (JS toggles .restart) */
-.ticker-text.restart{
-  animation: none !important;
+/* Nice but subtle */
+@keyframes tickerFadeIn{
+  from { opacity: 0; transform: translateY(2px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes afsnetTyping{
-  0%   { width: 0; }
-  45%  { width: calc(var(--chars, 80) * 1ch); } /* finishes typing */
-  75%  { width: calc(var(--chars, 80) * 1ch); } /* hold full text */
-  100% { width: 0; }                             /* reset */
-}
-
-@keyframes afsnetCaret{
-  0%, 100% { border-right-color: transparent; }
-  50%      { border-right-color: var(--gold); }
+@media (max-width: 640px){
+  .ticker-notice{ flex-direction: column; gap: 10px; }
+  .ticker-badge{ align-self: flex-start; }
 }
 
 @media (prefers-reduced-motion: reduce){
-  .ticker-text{
-    animation: none;
-    width: auto;
-    border-right: none;
-    padding-right: 0;
-  }
+  .ticker-notice{ animation: none; }
 }
-
 /* ================================
    About: Objectives Slider
 ================================ */
