@@ -439,7 +439,8 @@ html[dir="rtl"] .dropdown{
 .list{margin:10px 0 0; padding-left:18px}
 .list li{margin:8px 0}
 .list li::marker{color:rgba(201,162,39,.85)}
-
+.surface .list{ margin-top:10px; }
+.surface .kicker{ margin-bottom:6px; }
 /* Track Record card keeps the button at the bottom */
 .track-card{
   display:flex;
