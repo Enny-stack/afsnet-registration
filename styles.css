@@ -639,17 +639,20 @@ html[dir="rtl"] .ticker-badge{
 }
 
 .ticker-slide{
-  font-weight:600;
+  flex: 1;              /* allows text to expand properly */
+  min-width: 0;         /* prevents flex overflow compression */
+  font-weight:700;
   color:var(--navy);
+  line-height:1.35;
+
   min-height:24px;
   transition: opacity .35s ease, transform .35s ease;
   opacity:1;
   transform:translateY(0);
 }
-
 .ticker-slide.is-out{
-  opacity:0;
-  transform:translateY(6px);
+  opacity:.25;          /* not fully disappearing */
+  transform:translateY(4px);
 }
 
 @media (max-width: 640px){
