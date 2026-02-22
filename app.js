@@ -255,30 +255,33 @@ function initHomeTicker(cfg, lang) {
     cfg?.i18n?.en?.["home.announcement"] ||
     "";
 
+  // Clear any previous timer (important on language switch)
   if (__tickerTimer) {
     clearInterval(__tickerTimer);
     __tickerTimer = null;
   }
 
+  // Hide ticker if empty
   if (!msg.trim()) {
     track.innerHTML = "";
     if (section) section.style.display = "none";
     return;
   }
-
   if (section) section.style.display = "";
 
+  // Split into chunks (sentences / line breaks)
   const rawParts = msg
-   .split(/(?:\.\s+|\n+)/)
+    .split(/(?:\.\s+|\n+)/)
     .map(s => s.trim())
     .filter(Boolean);
 
   const parts = rawParts.length ? rawParts : [msg.trim()];
 
+  // Build HTML
   track.innerHTML = `
     <div class="ticker-rotate">
       <div class="ticker-badge">
-        <span class="ticker-dot"></span>
+        <span class="ticker-dot" aria-hidden="true"></span>
         <span>${
           lang === "fr" ? "Annonce" :
           lang === "ar" ? "إعلان" :
@@ -292,23 +295,27 @@ function initHomeTicker(cfg, lang) {
   const slide = document.getElementById("tickerSlide");
   if (!slide) return;
 
+  // If only one message, just show it (no blinking)
   let idx = 0;
   slide.textContent = parts[idx];
+  if (parts.length <= 1) return;
 
-  const intervalMs = Number(cfg?.site?.tickerRotateMs) || 4000;
+  const intervalMs = Math.max(2500, Number(cfg?.site?.tickerRotateMs) || 4000);
 
- setTimeout(() => {
-  __tickerTimer = setInterval(() => {
-    slide.classList.add("is-out");
+  // Small delay so first paint happens smoothly
+  setTimeout(() => {
+    __tickerTimer = setInterval(() => {
+      slide.classList.add("is-out");
 
-    setTimeout(() => {
-      idx = (idx + 1) % parts.length;
-      slide.textContent = parts[idx];
-      slide.classList.remove("is-out");
-    }, 350);
+      setTimeout(() => {
+        idx = (idx + 1) % parts.length;
+        slide.textContent = parts[idx];
+        slide.classList.remove("is-out");
+      }, 350);
 
-  }, intervalMs);
-}, 600);
+    }, intervalMs);
+  }, 600);
+}
 /* ================================
    ✅ ABOUT PAGE (CONFIG-DRIVEN)
 ================================= */
