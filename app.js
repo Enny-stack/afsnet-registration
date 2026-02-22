@@ -297,6 +297,7 @@ function initHomeTicker(cfg, lang) {
 
   const intervalMs = Number(cfg?.site?.tickerRotateMs) || 4000;
 
+ setTimeout(() => {
   __tickerTimer = setInterval(() => {
     slide.classList.add("is-out");
 
@@ -307,7 +308,7 @@ function initHomeTicker(cfg, lang) {
     }, 350);
 
   }, intervalMs);
-}
+}, 600);
 /* ================================
    ✅ ABOUT PAGE (CONFIG-DRIVEN)
 ================================= */
