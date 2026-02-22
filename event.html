@@ -1,99 +1,94 @@
+<!-- ===== event.html ===== -->
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Event information" />
+  <meta name="description" content="Event details — dates, venue, format, and logistics." />
   <title>AfSNET | Event</title>
   <link rel="stylesheet" href="./styles.css" />
-  <script src="./app.js" defer></script>
 </head>
-
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
-  <div id="site-header"></div>
+<a class="skip-link" href="#main">Skip to content</a>
 
-  <main id="main" class="container">
+<header>
+  <div class="container topbar">
+    <a class="brand" href="./index.html" aria-label="AfSNET Home">
+      <div class="logo" aria-hidden="true"></div>
+      <div><h1>AfSNET</h1><p>Afreximbank programme</p></div>
+    </a>
+    <nav class="nav" aria-label="Primary navigation">
+      <a href="./index.html">Home</a>
+      <a href="./about.html">About</a>
+      <a href="./programme.html">Programme</a>
+      <a class="active" href="./event.html">Event</a>
+      <a href="./speakers-partners.html">Speakers/Partners</a>
+      <a href="./travel-visa.html">Travel & Visa</a>
+      <a href="./media-press.html">Media/Press</a>
+      <a href="./hotels.html">Hotels</a>
+      <a class="cta" href="./apply.html">Apply</a>
+      <a href="./contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
 
-    <section class="hero-banner section">
-      <div class="grid">
+<main id="main" class="container">
+  <section class="card pad section hero">
+    <span class="pill">Event information</span>
+    <h2>Dates, venue, and participation format</h2>
+    <p class="muted">Update these with confirmed details and keep them accurate.</p>
 
-        <div class="card pad hero">
-          <span class="pill" data-i18n="event.pill">Event</span>
-          <h2 data-i18n="event.title">Event information</h2>
-          <p class="muted" data-i18n="event.intro">
-            Key details for delegates, speakers, partners, and media.
-          </p>
+    <div class="meta">
+      <div class="chip"><strong>Date:</strong> TBC</div>
+      <div class="chip"><strong>Venue:</strong> TBC</div>
+      <div class="chip"><strong>City/Country:</strong> TBC</div>
+      <div class="chip"><strong>Format:</strong> Hybrid</div>
+    </div>
 
-          <div class="meta">
-            <div class="chip">
-              <strong data-i18n="labels.dates">Dates:</strong>
-              <span data-event="dates"></span>
-            </div>
-            <div class="chip">
-              <strong data-i18n="labels.location">Location:</strong>
-              <span data-event="city"></span>, <span data-event="country"></span>
-            </div>
-            <div class="chip">
-              <strong data-i18n="labels.venue">Venue:</strong>
-              <span data-event="venue"></span>
-            </div>
-            <div class="chip">
-              <strong data-i18n="labels.format">Format:</strong>
-              <span data-event="format"></span>
-            </div>
-          </div>
+    <div class="actions">
+      <a class="btn primary" href="./apply.html">Register</a>
+      <a class="btn ghost" href="./hotels.html">Hotels</a>
+      <a class="btn ghost" href="./travel-visa.html">Travel & Visa</a>
+    </div>
+  </section>
 
-          <div class="actions">
-            <a class="btn primary" href="./apply.html" data-i18n="event.ctaRegister">Apply / Register</a>
-            <a class="btn ghost" href="./programme.html" data-i18n="event.ctaProgramme">Programme</a>
-            <a class="btn ghost" href="./travel-visa.html" data-i18n="event.ctaTravel">Travel & Visa</a>
-          </div>
-        </div>
+  <section class="two section">
+    <div class="card pad">
+      <h3>Venue & access</h3>
+      <ul class="list">
+        <li>Venue name, address, and map link (TBC)</li>
+        <li>Badge collection / check-in process (TBC)</li>
+        <li>Accessibility and special assistance (TBC)</li>
+      </ul>
+    </div>
+    <div class="card pad">
+      <h3>Key timings</h3>
+      <ul class="list">
+        <li>Registration opens: TBC</li>
+        <li>Programme starts: TBC</li>
+        <li>Meetings/networking: TBC</li>
+        <li>Close: TBC</li>
+      </ul>
+    </div>
+  </section>
 
-        <div class="surface card pad">
-          <div class="kicker" data-i18n="event.beforeYouArrive">On-site expectations</div>
-          <ul class="list">
-            <li data-i18n="event.before1">Bring a valid ID and your registration confirmation.</li>
-            <li data-i18n="event.before2">Arrive early for badge collection and security screening.</li>
-            <li data-i18n="event.before3">Check travel, visa and hotel guidance before arrival.</li>
-          </ul>
+  <section class="card pad section">
+    <h3>Participant guidance</h3>
+    <ul class="list">
+      <li>How matchmaking/meeting requests will be handled (TBC)</li>
+      <li>Dress code / protocol (if relevant) (TBC)</li>
+      <li>Security / access control notes (TBC)</li>
+    </ul>
+  </section>
 
-          <div class="kicker" style="margin-top:12px" data-i18n="event.needHelp">Need help?</div>
-          <p class="muted" style="margin:0">
-            <span data-i18n="event.needHelpText">Email</span>
-            <a href="mailto:afsnet@afreximbank.com">afsnet@afreximbank.com</a>
-          </p>
+  <footer>
+    <div class="footer-row">
+      <div><strong style="color:var(--navy)">Afreximbank</strong> <span class="muted">— AfSNET</span></div>
+      <div>© <span id="year"></span> Afreximbank. All rights reserved.</div>
+    </div>
+  </footer>
+</main>
 
-          <div class="actions">
-            <a class="btn" href="./media-press.html" data-i18n="event.ctaMediaPress">Media & Press</a>
-            <a class="btn" href="./hotels.html" data-i18n="event.ctaHotels">Hotels</a>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="two">
-        <div class="card pad">
-          <h3 style="margin:0 0 8px" data-i18n="event.badgesTitle">Badges & access</h3>
-          <p class="muted" style="margin:0" data-i18n="event.badgesText">
-            Badge collection guidance will be published closer to the event date.
-          </p>
-        </div>
-
-        <div class="card pad">
-          <h3 style="margin:0 0 8px" data-i18n="event.mediaTitle">Media & press</h3>
-          <p class="muted" style="margin:0" data-i18n="event.mediaText">
-            For accreditation and announcements, visit the Media & Press page.
-          </p>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <div id="site-footer"></div>
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
 </html>
