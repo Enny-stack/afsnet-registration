@@ -242,9 +242,6 @@ function wireApply(cfg, lang) {
   btn.setAttribute("rel", "noopener");
 }
 
-/* ================================
-   ✅ HOME ANNOUNCEMENT (Option C: Rotating Fade) — FIXED (NO BLINK)
-================================= */
 let __tickerTimer = null;
 
 function initHomeTicker(cfg, lang) {
@@ -258,21 +255,19 @@ function initHomeTicker(cfg, lang) {
     cfg?.i18n?.en?.["home.announcement"] ||
     "";
 
-  // Stop previous rotation timer
   if (__tickerTimer) {
     clearInterval(__tickerTimer);
     __tickerTimer = null;
   }
 
-  // Hide ticker if empty
   if (!msg.trim()) {
     track.innerHTML = "";
     if (section) section.style.display = "none";
     return;
   }
+
   if (section) section.style.display = "";
 
-  // Split message into readable chunks (sentences / dashes)
   const rawParts = msg
     .split(/(?:\.\s+| — | – |\n+)/)
     .map(s => s.trim())
@@ -280,52 +275,38 @@ function initHomeTicker(cfg, lang) {
 
   const parts = rawParts.length ? rawParts : [msg.trim()];
 
-  // ✅ Build markup ONCE (avoid flashing)
-  let slide = track.querySelector("#tickerSlide");
-  let badgeText = track.querySelector(".ticker-badge-text");
-
-  if (!slide || !badgeText) {
-    track.innerHTML = `
-      <div class="ticker-rotate">
-        <div class="ticker-badge">
-          <span class="ticker-dot" aria-hidden="true"></span>
-          <span class="ticker-badge-text"></span>
-        </div>
-        <div class="ticker-slide" id="tickerSlide"></div>
+  track.innerHTML = `
+    <div class="ticker-rotate">
+      <div class="ticker-badge">
+        <span class="ticker-dot"></span>
+        <span>${
+          lang === "fr" ? "Annonce" :
+          lang === "ar" ? "إعلان" :
+          "Announcement"
+        }</span>
       </div>
-    `;
-    slide = track.querySelector("#tickerSlide");
-    badgeText = track.querySelector(".ticker-badge-text");
-  }
+      <div class="ticker-slide" id="tickerSlide"></div>
+    </div>
+  `;
 
-  // Badge label
-  if (badgeText) {
-    badgeText.textContent =
-      (lang === "fr") ? "Annonce" :
-      (lang === "ar") ? "إعلان" :
-      "Announcement";
-  }
-
+  const slide = document.getElementById("tickerSlide");
   if (!slide) return;
 
-  // ✅ Always reset to first chunk when (re)initializing
   let idx = 0;
-
-  // Remove transition class before setting first text to avoid flicker
-  slide.classList.remove("is-out");
   slide.textContent = parts[idx];
 
-  const intervalMs = Number(cfg?.site?.tickerRotateMs) || 3500;
-  const stepMs = Math.max(2200, intervalMs);
+  const intervalMs = Number(cfg?.site?.tickerRotateMs) || 4000;
 
   __tickerTimer = setInterval(() => {
     slide.classList.add("is-out");
+
     setTimeout(() => {
       idx = (idx + 1) % parts.length;
       slide.textContent = parts[idx];
       slide.classList.remove("is-out");
-    }, 220);
-  }, stepMs);
+    }, 350);
+
+  }, intervalMs);
 }
 /* ================================
    ✅ ABOUT PAGE (CONFIG-DRIVEN)
