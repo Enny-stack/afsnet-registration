@@ -271,9 +271,10 @@ function initHomeTicker(cfg, lang) {
 
   // Split into chunks (sentences / line breaks)
   const rawParts = msg
-    .split(/(?:\.\s+|\n+)/)
-    .map(s => s.trim())
-    .filter(Boolean);
+  // split only on new lines OR on sentence endings followed by a space + capital/number/Arabic letter
+  .split(/(?:\n+|(?<=[.!?])\s+(?=[A-Z0-9\u0600-\u06FF]))/g)
+  .map(s => s.trim())
+  .filter(Boolean);
 
   const parts = rawParts.length ? rawParts : [msg.trim()];
 
