@@ -582,29 +582,27 @@ body.home::before{
 }
 .ticker-viewport{overflow: hidden;padding: 10px 14px;}
 .ticker-track{
-  display: inline-flex;
-  gap: 48px;
-  white-space: nowrap;
-  will-change: transform;
-  animation: tickerScroll 60s linear infinite;
-}
-.ticker-track:hover{animation-play-state: paused;}
-.ticker-item{
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 600;
-  color: var(--navy);
-}
-.ticker-dot{
   display: inline-block;
-  width: 8px;
-  height: 8px;
-  min-width: 8px;
-  min-height: 8px;
-  border-radius: 999px;
-  background: var(--gold);
-  flex: 0 0 8px;
+  white-space: nowrap;
+  font-weight: 700;
+  color: var(--navy);
+  letter-spacing: .2px;
+
+  /* Typewriter caret */
+  border-right: 3px solid rgba(11,31,58,.65);
+  padding-right: 6px;
+  animation: tickerCaretBlink 1s step-end infinite;
+}
+
+/* No hover pause needed anymore (not scrolling) */
+/* Remove .ticker-track:hover rule */
+
+@keyframes tickerCaretBlink{
+  50%{ border-color: transparent; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .ticker-track{ animation: none; border-right: none; }
 }
 @keyframes tickerScroll{
   from { transform: translateX(0); }
