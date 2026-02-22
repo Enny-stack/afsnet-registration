@@ -571,7 +571,7 @@ body.home::before{
 }
 
 /* ================================
-   HOME ANNOUNCEMENT (Option A: Banner)
+   HOME ANNOUNCEMENT (Option C: Rotating Fade)
 ================================= */
 .ticker{
   margin: 10px auto 0;
@@ -583,26 +583,17 @@ body.home::before{
   overflow: hidden;
 }
 
-.ticker-viewport{
-  padding: 12px 14px;
-}
+.ticker-viewport{ padding: 12px 14px; }
 
-/* ✅ Stop treating it like a scrolling track */
 .ticker-track{
   display: block;
   white-space: normal;
-  animation: none !important;
-  will-change: auto;
 }
 
-/* Banner layout */
-.ticker-notice{
+.ticker-rotate{
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  line-height: 1.35;
-  color: var(--navy);
-  animation: tickerFadeIn 320ms ease-out both;
 }
 
 .ticker-badge{
@@ -630,26 +621,27 @@ body.home::before{
   margin-top: 2px;
 }
 
-/* Full readable text (wraps) */
-.ticker-text{
-  font-weight: 650;
+.ticker-slide{
+  font-weight: 700;
   color: var(--navy);
+  line-height: 1.35;
   overflow-wrap: anywhere;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 240ms ease, transform 240ms ease;
 }
 
-/* Nice but subtle */
-@keyframes tickerFadeIn{
-  from { opacity: 0; transform: translateY(2px); }
-  to   { opacity: 1; transform: translateY(0); }
+.ticker-slide.is-out{
+  opacity: 0;
+  transform: translateY(4px);
 }
 
 @media (max-width: 640px){
-  .ticker-notice{ flex-direction: column; gap: 10px; }
+  .ticker-rotate{ flex-direction: column; gap: 10px; }
   .ticker-badge{ align-self: flex-start; }
 }
-
 @media (prefers-reduced-motion: reduce){
-  .ticker-notice{ animation: none; }
+  .ticker-slide{ transition: none; }
 }
 /* ================================
    About: Objectives Slider
