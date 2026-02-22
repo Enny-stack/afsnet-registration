@@ -23,33 +23,33 @@
   },
 
   "i18n": {
-    "en": {
-      "nav.home": "Home",
-      "nav.about": "About",
-      "nav.programme": "Programme",
-      "nav.schedule": "Schedule Meeting",
-      "nav.event": "Event",
-      "nav.speakers": "Speakers/Partners",
-      "nav.travel": "Travel & Visa",
-      "nav.media": "Media/Press",
-      "nav.hotels": "Hotels",
-      "nav.apply": "Apply",
-      "nav.contact": "Contact",
+   "en": {
+  "nav.home": "Home",
+  "nav.about": "About",
+  "nav.programme": "Programme",
+  "nav.schedule": "Schedule Meeting",
+  "nav.event": "Event",
+  "nav.speakers": "Speakers/Partners",
+  "nav.travel": "Travel & Visa",
+  "nav.media": "Media/Press",
+  "nav.hotels": "Hotels",
+  "nav.apply": "Apply",
+  "nav.contact": "Contact",
 
-      "home.announcement": "Welcome to the 6th Edition Conference of AfSNET.\nDates: 12–14 November 2026.\nVenue: Calabar International Convention Centre (CICC), Calabar, Cross River State, Nigeria."
+  "home.announcement": "Welcome to the 6th Edition Conference of AfSNET.\nDates: 12–14 November 2026.\nVenue: Calabar International Convention Centre (CICC), Calabar, Cross River State, Nigeria.",
 
-      "home.label.dates": "Dates:",
-      "home.label.location": "Location:",
-      "home.label.format": "Format:",
+  "home.label.dates": "Dates:",
+  "home.label.location": "Location:",
+  "home.label.format": "Format:",
 
-      "home.btn.apply": "Apply / Register",
-      "home.btn.programme": "Programme",
-      "home.btn.event": "Event details",
-      "home.btn.learnMoreAbout": "Learn more in About →",
+  "home.btn.apply": "Apply / Register",
+  "home.btn.programme": "Programme",
+  "home.btn.event": "Event details",
+  "home.btn.learnMoreAbout": "Learn more in About →",
 
-      "home.video.title": "AfSNET Highlights Video",
-      "home.video.subtitle": "A short preview of what to expect at the 6th Edition of AfSNET in Calabar, Cross River State."
-    },
+  "home.video.title": "AfSNET Highlights Video",
+  "home.video.subtitle": "A short preview of what to expect at the 6th Edition of AfSNET in Calabar, Cross River State."
+}
 
     "fr": {
       "nav.home": "Accueil",
