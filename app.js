@@ -244,6 +244,81 @@ function wireApply(cfg, lang) {
 
 let __tickerTimer = null;
 
+function parseEventStartDate(cfg){
+  // Best effort:
+  // Your config has: "12th-14th, November, 2026"
+  const raw = (cfg?.event?.dates || "").trim();
+  if (!raw) return null;
+
+  // Extract something like "12" and "November" and "2026"
+  // Examples handled:
+  // "12th-14th, November, 2026"
+  // "12–14 November 2026"
+  // "12-14 November 2026"
+  const cleaned = raw
+    .replace(/(\d+)(st|nd|rd|th)/gi, "$1")   // 12th -> 12
+    .replace(/[–—]/g, "-")                  // en dash -> hyphen
+    .replace(/,/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  // Find year
+  const yearMatch = cleaned.match(/\b(20\d{2})\b/);
+  const year = yearMatch ? Number(yearMatch[1]) : null;
+
+  // Find month name
+  const monthMatch = cleaned.match(/\b(January|February|March|April|May|June|July|August|September|October|November|December)\b/i);
+  const monthName = monthMatch ? monthMatch[1] : null;
+
+  // Find first day number (before a dash, or standalone)
+  const dayMatch = cleaned.match(/\b(\d{1,2})(?:\s*-\s*\d{1,2})?\b/);
+  const day = dayMatch ? Number(dayMatch[1]) : null;
+
+  if (!year || !monthName || !day) return null;
+
+  // Create a Date in local time at 09:00 to avoid timezone edge issues
+  const d = new Date(`${monthName} ${day}, ${year} 09:00:00`);
+  return isNaN(d.getTime()) ? null : d;
+}
+
+function formatCountdown(targetDate, lang){
+  const now = new Date();
+  let diff = targetDate.getTime() - now.getTime();
+
+  if (diff <= 0) return { label: (lang==="fr"?"En cours":lang==="ar"?"جارٍ الآن":"Live"), isLive: true };
+
+  const totalMinutes = Math.floor(diff / 60000);
+  const days = Math.floor(totalMinutes / (60 * 24));
+  const hours = Math.floor((totalMinutes - days * 60 * 24) / 60);
+  const mins = totalMinutes - days * 60 * 24 - hours * 60;
+
+  // Localized tiny label
+  const dLbl = (lang==="fr") ? "j" : (lang==="ar") ? "ي" : "d";
+  const hLbl = (lang==="fr") ? "h" : (lang==="ar") ? "س" : "h";
+  const mLbl = (lang==="fr") ? "min" : (lang==="ar") ? "د" : "m";
+
+  return {
+    label: `${days}${dLbl} ${hours}${hLbl} ${mins}${mLbl}`,
+    isLive: false
+  };
+}
+
+function summitStatusText(cfg, lang, startDate){
+  const now = new Date();
+  if (!startDate) {
+    return (lang==="fr") ? "Mise à jour" : (lang==="ar") ? "تحديث" : "Update";
+  }
+
+  // If within 3 days to start => "Upcoming"
+  const diff = startDate.getTime() - now.getTime();
+
+  if (diff <= 0) return (lang==="fr") ? "En cours" : (lang==="ar") ? "جارٍ الآن" : "Live";
+  if (diff <= (3 * 24 * 60 * 60 * 1000)) return (lang==="fr") ? "Bientôt" : (lang==="ar") ? "قريبًا" : "Upcoming";
+
+  // Otherwise assume registration open (matches your current messaging)
+  return (lang==="fr") ? "Inscriptions ouvertes" : (lang==="ar") ? "التسجيل مفتوح" : "Registration open";
+}
+
 function initHomeTicker(cfg, lang) {
   const track = document.getElementById("homeTickerTrack");
   if (!track) return;
@@ -255,13 +330,11 @@ function initHomeTicker(cfg, lang) {
     cfg?.i18n?.en?.["home.announcement"] ||
     "";
 
-  // Clear any previous timer (important on language switch)
   if (__tickerTimer) {
     clearInterval(__tickerTimer);
     __tickerTimer = null;
   }
 
-  // Hide ticker if empty
   if (!msg.trim()) {
     track.innerHTML = "";
     if (section) section.style.display = "none";
@@ -269,48 +342,76 @@ function initHomeTicker(cfg, lang) {
   }
   if (section) section.style.display = "";
 
-  // Split into chunks (sentences / line breaks)
-  const rawParts = msg
-  // split only on new lines OR on sentence endings followed by a space + capital/number/Arabic letter
-  .split(/(?:\n+|(?<=[.!?])\s+(?=[A-Z0-9\u0600-\u06FF]))/g)
-  .map(s => s.trim())
-  .filter(Boolean);
+  // Split into sentences / lines ONLY (avoid breaking dates like 12–14)
+  const parts = msg
+    .split(/(?:\.\s+|\n+)/)
+    .map(s => s.trim())
+    .filter(Boolean);
 
-  const parts = rawParts.length ? rawParts : [msg.trim()];
+  const slides = parts.length ? parts : [msg.trim()];
 
-  // Build HTML
+  const startDate = parseEventStartDate(cfg);
+  const status = summitStatusText(cfg, lang, startDate);
+  const cd = startDate ? formatCountdown(startDate, lang) : null;
+
+  const label =
+    (lang === "fr") ? "MISE À JOUR" :
+    (lang === "ar") ? "تحديث" :
+    "SUMMIT UPDATE";
+
   track.innerHTML = `
-    <div class="ticker-rotate">
-      <div class="ticker-badge">
-        <span class="ticker-dot" aria-hidden="true"></span>
-        <span>${
-          lang === "fr" ? "Annonce" :
-          lang === "ar" ? "إعلان" :
-          "Announcement"
-        }</span>
+    <div class="summit-ui">
+      <div class="summit-left">
+        <div class="summit-label">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span>${label}</span>
+        </div>
+        <div class="summit-status">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span>${status}</span>
+        </div>
       </div>
-      <div class="ticker-slide" id="tickerSlide"></div>
+
+      <div class="summit-middle">
+        <div class="summit-slide" id="tickerSlide"></div>
+      </div>
+
+      <div class="summit-right">
+        ${cd ? `
+          <div class="countdown" aria-label="Countdown">
+            <small>${(lang==="fr")?"Début dans":(lang==="ar")?"يبدأ خلال":"Starts in"}</small>
+            <span>${cd.label}</span>
+          </div>
+        ` : ``}
+
+        <div class="summit-actions">
+          <a class="btn ghost" href="./event.html">
+            ${(lang==="fr")?"Détails":(lang==="ar")?"التفاصيل":"Details"}
+          </a>
+          <a class="btn primary" href="./apply.html">
+            ${(lang==="fr")?"S’inscrire":(lang==="ar")?"سجّل الآن":"Register"}
+          </a>
+        </div>
+      </div>
     </div>
   `;
 
   const slide = document.getElementById("tickerSlide");
   if (!slide) return;
 
-  // If only one message, just show it (no blinking)
   let idx = 0;
-  slide.textContent = parts[idx];
-  if (parts.length <= 1) return;
+  slide.textContent = slides[idx];
 
-  const intervalMs = Math.max(2500, Number(cfg?.site?.tickerRotateMs) || 4000);
+  const intervalMs = Math.max(2500, Number(cfg?.site?.tickerRotateMs) || 4200);
 
-  // Small delay so first paint happens smoothly
+  // Let first paint settle (prevents “blink” feeling)
   setTimeout(() => {
     __tickerTimer = setInterval(() => {
       slide.classList.add("is-out");
 
       setTimeout(() => {
-        idx = (idx + 1) % parts.length;
-        slide.textContent = parts[idx];
+        idx = (idx + 1) % slides.length;
+        slide.textContent = slides[idx];
         slide.classList.remove("is-out");
       }, 350);
 
