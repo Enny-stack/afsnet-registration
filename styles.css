@@ -411,23 +411,36 @@ html[dir="rtl"] .dropdown{
 .btn.ghost{background:#fff}
 
 /* Premium banner container */
-.hero-banner{
-  position: relative;
+/* ================================
+   HERO IMAGE (Home)
+================================ */
+body.home .hero-banner{
+  position:relative;
+  border-radius:28px;
+  overflow:hidden;
+
   background:
-    linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.85)),
+    linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.80)),
     url("./assets/images/obudu-cable-car.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
 }
-.hero-banner::before{
+
+body.home .hero-banner::before{
   content:"";
   position:absolute;
   inset:0;
-  background: radial-gradient(800px 400px at 85% 20%, rgba(11,93,59,.12), transparent 60%);
+  background:
+    radial-gradient(900px 520px at 15% 15%, rgba(11,93,59,.18), transparent 60%),
+    radial-gradient(900px 520px at 95% 20%, rgba(201,162,39,.14), transparent 58%);
   pointer-events:none;
 }
 
+body.home .hero-banner > *{
+  position:relative;
+  z-index:1;
+}
 /* Surfaces */
 .surface{
   background:
