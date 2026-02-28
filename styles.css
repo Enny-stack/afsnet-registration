@@ -1183,17 +1183,7 @@ html[dir="rtl"] .summit-middle{ text-align:right; }
   z-index:2;
 }
 .theme-divider{
-  position:relative;
-  margin:40px 0;
-  border-radius:28px;
-  overflow:hidden;
-  min-height:320px;
-
   background-image:
     linear-gradient(180deg, rgba(11,31,58,.45), rgba(11,31,58,.25)),
     url("./assets/images/obudu-mountain-road.jpg") !important;
-
-  background-size: cover !important;
-  background-position: center !important;
-  background-repeat: no-repeat !important;
 }
