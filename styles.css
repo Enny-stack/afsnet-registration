@@ -1154,38 +1154,17 @@ html[dir="rtl"] .summit-middle{ text-align:right; }
 
 .theme-divider{
   position:relative;
-  margin: 40px 0;
+  margin:40px 0;
   border-radius:28px;
   overflow:hidden;
-  min-height:280px;
+  min-height:300px;
 
   background:
-    linear-gradient(180deg, rgba(11,31,58,.75), rgba(11,31,58,.65)),
-    url("./assets/images/obudu-mountain-road.jpg");
+    linear-gradient(180deg, rgba(11,31,58,.55), rgba(11,31,58,.45)),
+    url("/afsnet-registration/assets/images/obudu-mountain-road.jpg");
 
   background-size:cover;
   background-position:center;
   display:flex;
   align-items:center;
-}
-
-.theme-content{
-  position:relative;
-  color:#fff;
-  padding: 40px 20px;
-}
-
-.theme-content h3{
-  font-size:18px;
-  letter-spacing:1px;
-  text-transform:uppercase;
-  opacity:.85;
-  margin-bottom:10px;
-}
-
-.theme-content p{
-  font-size:28px;
-  font-weight:900;
-  line-height:1.2;
-  max-width:800px;
 }
