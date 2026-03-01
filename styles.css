@@ -1305,7 +1305,7 @@ html[dir="rtl"] .summit-middle{ text-align:right; }
 
 /* Default background image (used everywhere unless overridden) */
 :root{
-  --rightCardBg: url("./assets/images/calabar-aerial.jpg");
+  --rightCardBg: url("./assets/images/obudu-cable-car.jpg");
 }
 
 /* Target your typical right-side cards */
