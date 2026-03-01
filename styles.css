@@ -1422,3 +1422,65 @@ html[dir="rtl"] .summit-middle{ text-align:right; }
   .theme-board{ height:380px; }
   .theme-content h2{ font-size:26px; }
 }
+/* ===== Theme board color (goldish green) ===== */
+:root{
+  /* you can tweak these two if needed */
+  --goldish-green: #BFA23A;  /* gold tone */
+  --deep-green: #0B5D3B;     /* AfSNET green */
+}
+
+.theme-kicker{
+  color: var(--goldish-green) !important;
+  font-weight: 700;
+}
+
+.theme-content h2{
+  /* subtle gradient look without being loud */
+  background: linear-gradient(90deg, var(--goldish-green), #E3D07A);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 1px 18px rgba(0,0,0,.25);
+}
+/* ===== Video block alignment + neat embed ===== */
+
+.video-block{
+  padding: 28px 28px 30px;
+}
+
+.video-block h3{
+  margin: 0;
+  font-size: 26px;
+  line-height: 1.25;
+}
+
+.video-block p{
+  margin: 10px 0 18px;
+  max-width: 900px;
+  line-height: 1.6;
+}
+
+/* This prevents weird overlap/line-through effects */
+.video-block h3,
+.video-block p{
+  position: relative;
+  z-index: 2;
+}
+
+.video-frame{
+  margin-top: 12px;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(11,31,58,.12);
+  box-shadow: 0 18px 40px rgba(11,31,58,.12);
+  background: #000;
+}
+
+/* Perfect ratio + clean edges */
+.video-frame iframe{
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  border: 0;
+}
