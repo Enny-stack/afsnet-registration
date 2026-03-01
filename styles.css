@@ -1337,3 +1337,7 @@ html[dir="rtl"] .summit-middle{ text-align:right; }
   position: relative;
   z-index: 1;
 }
+/* Prevent heads from being cut off */
+.hero-slide{
+  object-position: center top;
+}
