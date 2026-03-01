@@ -47,10 +47,19 @@
 
       <!-- LEFT: Register card -->
       <div class="card pad hero">
-        <span class="pill" data-config="home.pill">Applications open</span>
-        <h2 data-config="home.headline"></h2>
-        <p class="muted" data-config="home.intro"></p>
 
+        <!-- ✅ THIS PILL STAYS -->
+        <span class="pill" data-config="home.pill">Applications open</span>
+
+        <!-- ✅ REPLACED TEXT WITH AUTO-CHANGING IMAGE SLIDER -->
+        <div class="hero-slider" aria-label="AfSNET photo highlights">
+          <!-- Make sure these files exist EXACTLY with the same names/case -->
+          <img class="hero-slide is-active" src="./assets/home/slide-1.jpg" alt="AfSNET highlight 1" loading="eager">
+          <img class="hero-slide" src="./assets/home/slide-2.jpg" alt="AfSNET highlight 2" loading="lazy">
+          <img class="hero-slide" src="./assets/home/slide-3.jpg" alt="AfSNET highlight 3" loading="lazy">
+        </div>
+
+        <!-- ✅ KEEP YOUR DATES/LOCATION/FORMAT + BUTTONS -->
         <div class="meta" role="list" aria-label="Quick facts">
           <div class="chip" role="listitem">
             <strong data-i18n="home.label.dates">Dates:</strong>
@@ -102,42 +111,47 @@
 
     </div>
   </section>
-<section class="section photo-strip" aria-label="Highlights">
-  <div class="photo-strip-grid">
-    <figure class="photo-card">
-      <img src="./assets/images/obudu-cable-car.jpg" alt="Cable car at Obudu Mountain Resort" loading="lazy">
-      <figcaption>
-        <strong>Experience Cross River</strong>
-        <span>Nature, culture, and infrastructure</span>
-      </figcaption>
-    </figure>
 
-    <figure class="photo-card">
-      <img src="./assets/images/calabar-aerial.jpg" alt="Aerial view of Calabar" loading="lazy">
-      <figcaption>
-        <strong>Host City: Calabar</strong>
-        <span>Gateway to trade & tourism</span>
-      </figcaption>
-    </figure>
+  <!-- PHOTO STRIP -->
+  <section class="section photo-strip" aria-label="Highlights">
+    <div class="photo-strip-grid">
+      <figure class="photo-card">
+        <img src="./assets/images/obudu-cable-car.jpg" alt="Cable car at Obudu Mountain Resort" loading="lazy">
+        <figcaption>
+          <strong>Experience Cross River</strong>
+          <span>Nature, culture, and infrastructure</span>
+        </figcaption>
+      </figure>
 
-    <figure class="photo-card">
-      <img src="./assets/images/cicc.jpg" alt="Calabar International Convention Centre (CICC)" loading="lazy">
-      <figcaption>
-        <strong>Venue: CICC</strong>
-        <span>Modern facilities for a global summit</span>
-      </figcaption>
-    </figure>
-  </div>
-</section>
+      <figure class="photo-card">
+        <img src="./assets/images/calabar-aerial.jpg" alt="Aerial view of Calabar" loading="lazy">
+        <figcaption>
+          <strong>Host City: Calabar</strong>
+          <span>Gateway to trade & tourism</span>
+        </figcaption>
+      </figure>
+
+      <figure class="photo-card">
+        <img src="./assets/images/cicc.jpg" alt="Calabar International Convention Centre (CICC)" loading="lazy">
+        <figcaption>
+          <strong>Venue: CICC</strong>
+          <span>Modern facilities for a global summit</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- THEME DIVIDER -->
   <section class="theme-divider">
-  <div class="theme-content container">
-    <h3>2026 Theme</h3>
-    <p>
-      Scaling Up Sub-Sovereign Industrialisation:
-      The Role of Trade and Investment in the AfCFTA Era
-    </p>
-  </div>
-</section>
+    <div class="theme-content container">
+      <h3>2026 Theme</h3>
+      <p>
+        Scaling Up Sub-Sovereign Industrialisation:
+        The Role of Trade and Investment in the AfCFTA Era
+      </p>
+    </div>
+  </section>
+
   <!-- =========================
        VIDEO (full width)
   ========================== -->
