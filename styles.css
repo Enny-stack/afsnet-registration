@@ -1298,3 +1298,120 @@ html[dir="rtl"] .summit-middle{ text-align:right; }
     bottom: 12px;
   }
 }
+/* ===== Full-image hero card (Home left) ===== */
+.hero-card{
+  padding: 0 !important;
+  overflow: hidden;
+  border-radius: 18px;
+}
+
+.hero-slider--full{
+  position: relative;
+  width: 100%;
+  height: 520px;           /* ✅ controls how far down the image goes */
+  min-height: 520px;
+  overflow: hidden;
+  border-radius: 18px;
+  background: rgba(0,0,0,.06);
+}
+
+@media (max-width: 980px){
+  .hero-slider--full{ height: 460px; min-height: 460px; }
+}
+@media (max-width: 720px){
+  .hero-slider--full{ height: 420px; min-height: 420px; }
+}
+
+/* Slide images fill perfectly */
+.hero-slide{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity .85s ease;
+}
+.hero-slide.is-active{ opacity: 1; }
+
+/* Overlay gradient so text/buttons stay readable */
+.hero-slider--full::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(to top, rgba(0,0,0,.62), rgba(0,0,0,.18), rgba(0,0,0,0));
+  pointer-events:none;
+}
+
+/* Wrapper for overlay elements */
+.hero-overlay{
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 14px;
+  padding: 16px;
+}
+
+/* Buttons row */
+.hero-overlay-actions{
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ✅ Force all 3 buttons same green */
+.hero-overlay-actions .btn.primary{
+  background: var(--green);
+  border: 1px solid rgba(255,255,255,.18);
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(0,0,0,.20);
+}
+.hero-overlay-actions .btn.primary:hover{
+  filter: brightness(1.06);
+}
+
+/* Meta chips row */
+.hero-overlay-meta{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* Dates spans full width on desktop */
+.hero-overlay-meta .hero-chip:first-child{
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 720px){
+  .hero-overlay-meta{ grid-template-columns: 1fr; }
+  .hero-overlay-meta .hero-chip:first-child{ grid-column: auto; }
+}
+
+/* Professional chip styling */
+.hero-chip{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 12px 14px;
+  border-radius: 16px;
+
+  /* “glass” look */
+  background: rgba(255,255,255,.88);
+  border: 1px solid rgba(255,255,255,.35);
+  backdrop-filter: blur(10px);
+
+  box-shadow: 0 12px 28px rgba(0,0,0,.18);
+}
+
+.hero-chip strong{
+  color: var(--green);
+  white-space: nowrap;
+}
+
+.hero-chip span{
+  color: var(--ink);
+}
