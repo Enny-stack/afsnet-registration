@@ -46,18 +46,14 @@
     <div class="grid">
 
       <!-- LEFT: Register card -->
-      <div class="card pad hero">
+<div class="card pad hero hero-card">
 
-        <!-- ✅ THIS PILL STAYS -->
-        <span class="pill" data-config="home.pill">Applications open</span>
-
-        <!-- ✅ REPLACED TEXT WITH AUTO-CHANGING IMAGE SLIDER -->
-        <div class="hero-slider" aria-label="AfSNET photo highlights">
-          <!-- Make sure these files exist EXACTLY with the same names/case -->
-          <img class="hero-slide is-active" src="./assets/home/slide-1.jpg" alt="AfSNET highlight 1" loading="eager">
-          <img class="hero-slide" src="./assets/home/slide-2.jpg" alt="AfSNET highlight 2" loading="lazy">
-          <img class="hero-slide" src="./assets/home/slide-3.jpg" alt="AfSNET highlight 3" loading="lazy">
-          <img class="hero-slide" src="./assets/home/slide-4.jpg" alt="AfSNET highlight 4" loading="lazy">
+  <!-- ✅ HERO IMAGE SLIDER (FULL WIDTH) -->
+  <div class="hero-slider" aria-label="AfSNET highlights">
+    <img class="hero-slide is-active" src="./assets/images/home-1.jpg" alt="AfSNET highlight 1" loading="eager" decoding="async">
+    <img class="hero-slide" src="./assets/images/home-2.jpg" alt="AfSNET highlight 2" loading="lazy" decoding="async">
+    <img class="hero-slide" src="./assets/images/home-3.jpg" alt="AfSNET highlight 3" loading="lazy" decoding="async">
+    <img class="hero-slide" src="./assets/home/slide-4.jpg" alt="AfSNET highlight 4" loading="lazy">
           <img class="hero-slide" src="./assets/home/slide-5.jpg" alt="AfSNET highlight 5" loading="lazy">
           <img class="hero-slide" src="./assets/home/slide-6.jpg" alt="AfSNET highlight 6" loading="lazy">
           <img class="hero-slide" src="./assets/home/slide-7.jpg" alt="AfSNET highlight 7" loading="lazy">
@@ -65,7 +61,34 @@
           <img class="hero-slide" src="./assets/home/slide-9.jpg" alt="AfSNET highlight 9" loading="lazy">
           <img class="hero-slide" src="./assets/home/slide-10.jpg" alt="AfSNET highlight 10" loading="lazy">
           <img class="hero-slide" src="./assets/home/slide-11.jpg" alt="AfSNET highlight 11" loading="lazy">
-        </div>
+    
+    <!-- ✅ BUTTONS OVER THE IMAGE (STAYS WHILE SLIDING) -->
+    <div class="hero-overlay-actions" aria-label="Quick actions">
+      <a class="btn primary" href="./apply.html" data-i18n="home.btn.apply">Apply / Register</a>
+      <a class="btn ghost" href="./programme.html" data-i18n="home.btn.programme">Programme</a>
+      <a class="btn ghost" href="./event.html" data-i18n="home.btn.event">Event details</a>
+    </div>
+  </div>
+
+  <!-- ✅ keep dates/location/format BELOW -->
+  <div class="meta" role="list" aria-label="Quick facts">
+    <div class="chip" role="listitem">
+      <strong data-i18n="home.label.dates">Dates:</strong>
+      <span data-config="event.dates">TBC</span>
+    </div>
+
+    <div class="chip" role="listitem">
+      <strong data-i18n="home.label.location">Location:</strong>
+      <span data-config="event.city">TBC</span>, <span data-config="event.country">TBC</span>
+    </div>
+
+    <div class="chip" role="listitem">
+      <strong data-i18n="home.label.format">Format:</strong>
+      <span data-config="event.format">Hybrid</span>
+    </div>
+  </div>
+
+</div>
 
         <!-- ✅ KEEP YOUR DATES/LOCATION/FORMAT + BUTTONS -->
         <div class="meta" role="list" aria-label="Quick facts">
