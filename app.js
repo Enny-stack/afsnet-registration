@@ -695,7 +695,34 @@ function injectLanguageSwitcher(cfg) {
     renderAboutPage(cfg, lang);
   });
 }
+/* ================================
+   HOME HERO SLIDER
+================================= */
+let __heroTimer = null;
 
+function initHeroSlider(){
+  const slides = Array.from(document.querySelectorAll(".hero-slider .hero-slide"));
+  if (!slides.length) return;
+
+  // Stop multiple timers (prevents blinking / double rotation)
+  if (__heroTimer) clearInterval(__heroTimer);
+
+  let idx = slides.findIndex(s => s.classList.contains("is-active"));
+  if (idx < 0) idx = 0;
+
+  // Ensure only one active at start
+  slides.forEach((s, i) => s.classList.toggle("is-active", i === idx));
+
+  // Respect reduced motion
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduceMotion || slides.length === 1) return;
+
+  __heroTimer = setInterval(() => {
+    slides[idx].classList.remove("is-active");
+    idx = (idx + 1) % slides.length;
+    slides[idx].classList.add("is-active");
+  }, 4500);
+}
 /* ================================
    INIT (single source of truth)
 ================================= */
@@ -715,6 +742,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   initHomeTicker(cfg, savedLang);
   renderAboutPage(cfg, savedLang);
+  
+  // ✅ add this:
+  initHeroSlider();
 });
 
 // Preloader: hide when page is ready
