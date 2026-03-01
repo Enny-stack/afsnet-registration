@@ -1298,26 +1298,42 @@ html[dir="rtl"] .summit-middle{ text-align:right; }
     bottom: 12px;
   }
 }
-/* ===== Reusable right-side "soft image" card style ===== */
-.card.soft-surface{
+/* =========================================================
+   GLOBAL RIGHT-CARD LOOK (no HTML changes needed)
+   Applies to cards that use: .card.pad.surface  (your right cards)
+========================================================= */
+
+/* Default background image (used everywhere unless overridden) */
+:root{
+  --rightCardBg: url("./assets/images/calabar-aerial.jpg");
+}
+
+/* Target your typical right-side cards */
+.hero-banner .grid > .card.pad.surface{
   position: relative;
   overflow: hidden;
 }
 
-.card.soft-surface::before{
+/* Background layer */
+.hero-banner .grid > .card.pad.surface::before{
   content:"";
   position:absolute;
   inset:0;
+
+  /* Soft overlay + image behind */
   background:
-    linear-gradient(to bottom, rgba(255,255,255,.85), rgba(255,255,255,.85)),
-    var(--soft-card-bg, none);
+    linear-gradient(to bottom, rgba(255,255,255,.86), rgba(255,255,255,.86)),
+    var(--rightCardBg);
   background-size: cover;
   background-position: center;
-  opacity: 1;
+  background-repeat: no-repeat;
+
   pointer-events:none;
+  z-index:0;
 }
 
-.card.soft-surface > *{
+/* Ensure content sits above background */
+.hero-banner .grid > .card.pad.surface > *{
   position: relative;
   z-index: 1;
 }
