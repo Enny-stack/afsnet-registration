@@ -1341,3 +1341,7 @@ html[dir="rtl"] .summit-middle{ text-align:right; }
 .hero-slide{
   object-position: center top;
 }
+.hero-slider--full{
+  height: 600px;
+  min-height: 600px;
+}
