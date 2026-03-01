@@ -1231,3 +1231,70 @@ html[dir="rtl"] .summit-middle{ text-align:right; }
     linear-gradient(180deg, rgba(11,31,58,.45), rgba(11,31,58,.25)),
     url("./assets/images/obudu-mountain-road.jpg") !important;
 }
+/* ===== Home hero: full-width slider + overlay buttons ===== */
+.hero-card{
+  padding: 0;                /* remove inner padding so image can reach edges */
+  overflow: hidden;
+}
+
+.hero-card .meta{
+  padding: 16px 18px 18px;   /* bring padding back only for the bottom content */
+}
+
+.hero-slider{
+  position: relative;
+  width: 100%;
+  height: 320px;             /* adjust if you want taller */
+  overflow: hidden;
+  border-radius: 18px 18px 0 0;
+  background: rgba(0,0,0,.04);
+}
+
+/* full cover images */
+.hero-slide{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity .7s ease;
+}
+
+.hero-slide.is-active{ opacity: 1; }
+
+/* subtle dark gradient for button readability */
+.hero-slider::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,.10), rgba(0,0,0,0));
+  pointer-events:none;
+}
+
+/* buttons overlay */
+.hero-overlay-actions{
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 14px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  z-index: 2;                /* above images + gradient */
+}
+
+/* make overlay buttons look good on image */
+.hero-overlay-actions .btn{
+  backdrop-filter: blur(6px);
+}
+
+/* on smaller screens, stack nicely */
+@media (max-width: 720px){
+  .hero-slider{ height: 260px; }
+  .hero-overlay-actions{
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+  }
+}
