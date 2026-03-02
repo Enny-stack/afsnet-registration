@@ -696,59 +696,68 @@ function injectLanguageSwitcher(cfg) {
   });
 }
 /* ================================
-   HOME HERO SLIDER
+   HOME HERO SLIDER (CLEAN)
 ================================= */
-let __heroTimer = null;
+let heroTimer = null;
 
 function initHeroSlider(){
   const slides = Array.from(document.querySelectorAll(".hero-slider .hero-slide"));
   if (!slides.length) return;
 
-  // Stop multiple timers (prevents blinking / double rotation)
-  if (__heroTimer) clearInterval(__heroTimer);
+  if (heroTimer) clearInterval(heroTimer);
 
   let idx = slides.findIndex(s => s.classList.contains("is-active"));
   if (idx < 0) idx = 0;
 
-  // Ensure only one active at start
   slides.forEach((s, i) => s.classList.toggle("is-active", i === idx));
 
-  // Respect reduced motion
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reduceMotion || slides.length === 1) return;
 
-  __heroTimer = setInterval(() => {
+  heroTimer = setInterval(() => {
     slides[idx].classList.remove("is-active");
     idx = (idx + 1) % slides.length;
     slides[idx].classList.add("is-active");
-  }, 4500);
+  }, 5000);
 }
+
 /* ================================
-   HOME HERO SLIDESHOW
+   INIT (single source of truth)
 ================================= */
-let __heroTimer = null;
+document.addEventListener("DOMContentLoaded", async () => {
+  const cfg = await loadConfig();
 
-function initHeroSlideshow() {
-  const wrap = document.getElementById("heroSlides");
-  if (!wrap) return;
+  injectHeader(cfg);
+  injectFooter(cfg);
 
-  const slides = Array.from(wrap.querySelectorAll("img"));
-  if (slides.length < 2) return;
+  const savedLang = localStorage.getItem("lang") || cfg?.site?.defaultLang || "en";
 
-  // reset
-  slides.forEach(img => img.classList.remove("is-active"));
+  applyLanguage(cfg, savedLang);
+  fillRootConfig(cfg);
+  applyConfigContent(cfg, savedLang);
+  renderDownloads(cfg);
+  wireApply(cfg, savedLang);
 
-  let idx = 0;
-  slides[idx].classList.add("is-active");
+  initHomeTicker(cfg, savedLang);
+  renderAboutPage(cfg, savedLang);
 
-  if (__heroTimer) clearInterval(__heroTimer);
+  initHeroSlider();
 
-  __heroTimer = setInterval(() => {
-    slides[idx].classList.remove("is-active");
-    idx = (idx + 1) % slides.length;
-    slides[idx].classList.add("is-active");
-  }, 6000); // slow + smooth
+  hidePreloaderSoon();   // ✅ hide immediately after init
+});
+
+/* ================================
+   PRELOADER
+================================= */
+function hidePreloaderSoon() {
+  const preloader = document.getElementById("preloader");
+  if (!preloader) return;
+  preloader.classList.add("is-hidden");
+  setTimeout(() => preloader.remove(), 400);
 }
+
+// safety fallback
+window.addEventListener("load", hidePreloaderSoon);
 /* ================================
    INIT (single source of truth)
 ================================= */
