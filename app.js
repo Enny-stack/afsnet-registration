@@ -724,6 +724,32 @@ function initHeroSlider(){
   }, 4500);
 }
 /* ================================
+   HOME HERO SLIDESHOW
+================================= */
+let __heroTimer = null;
+
+function initHeroSlideshow() {
+  const wrap = document.getElementById("heroSlides");
+  if (!wrap) return;
+
+  const slides = Array.from(wrap.querySelectorAll("img"));
+  if (slides.length < 2) return;
+
+  // reset
+  slides.forEach(img => img.classList.remove("is-active"));
+
+  let idx = 0;
+  slides[idx].classList.add("is-active");
+
+  if (__heroTimer) clearInterval(__heroTimer);
+
+  __heroTimer = setInterval(() => {
+    slides[idx].classList.remove("is-active");
+    idx = (idx + 1) % slides.length;
+    slides[idx].classList.add("is-active");
+  }, 6000); // slow + smooth
+}
+/* ================================
    INIT (single source of truth)
 ================================= */
 document.addEventListener("DOMContentLoaded", async () => {
@@ -747,11 +773,17 @@ document.addEventListener("DOMContentLoaded", async () => {
   initHeroSlider();
 });
 
-// Preloader: hide when page is ready
-window.addEventListener("load", () => {
+function hidePreloaderSoon() {
   const preloader = document.getElementById("preloader");
   if (!preloader) return;
-
   preloader.classList.add("is-hidden");
   setTimeout(() => preloader.remove(), 450);
+}
+
+// Hide as soon as config + DOM work is done (faster)
+document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(hidePreloaderSoon, 300);
 });
+
+// Safety net (in case something blocks DOMContentLoaded logic)
+window.addEventListener("load", hidePreloaderSoon);
