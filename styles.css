@@ -1646,3 +1646,24 @@ html[dir="rtl"] .summit-middle{ text-align:right; }
     gap: 18px;
   }
 }
+/* =========================
+   HOME: push "Who should attend" to the far right
+   Paste at END of styles.css
+========================= */
+.home .two{
+  grid-template-columns: 1fr 1fr; /* keep 2 columns */
+}
+
+.home .two > div:last-child{
+  width: 100%;
+  justify-self: end;           /* push the whole right column to the right edge */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;       /* push text block to the right */
+  text-align: left;            /* keep text readable (not right-aligned) */
+}
+
+.home .two > div:last-child > *{
+  width: 100%;
+  max-width: 420px;            /* controls how far it “moves” into the circle area */
+}
