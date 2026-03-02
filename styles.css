@@ -1665,5 +1665,5 @@ html[dir="rtl"] .summit-middle{ text-align:right; }
 
 .home .two > div:last-child > *{
   width: 100%;
-  max-width: 580px;            /* controls how far it “moves” into the circle area */
+  max-width: 300px;            /* controls how far it “moves” into the circle area */
 }
