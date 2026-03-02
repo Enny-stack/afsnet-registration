@@ -1,9 +1,10 @@
-/* ================================
-   AfSNET Portal - app.js (fixed)
-   - fixes ticker blinking (no DOM rebuild)
-   - removes "Registration open" chip completely
-   - adds theme line under announcement (localized)
-   - keeps countdown (optional, not required to remove)
+/* ================================ 
+   AfSNET Portal - app.js (FIXED)
+   ✅ Fixes site stuck on loading (fatal JS error from duplicate let)
+   ✅ Removes duplicate hero timers / duplicate hero slideshow block
+   ✅ Ensures preloader always hides (even if config fails)
+   ✅ Keeps ticker non-blinking (no DOM rebuild)
+   ✅ Keeps theme line under announcement (localized)
 ================================= */
 
 let CONFIG = null;
@@ -18,6 +19,8 @@ async function loadConfig() {
     return CONFIG;
   } catch (err) {
     console.error("❌ Failed to load config.json:", err);
+
+    // Show a safe fallback instead of freezing behind preloader
     const body = document.querySelector("body");
     if (body) {
       body.innerHTML = `
@@ -28,6 +31,9 @@ async function loadConfig() {
         </div>
       `;
     }
+
+    // Ensure preloader is not blocking the page
+    hidePreloaderSoon();
     throw err;
   }
 }
@@ -225,8 +231,6 @@ function wireApply(cfg, lang) {
 /* ================================
    SUMMIT / TICKER (ROTATING)
    - NO DOM rebuild = no blinking
-   - removes "Registration open" chip
-   - adds theme line
 ================================= */
 let __tickerTimer = null;
 let __tickerIdx = 0;
@@ -315,7 +319,6 @@ function initHomeTicker(cfg, lang) {
   }
   if (section) section.style.display = "";
 
-  // Split into sentences/lines ONLY (safe for dates like 12–14)
   const slides = msg
     .split(/(?:\.\s+|\n+)/)
     .map(s => s.trim())
@@ -326,7 +329,6 @@ function initHomeTicker(cfg, lang) {
   const startDate = parseEventStartDate(cfg);
   const cd = startDate ? formatCountdown(startDate, lang) : null;
 
-  // ✅ Build layout ONCE
   if (!track.querySelector(".summit-ui")) {
     track.innerHTML = `
       <div class="summit-ui">
@@ -349,7 +351,7 @@ function initHomeTicker(cfg, lang) {
           </div>
 
           <div class="summit-actions">
-            <a class="btn ghost" href="./event.html" data-ticker-details>Details</a>
+            <!-- ✅ removed Details button by request -->
             <a class="btn primary" href="./apply.html" data-ticker-register>Register</a>
           </div>
         </div>
@@ -357,13 +359,10 @@ function initHomeTicker(cfg, lang) {
     `;
   }
 
-  // ✅ Update texts (no rebuild)
   const labelEl = track.querySelector(".summit-label-text");
   if (labelEl) labelEl.textContent = getLabelText(lang);
 
-  const detailsBtn = track.querySelector("[data-ticker-details]");
   const regBtn = track.querySelector("[data-ticker-register]");
-  if (detailsBtn) detailsBtn.textContent = (lang === "fr") ? "Détails" : (lang === "ar") ? "التفاصيل" : "Details";
   if (regBtn) regBtn.textContent = (lang === "fr") ? "S’inscrire" : (lang === "ar") ? "سجّل الآن" : "Register";
 
   const themeEl = track.querySelector("#summitTheme");
@@ -384,7 +383,6 @@ function initHomeTicker(cfg, lang) {
   const slideEl = track.querySelector("#tickerSlide");
   if (!slideEl) return;
 
-  // ✅ Start from existing index (prevents visible jump)
   if (__tickerIdx >= list.length) __tickerIdx = 0;
   slideEl.textContent = list[__tickerIdx];
 
@@ -393,7 +391,6 @@ function initHomeTicker(cfg, lang) {
   const intervalMs = Math.max(2500, Number(cfg?.site?.tickerRotateMs) || 4500);
 
   __tickerTimer = setInterval(() => {
-    // If only 1 item, don’t animate
     if (list.length <= 1) return;
 
     slideEl.classList.add("is-out");
@@ -695,8 +692,10 @@ function injectLanguageSwitcher(cfg) {
     renderAboutPage(cfg, lang);
   });
 }
+
 /* ================================
-   HOME HERO SLIDER (CLEAN)
+   HOME HERO SLIDER (FIXED)
+   ✅ single timer variable (no duplicate let)
 ================================= */
 let heroTimer = null;
 
@@ -722,66 +721,9 @@ function initHeroSlider(){
 }
 
 /* ================================
-   INIT (single source of truth)
-================================= */
-document.addEventListener("DOMContentLoaded", async () => {
-  const cfg = await loadConfig();
-
-  injectHeader(cfg);
-  injectFooter(cfg);
-
-  const savedLang = localStorage.getItem("lang") || cfg?.site?.defaultLang || "en";
-
-  applyLanguage(cfg, savedLang);
-  fillRootConfig(cfg);
-  applyConfigContent(cfg, savedLang);
-  renderDownloads(cfg);
-  wireApply(cfg, savedLang);
-
-  initHomeTicker(cfg, savedLang);
-  renderAboutPage(cfg, savedLang);
-
-  initHeroSlider();
-
-  hidePreloaderSoon();   // ✅ hide immediately after init
-});
-
-/* ================================
    PRELOADER
+   ✅ always hide, never block site
 ================================= */
-function hidePreloaderSoon() {
-  const preloader = document.getElementById("preloader");
-  if (!preloader) return;
-  preloader.classList.add("is-hidden");
-  setTimeout(() => preloader.remove(), 400);
-}
-
-// safety fallback
-window.addEventListener("load", hidePreloaderSoon);
-/* ================================
-   INIT (single source of truth)
-================================= */
-document.addEventListener("DOMContentLoaded", async () => {
-  const cfg = await loadConfig();
-
-  injectHeader(cfg);
-  injectFooter(cfg);
-
-  const savedLang = localStorage.getItem("lang") || cfg?.site?.defaultLang || "en";
-
-  applyLanguage(cfg, savedLang);
-  fillRootConfig(cfg);
-  applyConfigContent(cfg, savedLang);
-  renderDownloads(cfg);
-  wireApply(cfg, savedLang);
-
-  initHomeTicker(cfg, savedLang);
-  renderAboutPage(cfg, savedLang);
-  
-  // ✅ add this:
-  initHeroSlider();
-});
-
 function hidePreloaderSoon() {
   const preloader = document.getElementById("preloader");
   if (!preloader) return;
@@ -789,10 +731,33 @@ function hidePreloaderSoon() {
   setTimeout(() => preloader.remove(), 450);
 }
 
-// Hide as soon as config + DOM work is done (faster)
-document.addEventListener("DOMContentLoaded", () => {
-  setTimeout(hidePreloaderSoon, 300);
+/* ================================
+   INIT (single source of truth)
+================================= */
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const cfg = await loadConfig();
+
+    injectHeader(cfg);
+    injectFooter(cfg);
+
+    const savedLang = localStorage.getItem("lang") || cfg?.site?.defaultLang || "en";
+
+    applyLanguage(cfg, savedLang);
+    fillRootConfig(cfg);
+    applyConfigContent(cfg, savedLang);
+    renderDownloads(cfg);
+    wireApply(cfg, savedLang);
+
+    initHomeTicker(cfg, savedLang);
+    renderAboutPage(cfg, savedLang);
+
+    initHeroSlider();
+  } finally {
+    // ✅ even if something throws, don't keep the user stuck
+    hidePreloaderSoon();
+  }
 });
 
-// Safety net (in case something blocks DOMContentLoaded logic)
+// Safety net
 window.addEventListener("load", hidePreloaderSoon);
