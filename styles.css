@@ -1608,3 +1608,41 @@ html[dir="rtl"] .summit-middle{ text-align:right; }
 
 /* Hide Details button (we remove it in JS too, but this is a safety net) */
 .summit-bar .summit-actions a[href*="event.html"]{ display:none !important; }
+/* =========================
+   HOME: AfSNET Highlights alignment fix
+   Paste at END of styles.css
+========================= */
+.home .two{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 44px;
+  align-items:start;
+}
+
+.home .two > div{
+  min-width: 0;
+}
+
+.home .two p.muted{
+  margin: 0 0 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.home .two .list{
+  margin: 0;
+  padding-left: 18px;
+}
+
+.home .two .list li{
+  margin: 10px 0;
+  line-height: 1.55;
+}
+
+/* Responsive */
+@media (max-width: 900px){
+  .home .two{
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}
