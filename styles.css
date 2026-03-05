@@ -1667,5 +1667,3 @@ html[dir="rtl"] .summit-middle{ text-align:right; }
   width: 100%;
   max-width: 780px;            /* controls how far it “moves” into the circle area */
 }
-.preloader { pointer-events: all; }
-.preloader.is-hidden { pointer-events: none; }
