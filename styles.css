@@ -1667,3 +1667,26 @@ html[dir="rtl"] .summit-middle{ text-align:right; }
   width: 100%;
   max-width: 780px;            /* controls how far it “moves” into the circle area */
 }
+/* Fix Schedule Meeting button clickability */
+.track-card{
+  position: relative;
+  z-index: 2;
+}
+
+.track-card .bottom-slot{
+  position: relative;
+  z-index: 5;
+}
+
+.track-card .btn{
+  position: relative;
+  z-index: 6;
+}
+
+/* Prevent decorative layers from blocking clicks */
+.surface::before,
+.surface::after,
+.track-card::before,
+.track-card::after{
+  pointer-events: none;
+}
