@@ -1861,3 +1861,6 @@ html[dir="rtl"] .summit-middle{ text-align:right; }
   position: relative;
   z-index: 1;
 }
+.bg-about-hero::before{
+  background-image: url("./assets/images/about/about-hero-bg.jpg") !important;
+}
