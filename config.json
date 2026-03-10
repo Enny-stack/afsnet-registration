@@ -1,806 +1,793 @@
-/* ================================ 
-   AfSNET Portal - app.js (UPDATED)
-   ✅ Fixes site stuck on loading
-   ✅ Keeps preloader safe
-   ✅ Keeps language switcher working
-   ✅ About page supports:
-      - intro paragraphs
-      - editions list
-      - objectives slider
-      - HOW AFSNET WORKS as 3 branded cards
-      - config-driven background images
-================================= */
-
-let CONFIG = null;
-
-async function loadConfig() {
-  if (CONFIG) return CONFIG;
-
-  try {
-    const res = await fetch("./config.json", { cache: "no-store" });
-    if (!res.ok) throw new Error(`config.json fetch failed (${res.status})`);
-    CONFIG = await res.json();
-    return CONFIG;
-  } catch (err) {
-    console.error("❌ Failed to load config.json:", err);
-
-    const body = document.querySelector("body");
-    if (body) {
-      body.innerHTML = `
-        <div style="max-width:900px;margin:40px auto;padding:16px;font-family:system-ui">
-          <h2>Site configuration error</h2>
-          <p>Please check <strong>config.json</strong> formatting (commas / quotes) and reload.</p>
-          <p style="color:#666">Open DevTools → Console to see the exact error.</p>
-        </div>
-      `;
+{
+  "site": {
+    "logoSrc": "./assets/logo/afsnet-logo.jpg",
+    "name": "AfSNET",
+    "tagline": "African Sub-Sovereign Governments Network",
+    "supportEmail": "afsnet@afreximbank.com",
+    "phone": "+20-2-24564100",
+    "defaultLang": "en",
+    "externalLinks": {
+      "afreximbank": "https://www.afreximbank.com",
+      "iatf": "https://www.iatf.africa",
+      "afreximbankUrl": "https://www.afreximbank.com",
+      "iatfUrl": "https://www.iatf.africa"
     }
+  },
 
-    hidePreloaderSoon();
-    throw err;
-  }
-}
+  "event": {
+    "city": "Calabar, Cross River State",
+    "country": "Nigeria",
+    "dates": "12th-14th, November, 2026",
+    "venue": "Calabar International Convention Centre (CICC)",
+    "format": "Hybrid"
+  },
 
-function getByPath(obj, path) {
-  return path
-    .split(".")
-    .reduce((acc, k) => (acc && acc[k] !== undefined ? acc[k] : null), obj);
-}
-
-function setActiveNav() {
-  const file = location.pathname.split("/").pop() || "index.html";
-  document.querySelectorAll(".nav a").forEach(a => {
-    const href = (a.getAttribute("href") || "").replace("./", "");
-    a.classList.toggle("active", href === file);
-  });
-}
-
-/* ================================
-   HEADER + FOOTER INJECTION
-================================= */
-
-function injectHeader(cfg) {
-  const el = document.getElementById("site-header");
-  if (!el) return;
-
-  const logo = cfg?.site?.logoSrc || "./assets/logo/afsnet-logo.jpg";
-  const name = cfg?.site?.name || "AfSNET";
-  const tagline = cfg?.site?.tagline || "African Sub-Sovereign Governments Network";
-
-  el.innerHTML = `
-    <header>
-      <div class="header-shell">
-        <div class="header-inner">
-          <div class="topbar">
-
-            <a class="brand" href="./index.html" aria-label="${name} Home">
-              <img class="site-logo" src="${logo}" alt="${name} logo" />
-              <div class="brand-text">
-                <h1>${name}</h1>
-                <p>${tagline}</p>
-              </div>
-            </a>
-
-            <nav class="nav" aria-label="Primary navigation">
-              <a href="./index.html" data-i18n="nav.home">Home</a>
-              <a href="./about.html" data-i18n="nav.about">About</a>
-              <a href="./programme.html" data-i18n="nav.programme">Programme</a>
-              <a href="./event.html" data-i18n="nav.event">Event</a>
-              <a href="./speakers-partners.html" data-i18n="nav.speakers">Speakers/Partners</a>
-              <a href="./travel-visa.html" data-i18n="nav.travel">Travel & Visa</a>
-              <a href="./media-press.html" data-i18n="nav.media">Media/Press</a>
-              <a href="./hotels.html" data-i18n="nav.hotels">Hotels</a>
-              <a class="cta" href="./apply.html" data-i18n="nav.apply">Apply</a>
-              <a href="./contact.html" data-i18n="nav.contact">Contact</a>
-            </nav>
-
-            <div class="lang-slot" id="lang-slot"></div>
-
-          </div>
-        </div>
-      </div>
-    </header>
-  `;
-
-  injectLanguageSwitcher(cfg);
-  setActiveNav();
-}
-
-function injectFooter(cfg) {
-  const el = document.getElementById("site-footer");
-  if (!el) return;
-
-  const year = new Date().getFullYear();
-
-  const afreximbankUrl =
-    cfg?.site?.externalLinks?.afreximbankUrl ||
-    cfg?.site?.externalLinks?.afreximbank ||
-    "https://www.afreximbank.com";
-
-  const iatfUrl =
-    cfg?.site?.externalLinks?.iatfUrl ||
-    cfg?.site?.externalLinks?.iatf ||
-    "https://www.iatf.africa";
-
-  el.innerHTML = `
-    <footer class="site-footer">
-      <div class="container footer-container">
-        <div class="footer-grid-3">
-
-          <div class="footer-col brand-col">
-            <div class="footer-brand">
-              <img src="${cfg?.site?.logoSrc || "./assets/logo/afsnet-logo.jpg"}"
-                   class="footer-logo-img"
-                   alt="AfSNET Logo" />
-              <div>
-                <p class="footer-title">African Sub-Sovereign Governments Network (AfSNET)</p>
-                <p class="footer-sub">Connecting African states, investors, and projects through a trusted investment network.</p>
-              </div>
-            </div>
-
-            <p class="footer-copy">© ${year} Afreximbank / AfSNET. All rights reserved.</p>
-
-            <div class="footer-links" style="margin-top:12px">
-              <a href="${afreximbankUrl}" target="_blank" rel="noopener">Afreximbank Website</a>
-              <a href="${iatfUrl}" target="_blank" rel="noopener">IATF Website</a>
-            </div>
-          </div>
-
-          <div class="footer-col links-col">
-            <h4>Quick links</h4>
-            <div class="footer-links">
-              <a href="./about.html">About</a>
-              <a href="./programme.html">Programme</a>
-              <a href="./apply.html">Apply</a>
-              <a href="./event.html">Event</a>
-              <a href="./contact.html">Contact</a>
-            </div>
-          </div>
-
-          <div class="footer-col address-col">
-            <h4>Afreximbank Headquarters – Cairo, Egypt</h4>
-            <div class="footer-contact">
-              <div class="line">72 (B) El-Maahad El-Eshteraky Street – Heliopolis, Cairo 11341, Egypt</div>
-              <div class="line"><span class="label">Postal Address:</span> P.O. Box 613 Heliopolis, Cairo 11757, Egypt</div>
-              <div class="line"><span class="label">Email:</span> ${cfg?.site?.supportEmail || "afsnet@afreximbank.com"}</div>
-              <div class="line"><span class="label">Tel:</span> ${cfg?.site?.phone || "+20-2-24564100"}</div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </footer>
-  `;
-}
-
-/* ================================
-   ROOT (NON-LANGUAGE) FILL
-================================= */
-function fillRootConfig(cfg) {
-  document.querySelectorAll("[data-config]").forEach(el => {
-    const path = el.getAttribute("data-config") || "";
-    const isRoot =
-      path.startsWith("site.") ||
-      path.startsWith("event.") ||
-      path.startsWith("downloads.");
-    if (!isRoot) return;
-
-    const val = getByPath(cfg, path);
-    if (val !== null && typeof val !== "object") el.textContent = val;
-  });
-
-  document.querySelectorAll("[data-email]").forEach(el => {
-    const path = el.getAttribute("data-email");
-    const email = getByPath(cfg, path);
-    if (email) {
-      el.textContent = email;
-      el.setAttribute("href", `mailto:${email}`);
+  "i18n": {
+    "en": {
+      "nav.home": "Home",
+      "nav.about": "About",
+      "nav.programme": "Programme",
+      "nav.event": "Event",
+      "nav.speakers": "Speakers/Partners",
+      "nav.travel": "Travel & Visa",
+      "nav.media": "Media/Press",
+      "nav.hotels": "Hotels",
+      "nav.apply": "Apply",
+      "nav.contact": "Contact",
+      "home.announcement": "Welcome to the 6th Edition Conference of the African Sub-Sovereign Governments Network (AfSNET), taking place 12–14 November 2026 in Calabar, Cross River State, Nigeria."
+    },
+    "fr": {
+      "nav.home": "Accueil",
+      "nav.about": "À propos",
+      "nav.programme": "Programme",
+      "nav.event": "Événement",
+      "nav.speakers": "Intervenants / Partenaires",
+      "nav.travel": "Voyage & Visa",
+      "nav.media": "Médias / Presse",
+      "nav.hotels": "Hôtels",
+      "nav.apply": "Candidater",
+      "nav.contact": "Contact",
+      "home.announcement": "Bienvenue à la 6e édition de la Conférence du Réseau des Gouvernements infranationaux africains (AfSNET), qui se tiendra du 12 au 14 novembre 2026 à Calabar, État de Cross River, Nigeria."
+    },
+    "ar": {
+      "nav.home": "الرئيسية",
+      "nav.about": "عن البرنامج",
+      "nav.programme": "البرنامج",
+      "nav.event": "الفعالية",
+      "nav.speakers": "المتحدثون / الشركاء",
+      "nav.travel": "السفر والتأشيرة",
+      "nav.media": "الإعلام / الصحافة",
+      "nav.hotels": "الفنادق",
+      "nav.apply": "التسجيل",
+      "nav.contact": "اتصل بنا",
+      "home.announcement": "مرحبًا بكم في الدورة السادسة لمؤتمر شبكة الحكومات دون السيادية الأفريقية (AfSNET)، والذي سيُعقد خلال 12–14 نوفمبر 2026 في كالابار، ولاية كروس ريفر، نيجيريا."
     }
-  });
-}
-
-/* ================================
-   DOWNLOADS
-================================= */
-function renderDownloads(cfg) {
-  const ul = document.getElementById("downloadsList");
-  if (!ul) return;
-
-  const items = cfg?.downloads?.items || [];
-  ul.innerHTML = items
-    .map(i => `<li><a href="${i.file}" target="_blank" rel="noopener">${i.label}</a></li>`)
-    .join("");
-  ul.classList.add("list");
-}
-
-/* ================================
-   APPLY BUTTON (TALLY)
-================================= */
-function wireApply(cfg, lang) {
-  const btn = document.getElementById("openExternalForm");
-  if (!btn) return;
-
-  const url =
-    cfg?.content?.[lang]?.apply?.externalFormUrl ||
-    cfg?.content?.en?.apply?.externalFormUrl;
-
-  if (!url) return;
-
-  btn.setAttribute("href", url);
-  btn.setAttribute("target", "_blank");
-  btn.setAttribute("rel", "noopener");
-}
-
-/* ================================
-   SUMMIT / TICKER
-================================= */
-let __tickerTimer = null;
-let __tickerIdx = 0;
-
-function parseEventStartDate(cfg) {
-  const raw = (cfg?.event?.dates || "").trim();
-  if (!raw) return null;
-
-  const cleaned = raw
-    .replace(/(\d+)(st|nd|rd|th)/gi, "$1")
-    .replace(/[–—]/g, "-")
-    .replace(/,/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-
-  const yearMatch = cleaned.match(/\b(20\d{2})\b/);
-  const year = yearMatch ? Number(yearMatch[1]) : null;
-
-  const monthMatch = cleaned.match(
-    /\b(January|February|March|April|May|June|July|August|September|October|November|December)\b/i
-  );
-  const monthName = monthMatch ? monthMatch[1] : null;
-
-  const dayMatch = cleaned.match(/\b(\d{1,2})(?:\s*-\s*\d{1,2})?\b/);
-  const day = dayMatch ? Number(dayMatch[1]) : null;
-
-  if (!year || !monthName || !day) return null;
-
-  const d = new Date(`${monthName} ${day}, ${year} 09:00:00`);
-  return isNaN(d.getTime()) ? null : d;
-}
-
-function formatCountdown(targetDate, lang) {
-  const now = new Date();
-  const diff = targetDate.getTime() - now.getTime();
-
-  if (diff <= 0) {
-    return { label: (lang === "fr" ? "En cours" : lang === "ar" ? "جارٍ الآن" : "Live"), isLive: true };
-  }
-
-  const totalMinutes = Math.floor(diff / 60000);
-  const days = Math.floor(totalMinutes / (60 * 24));
-  const hours = Math.floor((totalMinutes - days * 60 * 24) / 60);
-  const mins = totalMinutes - days * 60 * 24 - hours * 60;
-
-  const dLbl = (lang === "fr") ? "j" : (lang === "ar") ? "ي" : "d";
-  const hLbl = (lang === "fr") ? "h" : (lang === "ar") ? "س" : "h";
-  const mLbl = (lang === "fr") ? "min" : (lang === "ar") ? "د" : "m";
-
-  return { label: `${days}${dLbl} ${hours}${hLbl} ${mins}${mLbl}`, isLive: false };
-}
-
-function getThemeText(lang) {
-  return (lang === "fr")
-    ? "Thème : Accélérer l’industrialisation infranationale : le rôle du commerce et de l’investissement à l’ère de la ZLECAf"
-    : (lang === "ar")
-    ? "الموضوع: تسريع التصنيع على المستوى دون السيادي: دور التجارة والاستثمار في عصر منطقة التجارة الحرة القارية الأفريقية"
-    : "Theme: Scaling Up Sub-Sovereign Industrialisation: The Role of Trade and Investment in the AfCFTA Era";
-}
-
-function getLabelText(lang) {
-  return (lang === "fr") ? "MISE À JOUR"
-    : (lang === "ar") ? "تحديث"
-    : "SUMMIT UPDATE";
-}
-
-function getStartsInText(lang) {
-  return (lang === "fr") ? "Début dans"
-    : (lang === "ar") ? "يبدأ خلال"
-    : "Starts in";
-}
-
-function initHomeTicker(cfg, lang) {
-  const track = document.getElementById("homeTickerTrack");
-  if (!track) return;
-
-  const msg =
-    cfg?.i18n?.[lang]?.["home.announcement"] ||
-    cfg?.i18n?.en?.["home.announcement"] ||
-    "";
-
-  const section = track.closest(".ticker");
-  if (!msg.trim()) {
-    if (section) section.style.display = "none";
-    return;
-  }
-  if (section) section.style.display = "";
-
-  const slides = msg
-    .split(/(?:\.\s+|\n+)/)
-    .map(s => s.trim())
-    .filter(Boolean);
-
-  const list = slides.length ? slides : [msg.trim()];
-
-  const startDate = parseEventStartDate(cfg);
-  const cd = startDate ? formatCountdown(startDate, lang) : null;
-
-  if (!track.querySelector(".summit-ui")) {
-    track.innerHTML = `
-      <div class="summit-ui">
-        <div class="summit-left">
-          <div class="summit-label">
-            <span class="status-dot" aria-hidden="true"></span>
-            <span class="summit-label-text"></span>
-          </div>
-        </div>
-
-        <div class="summit-middle">
-          <div class="summit-slide" id="tickerSlide"></div>
-          <div class="summit-theme" id="summitTheme"></div>
-        </div>
-
-        <div class="summit-right">
-          <div class="countdown" id="countdownBox" style="display:none">
-            <small class="countdown-small"></small>
-            <span class="countdown-span"></span>
-          </div>
-
-          <div class="summit-actions">
-            <a class="btn primary" href="./apply.html" data-ticker-register>Register</a>
-          </div>
-        </div>
-      </div>
-    `;
-  }
-
-  const labelEl = track.querySelector(".summit-label-text");
-  if (labelEl) labelEl.textContent = getLabelText(lang);
-
-  const regBtn = track.querySelector("[data-ticker-register]");
-  if (regBtn) regBtn.textContent = (lang === "fr") ? "S’inscrire" : (lang === "ar") ? "سجّل الآن" : "Register";
-
-  const themeEl = track.querySelector("#summitTheme");
-  if (themeEl) themeEl.textContent = getThemeText(lang);
-
-  const cdBox = track.querySelector("#countdownBox");
-  const cdSmall = track.querySelector(".countdown-small");
-  const cdSpan = track.querySelector(".countdown-span");
-
-  if (cd && cdBox && cdSmall && cdSpan) {
-    cdBox.style.display = "";
-    cdSmall.textContent = getStartsInText(lang);
-    cdSpan.textContent = cd.label;
-  } else if (cdBox) {
-    cdBox.style.display = "none";
-  }
-
-  const slideEl = track.querySelector("#tickerSlide");
-  if (!slideEl) return;
-
-  if (__tickerIdx >= list.length) __tickerIdx = 0;
-  slideEl.textContent = list[__tickerIdx];
-
-  if (__tickerTimer) clearInterval(__tickerTimer);
-
-  const intervalMs = Math.max(2500, Number(cfg?.site?.tickerRotateMs) || 4500);
-
-  __tickerTimer = setInterval(() => {
-    if (list.length <= 1) return;
-
-    slideEl.classList.add("is-out");
-
-    setTimeout(() => {
-      __tickerIdx = (__tickerIdx + 1) % list.length;
-      slideEl.textContent = list[__tickerIdx];
-      slideEl.classList.remove("is-out");
-    }, 280);
-
-  }, intervalMs);
-}
-
-/* ================================
-   ABOUT PAGE HELPERS
-================================= */
-
-function applyAboutImages(cfg, lang) {
-  const bundle = cfg?.content?.[lang]?.about || cfg?.content?.en?.about;
-
-  const heroImage = bundle?.heroImage;
-  const howWorksImages = bundle?.howWorksImages || {};
-
-  const heroEl = document.querySelector(".bg-about-hero");
-  if (heroEl && heroImage) {
-    heroEl.style.setProperty("--bg-image", `url("${heroImage}")`);
-  }
-
-  const stageEl = document.querySelector(".bg-work-stage");
-  if (stageEl && howWorksImages.stage) {
-    stageEl.style.setProperty("--bg-image", `url("${howWorksImages.stage}")`);
-  }
-
-  const processEl = document.querySelector(".bg-work-process");
-  if (processEl && howWorksImages.process) {
-    processEl.style.setProperty("--bg-image", `url("${howWorksImages.process}")`);
-  }
-
-  const outputEl = document.querySelector(".bg-work-output");
-  if (outputEl && howWorksImages.output) {
-    outputEl.style.setProperty("--bg-image", `url("${howWorksImages.output}")`);
-  }
-}
-
-/* ================================
-   ABOUT PAGE (CONFIG-DRIVEN)
-================================= */
-function renderAboutIntro(cfg, lang) {
-  const mount = document.getElementById("aboutIntro");
-  if (!mount) return;
-
-  const bundle = cfg?.content?.[lang]?.about || cfg?.content?.en?.about;
-  const paras = bundle?.introParagraphs;
-
-  if (!Array.isArray(paras) || !paras.length) {
-    mount.innerHTML = "";
-    return;
-  }
-
-  mount.innerHTML = paras
-    .map((p, idx) => `<p class="muted"${idx === paras.length - 1 ? ' style="margin-bottom:0"' : ""}>${p}</p>`)
-    .join("");
-}
-
-function renderAboutEditions(cfg, lang) {
-  const ul = document.getElementById("aboutEditionsList");
-  if (!ul) return;
-
-  const bundle = cfg?.content?.[lang]?.about || cfg?.content?.en?.about;
-  const editions = bundle?.editions || [];
-  ul.innerHTML = Array.isArray(editions) ? editions.map(x => `<li>${x}</li>`).join("") : "";
-}
-
-function renderAboutCtas(cfg, lang) {
-  const applyBtn = document.getElementById("aboutCtaApply");
-  const programmeBtn = document.getElementById("aboutCtaProgramme");
-  const eventBtn = document.getElementById("aboutCtaEvent");
-
-  if (!applyBtn && !programmeBtn && !eventBtn) return;
-
-  const bundle = cfg?.content?.[lang]?.about || cfg?.content?.en?.about;
-  const cta = bundle?.cta || cfg?.content?.en?.about?.cta || {};
-
-  if (applyBtn && cta.apply) applyBtn.textContent = cta.apply;
-  if (programmeBtn && cta.programme) programmeBtn.textContent = cta.programme;
-  if (eventBtn && cta.event) eventBtn.textContent = cta.event;
-}
-
-function renderAboutObjectives(cfg, lang) {
-  const scroller = document.getElementById("aboutObjectivesScroller");
-  if (!scroller) return;
-
-  const bundle = cfg?.content?.[lang]?.about || cfg?.content?.en?.about;
-  const objectives = bundle?.objectives || [];
-
-  if (!Array.isArray(objectives) || !objectives.length) {
-    scroller.innerHTML = "";
-    return;
-  }
-
-  scroller.innerHTML = objectives.map(o => `
-    <article class="snap-card" data-snap-card>
-      <div class="snap-img">
-        <img src="${o.image || ""}" alt="${(o.title || "").replace(/"/g, "&quot;")}">
-      </div>
-      <div class="snap-body">
-        <h4>${o.title || ""}</h4>
-        <p class="muted">${o.description || ""}</p>
-      </div>
-    </article>
-  `).join("");
-}
-
-function renderHowWorks(cfg, lang) {
-  const grid = document.getElementById("howWorksGrid");
-  if (!grid) return;
-
-  const bundle = cfg?.content?.[lang]?.about || cfg?.content?.en?.about;
-  const table = bundle?.howWorksTable || cfg?.content?.en?.about?.howWorksTable;
-
-  const headers = table?.headers || [];
-  const rows = table?.rows || [];
-
-  if (!Array.isArray(headers) || headers.length !== 3 || !Array.isArray(rows) || !rows.length) {
-    grid.innerHTML = "";
-    return;
-  }
-
-  const col0 = rows.map(r => r?.[0] ?? "").filter(Boolean);
-  const col1 = rows.map(r => r?.[1] ?? "").filter(Boolean);
-  const col2 = rows.map(r => r?.[2] ?? "").filter(Boolean);
-
-  grid.innerHTML = `
-    <div class="work-card bg-card bg-work-stage">
-      <div class="work-overlay">
-        <h4>${headers[0]}</h4>
-        <ul class="list">
-          ${col0.map(item => `<li>${item}</li>`).join("")}
-        </ul>
-      </div>
-    </div>
-
-    <div class="work-card bg-card bg-work-process">
-      <div class="work-overlay">
-        <h4>${headers[1]}</h4>
-        <ul class="list">
-          ${col1.map(item => `<li>${item}</li>`).join("")}
-        </ul>
-      </div>
-    </div>
-
-    <div class="work-card bg-card bg-work-output">
-      <div class="work-overlay">
-        <h4>${headers[2]}</h4>
-        <ul class="list">
-          ${col2.map(item => `<li>${item}</li>`).join("")}
-        </ul>
-      </div>
-    </div>
-  `;
-
-  applyAboutImages(cfg, lang);
-}
-
-function renderAboutPage(cfg, lang) {
-  renderAboutIntro(cfg, lang);
-  renderAboutEditions(cfg, lang);
-  renderAboutCtas(cfg, lang);
-  renderAboutObjectives(cfg, lang);
-  renderHowWorks(cfg, lang);
-  applyAboutImages(cfg, lang);
-
-  initSnapSlider("objectivesSlider");
-}
-
-/* ================================
-   SIMPLE SLIDER (OBJECTIVES)
-================================= */
-function initSnapSlider(rootId) {
-  const root = document.getElementById(rootId);
-  if (!root) return;
-
-  const scroller = root.querySelector("[data-snap-scroller]");
-  const dotsWrap = root.querySelector("[data-snap-dots]");
-  let btnPrev = root.querySelector("[data-snap-prev]");
-  let btnNext = root.querySelector("[data-snap-next]");
-
-  if (!scroller) return;
-
-  const cards = Array.from(scroller.querySelectorAll("[data-snap-card]"));
-  if (!cards.length) {
-    if (dotsWrap) dotsWrap.innerHTML = "";
-    return;
-  }
-
-  if (btnPrev) {
-    const clone = btnPrev.cloneNode(true);
-    btnPrev.parentNode.replaceChild(clone, btnPrev);
-    btnPrev = clone;
-  }
-  if (btnNext) {
-    const clone = btnNext.cloneNode(true);
-    btnNext.parentNode.replaceChild(clone, btnNext);
-    btnNext = clone;
-  }
-
-  if (dotsWrap) {
-    dotsWrap.innerHTML = cards
-      .map((_, i) => `<button type="button" class="snap-dot" aria-label="Go to slide ${i + 1}" data-dot-index="${i}"></button>`)
-      .join("");
-  }
-
-  const dots = dotsWrap ? Array.from(dotsWrap.querySelectorAll(".snap-dot")) : [];
-
-  function setActive(index) {
-    dots.forEach((d, i) => d.classList.toggle("active", i === index));
-  }
-
-  function currentIndex() {
-    const left = scroller.getBoundingClientRect().left;
-    let best = 0;
-    let bestDist = Infinity;
-    cards.forEach((c, i) => {
-      const d = Math.abs(c.getBoundingClientRect().left - left);
-      if (d < bestDist) { bestDist = d; best = i; }
-    });
-    return best;
-  }
-
-  function scrollToIndex(i) {
-    cards[i]?.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
-    setActive(i);
-  }
-
-  setActive(0);
-
-  scroller.onscroll = () => {
-    window.requestAnimationFrame(() => setActive(currentIndex()));
-  };
-
-  dots.forEach(d => {
-    d.onclick = () => {
-      const i = Number(d.getAttribute("data-dot-index"));
-      scrollToIndex(i);
-    };
-  });
-
-  if (btnPrev) btnPrev.onclick = () => {
-    const i = Math.max(0, currentIndex() - 1);
-    scrollToIndex(i);
-  };
-
-  if (btnNext) btnNext.onclick = () => {
-    const iNow = currentIndex();
-    const last = cards.length - 1;
-
-    if (iNow >= last) {
-      const target = document.getElementById("howWorks");
-      if (target) {
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
-        target.classList.remove("flash-highlight");
-        void target.offsetWidth;
-        target.classList.add("flash-highlight");
+  },
+
+  "content": {
+    "en": {
+      "home": {
+        "pill": "Applications open",
+        "headline": "Register for the AfSNET programme",
+        "intro": "This portal supports participant registration and shares event information, travel guidance, hotels, and media resources. Replace placeholders with confirmed details.",
+        "trackRecordTitle": "AfSNET Track Record",
+        "trackRecordStats": [
+          "5 Editions",
+          "900+ Participants",
+          "21 Countries Represented",
+          "USD 3.2bn+ Deals Facilitated"
+        ],
+        "trackRecordLinkText": "Learn more in About →",
+        "highlightsTitle": "AfSNET Highlights",
+        "highlights": [
+          "Investment and deal matchmaking",
+          "Sector roundtables and pipeline acceleration",
+          "Partnership engagement and implementation pathways",
+          "Policy and regulatory dialogue to unlock bankable projects",
+          "Networking, visibility, and post-event follow-through tracking"
+        ],
+        "whoAttendTitle": "Who should attend (example):",
+        "whoAttend": [
+          "Investors / financiers",
+          "Project sponsors and deal teams",
+          "Government / agencies",
+          "Partners / ecosystem / media"
+        ]
+      },
+
+      "about": {
+        "pill": "About AfSNET",
+        "headline": "AfSNET – Empowering Sub-Sovereign Governments in African Trade",
+        "heroImage": "./assets/images/about/about-hero-bg.jpg",
+        "introParagraphs": [
+          "In 2021, African Export-Import Bank (“Afreximbank” or “the Bank”) established the African Sub-Sovereign Governments Network (“AfSNET” or “the Network”) as a vehicle for promoting intra-African trade, investment and industrialisation at the Sub-Sovereign level.",
+          "The Bank defines an African Sub-Sovereign Government as a division of a sovereign State designated as a region, state, province, or local authority, with delineated governance and powers within which they operate. Typically, a sub-sovereign government will have its own legislature and mandate, which includes the collection of revenue, expenditure, socio-economic development, and promotion of trade and investment in the area under its jurisdiction.",
+          "The Bank therefore established the African Sub-Sovereign Governments Network to promote intra-African trade and investment, educational and cultural exchanges and effective and active engagement among sub-sovereigns in the context of the African Continental Free Trade Area (AfCFTA), for the development and prosperity of the continent. The Network, therefore, aims to create an interactive platform for Government to Government (G2G), Business to Government (B2G) and Business to Business (B2B) information exchanges and creation of synergies in a structured and deliberate manner."
+        ],
+        "cta": {
+          "apply": "Apply / Register",
+          "programme": "Programme",
+          "event": "Event details"
+        },
+        "editionsTitle": "Editions (Track Record)",
+        "editions": [
+          "1st Edition (2021): Durban, South Africa",
+          "2nd Edition (2022): Abuja, Nigeria",
+          "3rd Edition (2023): Cairo, Egypt — USD 1.5 billion deal closed",
+          "4th Edition: Kisumu, Kenya — 900+ participants, delegates from 21 countries, 200+ participants trained through IPA sessions, 13 major deals signed worth USD 1.7 billion",
+          "5th Edition: Algiers, Algeria"
+        ],
+        "objectivesTitle": "Key Objectives of AfSNET",
+        "objectives": [
+          {
+            "title": "Implementing the African Direct Investment Initiative (ADI)",
+            "description": "To provide a platform for the practical implementation of the Bank’s African Direct Investment initiative by mobilising private capital within Africa and deploying it to deserving sub-sovereigns for industrialisation and developmental needs.",
+            "image": "./assets/images/objectives/adi.jpg"
+          },
+          {
+            "title": "Facilitating Public-Private Collaboration and Capacity Building",
+            "description": "To provide a platform for public-private collaboration, peer learning, and capacity building, particularly for Investment Promotion Agencies (IPAs) at the sub-sovereign level.",
+            "image": "./assets/images/objectives/ppp.jpg"
+          },
+          {
+            "title": "Think Tank for Sub-Sovereign Trade & Investment",
+            "description": "To act as a think tank and centre of excellence on trade and investment matters at the sub-sovereign level.",
+            "image": "./assets/images/objectives/thinktank.jpg"
+          },
+          {
+            "title": "Regional Integration & AfCFTA",
+            "description": "To deepen regional integration and support the implementation of the AfCFTA.",
+            "image": "./assets/images/objectives/afcfta.jpg"
+          },
+          {
+            "title": "Investor Matchmaking & Local Partnerships",
+            "description": "To facilitate matchmaking and twinning between investors, the local private sector, and project sponsors under the aegis of sub-sovereign governments.",
+            "image": "./assets/images/objectives/matchmaking.jpg"
+          },
+          {
+            "title": "Promoting Infrastructure & Investment",
+            "description": "To promote infrastructure, trade, and investment in sub-sovereign regions.",
+            "image": "./assets/images/objectives/infrastructure.jpg"
+          },
+          {
+            "title": "Boosting Sub-Sovereign Investment Collaboration",
+            "description": "To enhance collaboration among sub-sovereigns on investment initiatives.",
+            "image": "./assets/images/objectives/collaboration.jpg"
+          },
+          {
+            "title": "Driving Adoption of Afreximbank Products",
+            "description": "To act as a conduit to drive adoption of the Bank’s products such as ATG, Border Markets, TRADAR Club, ETCs, Buyer Programme, SME Programme, How to Export, PPF, EPC Initiative, etc.",
+            "image": "./assets/images/objectives/products.jpg"
+          },
+          {
+            "title": "Deals",
+            "description": "To support bankable investment deals in African regions.",
+            "image": "./assets/images/objectives/deals.jpg"
+          }
+        ],
+        "howWorksTitle": "How AfSNET works",
+        "howWorksSubtitle": "A simple end-to-end flow for participants and partners.",
+        "howWorksImages": {
+          "stage": "./assets/images/about/work-stage-bg.jpg",
+          "process": "./assets/images/about/work-process-bg.jpg",
+          "output": "./assets/images/about/work-output-bg.jpg"
+        },
+        "howWorksTable": {
+          "headers": ["Stage", "What happens", "Output"],
+          "rows": [
+            ["Registration", "Participants submit details and interests", "Confirmed participant list"],
+            ["Curation", "Agenda and matchmaking aligned to priorities", "Programme + meeting plan"],
+            ["Engagement", "Sessions, roundtables, B2B/B2G meetings", "Next steps, pipeline notes"],
+            ["Follow-up", "Post-event tracking and support", "Updates and reporting"]
+          ]
+        }
+      },
+
+      "programme": {
+        "pill": "Programme",
+        "headline": "Programme overview",
+        "intro": "High-level structure of sessions, roundtables, and meetings. Replace with confirmed agenda.",
+        "typicalStructureTitle": "Typical structure (example)",
+        "typicalStructure": [
+          "Opening remarks & scene-setting",
+          "Sector roundtables",
+          "Investor pitch sessions",
+          "B2B / G2G / B2G matchmaking meetings",
+          "Closing and next steps"
+        ],
+        "downloadsTitle": "Downloads"
+      },
+
+      "eventPage": {
+        "pill": "Event",
+        "headline": "Event information",
+        "intro": "Key logistics and event details.",
+        "onSiteTitle": "On-site expectations (example)",
+        "onSite": [
+          "Bring a valid ID and registration confirmation",
+          "Arrive early for badge collection",
+          "Follow venue security and access rules",
+          "Use the help desk for support and directions"
+        ]
+      },
+
+      "speakersPartners": {
+        "pill": "Speakers / Partners",
+        "headline": "Speakers and partners",
+        "intro": "Replace with confirmed speakers, moderators, and partners.",
+        "placeholderTitle": "What you can do here",
+        "placeholderItems": [
+          "Explore speakers and session leads",
+          "View partners and supporting organisations",
+          "Check for updates as the list is confirmed"
+        ]
+      },
+
+      "travelVisa": {
+        "pill": "Travel & Visa",
+        "headline": "Travel and visa guidance",
+        "intro": "Provide entry requirements, visa process, and travel tips for the host country.",
+        "guidanceTitle": "Guidance (example)",
+        "guidance": [
+          "Check passport validity (6+ months recommended)",
+          "Confirm visa requirements for your nationality",
+          "Book flights early and keep copies of tickets",
+          "Use official accommodation guidance where available"
+        ]
+      },
+
+      "mediaPress": {
+        "pill": "Media / Press",
+        "headline": "Media and press",
+        "intro": "Press contacts, accreditation instructions, and media resources.",
+        "mediaNoteTitle": "Media note (example)",
+        "mediaNotes": [
+          "Accreditation may be required for press access",
+          "Bring identification and proof of assignment where applicable",
+          "Follow on-site media guidelines and protocols"
+        ]
+      },
+
+      "hotels": {
+        "pill": "Hotels",
+        "headline": "Recommended accommodation",
+        "intro": "Replace placeholders with negotiated hotels, booking codes, and cut-off dates.",
+        "venueProximity": "TBC",
+        "rateCode": "TBC",
+        "bookingGuidance": [
+          "Use the official rate code where provided.",
+          "Confirm the booking cut-off date before making payment.",
+          "Keep a copy of your booking confirmation."
+        ],
+        "transportNotes": [
+          "Airport transfer options will be shared closer to the event.",
+          "Allow buffer time during peak traffic hours."
+        ],
+        "list": [
+          { "name": "Hotel 1 (TBC)", "distance": "TBC", "rate": "TBC", "booking": "TBC" }
+        ]
+      },
+
+      "apply": {
+        "pill": "Apply",
+        "headline": "Apply / Register",
+        "intro": "Complete the registration form below. This is a static site, so submissions can be routed to an external form or email.",
+        "externalFormUrl": "https://tally.so/r/gDMZLO",
+        "whatPrepareTitle": "What to prepare",
+        "whatPrepare": [
+          "Your organisation details",
+          "Your role and participation interest",
+          "Project / investment priorities (if applicable)",
+          "Contact information"
+        ]
+      },
+
+      "contact": {
+        "pill": "Contact",
+        "headline": "How to reach the AfSNET team",
+        "intro": "Official contact details are managed in config.json.",
+        "supportTitle": "Registration support",
+        "supportItems": [
+          "Email: afsnet@afreximbank.com",
+          "Include your full name and organisation",
+          "Describe the issue and attach screenshots if possible"
+        ]
+      },
+
+      "thankYou": {
+        "pill": "Submitted",
+        "headline": "Thank you — your registration has been received",
+        "messagePrefix": "We’ll contact you using the email you provided. For support, email ",
+        "messageSuffix": ".",
+        "backHome": "Back to Home",
+        "eventDetails": "Event details"
       }
-      return;
+    },
+
+    "fr": {
+      "home": {
+        "pill": "Candidatures ouvertes",
+        "headline": "Inscrivez-vous au programme AfSNET",
+        "intro": "Ce portail permet l’inscription des participants et partage des informations sur l’événement, des conseils de voyage, des hôtels et des ressources médias. Remplacez les éléments provisoires par les détails confirmés.",
+        "trackRecordTitle": "Bilan AfSNET",
+        "trackRecordStats": [
+          "5 éditions",
+          "900+ participants",
+          "21 pays représentés",
+          "Plus de 3,2 Md USD de transactions facilitées"
+        ],
+        "trackRecordLinkText": "En savoir plus dans « À propos » →",
+        "highlightsTitle": "Points forts d’AfSNET",
+        "highlights": [
+          "Mise en relation investisseurs et transactions",
+          "Tables rondes sectorielles et accélération du pipeline",
+          "Partenariats et voies de mise en œuvre",
+          "Dialogue politique et réglementaire pour débloquer des projets bancables",
+          "Réseautage, visibilité et suivi post-événement"
+        ],
+        "whoAttendTitle": "Qui devrait participer (exemple) :",
+        "whoAttend": [
+          "Investisseurs / financeurs",
+          "Sponsors de projets et équipes transactionnelles",
+          "Gouvernement / agences",
+          "Partenaires / écosystème / médias"
+        ]
+      },
+
+      "about": {
+        "pill": "À propos d’AfSNET",
+        "headline": "AfSNET – Donner aux gouvernements infranationaux les moyens d’agir dans le commerce africain",
+        "heroImage": "./assets/images/about/about-hero-bg.jpg",
+        "introParagraphs": [
+          "En 2021, la Banque Africaine d’Import-Export (« Afreximbank » ou « la Banque ») a créé le Réseau des Gouvernements infranationaux africains (« AfSNET » ou « le Réseau ») comme levier de promotion du commerce intra-africain, de l’investissement et de l’industrialisation au niveau infranational.",
+          "La Banque définit un Gouvernement infranational africain comme une division d’un État souverain désignée comme région, État, province ou autorité locale, disposant de pouvoirs et d’un périmètre de gouvernance clairement définis. En général, un gouvernement infranational possède sa propre assemblée et un mandat incluant la collecte de recettes, les dépenses, le développement socio-économique ainsi que la promotion du commerce et de l’investissement sur son territoire.",
+          "La Banque a donc mis en place AfSNET afin de promouvoir le commerce et l’investissement intra-africains, les échanges éducatifs et culturels, et une coopération active entre gouvernements infranationaux dans le cadre de la ZLECAf, au service du développement et de la prospérité du continent. Le Réseau vise ainsi à créer une plateforme interactive d’échanges et de synergies, de manière structurée et délibérée, entre Gouvernement à Gouvernement (G2G), Entreprise à Gouvernement (B2G) et Entreprise à Entreprise (B2B)."
+        ],
+        "cta": {
+          "apply": "Candidater / S’inscrire",
+          "programme": "Programme",
+          "event": "Détails de l’événement"
+        },
+        "editionsTitle": "Éditions (bilan)",
+        "editions": [
+          "1re édition (2021) : Durban, Afrique du Sud",
+          "2e édition (2022) : Abuja, Nigeria",
+          "3e édition (2023) : Le Caire, Égypte — 1,5 Md USD de transaction conclue",
+          "4e édition : Kisumu, Kenya — 900+ participants, délégations de 21 pays, 200+ personnes formées via les sessions IPA, 13 accords majeurs signés pour 1,7 Md USD",
+          "5e édition : Alger, Algérie"
+        ],
+        "objectivesTitle": "Objectifs clés d’AfSNET",
+        "objectives": [
+          {
+            "title": "Mise en œuvre de l’Initiative Africaine d’Investissement Direct (ADI)",
+            "description": "Fournir une plateforme pour la mise en œuvre pratique de l’initiative ADI de la Banque en mobilisant le capital privé en Afrique et en le déployant au profit des gouvernements infranationaux pour l’industrialisation et les besoins de développement.",
+            "image": "./assets/images/objectives/adi.jpg"
+          },
+          {
+            "title": "Collaboration public-privé et renforcement des capacités",
+            "description": "Fournir une plateforme de collaboration public-privé, d’apprentissage entre pairs et de renforcement des capacités, notamment pour les Agences de Promotion des Investissements (IPA) au niveau infranational.",
+            "image": "./assets/images/objectives/ppp.jpg"
+          },
+          {
+            "title": "Think tank sur le commerce et l’investissement infranationaux",
+            "description": "Agir comme think tank et centre d’excellence sur les questions de commerce et d’investissement au niveau infranational.",
+            "image": "./assets/images/objectives/thinktank.jpg"
+          },
+          {
+            "title": "Intégration régionale & ZLECAf",
+            "description": "Renforcer l’intégration régionale et soutenir la mise en œuvre de la ZLECAf.",
+            "image": "./assets/images/objectives/afcfta.jpg"
+          },
+          {
+            "title": "Mise en relation investisseurs & partenariats locaux",
+            "description": "Faciliter le matchmaking et les partenariats entre investisseurs, secteur privé local et porteurs de projets sous l’égide des gouvernements infranationaux.",
+            "image": "./assets/images/objectives/matchmaking.jpg"
+          },
+          {
+            "title": "Promotion des infrastructures & de l’investissement",
+            "description": "Promouvoir les infrastructures, le commerce et l’investissement dans les régions infranationales.",
+            "image": "./assets/images/objectives/infrastructure.jpg"
+          },
+          {
+            "title": "Renforcer la collaboration entre gouvernements infranationaux",
+            "description": "Améliorer la collaboration entre gouvernements infranationaux sur les initiatives d’investissement.",
+            "image": "./assets/images/objectives/collaboration.jpg"
+          },
+          {
+            "title": "Accélérer l’adoption des produits Afreximbank",
+            "description": "Servir de relais pour accélérer l’adoption des produits de la Banque tels que ATG, Border Markets, TRADAR Club, ETCs, Buyer Programme, SME Programme, How to Export, PPF, EPC Initiative, etc.",
+            "image": "./assets/images/objectives/products.jpg"
+          },
+          {
+            "title": "Transactions (Deals)",
+            "description": "Soutenir des transactions d’investissement bancables dans les régions africaines.",
+            "image": "./assets/images/objectives/deals.jpg"
+          }
+        ],
+        "howWorksTitle": "Comment fonctionne AfSNET",
+        "howWorksSubtitle": "Un parcours simple de bout en bout pour les participants et partenaires.",
+        "howWorksImages": {
+          "stage": "./assets/images/about/work-stage-bg.jpg",
+          "process": "./assets/images/about/work-process-bg.jpg",
+          "output": "./assets/images/about/work-output-bg.jpg"
+        },
+        "howWorksTable": {
+          "headers": ["Étape", "Ce qui se passe", "Résultat"],
+          "rows": [
+            ["Inscription", "Les participants soumettent leurs informations et intérêts", "Liste des participants confirmés"],
+            ["Curation", "Agenda et mise en relation alignés sur les priorités", "Programme + plan de réunions"],
+            ["Engagement", "Sessions, tables rondes, réunions B2B/B2G", "Prochaines étapes, notes de pipeline"],
+            ["Suivi", "Suivi post-événement et accompagnement", "Mises à jour et reporting"]
+          ]
+        }
+      },
+
+      "programme": {
+        "pill": "Programme",
+        "headline": "Aperçu du programme",
+        "intro": "Structure générale des sessions, tables rondes et réunions. À remplacer par l’agenda confirmé.",
+        "typicalStructureTitle": "Structure type (exemple)",
+        "typicalStructure": [
+          "Allocutions d’ouverture et cadrage",
+          "Tables rondes sectorielles",
+          "Sessions de pitch investisseurs",
+          "Rencontres B2B / G2G / B2G",
+          "Clôture et prochaines étapes"
+        ],
+        "downloadsTitle": "Téléchargements"
+      },
+
+      "eventPage": {
+        "pill": "Événement",
+        "headline": "Informations sur l’événement",
+        "intro": "Principales informations logistiques et détails de l’événement.",
+        "onSiteTitle": "Attentes sur site (exemple)",
+        "onSite": [
+          "Ayez une pièce d’identité valide et votre confirmation d’inscription",
+          "Arrivez tôt pour le retrait des badges",
+          "Respectez les règles de sécurité et d’accès du site",
+          "Utilisez le comptoir d’assistance pour l’orientation"
+        ]
+      },
+
+      "speakersPartners": {
+        "pill": "Intervenants / Partenaires",
+        "headline": "Intervenants et partenaires",
+        "intro": "À remplacer par la liste confirmée des intervenants, modérateurs et partenaires.",
+        "placeholderTitle": "Ce que vous pouvez faire ici",
+        "placeholderItems": [
+          "Consulter les intervenants et responsables de sessions",
+          "Voir les partenaires et organisations de soutien",
+          "Revenir pour les mises à jour à mesure que la liste est confirmée"
+        ]
+      },
+
+      "travelVisa": {
+        "pill": "Voyage & Visa",
+        "headline": "Conseils de voyage et visa",
+        "intro": "Indiquez les exigences d’entrée, la procédure de visa et les conseils de voyage pour le pays hôte.",
+        "guidanceTitle": "Conseils (exemple)",
+        "guidance": [
+          "Vérifiez la validité du passeport (6+ mois recommandé)",
+          "Confirmez les exigences de visa selon votre nationalité",
+          "Réservez les vols tôt et conservez les justificatifs",
+          "Utilisez les recommandations officielles d’hébergement si disponibles"
+        ]
+      },
+
+      "mediaPress": {
+        "pill": "Médias / Presse",
+        "headline": "Médias et presse",
+        "intro": "Contacts presse, instructions d’accréditation et ressources médias.",
+        "mediaNoteTitle": "Note média (exemple)",
+        "mediaNotes": [
+          "Une accréditation peut être requise pour l’accès presse",
+          "Apportez une pièce d’identité et une lettre de mission si applicable",
+          "Respectez les consignes média et protocoles sur site"
+        ]
+      },
+
+      "apply": {
+        "pill": "Candidater",
+        "headline": "Candidater / S’inscrire",
+        "intro": "Complétez le formulaire d’inscription ci-dessous. Le site est statique, les soumissions peuvent être envoyées via un formulaire externe ou par e-mail.",
+        "externalFormUrl": "https://tally.so/r/gDMZLO",
+        "whatPrepareTitle": "À préparer",
+        "whatPrepare": [
+          "Informations sur votre organisation",
+          "Votre rôle et intérêt de participation",
+          "Priorités projet / investissement (si applicable)",
+          "Coordonnées"
+        ]
+      },
+
+      "contact": {
+        "pill": "Contact",
+        "headline": "Comment joindre l’équipe AfSNET",
+        "intro": "Les coordonnées officielles sont gérées dans config.json.",
+        "supportTitle": "Assistance à l’inscription",
+        "supportItems": [
+          "Email : afsnet@afreximbank.com",
+          "Indiquez votre nom complet et organisation",
+          "Décrivez le problème et joignez des captures d’écran si possible"
+        ]
+      },
+
+      "hotels": {
+        "pill": "Hôtels",
+        "headline": "Hébergement recommandé",
+        "intro": "Remplacez les éléments provisoires par les hôtels négociés, codes de réservation et dates limites.",
+        "venueProximity": "À confirmer",
+        "rateCode": "À confirmer",
+        "bookingGuidance": [
+          "Utilisez le code tarifaire officiel lorsque disponible.",
+          "Vérifiez la date limite de réservation avant paiement.",
+          "Conservez une copie de votre confirmation de réservation."
+        ],
+        "transportNotes": [
+          "Les options de transfert aéroport seront partagées à l’approche de l’événement.",
+          "Prévoyez une marge de temps aux heures de pointe."
+        ],
+        "list": [
+          { "name": "Hôtel 1 (À confirmer)", "distance": "À confirmer", "rate": "À confirmer", "booking": "À confirmer" }
+        ]
+      },
+
+      "thankYou": {
+        "pill": "Envoyé",
+        "headline": "Merci — votre inscription a bien été reçue",
+        "messagePrefix": "Nous vous contacterons à l’adresse e-mail fournie. Pour toute assistance, écrivez à ",
+        "messageSuffix": ".",
+        "backHome": "Retour à l’accueil",
+        "eventDetails": "Détails de l’événement"
+      }
+    },
+
+    "ar": {
+      "home": {
+        "pill": "التسجيل مفتوح",
+        "headline": "سجّل في برنامج AfSNET",
+        "intro": "تدعم هذه البوابة تسجيل المشاركين وتعرض معلومات الفعالية وإرشادات السفر والفنادق ومواد الإعلام. يرجى استبدال البيانات المؤقتة بالتفاصيل المؤكدة.",
+        "trackRecordTitle": "سجل إنجازات AfSNET",
+        "trackRecordStats": [
+          "5 دورات",
+          "أكثر من 900 مشارك",
+          "تمثيل 21 دولة",
+          "أكثر من 3.2 مليار دولار أمريكي من الصفقات المُيسّرة"
+        ],
+        "trackRecordLinkText": "اعرف المزيد في صفحة «عن البرنامج» →",
+        "highlightsTitle": "أبرز محطات AfSNET",
+        "highlights": [
+          "التوفيق بين المستثمرين والصفقات",
+          "موائد مستديرة قطاعية وتسريع خط المشاريع",
+          "الشراكات ومسارات التنفيذ",
+          "حوار سياساتي وتنظيمي لفتح مشاريع قابلة للتمويل",
+          "شبكات العلاقات والظهور والمتابعة بعد الفعالية"
+        ],
+        "whoAttendTitle": "من الذي ينبغي أن يحضر (مثال):",
+        "whoAttend": [
+          "المستثمرون / الممولون",
+          "رعاة المشاريع وفرق الصفقات",
+          "الحكومة / الجهات",
+          "الشركاء / المنظومة / الإعلام"
+        ]
+      },
+
+      "about": {
+        "pill": "عن AfSNET",
+        "headline": "AfSNET – تمكين الحكومات دون السيادية في التجارة الإفريقية",
+        "heroImage": "./assets/images/about/about-hero-bg.jpg",
+        "introParagraphs": [
+          "في عام 2021، أنشأ البنك الأفريقي للتصدير والاستيراد («أفريكسيم بنك» أو «البنك») شبكة الحكومات دون السيادية الأفريقية («AfSNET» أو «الشبكة») كأداة لتعزيز التجارة البينية الأفريقية والاستثمار والتصنيع على المستوى دون السيادي.",
+          "ويُعرِّف البنك الحكومة دون السيادية الأفريقية بأنها تقسيم داخل دولة ذات سيادة يُسمّى إقليماً أو ولاية أو مقاطعة أو سلطة محلية، ويتمتع بصلاحيات وحوكمة محددة ضمن نطاق اختصاصه. وعادةً ما يكون للحكومة دون السيادية مجلس تشريعي ومهام تشمل تحصيل الإيرادات والإنفاق والتنمية الاجتماعية-الاقتصادية وتعزيز التجارة والاستثمار داخل نطاقها.",
+          "وبناءً عليه، أنشأ البنك شبكة AfSNET لتعزيز التجارة والاستثمار داخل أفريقيا، والتبادل التعليمي والثقافي، والتفاعل الفعّال بين الحكومات دون السيادية في سياق منطقة التجارة الحرة القارية الأفريقية (AfCFTA)، بما يدعم تنمية القارة وازدهارها. وتهدف الشبكة إلى إنشاء منصة تفاعلية لتبادل المعلومات وبناء التآزر بصورة منظمة ومقصودة بين حكومة إلى حكومة (G2G) وأعمال إلى حكومة (B2G) وأعمال إلى أعمال (B2B)."
+        ],
+        "cta": {
+          "apply": "التقديم / التسجيل",
+          "programme": "البرنامج",
+          "event": "تفاصيل الفعالية"
+        },
+        "editionsTitle": "الدورات (سجل الفعاليات)",
+        "editions": [
+          "الدورة الأولى (2021): ديربان، جنوب أفريقيا",
+          "الدورة الثانية (2022): أبوجا، نيجيريا",
+          "الدورة الثالثة (2023): القاهرة، مصر — إغلاق صفقة بقيمة 1.5 مليار دولار أمريكي",
+          "الدورة الرابعة: كيسومو، كينيا — أكثر من 900 مشارك، وفود من 21 دولة، تدريب أكثر من 200 مشارك عبر جلسات IPA، توقيع 13 صفقة كبرى بقيمة 1.7 مليار دولار أمريكي",
+          "الدورة الخامسة: الجزائر، الجزائر"
+        ],
+        "objectivesTitle": "الأهداف الرئيسية لـ AfSNET",
+        "objectives": [
+          {
+            "title": "تنفيذ مبادرة الاستثمار المباشر الأفريقي (ADI)",
+            "description": "توفير منصة للتطبيق العملي لمبادرة الاستثمار المباشر الأفريقي التابعة للبنك عبر تعبئة رأس المال الخاص داخل أفريقيا وتوجيهه إلى الحكومات دون السيادية المستحقة لدعم التصنيع واحتياجات التنمية.",
+            "image": "./assets/images/objectives/adi.jpg"
+          },
+          {
+            "title": "تعزيز التعاون بين القطاعين العام والخاص وبناء القدرات",
+            "description": "توفير منصة للتعاون العام-الخاص والتعلم من الأقران وبناء القدرات، لا سيما لوكالات ترويج الاستثمار (IPAs) على المستوى دون السيادي.",
+            "image": "./assets/images/objectives/ppp.jpg"
+          },
+          {
+            "title": "بيت خبرة للتجارة والاستثمار على المستوى دون السيادي",
+            "description": "العمل كمركز تفكير وتميز في قضايا التجارة والاستثمار على المستوى دون السيادي.",
+            "image": "./assets/images/objectives/thinktank.jpg"
+          },
+          {
+            "title": "التكامل الإقليمي وAfCFTA",
+            "description": "تعميق التكامل الإقليمي ودعم تنفيذ منطقة التجارة الحرة القارية الأفريقية (AfCFTA).",
+            "image": "./assets/images/objectives/afcfta.jpg"
+          },
+          {
+            "title": "مواءمة المستثمرين وبناء شراكات محلية",
+            "description": "تسهيل التوفيق والشراكات بين المستثمرين والقطاع الخاص المحلي ورعاة المشاريع تحت مظلة الحكومات دون السيادية.",
+            "image": "./assets/images/objectives/matchmaking.jpg"
+          },
+          {
+            "title": "تعزيز البنية التحتية والاستثمار",
+            "description": "الترويج للبنية التحتية والتجارة والاستثمار في المناطق دون السيادية.",
+            "image": "./assets/images/objectives/infrastructure.jpg"
+          },
+          {
+            "title": "تعزيز التعاون الاستثماري بين الحكومات دون السيادية",
+            "description": "تعزيز التعاون بين الحكومات دون السيادية في مبادرات الاستثمار.",
+            "image": "./assets/images/objectives/collaboration.jpg"
+          },
+          {
+            "title": "دفع تبنّي منتجات أفريكسيم بنك",
+            "description": "العمل كقناة لدفع تبني منتجات البنك مثل ATG وBorder Markets وTRADAR Club وETCs وBuyer Programme وSME Programme وHow to Export وPPF وEPC Initiative وغيرها.",
+            "image": "./assets/images/objectives/products.jpg"
+          },
+          {
+            "title": "الصفقات",
+            "description": "دعم صفقات استثمارية قابلة للتمويل في المناطق الأفريقية.",
+            "image": "./assets/images/objectives/deals.jpg"
+          }
+        ],
+        "howWorksTitle": "كيف يعمل AfSNET",
+        "howWorksSubtitle": "مسار بسيط من البداية إلى النهاية للمشاركين والشركاء.",
+        "howWorksImages": {
+          "stage": "./assets/images/about/work-stage-bg.jpg",
+          "process": "./assets/images/about/work-process-bg.jpg",
+          "output": "./assets/images/about/work-output-bg.jpg"
+        },
+        "howWorksTable": {
+          "headers": ["المرحلة", "ما الذي يحدث", "المخرجات"],
+          "rows": [
+            ["التسجيل", "يقدم المشاركون بياناتهم واهتماماتهم", "قائمة المشاركين المؤكدة"],
+            ["التحضير", "مواءمة البرنامج والتوفيق وفق الأولويات", "البرنامج + خطة الاجتماعات"],
+            ["التفاعل", "جلسات وموائد مستديرة واجتماعات B2B/B2G", "الخطوات التالية وملاحظات المشاريع"],
+            ["المتابعة", "متابعة ما بعد الفعالية والدعم", "تحديثات وتقارير"]
+          ]
+        }
+      },
+
+      "programme": {
+        "pill": "البرنامج",
+        "headline": "نظرة عامة على البرنامج",
+        "intro": "الهيكل العام للجلسات والطاولات المستديرة والاجتماعات. يرجى استبداله بالجدول المؤكد.",
+        "typicalStructureTitle": "الهيكل النموذجي (مثال)",
+        "typicalStructure": [
+          "كلمات افتتاحية وتحديد السياق",
+          "موائد مستديرة قطاعية",
+          "جلسات عرض للمستثمرين",
+          "لقاءات B2B / G2G / B2G",
+          "الختام والخطوات التالية"
+        ],
+        "downloadsTitle": "التنزيلات"
+      },
+
+      "eventPage": {
+        "pill": "الفعالية",
+        "headline": "معلومات الفعالية",
+        "intro": "أهم المعلومات اللوجستية وتفاصيل الفعالية.",
+        "onSiteTitle": "توقعات الحضور في الموقع (مثال)",
+        "onSite": [
+          "إحضار بطاقة هوية سارية وتأكيد التسجيل",
+          "الحضور مبكرًا لاستلام البطاقات",
+          "الالتزام بقواعد الأمن والدخول في الموقع",
+          "استخدام مكتب المساعدة للدعم والإرشاد"
+        ]
+      },
+
+      "speakersPartners": {
+        "pill": "المتحدثون / الشركاء",
+        "headline": "المتحدثون والشركاء",
+        "intro": "يرجى استبدال ذلك بالقائمة المؤكدة للمتحدثين والميسّرين والشركاء.",
+        "placeholderTitle": "ما الذي يمكنك فعله هنا",
+        "placeholderItems": [
+          "استعراض المتحدثين وقادة الجلسات",
+          "عرض الشركاء والجهات الداعمة",
+          "متابعة التحديثات مع تأكيد القائمة"
+        ]
+      },
+
+      "travelVisa": {
+        "pill": "السفر والتأشيرة",
+        "headline": "إرشادات السفر والتأشيرة",
+        "intro": "يرجى توفير متطلبات الدخول وإجراءات التأشيرة ونصائح السفر لبلد الاستضافة.",
+        "guidanceTitle": "إرشادات (مثال)",
+        "guidance": [
+          "تحقق من صلاحية جواز السفر (6+ أشهر موصى بها)",
+          "تأكد من متطلبات التأشيرة حسب جنسيتك",
+          "احجز الرحلات مبكرًا واحتفظ بنسخ من التذاكر",
+          "استخدم إرشادات الإقامة الرسمية عند توفرها"
+        ]
+      },
+
+      "mediaPress": {
+        "pill": "الإعلام / الصحافة",
+        "headline": "الإعلام والصحافة",
+        "intro": "جهات الاتصال الإعلامية، تعليمات الاعتماد، ومواد الإعلام.",
+        "mediaNoteTitle": "ملاحظة إعلامية (مثال)",
+        "mediaNotes": [
+          "قد تكون هناك حاجة لاعتماد للوصول الإعلامي",
+          "أحضر بطاقة تعريف وإثبات تكليف إذا لزم",
+          "اتبع إرشادات الإعلام والبروتوكولات في الموقع"
+        ]
+      },
+
+      "apply": {
+        "pill": "التسجيل",
+        "headline": "التقديم / التسجيل",
+        "intro": "أكمل نموذج التسجيل أدناه. هذا موقع ثابت، لذا يمكن توجيه الإرسال إلى نموذج خارجي أو بريد إلكتروني.",
+        "externalFormUrl": "https://tally.so/r/gDMZLO",
+        "whatPrepareTitle": "ماذا تجهّز",
+        "whatPrepare": [
+          "بيانات المؤسسة/الجهة",
+          "دورك واهتمامك بالمشاركة",
+          "أولويات المشروع/الاستثمار (إن وجدت)",
+          "معلومات التواصل"
+        ]
+      },
+
+      "contact": {
+        "pill": "اتصل بنا",
+        "headline": "كيفية التواصل مع فريق AfSNET",
+        "intro": "تتم إدارة بيانات الاتصال الرسمية داخل config.json.",
+        "supportTitle": "دعم التسجيل",
+        "supportItems": [
+          "البريد الإلكتروني: afsnet@afreximbank.com",
+          "اذكر اسمك الكامل واسم الجهة",
+          "اشرح المشكلة وأرفق لقطات شاشة إن أمكن"
+        ]
+      },
+
+      "hotels": {
+        "pill": "الفنادق",
+        "headline": "الإقامة الموصى بها",
+        "intro": "يرجى استبدال البيانات المؤقتة بالفنادق المتفق عليها وأكواد الحجز وتواريخ الإغلاق.",
+        "venueProximity": "سيتم التأكيد",
+        "rateCode": "سيتم التأكيد",
+        "bookingGuidance": [
+          "استخدم رمز السعر الرسمي عند توفره.",
+          "تحقق من تاريخ إغلاق الحجز قبل الدفع.",
+          "احتفظ بنسخة من تأكيد الحجز."
+        ],
+        "transportNotes": [
+          "ستتم مشاركة خيارات النقل من/إلى المطار قرب موعد الفعالية.",
+          "اترك وقتًا احتياطيًا خلال ساعات الذروة."
+        ],
+        "list": [
+          { "name": "فندق 1 (سيتم التأكيد)", "distance": "سيتم التأكيد", "rate": "سيتم التأكيد", "booking": "سيتم التأكيد" }
+        ]
+      },
+
+      "thankYou": {
+        "pill": "تم الإرسال",
+        "headline": "شكرًا لك — تم استلام تسجيلك بنجاح",
+        "messagePrefix": "سنقوم بالتواصل معك عبر البريد الإلكتروني الذي قدمته. للدعم، راسلنا على ",
+        "messageSuffix": ".",
+        "backHome": "العودة إلى الرئيسية",
+        "eventDetails": "تفاصيل الفعالية"
+      }
     }
+  },
 
-    scrollToIndex(Math.min(last, iNow + 1));
-  };
-}
-
-/* ================================
-   LANGUAGE
-================================= */
-function applyLanguage(cfg, lang) {
-  const dict = cfg?.i18n?.[lang] || cfg?.i18n?.en;
-  if (!dict) return;
-
-  document.querySelectorAll("[data-i18n]").forEach(el => {
-    const key = el.getAttribute("data-i18n");
-    if (dict[key]) el.textContent = dict[key];
-  });
-
-  document.documentElement.setAttribute("dir", lang === "ar" ? "rtl" : "ltr");
-  document.documentElement.setAttribute("lang", lang);
-  localStorage.setItem("lang", lang);
-}
-
-function applyConfigContent(cfg, lang) {
-  const bundle = cfg?.content?.[lang] || cfg?.content?.en;
-  if (!bundle) return;
-
-  document.querySelectorAll("[data-config]").forEach(el => {
-    const path = el.getAttribute("data-config") || "";
-    const isRoot =
-      path.startsWith("site.") ||
-      path.startsWith("event.") ||
-      path.startsWith("downloads.");
-    if (isRoot) return;
-
-    const value = getByPath(bundle, path);
-    if (value !== null && typeof value !== "object") {
-      el.textContent = value;
-    }
-  });
-
-  document.querySelectorAll("[data-list]").forEach(ul => {
-    const path = ul.getAttribute("data-list");
-    const items = getByPath(bundle, path);
-
-    if (Array.isArray(items)) {
-      ul.innerHTML = items.map(x => `<li>${x}</li>`).join("");
-      ul.classList.add("list");
-    }
-  });
-}
-
-function injectLanguageSwitcher(cfg) {
-  const slot = document.getElementById("lang-slot");
-  if (!slot) return;
-
-  slot.innerHTML = `
-    <div class="lang-switch">
-      <select id="langSelect" aria-label="Language selector">
-        <option value="en">EN</option>
-        <option value="fr">FR</option>
-        <option value="ar">AR</option>
-      </select>
-    </div>
-  `;
-
-  const select = document.getElementById("langSelect");
-  const savedLang = localStorage.getItem("lang") || cfg?.site?.defaultLang || "en";
-  select.value = savedLang;
-
-  select.addEventListener("change", () => {
-    const lang = select.value;
-
-    applyLanguage(cfg, lang);
-    fillRootConfig(cfg);
-    applyConfigContent(cfg, lang);
-    wireApply(cfg, lang);
-    renderDownloads(cfg);
-
-    initHomeTicker(cfg, lang);
-    renderAboutPage(cfg, lang);
-  });
-}
-
-/* ================================
-   HOME HERO SLIDER
-================================= */
-let heroTimer = null;
-
-function initHeroSlider(){
-  const slides = Array.from(document.querySelectorAll(".hero-slider .hero-slide"));
-  if (!slides.length) return;
-
-  if (heroTimer) clearInterval(heroTimer);
-
-  let idx = slides.findIndex(s => s.classList.contains("is-active"));
-  if (idx < 0) idx = 0;
-
-  slides.forEach((s, i) => s.classList.toggle("is-active", i === idx));
-
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduceMotion || slides.length === 1) return;
-
-  heroTimer = setInterval(() => {
-    slides[idx].classList.remove("is-active");
-    idx = (idx + 1) % slides.length;
-    slides[idx].classList.add("is-active");
-  }, 5000);
-}
-
-/* ================================
-   PRELOADER
-================================= */
-function hidePreloaderSoon() {
-  const preloader = document.getElementById("preloader");
-  if (!preloader) return;
-  preloader.classList.add("is-hidden");
-  setTimeout(() => preloader.remove(), 450);
-}
-
-/* ================================
-   INIT
-================================= */
-document.addEventListener("DOMContentLoaded", async () => {
-  try {
-    const cfg = await loadConfig();
-
-    injectHeader(cfg);
-    injectFooter(cfg);
-
-    const savedLang = localStorage.getItem("lang") || cfg?.site?.defaultLang || "en";
-
-    applyLanguage(cfg, savedLang);
-    fillRootConfig(cfg);
-    applyConfigContent(cfg, savedLang);
-    renderDownloads(cfg);
-    wireApply(cfg, savedLang);
-
-    initHomeTicker(cfg, savedLang);
-    renderAboutPage(cfg, savedLang);
-
-    initHeroSlider();
-  } finally {
-    hidePreloaderSoon();
+  "downloads": {
+    "items": [
+      { "label": "Investment Proposal Template (PDF)", "file": "./assets/investment-proposal-template.pdf" },
+      { "label": "Logistics note (PDF)", "file": "./assets/logistics-note.pdf" },
+      { "label": "Sponsorship deck (PDF)", "file": "./assets/sponsorship-deck.pdf" }
+    ]
   }
-});
-
-window.addEventListener("load", hidePreloaderSoon);
+}
