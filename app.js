@@ -9,6 +9,7 @@
       - objectives slider
       - HOW AFSNET WORKS as 3 branded cards
       - config-driven background images
+   ✅ Matchmaking button wired from config.json
 ================================= */
 
 let CONFIG = null;
@@ -228,6 +229,30 @@ function wireApply(cfg, lang) {
   btn.setAttribute("href", url);
   btn.setAttribute("target", "_blank");
   btn.setAttribute("rel", "noopener");
+}
+
+/* ================================
+   MATCHMAKING BUTTON
+================================= */
+function wireMatchmaking(cfg, lang) {
+  const btn = document.getElementById("openMatchmakingForm");
+  if (!btn) return;
+
+  const bundle =
+    cfg?.content?.[lang]?.matchmaking ||
+    cfg?.content?.en?.matchmaking;
+
+  if (!bundle) return;
+
+  if (bundle.buttonText) {
+    btn.textContent = bundle.buttonText;
+  }
+
+  if (bundle.externalFormUrl) {
+    btn.setAttribute("href", bundle.externalFormUrl);
+    btn.setAttribute("target", "_blank");
+    btn.setAttribute("rel", "noopener");
+  }
 }
 
 /* ================================
@@ -733,6 +758,7 @@ function injectLanguageSwitcher(cfg) {
     fillRootConfig(cfg);
     applyConfigContent(cfg, lang);
     wireApply(cfg, lang);
+    wireMatchmaking(cfg, lang);
     renderDownloads(cfg);
 
     initHomeTicker(cfg, lang);
@@ -793,6 +819,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     applyConfigContent(cfg, savedLang);
     renderDownloads(cfg);
     wireApply(cfg, savedLang);
+    wireMatchmaking(cfg, savedLang);
 
     initHomeTicker(cfg, savedLang);
     renderAboutPage(cfg, savedLang);
