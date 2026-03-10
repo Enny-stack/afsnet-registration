@@ -16,22 +16,28 @@ async function login() {
   }
 
   const redirectTo = "https://enny-stack.github.io/afsnet-registration/portal/dashboard.html";
-  console.log("Redirect URL:", redirectTo);
 
-  const { error } = await sb.auth.signInWithOtp({
-    email,
-    options: {
-      emailRedirectTo: redirectTo
+  try {
+    const { data, error } = await sb.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo: redirectTo
+      }
+    });
+
+    console.log("OTP response:", data);
+
+    if (error) {
+      console.error("Login error:", error);
+      alert(error.message);
+      return;
     }
-  });
 
-  if (error) {
-    console.error("Login error:", error);
-    alert(error.message);
-    return;
+    alert("Check your email for your login link.");
+  } catch (err) {
+    console.error("Unexpected login error:", err);
+    alert(`Unexpected error: ${err.message}`);
   }
-
-  alert("Check your email for your login link.");
 }
 
 async function logoutUser() {
