@@ -295,7 +295,7 @@ function getThemeText(lang) {
 function getLabelText(lang) {
   return (lang === "fr") ? "MISE À JOUR"
     : (lang === "ar") ? "تحديث"
-    : "SUMMIT UPDATE";
+    : "CONFERENCES UPDATE";
 }
 
 function getStartsInText(lang) {
