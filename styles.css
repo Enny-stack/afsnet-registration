@@ -352,8 +352,8 @@ html[dir="rtl"] .dropdown{
 .hero h2{font-size:34px;line-height:1.15;margin:10px 0}
 .hero p{margin:0 0 14px;font-size:15px}
 
-/* About page paragraph alignment */
-.hero p{
+/* About page paragraphs only */
+.bg-about-hero p{
   text-align: justify;
   text-justify: inter-word;
 }
@@ -968,36 +968,6 @@ html[dir="rtl"] .summit-middle{ text-align:right; }
   cursor: pointer;
 }
 .snap-dot.active{background: var(--gold);border-color: rgba(201,162,39,.95);}
-
-/* ================================
-   About: How AfSNET works
-================================ */
-.flow-grid{
-  display: grid;
-  grid-template-columns: 1fr 1.4fr 1fr;
-  gap: 14px;
-  margin-top: 14px;
-}
-@media (max-width: 920px){ .flow-grid{ grid-template-columns: 1fr; } }
-.flow-col{
-  border: 1px solid rgba(201,162,39,.18);
-  border-radius: 16px;
-  overflow: hidden;
-  background: rgba(255,255,255,.88);
-  box-shadow: 0 12px 26px rgba(11,31,58,.08);
-}
-.flow-head{
-  padding: 12px 14px;
-  font-weight: 950;
-  color: var(--navy);
-  background: rgba(11,93,59,.06);
-  border-bottom: 1px solid rgba(11,31,58,.10);
-}
-.flow-row{
-  padding: 12px 14px;
-  border-bottom: 1px solid rgba(11,31,58,.10);
-}
-.flow-row:last-child{ border-bottom: none; }
 
 .flash-highlight{animation: flashGlow 1.4s ease-out 1;}
 @keyframes flashGlow{
@@ -1689,4 +1659,124 @@ html[dir="rtl"] .summit-middle{ text-align:right; }
 .track-card::before,
 .track-card::after{
   pointer-events: none;
+}
+/* ================================
+   CONFIG-DRIVEN BACKGROUND IMAGE CARDS
+   Used by app.js via --bg-image
+================================= */
+.bg-card{
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.bg-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-2;
+  background-image: var(--bg-image);   /* <-- app.js controls this */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform: scale(1.03);
+}
+
+.bg-card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  background:
+    linear-gradient(135deg,
+      rgba(255,255,255,.92),
+      rgba(247,248,250,.86),
+      rgba(11,93,59,.12)
+    );
+}
+
+/* About hero image card */
+.bg-about-hero{
+  min-height: 520px;
+}
+
+.bg-about-hero h2,
+.bg-about-hero h3,
+.bg-about-hero p,
+.bg-about-hero li,
+.bg-about-hero span{
+  position: relative;
+  z-index: 1;
+}
+
+/* Right panel on About page */
+.about-side-panel{
+  display:flex;
+  flex-direction:column;
+}
+.about-side-panel .actions{
+  margin-top:auto;
+}
+
+/* ================================
+   ABOUT: How AfSNET works (NEW visual cards)
+================================= */
+.three-work-cards{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:16px;
+  margin-top:14px;
+}
+
+@media (max-width: 920px){
+  .three-work-cards{
+    grid-template-columns:1fr;
+  }
+}
+
+.work-card{
+  min-height:320px;
+  border-radius:18px;
+  border:1px solid rgba(201,162,39,.18);
+  box-shadow:0 12px 28px rgba(11,31,58,.08);
+}
+
+.work-overlay{
+  position:relative;
+  z-index:1;
+  padding:22px;
+  height:100%;
+  background:
+    linear-gradient(180deg,
+      rgba(255,255,255,.84),
+      rgba(255,255,255,.76)
+    );
+}
+
+.work-overlay h4{
+  margin:0 0 14px;
+  font-size:18px;
+  color:var(--navy);
+}
+
+.work-overlay .list{
+  margin:0;
+  padding-left:20px;
+}
+
+.work-overlay .list li{
+  margin-bottom:12px;
+  color:var(--ink);
+}
+
+/* Richer branded tint for the work cards */
+.bg-work-stage::after,
+.bg-work-process::after,
+.bg-work-output::after{
+  background:
+    linear-gradient(135deg,
+      rgba(11,31,58,.52),
+      rgba(11,93,59,.22),
+      rgba(255,255,255,.86)
+    );
 }
