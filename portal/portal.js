@@ -21,10 +21,13 @@ async function login() {
 
   const { error } = await sb.auth.signInWithOtp({
     email,
-    options: { emailRedirectTo: redirectTo }
+    options: {
+      emailRedirectTo: redirectTo
+    }
   });
 
   if (error) {
+    console.error("Login error:", error);
     alert(error.message);
     return;
   }
