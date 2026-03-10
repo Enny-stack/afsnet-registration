@@ -8,6 +8,7 @@
       - editions list
       - objectives slider
       - HOW AFSNET WORKS as 3 branded cards
+      - config-driven background images
 ================================= */
 
 let CONFIG = null;
@@ -49,7 +50,7 @@ function setActiveNav() {
   const file = location.pathname.split("/").pop() || "index.html";
   document.querySelectorAll(".nav a").forEach(a => {
     const href = (a.getAttribute("href") || "").replace("./", "");
-    if (href === file) a.classList.add("active");
+    a.classList.toggle("active", href === file);
   });
 }
 
@@ -404,6 +405,37 @@ function initHomeTicker(cfg, lang) {
 }
 
 /* ================================
+   ABOUT PAGE HELPERS
+================================= */
+
+function applyAboutImages(cfg, lang) {
+  const bundle = cfg?.content?.[lang]?.about || cfg?.content?.en?.about;
+
+  const heroImage = bundle?.heroImage;
+  const howWorksImages = bundle?.howWorksImages || {};
+
+  const heroEl = document.querySelector(".bg-about-hero");
+  if (heroEl && heroImage) {
+    heroEl.style.setProperty("--bg-image", `url("${heroImage}")`);
+  }
+
+  const stageEl = document.querySelector(".bg-work-stage");
+  if (stageEl && howWorksImages.stage) {
+    stageEl.style.setProperty("--bg-image", `url("${howWorksImages.stage}")`);
+  }
+
+  const processEl = document.querySelector(".bg-work-process");
+  if (processEl && howWorksImages.process) {
+    processEl.style.setProperty("--bg-image", `url("${howWorksImages.process}")`);
+  }
+
+  const outputEl = document.querySelector(".bg-work-output");
+  if (outputEl && howWorksImages.output) {
+    outputEl.style.setProperty("--bg-image", `url("${howWorksImages.output}")`);
+  }
+}
+
+/* ================================
    ABOUT PAGE (CONFIG-DRIVEN)
 ================================= */
 function renderAboutIntro(cfg, lang) {
@@ -472,7 +504,6 @@ function renderAboutObjectives(cfg, lang) {
   `).join("");
 }
 
-/* ===== UPDATED: renderHowWorks as 3 premium cards ===== */
 function renderHowWorks(cfg, lang) {
   const grid = document.getElementById("howWorksGrid");
   if (!grid) return;
@@ -520,6 +551,8 @@ function renderHowWorks(cfg, lang) {
       </div>
     </div>
   `;
+
+  applyAboutImages(cfg, lang);
 }
 
 function renderAboutPage(cfg, lang) {
@@ -528,6 +561,7 @@ function renderAboutPage(cfg, lang) {
   renderAboutCtas(cfg, lang);
   renderAboutObjectives(cfg, lang);
   renderHowWorks(cfg, lang);
+  applyAboutImages(cfg, lang);
 
   initSnapSlider("objectivesSlider");
 }
