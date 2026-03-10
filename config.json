@@ -95,10 +95,17 @@
         ]
       },
 
+      "matchmaking": {
+        "title": "Matchmaking Meetings",
+        "intro": "AfSNET supports curated meeting requests among registered participants across B2B, B2G, and G2G categories. All requests are reviewed and coordinated by the organising team.",
+        "buttonText": "Request a Meeting",
+        "externalFormUrl": "https://tally.so/r/eqAYLQ"
+      },
+
       "about": {
         "pill": "About AfSNET",
         "headline": "AfSNET – Empowering Sub-Sovereign Governments in African Trade",
-        "heroImage": "/assets/images/about/about-hero-bg.jpg",
+        "heroImage": "./assets/images/about/about-hero-bg.jpg",
         "introParagraphs": [
           "In 2021, African Export-Import Bank (“Afreximbank” or “the Bank”) established the African Sub-Sovereign Governments Network (“AfSNET” or “the Network”) as a vehicle for promoting intra-African trade, investment and industrialisation at the Sub-Sovereign level.",
           "The Bank defines an African Sub-Sovereign Government as a division of a sovereign State designated as a region, state, province, or local authority, with delineated governance and powers within which they operate. Typically, a sub-sovereign government will have its own legislature and mandate, which includes the collection of revenue, expenditure, socio-economic development, and promotion of trade and investment in the area under its jurisdiction.",
@@ -332,6 +339,13 @@
           "Gouvernement / agences",
           "Partenaires / écosystème / médias"
         ]
+      },
+
+      "matchmaking": {
+        "title": "Réunions de mise en relation",
+        "intro": "AfSNET facilite des demandes de réunions organisées entre participants inscrits dans les catégories B2B, B2G et G2G. Toutes les demandes sont examinées et coordonnées par l’équipe organisatrice.",
+        "buttonText": "Demander une réunion",
+        "externalFormUrl": "https://tally.so/r/eqAYLQ"
       },
 
       "about": {
@@ -571,6 +585,13 @@
           "الحكومة / الجهات",
           "الشركاء / المنظومة / الإعلام"
         ]
+      },
+
+      "matchmaking": {
+        "title": "اجتماعات المواءمة",
+        "intro": "يدعم AfSNET طلبات الاجتماعات المنسقة بين المشاركين المسجلين ضمن فئات B2B وB2G وG2G. تتم مراجعة جميع الطلبات وتنسيقها من قبل الفريق المنظم.",
+        "buttonText": "طلب اجتماع",
+        "externalFormUrl": "https://tally.so/r/eqAYLQ"
       },
 
       "about": {
