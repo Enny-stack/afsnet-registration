@@ -98,7 +98,7 @@
       "about": {
         "pill": "About AfSNET",
         "headline": "AfSNET – Empowering Sub-Sovereign Governments in African Trade",
-        "heroImage": "./assets/images/about/about-hero-bg.jpg",
+        "heroImage": "/assets/images/about/about-hero-bg.jpg",
         "introParagraphs": [
           "In 2021, African Export-Import Bank (“Afreximbank” or “the Bank”) established the African Sub-Sovereign Governments Network (“AfSNET” or “the Network”) as a vehicle for promoting intra-African trade, investment and industrialisation at the Sub-Sovereign level.",
           "The Bank defines an African Sub-Sovereign Government as a division of a sovereign State designated as a region, state, province, or local authority, with delineated governance and powers within which they operate. Typically, a sub-sovereign government will have its own legislature and mandate, which includes the collection of revenue, expenditure, socio-economic development, and promotion of trade and investment in the area under its jurisdiction.",
