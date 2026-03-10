@@ -16,7 +16,8 @@ async function login() {
     return;
   }
 
-  const redirectTo = `${window.location.origin}${window.location.pathname.replace("login.html", "dashboard.html")}`;
+  const redirectTo = "https://enny-stack.github.io/afsnet-registration/portal/dashboard.html";
+  console.log("Redirect URL:", redirectTo);
 
   const { error } = await sb.auth.signInWithOtp({
     email,
