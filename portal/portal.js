@@ -17,14 +17,9 @@ async function login() {
     return;
   }
 
-  const redirectTo = "https://enny-stack.github.io/afsnet-registration/portal/dashboard.html";
-
   try {
     const { data, error } = await sb.auth.signInWithOtp({
-      email,
-      options: {
-        emailRedirectTo: redirectTo
-      }
+      email
     });
 
     console.log("OTP response:", data);
