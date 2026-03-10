@@ -1,1 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AfSNET Portal | Participant Directory</title>
+  <style>
+    :root{
+      --navy:#0B1F3A;
+      --green:#0B5D3B;
+      --gold:#C9A227;
+      --bg:#F7F8FA;
+      --card:#FFFFFF;
+      --line:rgba(11,31,58,.12);
+      --muted:#5E6A7A;
+      --shadow:0 12px 28px rgba(11,31,58,.10);
+      --radius:18px;
+    }
 
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--navy);
+    }
+
+    .wrap{
+      max-width:1200px;
+      margin:0 auto;
+      padding:24px;
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-bottom:22px;
+      flex-wrap:wrap;
+    }
+
+    .topbar h1{
+      margin:0;
+      font-size:30px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:#fff;
+      color:var(--navy);
+      text-decoration:none;
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    .btn.primary{
+      background:linear-gradient(135deg,var(--green),var(--navy));
+      color:#fff;
+      border:none;
+    }
+
+    .toolbar{
+      display:grid;
+      grid-template-columns:2fr 1fr 1fr auto;
+      gap:12px;
+      margin-bottom:20px;
+    }
+
+    .toolbar input,
+    .toolbar select{
+      width:100%;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:#fff;
+      font:inherit;
+    }
+
+    @media (max-width: 860px){
+      .toolbar{
+        grid-template-columns:1fr;
+      }
+    }
+
+    .status{
+      margin:0 0 16px;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:16px;
+    }
+
+    @media (max-width: 980px){
+      .grid{grid-template-columns:repeat(2, 1fr);}
+    }
+
+    @media (max-width: 640px){
+      .grid{grid-template-columns:1fr;}
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:18px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .name{
+      font-size:20px;
+      font-weight:900;
+      color:var(--navy);
+      line-height:1.15;
+    }
+
+    .org{
+      font-weight:700;
+      color:var(--green);
+    }
+
+    .meta{
+      color:var(--muted);
+      font-size:14px;
+      display:grid;
+      gap:6px;
+    }
+
+    .pill-row{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:4px;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(201,162,39,.35);
+      background:rgba(201,162,39,.12);
+      font-size:12px;
+      font-weight:800;
+    }
+
+    .bio{
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.55;
+      min-height:48px;
+    }
+
+    .actions{
+      margin-top:auto;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .empty{
+      padding:22px;
+      border:1px dashed var(--line);
+      border-radius:18px;
+      background:#fff;
+      color:var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div>
+        <h1>Participant Directory</h1>
+        <p class="status" id="userStatus">Loading session...</p>
+      </div>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <a class="btn" href="./dashboard.html">Dashboard</a>
+        <button class="btn" id="logoutBtn" type="button">Logout</button>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <input type="text" id="searchInput" placeholder="Search by name, organisation, country..." />
+      <select id="typeFilter">
+        <option value="">All participant types</option>
+        <option value="government">Government</option>
+        <option value="investor">Investor</option>
+        <option value="private_sector">Private Sector</option>
+        <option value="dfi">DFI</option>
+        <option value="project_sponsor">Project Sponsor</option>
+        <option value="ipa">IPA</option>
+        <option value="media">Media</option>
+        <option value="other">Other</option>
+      </select>
+
+      <select id="interestFilter">
+        <option value="">All meeting interests</option>
+        <option value="B2B">B2B</option>
+        <option value="B2G">B2G</option>
+        <option value="G2G">G2G</option>
+        <option value="multiple">Multiple</option>
+      </select>
+
+      <button class="btn primary" id="refreshBtn" type="button">Refresh</button>
+    </div>
+
+    <div id="resultsInfo" class="status">Loading participants...</div>
+    <div id="directoryGrid" class="grid"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./portal.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      await ensureSignedIn();
+      await loadDirectory();
+
+      document.getElementById("refreshBtn").addEventListener("click", loadDirectory);
+      document.getElementById("searchInput").addEventListener("input", renderDirectory);
+      document.getElementById("typeFilter").addEventListener("change", renderDirectory);
+      document.getElementById("interestFilter").addEventListener("change", renderDirectory);
+      document.getElementById("logoutBtn").addEventListener("click", logoutUser);
+    });
+  </script>
+</body>
+</html>
