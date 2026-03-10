@@ -1,6 +1,7 @@
 const SUPABASE_URL = "https://wzxszvuokbbmbqxwmfhd.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_a0ylYVK54mUYAv--nAzIxg_TXwJ8DJB";
-
+console.log("Supabase URL:", SUPABASE_URL);
+console.log("Origin:", window.location.origin);
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let DIRECTORY_CACHE = [];
