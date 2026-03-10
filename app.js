@@ -1,10 +1,13 @@
 /* ================================ 
-   AfSNET Portal - app.js (FIXED)
-   ✅ Fixes site stuck on loading (fatal JS error from duplicate let)
-   ✅ Removes duplicate hero timers / duplicate hero slideshow block
-   ✅ Ensures preloader always hides (even if config fails)
-   ✅ Keeps ticker non-blinking (no DOM rebuild)
-   ✅ Keeps theme line under announcement (localized)
+   AfSNET Portal - app.js (UPDATED)
+   ✅ Fixes site stuck on loading
+   ✅ Keeps preloader safe
+   ✅ Keeps language switcher working
+   ✅ About page supports:
+      - intro paragraphs
+      - editions list
+      - objectives slider
+      - HOW AFSNET WORKS as 3 branded cards
 ================================= */
 
 let CONFIG = null;
@@ -20,7 +23,6 @@ async function loadConfig() {
   } catch (err) {
     console.error("❌ Failed to load config.json:", err);
 
-    // Show a safe fallback instead of freezing behind preloader
     const body = document.querySelector("body");
     if (body) {
       body.innerHTML = `
@@ -32,7 +34,6 @@ async function loadConfig() {
       `;
     }
 
-    // Ensure preloader is not blocking the page
     hidePreloaderSoon();
     throw err;
   }
@@ -99,7 +100,7 @@ function injectHeader(cfg) {
     </header>
   `;
 
-  injectLanguageSwitcher(cfg); // dropdown + handler only
+  injectLanguageSwitcher(cfg);
   setActiveNav();
 }
 
@@ -229,8 +230,7 @@ function wireApply(cfg, lang) {
 }
 
 /* ================================
-   SUMMIT / TICKER (ROTATING)
-   - NO DOM rebuild = no blinking
+   SUMMIT / TICKER
 ================================= */
 let __tickerTimer = null;
 let __tickerIdx = 0;
@@ -351,7 +351,6 @@ function initHomeTicker(cfg, lang) {
           </div>
 
           <div class="summit-actions">
-            <!-- ✅ removed Details button by request -->
             <a class="btn primary" href="./apply.html" data-ticker-register>Register</a>
           </div>
         </div>
@@ -473,6 +472,7 @@ function renderAboutObjectives(cfg, lang) {
   `).join("");
 }
 
+/* ===== UPDATED: renderHowWorks as 3 premium cards ===== */
 function renderHowWorks(cfg, lang) {
   const grid = document.getElementById("howWorksGrid");
   if (!grid) return;
@@ -483,27 +483,41 @@ function renderHowWorks(cfg, lang) {
   const headers = table?.headers || [];
   const rows = table?.rows || [];
 
-  if (!Array.isArray(headers) || headers.length !== 3 || !Array.isArray(rows)) {
+  if (!Array.isArray(headers) || headers.length !== 3 || !Array.isArray(rows) || !rows.length) {
     grid.innerHTML = "";
     return;
   }
 
-  const col0 = rows.map(r => r?.[0] ?? "");
-  const col1 = rows.map(r => r?.[1] ?? "");
-  const col2 = rows.map(r => r?.[2] ?? "");
+  const col0 = rows.map(r => r?.[0] ?? "").filter(Boolean);
+  const col1 = rows.map(r => r?.[1] ?? "").filter(Boolean);
+  const col2 = rows.map(r => r?.[2] ?? "").filter(Boolean);
 
   grid.innerHTML = `
-    <div class="flow-col">
-      <div class="flow-head">${headers[0]}</div>
-      ${col0.map(x => `<div class="flow-row">${x}</div>`).join("")}
+    <div class="work-card bg-card bg-work-stage">
+      <div class="work-overlay">
+        <h4>${headers[0]}</h4>
+        <ul class="list">
+          ${col0.map(item => `<li>${item}</li>`).join("")}
+        </ul>
+      </div>
     </div>
-    <div class="flow-col">
-      <div class="flow-head">${headers[1]}</div>
-      ${col1.map(x => `<div class="flow-row">${x}</div>`).join("")}
+
+    <div class="work-card bg-card bg-work-process">
+      <div class="work-overlay">
+        <h4>${headers[1]}</h4>
+        <ul class="list">
+          ${col1.map(item => `<li>${item}</li>`).join("")}
+        </ul>
+      </div>
     </div>
-    <div class="flow-col">
-      <div class="flow-head">${headers[2]}</div>
-      ${col2.map(x => `<div class="flow-row">${x}</div>`).join("")}
+
+    <div class="work-card bg-card bg-work-output">
+      <div class="work-overlay">
+        <h4>${headers[2]}</h4>
+        <ul class="list">
+          ${col2.map(item => `<li>${item}</li>`).join("")}
+        </ul>
+      </div>
     </div>
   `;
 }
@@ -660,7 +674,6 @@ function applyConfigContent(cfg, lang) {
   });
 }
 
-/* Dropdown only + handler (NO double init) */
 function injectLanguageSwitcher(cfg) {
   const slot = document.getElementById("lang-slot");
   if (!slot) return;
@@ -694,8 +707,7 @@ function injectLanguageSwitcher(cfg) {
 }
 
 /* ================================
-   HOME HERO SLIDER (FIXED)
-   ✅ single timer variable (no duplicate let)
+   HOME HERO SLIDER
 ================================= */
 let heroTimer = null;
 
@@ -722,7 +734,6 @@ function initHeroSlider(){
 
 /* ================================
    PRELOADER
-   ✅ always hide, never block site
 ================================= */
 function hidePreloaderSoon() {
   const preloader = document.getElementById("preloader");
@@ -732,7 +743,7 @@ function hidePreloaderSoon() {
 }
 
 /* ================================
-   INIT (single source of truth)
+   INIT
 ================================= */
 document.addEventListener("DOMContentLoaded", async () => {
   try {
@@ -754,10 +765,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     initHeroSlider();
   } finally {
-    // ✅ even if something throws, don't keep the user stuck
     hidePreloaderSoon();
   }
 });
 
-// Safety net
 window.addEventListener("load", hidePreloaderSoon);
