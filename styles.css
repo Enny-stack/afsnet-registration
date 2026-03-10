@@ -1814,3 +1814,50 @@ html[dir="rtl"] .summit-middle{ text-align:right; }
 .bg-about-hero{
   min-height: 520px;
 }
+/* =========================================
+   ABOUT HERO IMAGE FIX
+   Put at VERY END of styles.css
+========================================= */
+.bg-card{
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.bg-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-2;
+  background-image: var(--bg-image);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform: scale(1.03);
+}
+
+.bg-card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  background:
+    linear-gradient(135deg,
+      rgba(255,255,255,.92),
+      rgba(247,248,250,.86),
+      rgba(11,93,59,.12)
+    );
+}
+
+.bg-about-hero{
+  min-height: 520px;
+}
+
+.bg-about-hero h2,
+.bg-about-hero p,
+.bg-about-hero li,
+.bg-about-hero span,
+.bg-about-hero #aboutIntro{
+  position: relative;
+  z-index: 1;
+}
