@@ -3,11 +3,219 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Request Meeting</title>
+  <title>AfSNET Meetings Portal | Request Meeting</title>
+  <style>
+    :root{
+      --navy:#0B1F3A;
+      --green:#0B5D3B;
+      --gold:#C9A227;
+      --bg:#F7F8FA;
+      --card:#FFFFFF;
+      --line:rgba(11,31,58,.12);
+      --muted:#5E6A7A;
+      --shadow:0 12px 28px rgba(11,31,58,.10);
+      --radius:18px;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--navy);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    }
+
+    .wrap{
+      max-width:920px;
+      margin:0 auto;
+      padding:24px;
+    }
+
+    .card{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:22px;
+      box-shadow:var(--shadow);
+      padding:22px;
+      margin-bottom:18px;
+    }
+
+    h1,h2,h3{
+      margin-top:0;
+    }
+
+    .muted{
+      color:var(--muted);
+    }
+
+    .target-box{
+      display:grid;
+      gap:8px;
+      border:1px solid rgba(201,162,39,.22);
+      background:rgba(201,162,39,.08);
+      border-radius:18px;
+      padding:16px;
+      margin-top:12px;
+    }
+
+    .target-name{
+      font-size:22px;
+      font-weight:900;
+      color:var(--navy);
+    }
+
+    .target-org{
+      font-weight:800;
+      color:var(--green);
+    }
+
+    .form-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+
+    @media (max-width: 760px){
+      .form-grid{grid-template-columns:1fr;}
+    }
+
+    label{
+      display:block;
+      font-weight:800;
+      margin-bottom:7px;
+    }
+
+    input, select, textarea{
+      width:100%;
+      padding:13px 14px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      font:inherit;
+      background:#fff;
+      outline:none;
+    }
+
+    textarea{
+      min-height:140px;
+      resize:vertical;
+    }
+
+    input:focus, select:focus, textarea:focus{
+      border-color:rgba(11,93,59,.55);
+      box-shadow:0 0 0 4px rgba(11,93,59,.14);
+    }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:16px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:12px 15px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:#fff;
+      color:var(--navy);
+      text-decoration:none;
+      font-weight:850;
+      cursor:pointer;
+    }
+
+    .btn.primary{
+      background:linear-gradient(135deg,var(--green),var(--navy));
+      color:#fff;
+      border:none;
+    }
+
+    .status{
+      margin-top:12px;
+      font-size:14px;
+      color:var(--muted);
+    }
+
+    .status.success{
+      color:var(--green);
+      font-weight:800;
+    }
+
+    .status.error{
+      color:#B42318;
+      font-weight:800;
+    }
+  </style>
 </head>
 <body>
-  <h2>Request Meeting</h2>
-  <p>This page is coming next.</p>
-  <a href="./dashboard.html">Back to Dashboard</a>
+  <div class="wrap">
+    <div class="card">
+      <h1>Request a Meeting</h1>
+      <p class="muted">
+        Submit a curated meeting request with an approved participant. Requests are reviewed and coordinated by the organising team.
+      </p>
+
+      <div id="targetBox" class="target-box">
+        <div class="muted">Loading target participant...</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Meeting Request Details</h2>
+
+      <div class="form-grid">
+        <div>
+          <label for="meetingType">Meeting Type</label>
+          <select id="meetingType">
+            <option value="">Select meeting type</option>
+            <option value="B2B">B2B</option>
+            <option value="B2G">B2G</option>
+            <option value="G2G">G2G</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="preferredDay">Preferred Day</label>
+          <input type="text" id="preferredDay" placeholder="e.g. 12 November 2026" />
+        </div>
+
+        <div>
+          <label for="preferredTime">Preferred Time</label>
+          <input type="text" id="preferredTime" placeholder="e.g. 2:00 PM – 2:30 PM" />
+        </div>
+
+        <div>
+          <label for="alternativeTime">Alternative Time</label>
+          <input type="text" id="alternativeTime" placeholder="e.g. 4:00 PM – 4:30 PM" />
+        </div>
+      </div>
+
+      <div style="margin-top:14px;">
+        <label for="reason">Reason for Meeting</label>
+        <textarea id="reason" placeholder="Describe the purpose of the meeting — investment discussion, partnership, project presentation, government engagement, follow-up, etc."></textarea>
+      </div>
+
+      <div class="actions">
+        <button class="btn primary" id="submitMeetingBtn" type="button">Submit Request</button>
+        <a class="btn" href="./directory.html">Back to Directory</a>
+        <a class="btn" href="./dashboard.html">Dashboard</a>
+      </div>
+
+      <div id="formStatus" class="status"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./portal.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      await ensureSignedIn();
+      await loadMeetingTarget();
+      document.getElementById("submitMeetingBtn").addEventListener("click", submitMeetingRequest);
+    });
+  </script>
 </body>
 </html>
