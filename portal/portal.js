@@ -382,3 +382,197 @@ async function submitMeetingRequest() {
   document.getElementById("alternativeTime").value = "";
   document.getElementById("reason").value = "";
 }
+async function loadMyMeetings() {
+  if (!CURRENT_PARTICIPANT) return;
+
+  await Promise.all([
+    loadSentRequests(),
+    loadReceivedRequests(),
+    loadConfirmedMeetings()
+  ]);
+}
+
+async function loadSentRequests() {
+  const mount = document.getElementById("sentRequestsList");
+  if (!mount) return;
+
+  mount.innerHTML = `<div class="empty">Loading sent requests...</div>`;
+
+  const { data, error } = await sb
+    .from("meeting_requests")
+    .select(`
+      id,
+      meeting_type,
+      reason,
+      preferred_day,
+      preferred_time,
+      alternative_time,
+      status,
+      created_at,
+      target:target_participant_id (
+        full_name,
+        organisation,
+        country
+      )
+    `)
+    .eq("requester_participant_id", CURRENT_PARTICIPANT.id)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Sent requests error:", error);
+    mount.innerHTML = `<div class="empty">Could not load sent requests.</div>`;
+    return;
+  }
+
+  if (!data || !data.length) {
+    mount.innerHTML = `<div class="empty">You have not submitted any meeting requests yet.</div>`;
+    return;
+  }
+
+  mount.innerHTML = data.map(item => {
+    const target = Array.isArray(item.target) ? item.target[0] : item.target;
+    return `
+      <div class="item">
+        <div class="status-pill status-${escapeHtml(item.status || "pending_review")}">${formatStatus(item.status)}</div>
+        <div class="row-title">${escapeHtml(item.meeting_type || "")} request to ${escapeHtml(target?.full_name || "Participant")}</div>
+        <div class="meta">
+          <div><strong>Organisation:</strong> ${escapeHtml(target?.organisation || "Not specified")}</div>
+          <div><strong>Country:</strong> ${escapeHtml(target?.country || "Not specified")}</div>
+          <div><strong>Reason:</strong> ${escapeHtml(item.reason || "")}</div>
+          <div><strong>Preferred Day:</strong> ${escapeHtml(item.preferred_day || "Not specified")}</div>
+          <div><strong>Preferred Time:</strong> ${escapeHtml(item.preferred_time || "Not specified")}</div>
+          <div><strong>Alternative Time:</strong> ${escapeHtml(item.alternative_time || "Not specified")}</div>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+async function loadReceivedRequests() {
+  const mount = document.getElementById("receivedRequestsList");
+  if (!mount) return;
+
+  mount.innerHTML = `<div class="empty">Loading received requests...</div>`;
+
+  const { data, error } = await sb
+    .from("meeting_requests")
+    .select(`
+      id,
+      meeting_type,
+      reason,
+      preferred_day,
+      preferred_time,
+      alternative_time,
+      status,
+      created_at,
+      requester:requester_participant_id (
+        full_name,
+        organisation,
+        country
+      )
+    `)
+    .eq("target_participant_id", CURRENT_PARTICIPANT.id)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Received requests error:", error);
+    mount.innerHTML = `<div class="empty">Could not load received requests.</div>`;
+    return;
+  }
+
+  if (!data || !data.length) {
+    mount.innerHTML = `<div class="empty">No meeting requests have been sent to you yet.</div>`;
+    return;
+  }
+
+  mount.innerHTML = data.map(item => {
+    const requester = Array.isArray(item.requester) ? item.requester[0] : item.requester;
+    return `
+      <div class="item">
+        <div class="status-pill status-${escapeHtml(item.status || "pending_review")}">${formatStatus(item.status)}</div>
+        <div class="row-title">${escapeHtml(item.meeting_type || "")} request from ${escapeHtml(requester?.full_name || "Participant")}</div>
+        <div class="meta">
+          <div><strong>Organisation:</strong> ${escapeHtml(requester?.organisation || "Not specified")}</div>
+          <div><strong>Country:</strong> ${escapeHtml(requester?.country || "Not specified")}</div>
+          <div><strong>Reason:</strong> ${escapeHtml(item.reason || "")}</div>
+          <div><strong>Preferred Day:</strong> ${escapeHtml(item.preferred_day || "Not specified")}</div>
+          <div><strong>Preferred Time:</strong> ${escapeHtml(item.preferred_time || "Not specified")}</div>
+          <div><strong>Alternative Time:</strong> ${escapeHtml(item.alternative_time || "Not specified")}</div>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+async function loadConfirmedMeetings() {
+  const mount = document.getElementById("confirmedMeetingsList");
+  if (!mount) return;
+
+  mount.innerHTML = `<div class="empty">Loading confirmed meetings...</div>`;
+
+  const { data, error } = await sb
+    .from("confirmed_meetings")
+    .select(`
+      id,
+      meeting_type,
+      confirmed_date,
+      confirmed_time,
+      venue,
+      table_name,
+      reason,
+      status,
+      participant_a:participant_a_id (
+        full_name,
+        organisation
+      ),
+      participant_b:participant_b_id (
+        full_name,
+        organisation
+      )
+    `)
+    .or(`participant_a_id.eq.${CURRENT_PARTICIPANT.id},participant_b_id.eq.${CURRENT_PARTICIPANT.id}`)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Confirmed meetings error:", error);
+    mount.innerHTML = `<div class="empty">Could not load confirmed meetings.</div>`;
+    return;
+  }
+
+  if (!data || !data.length) {
+    mount.innerHTML = `<div class="empty">You do not have any confirmed meetings yet.</div>`;
+    return;
+  }
+
+  mount.innerHTML = data.map(item => {
+    const a = Array.isArray(item.participant_a) ? item.participant_a[0] : item.participant_a;
+    const b = Array.isArray(item.participant_b) ? item.participant_b[0] : item.participant_b;
+
+    return `
+      <div class="item">
+        <div class="status-pill status-${escapeHtml(item.status || "confirmed")}">${formatStatus(item.status)}</div>
+        <div class="row-title">${escapeHtml(item.meeting_type || "")} Meeting</div>
+        <div class="meta">
+          <div><strong>Participants:</strong> ${escapeHtml(a?.full_name || "Participant A")} (${escapeHtml(a?.organisation || "")}) and ${escapeHtml(b?.full_name || "Participant B")} (${escapeHtml(b?.organisation || "")})</div>
+          <div><strong>Date:</strong> ${escapeHtml(item.confirmed_date || "Not confirmed yet")}</div>
+          <div><strong>Time:</strong> ${escapeHtml(item.confirmed_time || "Not confirmed yet")}</div>
+          <div><strong>Venue:</strong> ${escapeHtml(item.venue || "TBC")}</div>
+          <div><strong>Table / Room:</strong> ${escapeHtml(item.table_name || "TBC")}</div>
+          <div><strong>Reason:</strong> ${escapeHtml(item.reason || "Not specified")}</div>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function formatStatus(status) {
+  const map = {
+    pending_review: "Pending Review",
+    awaiting_recipient: "Awaiting Recipient",
+    confirmed: "Confirmed",
+    declined: "Declined",
+    rescheduled: "Rescheduled",
+    completed: "Completed"
+  };
+  return map[status] || status || "Unknown";
+}
