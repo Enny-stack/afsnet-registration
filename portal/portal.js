@@ -237,3 +237,117 @@ function escapeHtml(str) {
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
 }
+let CURRENT_TARGET = null;
+
+async function loadMeetingTarget() {
+  const box = document.getElementById("targetBox");
+  if (!box) return;
+
+  const params = new URLSearchParams(window.location.search);
+  const targetId = params.get("target");
+
+  if (!targetId) {
+    box.innerHTML = `<div class="muted">No participant was selected.</div>`;
+    return;
+  }
+
+  const { data, error } = await sb
+    .from("participants")
+    .select("id, full_name, organisation, country, participant_type, meeting_interest, bio")
+    .eq("id", targetId)
+    .eq("is_approved", true)
+    .eq("is_visible_in_directory", true)
+    .maybeSingle();
+
+  if (error || !data) {
+    console.error("Error loading target participant:", error);
+    box.innerHTML = `<div class="muted">Unable to load the selected participant.</div>`;
+    return;
+  }
+
+  CURRENT_TARGET = data;
+
+  box.innerHTML = `
+    <div class="target-name">${escapeHtml(data.full_name || "")}</div>
+    <div class="target-org">${escapeHtml(data.organisation || "")}</div>
+    <div><strong>Country:</strong> ${escapeHtml(data.country || "Not specified")}</div>
+    <div><strong>Type:</strong> ${escapeHtml(formatParticipantType(data.participant_type || "other"))}</div>
+    <div><strong>Meeting Interest:</strong> ${escapeHtml(data.meeting_interest || "Not specified")}</div>
+    <div class="muted">${escapeHtml(data.bio || "No profile summary available.")}</div>
+  `;
+}
+
+async function submitMeetingRequest() {
+  const statusEl = document.getElementById("formStatus");
+  const meetingType = document.getElementById("meetingType")?.value || "";
+  const preferredDay = document.getElementById("preferredDay")?.value.trim() || "";
+  const preferredTime = document.getElementById("preferredTime")?.value.trim() || "";
+  const alternativeTime = document.getElementById("alternativeTime")?.value.trim() || "";
+  const reason = document.getElementById("reason")?.value.trim() || "";
+
+  if (!statusEl) return;
+
+  statusEl.className = "status";
+  statusEl.textContent = "";
+
+  if (!CURRENT_PARTICIPANT) {
+    statusEl.className = "status error";
+    statusEl.textContent = "You must be signed in as an approved participant.";
+    return;
+  }
+
+  if (!CURRENT_TARGET) {
+    statusEl.className = "status error";
+    statusEl.textContent = "No target participant was loaded.";
+    return;
+  }
+
+  if (CURRENT_PARTICIPANT.id === CURRENT_TARGET.id) {
+    statusEl.className = "status error";
+    statusEl.textContent = "You cannot request a meeting with yourself.";
+    return;
+  }
+
+  if (!meetingType) {
+    statusEl.className = "status error";
+    statusEl.textContent = "Please select a meeting type.";
+    return;
+  }
+
+  if (!reason) {
+    statusEl.className = "status error";
+    statusEl.textContent = "Please provide the reason for the meeting.";
+    return;
+  }
+
+  const payload = {
+    requester_participant_id: CURRENT_PARTICIPANT.id,
+    target_participant_id: CURRENT_TARGET.id,
+    meeting_type: meetingType,
+    reason,
+    preferred_day: preferredDay || null,
+    preferred_time: preferredTime || null,
+    alternative_time: alternativeTime || null,
+    status: "pending_review"
+  };
+
+  const { error } = await sb
+    .from("meeting_requests")
+    .insert(payload);
+
+  if (error) {
+    console.error("Meeting request insert error:", error);
+    statusEl.className = "status error";
+    statusEl.textContent = error.message || "Could not submit the meeting request.";
+    return;
+  }
+
+  statusEl.className = "status success";
+  statusEl.textContent = "Meeting request submitted successfully. The organising team will review and coordinate it.";
+
+  document.getElementById("meetingType").value = "";
+  document.getElementById("preferredDay").value = "";
+  document.getElementById("preferredTime").value = "";
+  document.getElementById("alternativeTime").value = "";
+  document.getElementById("reason").value = "";
+}
