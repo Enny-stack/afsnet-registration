@@ -3,64 +3,148 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>AfSNET Portal | Dashboard</title>
+  <title>AfSNET Meetings Portal | Dashboard</title>
   <style>
-    body{
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      margin:0;
-      background:#F7F8FA;
-      color:#0B1F3A;
+    :root{
+      --navy:#0B1F3A;
+      --green:#0B5D3B;
+      --gold:#C9A227;
+      --bg:#F7F8FA;
+      --card:#FFFFFF;
+      --line:rgba(11,31,58,.12);
+      --muted:#5E6A7A;
+      --shadow:0 12px 28px rgba(11,31,58,.10);
+      --radius:18px;
     }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--navy);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    }
+
     .wrap{
-      max-width:1000px;
+      max-width:1100px;
       margin:0 auto;
       padding:24px;
     }
+
+    .hero{
+      background:rgba(255,255,255,.94);
+      border:1px solid var(--line);
+      border-radius:22px;
+      box-shadow:var(--shadow);
+      padding:24px;
+      margin-bottom:18px;
+    }
+
+    h1{
+      margin:0 0 8px;
+      font-size:32px;
+    }
+
+    .muted{
+      color:var(--muted);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:16px;
+      margin-top:18px;
+    }
+
+    @media (max-width:900px){
+      .grid{grid-template-columns:1fr;}
+    }
+
     .card{
       background:#fff;
-      border:1px solid rgba(11,31,58,.12);
+      border:1px solid var(--line);
       border-radius:18px;
+      box-shadow:var(--shadow);
       padding:20px;
-      box-shadow:0 12px 28px rgba(11,31,58,.1);
     }
+
+    .card h3{
+      margin:0 0 8px;
+      font-size:20px;
+    }
+
     .actions{
       display:flex;
-      gap:12px;
+      gap:10px;
       flex-wrap:wrap;
-      margin-top:16px;
+      margin-top:14px;
     }
+
     .btn{
       display:inline-flex;
+      align-items:center;
+      justify-content:center;
       padding:12px 14px;
       border-radius:14px;
+      border:1px solid var(--line);
       text-decoration:none;
-      border:1px solid rgba(11,31,58,.12);
+      font-weight:850;
       background:#fff;
-      color:#0B1F3A;
-      font-weight:800;
+      color:var(--navy);
       cursor:pointer;
     }
+
     .btn.primary{
-      background:linear-gradient(135deg,#0B5D3B,#0B1F3A);
+      background:linear-gradient(135deg,var(--green),var(--navy));
       color:#fff;
       border:none;
     }
-    .muted{color:#5E6A7A}
+
+    .btn.gold{
+      background:linear-gradient(135deg,var(--green),var(--gold));
+      color:#fff;
+      border:none;
+    }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="card">
+    <section class="hero">
       <h1>AfSNET Portal Dashboard</h1>
       <p id="userStatus" class="muted">Checking session...</p>
 
       <div class="actions">
-        <a class="btn primary" href="./directory.html">Participant Directory</a>
-        <a class="btn" href="./my-meetings.html">My Meetings</a>
-        <a class="btn" href="./organiser.html">Organiser Panel</a>
-        <button class="btn" id="logoutBtn" type="button">Logout</button>
+        <a class="btn" href="../index.html">Public Website</a>
+        <button class="btn gold" id="logoutBtn" type="button">Logout</button>
       </div>
-    </div>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <h3>Participant Directory</h3>
+        <p class="muted">Browse approved participants and find relevant organisations for B2B, B2G, and G2G meetings.</p>
+        <div class="actions">
+          <a class="btn primary" href="./directory.html">Open Directory</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>My Meetings</h3>
+        <p class="muted">View your confirmed meetings, meeting requests, and meeting status updates.</p>
+        <div class="actions">
+          <a class="btn primary" href="./my-meetings.html">View Meetings</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Organiser Panel</h3>
+        <p class="muted">For event organisers only: review requests, confirm meetings, and manage schedules.</p>
+        <div class="actions">
+          <a class="btn primary" href="./organiser.html">Open Panel</a>
+        </div>
+      </div>
+    </section>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
