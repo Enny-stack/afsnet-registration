@@ -576,3 +576,262 @@ function formatStatus(status) {
   };
   return map[status] || status || "Unknown";
 }
+async function ensureOrganiserAccess() {
+  if (!CURRENT_PARTICIPANT) {
+    window.location.href = "./login.html";
+    return false;
+  }
+
+  if (!CURRENT_PARTICIPANT.is_organiser) {
+    alert("You do not have organiser access.");
+    window.location.href = "./dashboard.html";
+    return false;
+  }
+
+  return true;
+}
+
+async function loadOrganiserRequests() {
+  const mount = document.getElementById("organiserRequestsList");
+  if (!mount) return;
+
+  mount.innerHTML = `<div class="empty">Loading meeting requests...</div>`;
+
+  const { data, error } = await sb
+    .from("meeting_requests")
+    .select(`
+      id,
+      meeting_type,
+      reason,
+      preferred_day,
+      preferred_time,
+      alternative_time,
+      status,
+      organiser_notes,
+      created_at,
+      requester:requester_participant_id (
+        id,
+        full_name,
+        organisation,
+        country,
+        email
+      ),
+      target:target_participant_id (
+        id,
+        full_name,
+        organisation,
+        country,
+        email
+      )
+    `)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Organiser requests load error:", error);
+    mount.innerHTML = `<div class="empty">Could not load meeting requests.</div>`;
+    return;
+  }
+
+  if (!data || !data.length) {
+    mount.innerHTML = `<div class="empty">No meeting requests available yet.</div>`;
+    return;
+  }
+
+  mount.innerHTML = data.map(item => {
+    const requester = Array.isArray(item.requester) ? item.requester[0] : item.requester;
+    const target = Array.isArray(item.target) ? item.target[0] : item.target;
+
+    const safeId = escapeHtml(item.id);
+
+    return `
+      <div class="item">
+        <div class="item-head">
+          <div class="row-title">${escapeHtml(item.meeting_type || "")} request</div>
+          <div class="status-pill status-${escapeHtml(item.status || "pending_review")}">${formatStatus(item.status)}</div>
+        </div>
+
+        <div class="meta">
+          <div><strong>Requester:</strong> ${escapeHtml(requester?.full_name || "")} — ${escapeHtml(requester?.organisation || "")}</div>
+          <div><strong>Requester Country:</strong> ${escapeHtml(requester?.country || "Not specified")}</div>
+          <div><strong>Requester Email:</strong> ${escapeHtml(requester?.email || "Not specified")}</div>
+          <div><strong>Target:</strong> ${escapeHtml(target?.full_name || "")} — ${escapeHtml(target?.organisation || "")}</div>
+          <div><strong>Target Country:</strong> ${escapeHtml(target?.country || "Not specified")}</div>
+          <div><strong>Target Email:</strong> ${escapeHtml(target?.email || "Not specified")}</div>
+          <div><strong>Reason:</strong> ${escapeHtml(item.reason || "")}</div>
+          <div><strong>Preferred Day:</strong> ${escapeHtml(item.preferred_day || "Not specified")}</div>
+          <div><strong>Preferred Time:</strong> ${escapeHtml(item.preferred_time || "Not specified")}</div>
+          <div><strong>Alternative Time:</strong> ${escapeHtml(item.alternative_time || "Not specified")}</div>
+        </div>
+
+        <div class="editor-grid">
+          <div>
+            <label for="status-${safeId}">Update Status</label>
+            <select id="status-${safeId}">
+              <option value="pending_review" ${item.status === "pending_review" ? "selected" : ""}>Pending Review</option>
+              <option value="awaiting_recipient" ${item.status === "awaiting_recipient" ? "selected" : ""}>Awaiting Recipient</option>
+              <option value="confirmed" ${item.status === "confirmed" ? "selected" : ""}>Confirmed</option>
+              <option value="declined" ${item.status === "declined" ? "selected" : ""}>Declined</option>
+              <option value="rescheduled" ${item.status === "rescheduled" ? "selected" : ""}>Rescheduled</option>
+              <option value="completed" ${item.status === "completed" ? "selected" : ""}>Completed</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="confirm-date-${safeId}">Confirmed Date</label>
+            <input type="date" id="confirm-date-${safeId}" />
+          </div>
+
+          <div>
+            <label for="confirm-time-${safeId}">Confirmed Time</label>
+            <input type="text" id="confirm-time-${safeId}" placeholder="e.g. 2:00 PM – 2:30 PM" />
+          </div>
+
+          <div>
+            <label for="venue-${safeId}">Venue</label>
+            <input type="text" id="venue-${safeId}" placeholder="e.g. CICC Meeting Zone" />
+          </div>
+
+          <div>
+            <label for="table-${safeId}">Table / Room</label>
+            <input type="text" id="table-${safeId}" placeholder="e.g. Table B12 / Room 2" />
+          </div>
+
+          <div>
+            <label for="notes-${safeId}">Organiser Notes</label>
+            <textarea id="notes-${safeId}" placeholder="Internal notes, approval notes, coordination updates...">${escapeHtml(item.organiser_notes || "")}</textarea>
+          </div>
+        </div>
+
+        <div class="admin-actions">
+          <button class="btn primary" type="button" onclick="updateMeetingRequestStatus('${item.id}')">Save Status / Notes</button>
+          <button class="btn gold" type="button" onclick="createConfirmedMeeting('${item.id}', '${requester?.id || ""}', '${target?.id || ""}', '${escapeJs(item.meeting_type || "")}', '${escapeJs(item.reason || "")}')">Create Confirmed Meeting</button>
+        </div>
+
+        <div class="mini-note" id="request-status-${safeId}"></div>
+      </div>
+    `;
+  }).join("");
+}
+
+async function updateMeetingRequestStatus(requestId) {
+  const safeId = cssSafeId(requestId);
+  const statusEl = document.getElementById(`request-status-${safeId}`);
+  const statusValue = document.getElementById(`status-${safeId}`)?.value || "pending_review";
+  const notesValue = document.getElementById(`notes-${safeId}`)?.value.trim() || null;
+
+  if (statusEl) {
+    statusEl.textContent = "Saving...";
+    statusEl.style.color = "";
+  }
+
+  const { error } = await sb
+    .from("meeting_requests")
+    .update({
+      status: statusValue,
+      organiser_notes: notesValue
+    })
+    .eq("id", requestId);
+
+  if (error) {
+    console.error("Update request error:", error);
+    if (statusEl) {
+      statusEl.textContent = error.message || "Could not update request.";
+      statusEl.style.color = "#B42318";
+    }
+    return;
+  }
+
+  if (statusEl) {
+    statusEl.textContent = "Request updated successfully.";
+    statusEl.style.color = "#0B5D3B";
+  }
+
+  await loadOrganiserRequests();
+}
+
+async function createConfirmedMeeting(requestId, participantAId, participantBId, meetingType, reason) {
+  const safeId = cssSafeId(requestId);
+  const statusEl = document.getElementById(`request-status-${safeId}`);
+  const dateValue = document.getElementById(`confirm-date-${safeId}`)?.value || null;
+  const timeValue = document.getElementById(`confirm-time-${safeId}`)?.value.trim() || null;
+  const venueValue = document.getElementById(`venue-${safeId}`)?.value.trim() || null;
+  const tableValue = document.getElementById(`table-${safeId}`)?.value.trim() || null;
+  const notesValue = document.getElementById(`notes-${safeId}`)?.value.trim() || null;
+
+  if (!participantAId || !participantBId) {
+    if (statusEl) {
+      statusEl.textContent = "Participant IDs are missing for this request.";
+      statusEl.style.color = "#B42318";
+    }
+    return;
+  }
+
+  if (!dateValue || !timeValue) {
+    if (statusEl) {
+      statusEl.textContent = "Please provide confirmed date and time before creating the meeting.";
+      statusEl.style.color = "#B42318";
+    }
+    return;
+  }
+
+  if (statusEl) {
+    statusEl.textContent = "Creating confirmed meeting...";
+    statusEl.style.color = "";
+  }
+
+  const { error: insertError } = await sb
+    .from("confirmed_meetings")
+    .insert({
+      request_id: requestId,
+      participant_a_id: participantAId,
+      participant_b_id: participantBId,
+      meeting_type: meetingType,
+      confirmed_date: dateValue,
+      confirmed_time: timeValue,
+      venue: venueValue,
+      table_name: tableValue,
+      reason: reason,
+      status: "confirmed"
+    });
+
+  if (insertError) {
+    console.error("Create confirmed meeting error:", insertError);
+    if (statusEl) {
+      statusEl.textContent = insertError.message || "Could not create confirmed meeting.";
+      statusEl.style.color = "#B42318";
+    }
+    return;
+  }
+
+  const { error: updateError } = await sb
+    .from("meeting_requests")
+    .update({
+      status: "confirmed",
+      organiser_notes: notesValue
+    })
+    .eq("id", requestId);
+
+  if (updateError) {
+    console.error("Update request after confirm error:", updateError);
+  }
+
+  if (statusEl) {
+    statusEl.textContent = "Confirmed meeting created successfully.";
+    statusEl.style.color = "#0B5D3B";
+  }
+
+  await loadOrganiserRequests();
+}
+
+function cssSafeId(value) {
+  return String(value).replaceAll(/[^a-zA-Z0-9\-_]/g, "_");
+}
+
+function escapeJs(str) {
+  return String(str)
+    .replaceAll("\\", "\\\\")
+    .replaceAll("'", "\\'")
+    .replaceAll('"', '\\"')
+    .replaceAll("\n", " ")
+    .replaceAll("\r", " ");
+}
