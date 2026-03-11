@@ -7,13 +7,25 @@ let DIRECTORY_CACHE = [];
 let CURRENT_USER = null;
 let CURRENT_PARTICIPANT = null;
 
+let loginCooldown = false;
+
 async function login() {
+  if (loginCooldown) return;
+
   const emailInput = document.getElementById("email");
+  const btn = document.getElementById("magicLinkBtn");
   const email = emailInput ? emailInput.value.trim() : "";
 
   if (!email) {
     alert("Please enter your email address.");
     return;
+  }
+
+  loginCooldown = true;
+
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = "Please wait 60s...";
   }
 
   const redirectTo = "https://enny-stack.github.io/afsnet-registration/portal/dashboard.html";
@@ -25,10 +37,29 @@ async function login() {
 
   if (error) {
     alert(error.message);
-    return;
+  } else {
+    alert("Check your email for your login link.");
   }
 
-  alert("Check your email for your login link.");
+  let seconds = 60;
+
+  const timer = setInterval(() => {
+    seconds -= 1;
+
+    if (btn && seconds > 0) {
+      btn.textContent = `Please wait ${seconds}s...`;
+    }
+
+    if (seconds <= 0) {
+      clearInterval(timer);
+      loginCooldown = false;
+
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = "Send Magic Link";
+      }
+    }
+  }, 1000);
 }
 
 async function logoutUser() {
