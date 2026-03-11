@@ -824,7 +824,7 @@ async function createConfirmedMeeting(requestId, participantAId, participantBId,
 }
 
 function cssSafeId(value) {
-  return String(value).replaceAll(/[^a-zA-Z0-9\-_]/g, "_");
+  return String(value).replace(/[^a-zA-Z0-9\-_]/g, "_");
 }
 
 function escapeJs(str) {
