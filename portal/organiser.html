@@ -203,7 +203,42 @@
         <button class="btn gold" id="refreshOrganiserBtn" type="button">Refresh Requests</button>
       </div>
     </section>
+<section class="section-card">
+    <h2>Participant Approval</h2>
+    <p class="muted">Approve registered users for portal access and directory visibility.</p>
+    <div id="participantApprovalList" class="list"></div>
+  </section>
 
+  <section class="section-card">
+    <h2>Request Filters</h2>
+
+    <div class="actions" style="margin-top:0;">
+      <select id="statusFilter" style="min-width:220px;">
+        <option value="">All statuses</option>
+        <option value="pending_review">Pending Review</option>
+        <option value="awaiting_recipient">Awaiting Recipient</option>
+        <option value="confirmed">Confirmed</option>
+        <option value="declined">Declined</option>
+        <option value="rescheduled">Rescheduled</option>
+        <option value="completed">Completed</option>
+      </select>
+
+      <select id="meetingTypeFilter" style="min-width:220px;">
+        <option value="">All meeting types</option>
+        <option value="B2B">B2B</option>
+        <option value="B2G">B2G</option>
+        <option value="G2G">G2G</option>
+      </select>
+
+      <input
+        type="text"
+        id="requestSearch"
+        placeholder="Search requester, target, organisation..."
+        style="min-width:260px;"
+      />
+    </div>
+  </section>
+    
     <section class="section-card">
       <h2>Meeting Requests</h2>
       <p class="muted">Review requests, update statuses, and create confirmed meetings.</p>
@@ -213,14 +248,22 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="./portal.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", async () => {
-      await ensureSignedIn();
-      await ensureOrganiserAccess();
-      await loadOrganiserRequests();
+ <script>
+  document.addEventListener("DOMContentLoaded", async () => {
+    await ensureSignedIn();
+    await ensureOrganiserAccess();
+    await loadPendingParticipants();
+    await loadOrganiserRequests();
 
-      document.getElementById("refreshOrganiserBtn").addEventListener("click", loadOrganiserRequests);
+    document.getElementById("refreshOrganiserBtn").addEventListener("click", async () => {
+      await loadPendingParticipants();
+      await loadOrganiserRequests();
     });
-  </script>
+
+    document.getElementById("statusFilter").addEventListener("change", loadOrganiserRequests);
+    document.getElementById("meetingTypeFilter").addEventListener("change", loadOrganiserRequests);
+    document.getElementById("requestSearch").addEventListener("input", loadOrganiserRequests);
+  });
+</script>
 </body>
 </html>
