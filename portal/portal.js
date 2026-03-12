@@ -136,7 +136,7 @@ async function ensureParticipantLinked() {
       CURRENT_PARTICIPANT.auth_user_id = CURRENT_USER.id;
     }
   }
-
+console.log("CURRENT_PARTICIPANT", CURRENT_PARTICIPANT);
   return CURRENT_PARTICIPANT;
 }
 
