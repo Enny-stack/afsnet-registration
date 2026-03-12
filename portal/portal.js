@@ -677,7 +677,12 @@ async function loadOrganiserRequests() {
   }
 
   mount.innerHTML = rows.map(item => {
-    // keep the rest of your existing render block exactly as it is`
+    const requester = Array.isArray(item.requester) ? item.requester[0] : item.requester;
+    const target = Array.isArray(item.target) ? item.target[0] : item.target;
+
+    const safeId = escapeHtml(item.id);
+
+    return `
       <div class="item">
         <div class="item-head">
           <div class="row-title">${escapeHtml(item.meeting_type || "")} request</div>
@@ -873,5 +878,114 @@ function applyRoleVisibility() {
   const organiserCard = document.getElementById("organiserCard");
   if (organiserCard) {
     organiserCard.style.display = CURRENT_PARTICIPANT?.is_organiser ? "" : "none";
+  }
+}
+async function loadPendingParticipants() {
+  const mount = document.getElementById("participantApprovalList");
+  if (!mount) return;
+
+  mount.innerHTML = `<div class="empty">Loading participants awaiting approval...</div>`;
+
+  const { data, error } = await sb
+    .from("participants")
+    .select("id, full_name, organisation, email, country, participant_type, is_approved, is_visible_in_directory, auth_user_id, created_at")
+    .eq("is_approved", false)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Pending participants load error:", error);
+    mount.innerHTML = `<div class="empty">Could not load pending participants.</div>`;
+    return;
+  }
+
+  if (!data || !data.length) {
+    mount.innerHTML = `<div class="empty">No participants are awaiting approval.</div>`;
+    return;
+  }
+
+  mount.innerHTML = data.map(person => `
+    <div class="item">
+      <div class="item-head">
+        <div class="row-title">${escapeHtml(person.full_name || "")}</div>
+        <div class="status-pill status-pending_review">Awaiting Approval</div>
+      </div>
+
+      <div class="meta">
+        <div><strong>Organisation:</strong> ${escapeHtml(person.organisation || "Not specified")}</div>
+        <div><strong>Email:</strong> ${escapeHtml(person.email || "Not specified")}</div>
+        <div><strong>Country:</strong> ${escapeHtml(person.country || "Not specified")}</div>
+        <div><strong>Type:</strong> ${escapeHtml(formatParticipantType(person.participant_type || "other"))}</div>
+      </div>
+
+      <div class="admin-actions">
+        <button class="btn primary" type="button" onclick="approveParticipant('${person.id}')">Approve + Show in Directory</button>
+        <button class="btn danger" type="button" onclick="hideParticipant('${person.id}')">Keep Hidden</button>
+      </div>
+
+      <div class="mini-note" id="participant-status-${cssSafeId(person.id)}"></div>
+    </div>
+  `).join("");
+}
+
+async function approveParticipant(participantId) {
+  const statusEl = document.getElementById(`participant-status-${cssSafeId(participantId)}`);
+
+  if (statusEl) {
+    statusEl.textContent = "Approving participant...";
+    statusEl.style.color = "";
+  }
+
+  const { error } = await sb
+    .from("participants")
+    .update({
+      is_approved: true,
+      is_visible_in_directory: true
+    })
+    .eq("id", participantId);
+
+  if (error) {
+    console.error("Approve participant error:", error);
+    if (statusEl) {
+      statusEl.textContent = error.message || "Could not approve participant.";
+      statusEl.style.color = "#B42318";
+    }
+    return;
+  }
+
+  if (statusEl) {
+    statusEl.textContent = "Participant approved.";
+    statusEl.style.color = "#0B5D3B";
+  }
+
+  await loadPendingParticipants();
+}
+
+async function hideParticipant(participantId) {
+  const statusEl = document.getElementById(`participant-status-${cssSafeId(participantId)}`);
+
+  if (statusEl) {
+    statusEl.textContent = "Updating visibility...";
+    statusEl.style.color = "";
+  }
+
+  const { error } = await sb
+    .from("participants")
+    .update({
+      is_visible_in_directory: false
+    })
+    .eq("id", participantId);
+
+  if (error) {
+    console.error("Hide participant error:", error);
+    if (statusEl) {
+      statusEl.textContent = error.message || "Could not update participant.";
+      statusEl.style.color = "#B42318";
+    }
+    return;
+  }
+
+  if (statusEl) {
+    statusEl.textContent = "Participant kept hidden.";
+    statusEl.style.color = "#0B5D3B";
   }
 }
