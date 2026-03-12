@@ -92,6 +92,7 @@ async function ensureSignedIn() {
   }
 
   await ensureParticipantLinked();
+  applyRoleVisibility();
   return user;
 }
 
@@ -834,4 +835,10 @@ function escapeJs(str) {
     .replaceAll('"', '\\"')
     .replaceAll("\n", " ")
     .replaceAll("\r", " ");
+}
+function applyRoleVisibility() {
+  const organiserCard = document.getElementById("organiserCard");
+  if (organiserCard) {
+    organiserCard.style.display = CURRENT_PARTICIPANT?.is_organiser ? "" : "none";
+  }
 }
