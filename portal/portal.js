@@ -876,6 +876,11 @@ function escapeJs(str) {
 }
 function applyRoleVisibility() {
   const organiserCard = document.getElementById("organiserCard");
+  console.log("applyRoleVisibility", {
+    organiserCardFound: !!organiserCard,
+    currentParticipant: CURRENT_PARTICIPANT
+  });
+
   if (organiserCard) {
     organiserCard.style.display = CURRENT_PARTICIPANT?.is_organiser ? "" : "none";
   }
