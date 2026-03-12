@@ -5,11 +5,11 @@ const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let DIRECTORY_CACHE = [];
 let CURRENT_USER = null;
-let CURRENT_PARTICIPANT = null;
+window.CURRENT_PARTICIPANT = null;;
 
 let loginCooldown = false;
 
-async function login() {
+ function login() {
   if (loginCooldown) return;
 
   const emailInput = document.getElementById("email");
@@ -62,12 +62,12 @@ async function login() {
   }, 1000);
 }
 
-async function logoutUser() {
+ function logoutUser() {
   await sb.auth.signOut();
   window.location.href = "./login.html";
 }
 
-async function getSessionUser() {
+ function getSessionUser() {
   const { data, error } = await sb.auth.getUser();
   if (error) {
     console.error("Error getting user:", error);
@@ -122,7 +122,7 @@ async function ensureParticipantLinked() {
     return null;
   }
 
-  CURRENT_PARTICIPANT = participant;
+  window.CURRENT_PARTICIPANT = participant;
 
   if (!participant.auth_user_id) {
     const { error: updateError } = await sb
@@ -384,7 +384,7 @@ async function submitMeetingRequest() {
   document.getElementById("reason").value = "";
 }
 async function loadMyMeetings() {
-  if (!CURRENT_PARTICIPANT) return;
+  if (!window.CURRENT_PARTICIPANT) return;
 
   await Promise.all([
     loadSentRequests(),
@@ -531,7 +531,7 @@ async function loadConfirmedMeetings() {
         organisation
       )
     `)
-    .or(`participant_a_id.eq.${CURRENT_PARTICIPANT.id},participant_b_id.eq.${CURRENT_PARTICIPANT.id}`)
+    .or(`participant_a_id.eq.${window.CURRENT_PARTICIPANT.id},participant_b_id.eq.${CURRENT_PARTICIPANT.id}`)
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -876,16 +876,17 @@ function escapeJs(str) {
 }
 function applyRoleVisibility() {
   const organiserCard = document.getElementById("organiserCard");
+
   console.log("applyRoleVisibility", {
     organiserCardFound: !!organiserCard,
-    currentParticipant: CURRENT_PARTICIPANT
+    currentParticipant: window.CURRENT_PARTICIPANT
   });
 
   if (organiserCard) {
-    organiserCard.style.display = CURRENT_PARTICIPANT?.is_organiser ? "" : "none";
+    organiserCard.style.display = window.CURRENT_PARTICIPANT?.is_organiser ? "block" : "none";
   }
 }
-async function loadPendingParticipants() {
+ function loadPendingParticipants() {
   const mount = document.getElementById("participantApprovalList");
   if (!mount) return;
 
@@ -932,7 +933,7 @@ async function loadPendingParticipants() {
   `).join("");
 }
 
-async function approveParticipant(participantId) {
+ function approveParticipant(participantId) {
   const statusEl = document.getElementById(`participant-status-${cssSafeId(participantId)}`);
 
   if (statusEl) {
@@ -965,7 +966,7 @@ async function approveParticipant(participantId) {
   await loadPendingParticipants();
 }
 
-async function hideParticipant(participantId) {
+ function hideParticipant(participantId) {
   const statusEl = document.getElementById(`participant-status-${cssSafeId(participantId)}`);
 
   if (statusEl) {
