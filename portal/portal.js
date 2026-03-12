@@ -598,7 +598,11 @@ async function loadOrganiserRequests() {
 
   mount.innerHTML = `<div class="empty">Loading meeting requests...</div>`;
 
-  const { data, error } = await sb
+  const statusFilter = document.getElementById("statusFilter")?.value || "";
+  const meetingTypeFilter = document.getElementById("meetingTypeFilter")?.value || "";
+  const searchTerm = (document.getElementById("requestSearch")?.value || "").trim().toLowerCase();
+
+  let query = sb
     .from("meeting_requests")
     .select(`
       id,
@@ -627,24 +631,53 @@ async function loadOrganiserRequests() {
     `)
     .order("created_at", { ascending: false });
 
+  if (statusFilter) {
+    query = query.eq("status", statusFilter);
+  }
+
+  if (meetingTypeFilter) {
+    query = query.eq("meeting_type", meetingTypeFilter);
+  }
+
+  const { data, error } = await query;
+
   if (error) {
     console.error("Organiser requests load error:", error);
     mount.innerHTML = `<div class="empty">Could not load meeting requests.</div>`;
     return;
   }
 
-  if (!data || !data.length) {
-    mount.innerHTML = `<div class="empty">No meeting requests available yet.</div>`;
+  let rows = Array.isArray(data) ? data : [];
+
+  if (searchTerm) {
+    rows = rows.filter(item => {
+      const requester = Array.isArray(item.requester) ? item.requester[0] : item.requester;
+      const target = Array.isArray(item.target) ? item.target[0] : item.target;
+
+      const haystack = [
+        requester?.full_name || "",
+        requester?.organisation || "",
+        requester?.country || "",
+        requester?.email || "",
+        target?.full_name || "",
+        target?.organisation || "",
+        target?.country || "",
+        target?.email || "",
+        item.reason || "",
+        item.meeting_type || ""
+      ].join(" ").toLowerCase();
+
+      return haystack.includes(searchTerm);
+    });
+  }
+
+  if (!rows.length) {
+    mount.innerHTML = `<div class="empty">No meeting requests match the current filters.</div>`;
     return;
   }
 
-  mount.innerHTML = data.map(item => {
-    const requester = Array.isArray(item.requester) ? item.requester[0] : item.requester;
-    const target = Array.isArray(item.target) ? item.target[0] : item.target;
-
-    const safeId = escapeHtml(item.id);
-
-    return `
+  mount.innerHTML = rows.map(item => {
+    // keep the rest of your existing render block exactly as it is`
       <div class="item">
         <div class="item-head">
           <div class="row-title">${escapeHtml(item.meeting_type || "")} request</div>
