@@ -5,11 +5,11 @@ const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let DIRECTORY_CACHE = [];
 let CURRENT_USER = null;
-window.CURRENT_PARTICIPANT = null;;
-
+window.CURRENT_PARTICIPANT = null;
+let CURRENT_TARGET = null;
 let loginCooldown = false;
 
- function login() {
+async function login() {
   if (loginCooldown) return;
 
   const emailInput = document.getElementById("email");
@@ -62,17 +62,19 @@ let loginCooldown = false;
   }, 1000);
 }
 
- function logoutUser() {
+async function logoutUser() {
   await sb.auth.signOut();
   window.location.href = "./login.html";
 }
 
- function getSessionUser() {
+async function getSessionUser() {
   const { data, error } = await sb.auth.getUser();
+
   if (error) {
     console.error("Error getting user:", error);
     return null;
   }
+
   return data.user || null;
 }
 
@@ -93,6 +95,7 @@ async function ensureSignedIn() {
 
   await ensureParticipantLinked();
   applyRoleVisibility();
+
   return user;
 }
 
@@ -133,11 +136,26 @@ async function ensureParticipantLinked() {
     if (updateError) {
       console.error("Error linking auth user:", updateError);
     } else {
-      CURRENT_PARTICIPANT.auth_user_id = CURRENT_USER.id;
+      window.CURRENT_PARTICIPANT.auth_user_id = CURRENT_USER.id;
     }
   }
-console.log("CURRENT_PARTICIPANT", CURRENT_PARTICIPANT);
-  return CURRENT_PARTICIPANT;
+
+  console.log("CURRENT_PARTICIPANT", window.CURRENT_PARTICIPANT);
+
+  return window.CURRENT_PARTICIPANT;
+}
+
+function applyRoleVisibility() {
+  const organiserCard = document.getElementById("organiserCard");
+
+  console.log("applyRoleVisibility", {
+    organiserCardFound: !!organiserCard,
+    currentParticipant: window.CURRENT_PARTICIPANT
+  });
+
+  if (organiserCard) {
+    organiserCard.style.display = window.CURRENT_PARTICIPANT?.is_organiser === true ? "block" : "none";
+  }
 }
 
 async function loadDirectory() {
@@ -215,7 +233,7 @@ function renderDirectory() {
       `<span class="pill">${escapeHtml(sector)}</span>`
     ).join("");
 
-    const isSelf = CURRENT_PARTICIPANT && CURRENT_PARTICIPANT.id === person.id;
+    const isSelf = window.CURRENT_PARTICIPANT && window.CURRENT_PARTICIPANT.id === person.id;
 
     return `
       <div class="card">
@@ -225,7 +243,7 @@ function renderDirectory() {
         <div class="meta">
           <div><strong>Country:</strong> ${safeCountry}</div>
           <div><strong>Type:</strong> ${safeType}</div>
-          <div><strong>Meeting Interest:</strong> ${escapeHtml(safeInterest)}</div>
+          <div><strong>Meeting Interest:</strong> ${safeInterest}</div>
         </div>
 
         <div class="pill-row">
@@ -269,7 +287,6 @@ function escapeHtml(str) {
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
 }
-let CURRENT_TARGET = null;
 
 async function loadMeetingTarget() {
   const box = document.getElementById("targetBox");
@@ -322,7 +339,7 @@ async function submitMeetingRequest() {
   statusEl.className = "status";
   statusEl.textContent = "";
 
-  if (!CURRENT_PARTICIPANT) {
+  if (!window.CURRENT_PARTICIPANT) {
     statusEl.className = "status error";
     statusEl.textContent = "You must be signed in as an approved participant.";
     return;
@@ -334,7 +351,7 @@ async function submitMeetingRequest() {
     return;
   }
 
-  if (CURRENT_PARTICIPANT.id === CURRENT_TARGET.id) {
+  if (window.CURRENT_PARTICIPANT.id === CURRENT_TARGET.id) {
     statusEl.className = "status error";
     statusEl.textContent = "You cannot request a meeting with yourself.";
     return;
@@ -353,7 +370,7 @@ async function submitMeetingRequest() {
   }
 
   const payload = {
-    requester_participant_id: CURRENT_PARTICIPANT.id,
+    requester_participant_id: window.CURRENT_PARTICIPANT.id,
     target_participant_id: CURRENT_TARGET.id,
     meeting_type: meetingType,
     reason,
@@ -383,6 +400,7 @@ async function submitMeetingRequest() {
   document.getElementById("alternativeTime").value = "";
   document.getElementById("reason").value = "";
 }
+
 async function loadMyMeetings() {
   if (!window.CURRENT_PARTICIPANT) return;
 
@@ -416,7 +434,7 @@ async function loadSentRequests() {
         country
       )
     `)
-    .eq("requester_participant_id", CURRENT_PARTICIPANT.id)
+    .eq("requester_participant_id", window.CURRENT_PARTICIPANT.id)
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -472,7 +490,7 @@ async function loadReceivedRequests() {
         country
       )
     `)
-    .eq("target_participant_id", CURRENT_PARTICIPANT.id)
+    .eq("target_participant_id", window.CURRENT_PARTICIPANT.id)
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -531,7 +549,7 @@ async function loadConfirmedMeetings() {
         organisation
       )
     `)
-    .or(`participant_a_id.eq.${window.CURRENT_PARTICIPANT.id},participant_b_id.eq.${CURRENT_PARTICIPANT.id}`)
+    .or(`participant_a_id.eq.${window.CURRENT_PARTICIPANT.id},participant_b_id.eq.${window.CURRENT_PARTICIPANT.id}`)
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -577,13 +595,14 @@ function formatStatus(status) {
   };
   return map[status] || status || "Unknown";
 }
+
 async function ensureOrganiserAccess() {
-  if (!CURRENT_PARTICIPANT) {
+  if (!window.CURRENT_PARTICIPANT) {
     window.location.href = "./login.html";
     return false;
   }
 
-  if (!CURRENT_PARTICIPANT.is_organiser) {
+  if (!window.CURRENT_PARTICIPANT.is_organiser) {
     alert("You do not have organiser access.");
     window.location.href = "./dashboard.html";
     return false;
@@ -679,7 +698,6 @@ async function loadOrganiserRequests() {
   mount.innerHTML = rows.map(item => {
     const requester = Array.isArray(item.requester) ? item.requester[0] : item.requester;
     const target = Array.isArray(item.target) ? item.target[0] : item.target;
-
     const safeId = escapeHtml(item.id);
 
     return `
@@ -874,6 +892,7 @@ function escapeJs(str) {
     .replaceAll("\n", " ")
     .replaceAll("\r", " ");
 }
+
 function applyRoleVisibility() {
   const organiserCard = document.getElementById("organiserCard");
 
@@ -883,10 +902,11 @@ function applyRoleVisibility() {
   });
 
   if (organiserCard) {
-    organiserCard.style.display = window.CURRENT_PARTICIPANT?.is_organiser ? "block" : "none";
+    organiserCard.style.display = window.CURRENT_PARTICIPANT?.is_organiser === true ? "block" : "none";
   }
 }
- function loadPendingParticipants() {
+
+async function loadPendingParticipants() {
   const mount = document.getElementById("participantApprovalList");
   if (!mount) return;
 
@@ -933,7 +953,7 @@ function applyRoleVisibility() {
   `).join("");
 }
 
- function approveParticipant(participantId) {
+async function approveParticipant(participantId) {
   const statusEl = document.getElementById(`participant-status-${cssSafeId(participantId)}`);
 
   if (statusEl) {
@@ -966,7 +986,7 @@ function applyRoleVisibility() {
   await loadPendingParticipants();
 }
 
- function hideParticipant(participantId) {
+async function hideParticipant(participantId) {
   const statusEl = document.getElementById(`participant-status-${cssSafeId(participantId)}`);
 
   if (statusEl) {
