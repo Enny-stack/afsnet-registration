@@ -52,7 +52,7 @@
 
     .grid{
       display:grid;
-      grid-template-columns:repeat(3, 1fr);
+      grid-template-columns:repeat(3, minmax(0, 1fr));
       gap:16px;
       margin-top:18px;
     }
@@ -62,11 +62,13 @@
     }
 
     .card{
+      display:block;
       background:#fff;
       border:1px solid var(--line);
       border-radius:18px;
       box-shadow:var(--shadow);
       padding:20px;
+      min-height:190px;
     }
 
     .card h3{
@@ -106,6 +108,10 @@
       color:#fff;
       border:none;
     }
+
+    .hidden{
+      display:none !important;
+    }
   </style>
 </head>
 <body>
@@ -137,9 +143,9 @@
         </div>
       </div>
 
-      <div class="card" id="organiserCard" style="display:none;">
+      <div class="card hidden" id="organiserCard">
         <h3>Organiser Panel</h3>
-        <p class="muted">For event organisers only: review requests, confirm meetings, and manage schedules.</p>
+        <p class="muted">For event organisers only: review requests, confirm meetings, participant approvals, and schedules.</p>
         <div class="actions">
           <a class="btn primary" href="./organiser.html">Open Panel</a>
         </div>
@@ -148,14 +154,14 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="./portal.js?v=6"></script>
+  <script src="./portal.js?v=10"></script>
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
       await ensureSignedIn();
 
       const organiserCard = document.getElementById("organiserCard");
-      if (organiserCard && window.CURRENT_PARTICIPANT?.is_organiser) {
-        organiserCard.style.display = "block";
+      if (organiserCard && window.CURRENT_PARTICIPANT && window.CURRENT_PARTICIPANT.is_organiser === true) {
+        organiserCard.classList.remove("hidden");
       }
 
       document.getElementById("logoutBtn").addEventListener("click", logoutUser);
