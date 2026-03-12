@@ -198,10 +198,11 @@
       <p id="userStatus" class="muted">Checking organiser access...</p>
 
       <div class="actions">
-        <a class="btn" href="./dashboard.html">Dashboard</a>
-        <a class="btn" href="./my-meetings.html">My Meetings</a>
-        <button class="btn gold" id="refreshOrganiserBtn" type="button">Refresh Requests</button>
-      </div>
+  <a class="btn" href="./dashboard.html">Dashboard</a>
+  <a class="btn" href="./my-meetings.html">My Meetings</a>
+  <button class="btn gold" id="refreshOrganiserBtn" type="button">Refresh Requests</button>
+  <button class="btn" id="logoutBtn" type="button">Logout</button>
+</div>
     </section>
 <section class="section-card">
     <h2>Participant Approval</h2>
@@ -263,6 +264,7 @@
     document.getElementById("statusFilter").addEventListener("change", loadOrganiserRequests);
     document.getElementById("meetingTypeFilter").addEventListener("change", loadOrganiserRequests);
     document.getElementById("requestSearch").addEventListener("input", loadOrganiserRequests);
+    document.getElementById("logoutBtn").addEventListener("click", logoutUser);
   });
 </script>
 </body>
