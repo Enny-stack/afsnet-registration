@@ -48,6 +48,8 @@ async function getSessionUser() {
 async function ensureSignedIn() {
   const user = await getSessionUser();
 
+  console.log("SESSION USER:", user);
+
   if (!user) {
     window.location.href = "./login.html";
     return null;
@@ -61,17 +63,25 @@ async function ensureSignedIn() {
   }
 
   await ensureParticipantLinked();
+
+  console.log("AFTER ensureParticipantLinked -> CURRENT_PARTICIPANT:", CURRENT_PARTICIPANT);
+
   return user;
 }
 
 async function ensureParticipantLinked() {
   if (!CURRENT_USER) return null;
 
+  console.log("Looking up participant by email:", CURRENT_USER.email);
+
   const { data: participant, error } = await sb
     .from("participants")
     .select("*")
     .eq("email", CURRENT_USER.email)
     .maybeSingle();
+
+  console.log("Participant query result:", participant);
+  console.log("Participant query error:", error);
 
   if (error) {
     console.error("Error loading participant:", error);
@@ -105,6 +115,7 @@ async function ensureParticipantLinked() {
     }
   }
 
+  console.log("Linked participant final:", CURRENT_PARTICIPANT);
   return CURRENT_PARTICIPANT;
 }
 
@@ -615,8 +626,8 @@ function formatStatus(status) {
 let ORGANISER_REQUESTS_CACHE = [];
 
 async function ensureOrganiserAccess() {
- console.log("CURRENT_PARTICIPANT", CURRENT_PARTICIPANT);
-  
+  console.log("CURRENT_PARTICIPANT", CURRENT_PARTICIPANT);
+
   if (!CURRENT_PARTICIPANT || !CURRENT_PARTICIPANT.is_organiser) {
     alert("You do not have organiser access to this page.");
     window.location.href = "./dashboard.html";
