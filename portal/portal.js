@@ -615,6 +615,8 @@ function formatStatus(status) {
 let ORGANISER_REQUESTS_CACHE = [];
 
 async function ensureOrganiserAccess() {
+ console.log("CURRENT_PARTICIPANT", CURRENT_PARTICIPANT);
+  
   if (!CURRENT_PARTICIPANT || !CURRENT_PARTICIPANT.is_organiser) {
     alert("You do not have organiser access to this page.");
     window.location.href = "./dashboard.html";
