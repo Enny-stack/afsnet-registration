@@ -72,13 +72,13 @@ async function ensureSignedIn() {
 async function ensureParticipantLinked() {
   if (!CURRENT_USER) return null;
 
-  console.log("Looking up participant by email:", CURRENT_USER.email);
+  console.log("Looking up participant by auth user:", CURRENT_USER.id);
 
   const { data: participant, error } = await sb
-  .from("participants")
-  .select("*")
-  .eq("auth_user_id", CURRENT_USER.id)
-  .maybeSingle();
+    .from("participants")
+    .select("*")
+    .eq("auth_user_id", CURRENT_USER.id)
+    .maybeSingle();
 
   console.log("Participant query result:", participant);
   console.log("Participant query error:", error);
@@ -89,7 +89,7 @@ async function ensureParticipantLinked() {
   }
 
   if (!participant) {
-    alert("Your email is not yet approved for the AfSNET meeting portal.");
+    alert("Your account is not yet linked or approved for the AfSNET meeting portal.");
     await logoutUser();
     return null;
   }
@@ -101,21 +101,8 @@ async function ensureParticipantLinked() {
   }
 
   CURRENT_PARTICIPANT = participant;
-
-  if (!participant.auth_user_id) {
-    const { error: updateError } = await sb
-      .from("participants")
-      .update({ auth_user_id: CURRENT_USER.id })
-      .eq("id", participant.id);
-
-    if (updateError) {
-      console.error("Error linking auth user:", updateError);
-    } else {
-      CURRENT_PARTICIPANT.auth_user_id = CURRENT_USER.id;
-    }
-  }
-
   console.log("Linked participant final:", CURRENT_PARTICIPANT);
+
   return CURRENT_PARTICIPANT;
 }
 
