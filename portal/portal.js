@@ -910,17 +910,17 @@ async function createConfirmedMeetingFromCard(card) {
   setCardStatus(statusEl, "Creating confirmed meeting...", "");
 
   const meetingPayload = {
-    request_id: requestItem.id,
-    participant_a_id: requestItem.requester_participant_id,
-    participant_b_id: requestItem.target_participant_id,
-    meeting_type: requestItem.meeting_type,
-    confirmed_date: confirmedDate,
-    confirmed_time: confirmedTime,
-    venue: venue,
-    table_name: tableName,
-    reason: requestItem.reason,
-    status: "confirmed"
-  };
+  request_id: requestItem.id,
+  participant_a_id: requestItem.requester_participant_id,
+  participant_b_id: requestItem.target_participant_id,
+  meeting_type: requestItem.meeting_type,
+  confirmed_date: confirmedDate,
+  confirmed_time: confirmedTime,
+  venue: venue,
+  table_name: tableName,
+  reason: requestItem.reason,
+  status: "confirmed"
+};
 
   const { error: insertError } = await sb
     .from("confirmed_meetings")
