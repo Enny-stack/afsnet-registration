@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AfSNET Portal | Request Meeting</title>
+  <style>
+    :root{
+      --navy:#0B1F3A;
+      --green:#0B5D3B;
+      --gold:#C9A227;
+      --bg:#F7F8FA;
+      --card:#FFFFFF;
+      --line:rgba(11,31,58,.12);
+      --muted:#5E6A7A;
+      --shadow:0 12px 28px rgba(11,31,58,.10);
+      --radius:18px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--navy);
+    }
+
+    .wrap{
+      max-width:900px;
+      margin:0 auto;
+      padding:24px;
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom:22px;
+    }
+
+    .topbar h1{
+      margin:0;
+      font-size:30px;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:22px;
+    }
+
+    .muted{color:var(--muted)}
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:#fff;
+      color:var(--navy);
+      text-decoration:none;
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    .btn.primary{
+      background:linear-gradient(135deg,var(--green),var(--navy));
+      color:#fff;
+      border:none;
+    }
+
+    .btn[disabled]{
+      opacity:.6;
+      cursor:not-allowed;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px;
+    }
+
+    @media (max-width: 760px){
+      .grid{grid-template-columns:1fr;}
+    }
+
+    .field{
+      display:grid;
+      gap:8px;
+      margin-bottom:16px;
+    }
+
+    label{
+      font-weight:800;
+      color:var(--navy);
+    }
+
+    input, select, textarea{
+      width:100%;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      font:inherit;
+      background:#fff;
+    }
+
+    textarea{
+      min-height:140px;
+      resize:vertical;
+    }
+
+    .target-box{
+      background:
+        linear-gradient(135deg,
+          rgba(11,93,59,.06),
+          rgba(201,162,39,.06),
+          rgba(255,255,255,.92)
+        );
+      border:1px solid rgba(201,162,39,.22);
+      border-radius:16px;
+      padding:16px;
+      margin-bottom:18px;
+    }
+
+    .target-name{
+      font-size:22px;
+      font-weight:900;
+      margin-bottom:4px;
+    }
+
+    .target-org{
+      color:var(--green);
+      font-weight:800;
+      margin-bottom:10px;
+    }
+
+    .status{
+      margin-top:14px;
+      font-size:14px;
+      color:var(--muted);
+    }
+
+    .actions{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:16px;
+    }
+
+    .success{
+      color:var(--green);
+      font-weight:800;
+    }
+
+    .error{
+      color:#B42318;
+      font-weight:800;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div>
+        <h1>Request a Meeting</h1>
+        <p class="muted" id="userStatus">Loading session...</p>
+      </div>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <a class="btn" href="./directory.html">Back to Directory</a>
+        <a class="btn" href="./dashboard.html">Dashboard</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div id="targetCard" class="target-box">
+        <div class="muted">Loading participant...</div>
+      </div>
+
+      <form id="meetingForm">
+        <div class="grid">
+          <div class="field">
+            <label for="meetingType">Meeting Type</label>
+            <select id="meetingType" required>
+              <option value="">Select meeting type</option>
+              <option value="B2B">B2B</option>
+              <option value="B2G">B2G</option>
+              <option value="G2G">G2G</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="preferredDay">Preferred Day</label>
+            <select id="preferredDay" required>
+              <option value="">Select day</option>
+              <option value="Day 1">Day 1</option>
+              <option value="Day 2">Day 2</option>
+              <option value="Day 3">Day 3</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="field">
+            <label for="preferredTime">Preferred Time</label>
+            <input id="preferredTime" type="text" placeholder="e.g. 11:00 AM – 11:30 AM" required />
+          </div>
+
+          <div class="field">
+            <label for="alternativeTime">Alternative Time</label>
+            <input id="alternativeTime" type="text" placeholder="e.g. 3:00 PM – 3:30 PM" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="reason">Reason for Meeting</label>
+          <textarea id="reason" placeholder="Briefly describe the purpose of the meeting..." required></textarea>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" id="submitBtn" type="submit">Submit Meeting Request</button>
+          <a class="btn" href="./directory.html">Cancel</a>
+        </div>
+
+        <div id="formStatus" class="status"></div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./portal.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      await ensureSignedIn();
+      await loadMeetingTarget();
+
+      const form = document.getElementById("meetingForm");
+      form.addEventListener("submit", submitMeetingRequest);
+    });
+  </script>
+</body>
+</html>
