@@ -77,7 +77,7 @@ async function ensureParticipantLinked() {
   const { data: participant, error } = await sb
     .from("participants")
     .select("*")
-    .eq("email", CURRENT_USER.email)
+    .eq("auth_user_id", CURRENT_USER.id)
     .maybeSingle();
 
   console.log("Participant query result:", participant);
