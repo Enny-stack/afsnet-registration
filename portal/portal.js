@@ -366,3 +366,249 @@ async function submitMeetingRequest(event) {
 
   if (submitBtn) submitBtn.disabled = false;
 }
+async function loadMyMeetings() {
+  if (!CURRENT_PARTICIPANT) return;
+
+  await Promise.all([
+    loadSentRequests(),
+    loadReceivedRequests(),
+    loadConfirmedMeetings()
+  ]);
+}
+
+async function loadSentRequests() {
+  const mount = document.getElementById("sentRequests");
+  const countEl = document.getElementById("sentCount");
+  if (!mount || !countEl || !CURRENT_PARTICIPANT) return;
+
+  mount.innerHTML = `<div class="empty">Loading sent requests...</div>`;
+
+  const { data, error } = await sb
+    .from("meeting_requests")
+    .select(`
+      id,
+      meeting_type,
+      reason,
+      preferred_day,
+      preferred_time,
+      alternative_time,
+      status,
+      organiser_notes,
+      created_at,
+      target:participants!meeting_requests_target_participant_id_fkey (
+        id,
+        full_name,
+        organisation,
+        country,
+        participant_type
+      )
+    `)
+    .eq("requester_participant_id", CURRENT_PARTICIPANT.id)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Sent requests error:", error);
+    mount.innerHTML = `<div class="empty">Could not load sent requests.</div>`;
+    countEl.textContent = "0";
+    return;
+  }
+
+  countEl.textContent = String(data?.length || 0);
+
+  if (!data || !data.length) {
+    mount.innerHTML = `<div class="empty">You have not sent any meeting requests yet.</div>`;
+    return;
+  }
+
+  mount.innerHTML = data.map(renderSentRequestCard).join("");
+}
+
+async function loadReceivedRequests() {
+  const mount = document.getElementById("receivedRequests");
+  const countEl = document.getElementById("receivedCount");
+  if (!mount || !countEl || !CURRENT_PARTICIPANT) return;
+
+  mount.innerHTML = `<div class="empty">Loading received requests...</div>`;
+
+  const { data, error } = await sb
+    .from("meeting_requests")
+    .select(`
+      id,
+      meeting_type,
+      reason,
+      preferred_day,
+      preferred_time,
+      alternative_time,
+      status,
+      organiser_notes,
+      created_at,
+      requester:participants!meeting_requests_requester_participant_id_fkey (
+        id,
+        full_name,
+        organisation,
+        country,
+        participant_type
+      )
+    `)
+    .eq("target_participant_id", CURRENT_PARTICIPANT.id)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Received requests error:", error);
+    mount.innerHTML = `<div class="empty">Could not load received requests.</div>`;
+    countEl.textContent = "0";
+    return;
+  }
+
+  countEl.textContent = String(data?.length || 0);
+
+  if (!data || !data.length) {
+    mount.innerHTML = `<div class="empty">No one has requested a meeting with you yet.</div>`;
+    return;
+  }
+
+  mount.innerHTML = data.map(renderReceivedRequestCard).join("");
+}
+
+async function loadConfirmedMeetings() {
+  const mount = document.getElementById("confirmedMeetings");
+  const countEl = document.getElementById("confirmedCount");
+  if (!mount || !countEl || !CURRENT_PARTICIPANT) return;
+
+  mount.innerHTML = `<div class="empty">Loading confirmed meetings...</div>`;
+
+  const { data, error } = await sb
+    .from("confirmed_meetings")
+    .select(`
+      id,
+      meeting_type,
+      confirmed_date,
+      confirmed_time,
+      venue,
+      table_name,
+      reason,
+      status,
+      created_at,
+      participant_a:participants!confirmed_meetings_participant_a_id_fkey (
+        id,
+        full_name,
+        organisation,
+        country
+      ),
+      participant_b:participants!confirmed_meetings_participant_b_id_fkey (
+        id,
+        full_name,
+        organisation,
+        country
+      )
+    `)
+    .or(`participant_a_id.eq.${CURRENT_PARTICIPANT.id},participant_b_id.eq.${CURRENT_PARTICIPANT.id}`)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Confirmed meetings error:", error);
+    mount.innerHTML = `<div class="empty">Could not load confirmed meetings.</div>`;
+    countEl.textContent = "0";
+    return;
+  }
+
+  countEl.textContent = String(data?.length || 0);
+
+  if (!data || !data.length) {
+    mount.innerHTML = `<div class="empty">You do not have any confirmed meetings yet.</div>`;
+    return;
+  }
+
+  mount.innerHTML = data.map(renderConfirmedMeetingCard).join("");
+}
+
+function renderSentRequestCard(item) {
+  const target = item.target || {};
+  return `
+    <div class="card">
+      <div class="badge ${escapeHtml(item.status || "")}">${formatStatus(item.status)}</div>
+      <div class="name">${escapeHtml(target.full_name || "Participant")}</div>
+      <div class="org">${escapeHtml(target.organisation || "")}</div>
+
+      <div class="meta">
+        <div><strong>Meeting Type:</strong> ${escapeHtml(item.meeting_type || "")}</div>
+        <div><strong>Preferred Day:</strong> ${escapeHtml(item.preferred_day || "Not specified")}</div>
+        <div><strong>Preferred Time:</strong> ${escapeHtml(item.preferred_time || "Not specified")}</div>
+        <div><strong>Alternative Time:</strong> ${escapeHtml(item.alternative_time || "Not specified")}</div>
+      </div>
+
+      <div class="reason"><strong>Reason:</strong> ${escapeHtml(item.reason || "")}</div>
+
+      ${
+        item.organiser_notes
+          ? `<div class="muted"><strong>Organiser Notes:</strong> ${escapeHtml(item.organiser_notes)}</div>`
+          : ``
+      }
+    </div>
+  `;
+}
+
+function renderReceivedRequestCard(item) {
+  const requester = item.requester || {};
+  return `
+    <div class="card">
+      <div class="badge ${escapeHtml(item.status || "")}">${formatStatus(item.status)}</div>
+      <div class="name">${escapeHtml(requester.full_name || "Participant")}</div>
+      <div class="org">${escapeHtml(requester.organisation || "")}</div>
+
+      <div class="meta">
+        <div><strong>Meeting Type:</strong> ${escapeHtml(item.meeting_type || "")}</div>
+        <div><strong>Preferred Day:</strong> ${escapeHtml(item.preferred_day || "Not specified")}</div>
+        <div><strong>Preferred Time:</strong> ${escapeHtml(item.preferred_time || "Not specified")}</div>
+        <div><strong>Alternative Time:</strong> ${escapeHtml(item.alternative_time || "Not specified")}</div>
+      </div>
+
+      <div class="reason"><strong>Reason:</strong> ${escapeHtml(item.reason || "")}</div>
+
+      ${
+        item.organiser_notes
+          ? `<div class="muted"><strong>Organiser Notes:</strong> ${escapeHtml(item.organiser_notes)}</div>`
+          : ``
+      }
+    </div>
+  `;
+}
+
+function renderConfirmedMeetingCard(item) {
+  const a = item.participant_a || {};
+  const b = item.participant_b || {};
+
+  const counterpart =
+    CURRENT_PARTICIPANT && a.id === CURRENT_PARTICIPANT.id ? b : a;
+
+  return `
+    <div class="card">
+      <div class="badge ${escapeHtml(item.status || "")}">${formatStatus(item.status)}</div>
+      <div class="name">${escapeHtml(counterpart.full_name || "Meeting Participant")}</div>
+      <div class="org">${escapeHtml(counterpart.organisation || "")}</div>
+
+      <div class="meta">
+        <div><strong>Meeting Type:</strong> ${escapeHtml(item.meeting_type || "")}</div>
+        <div><strong>Date:</strong> ${escapeHtml(item.confirmed_date || "Not set")}</div>
+        <div><strong>Time:</strong> ${escapeHtml(item.confirmed_time || "Not set")}</div>
+        <div><strong>Venue:</strong> ${escapeHtml(item.venue || "Not set")}</div>
+        <div><strong>Table:</strong> ${escapeHtml(item.table_name || "Not set")}</div>
+      </div>
+
+      <div class="reason"><strong>Reason:</strong> ${escapeHtml(item.reason || "")}</div>
+    </div>
+  `;
+}
+
+function formatStatus(status) {
+  const map = {
+    pending_review: "Pending Review",
+    awaiting_recipient: "Awaiting Recipient",
+    confirmed: "Confirmed",
+    declined: "Declined",
+    rescheduled: "Rescheduled",
+    completed: "Completed"
+  };
+
+  return map[status] || status || "Unknown";
+}
