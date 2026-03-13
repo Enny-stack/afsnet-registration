@@ -237,3 +237,132 @@ function escapeHtml(str) {
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
 }
+let CURRENT_TARGET_PARTICIPANT = null;
+
+async function loadMeetingTarget() {
+  const targetCard = document.getElementById("targetCard");
+  if (!targetCard) return null;
+
+  const params = new URLSearchParams(window.location.search);
+  const targetId = params.get("target");
+
+  if (!targetId) {
+    targetCard.innerHTML = `<div class="error">No target participant was selected.</div>`;
+    return null;
+  }
+
+  const { data, error } = await sb
+    .from("participants")
+    .select("id, full_name, organisation, country, participant_type, meeting_interest, bio")
+    .eq("id", targetId)
+    .eq("is_approved", true)
+    .eq("is_visible_in_directory", true)
+    .maybeSingle();
+
+  if (error || !data) {
+    console.error("Error loading target participant:", error);
+    targetCard.innerHTML = `<div class="error">Could not load the selected participant.</div>`;
+    return null;
+  }
+
+  if (CURRENT_PARTICIPANT && CURRENT_PARTICIPANT.id === data.id) {
+    targetCard.innerHTML = `<div class="error">You cannot request a meeting with yourself.</div>`;
+    const submitBtn = document.getElementById("submitBtn");
+    if (submitBtn) submitBtn.disabled = true;
+    return null;
+  }
+
+  CURRENT_TARGET_PARTICIPANT = data;
+
+  targetCard.innerHTML = `
+    <div class="target-name">${escapeHtml(data.full_name || "")}</div>
+    <div class="target-org">${escapeHtml(data.organisation || "")}</div>
+    <div class="muted"><strong>Country:</strong> ${escapeHtml(data.country || "Not specified")}</div>
+    <div class="muted"><strong>Participant Type:</strong> ${escapeHtml(formatParticipantType(data.participant_type || "other"))}</div>
+    <div class="muted"><strong>Meeting Interest:</strong> ${escapeHtml(data.meeting_interest || "Not specified")}</div>
+    <div class="muted" style="margin-top:10px;">${escapeHtml(data.bio || "No profile summary yet.")}</div>
+  `;
+
+  return data;
+}
+
+async function submitMeetingRequest(event) {
+  event.preventDefault();
+
+  const statusEl = document.getElementById("formStatus");
+  const submitBtn = document.getElementById("submitBtn");
+
+  if (statusEl) {
+    statusEl.className = "status";
+    statusEl.textContent = "";
+  }
+
+  if (!CURRENT_PARTICIPANT) {
+    if (statusEl) {
+      statusEl.className = "status error";
+      statusEl.textContent = "You must be signed in to submit a meeting request.";
+    }
+    return;
+  }
+
+  if (!CURRENT_TARGET_PARTICIPANT) {
+    if (statusEl) {
+      statusEl.className = "status error";
+      statusEl.textContent = "No valid target participant was selected.";
+    }
+    return;
+  }
+
+  const meetingType = document.getElementById("meetingType")?.value || "";
+  const preferredDay = document.getElementById("preferredDay")?.value || "";
+  const preferredTime = document.getElementById("preferredTime")?.value.trim() || "";
+  const alternativeTime = document.getElementById("alternativeTime")?.value.trim() || "";
+  const reason = document.getElementById("reason")?.value.trim() || "";
+
+  if (!meetingType || !preferredDay || !preferredTime || !reason) {
+    if (statusEl) {
+      statusEl.className = "status error";
+      statusEl.textContent = "Please complete all required fields.";
+    }
+    return;
+  }
+
+  if (submitBtn) submitBtn.disabled = true;
+
+  const payload = {
+    requester_participant_id: CURRENT_PARTICIPANT.id,
+    target_participant_id: CURRENT_TARGET_PARTICIPANT.id,
+    meeting_type: meetingType,
+    reason,
+    preferred_day: preferredDay,
+    preferred_time: preferredTime,
+    alternative_time: alternativeTime,
+    status: "pending_review"
+  };
+
+  const { error } = await sb
+    .from("meeting_requests")
+    .insert([payload]);
+
+  if (error) {
+    console.error("Meeting request insert error:", error);
+
+    if (statusEl) {
+      statusEl.className = "status error";
+      statusEl.textContent = `Could not submit meeting request: ${error.message}`;
+    }
+
+    if (submitBtn) submitBtn.disabled = false;
+    return;
+  }
+
+  if (statusEl) {
+    statusEl.className = "status success";
+    statusEl.textContent = "Meeting request submitted successfully. The organising team will review it.";
+  }
+
+  const form = document.getElementById("meetingForm");
+  if (form) form.reset();
+
+  if (submitBtn) submitBtn.disabled = false;
+}
