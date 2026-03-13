@@ -612,3 +612,355 @@ function formatStatus(status) {
 
   return map[status] || status || "Unknown";
 }
+let ORGANISER_REQUESTS_CACHE = [];
+
+async function ensureOrganiserAccess() {
+  if (!CURRENT_PARTICIPANT || !CURRENT_PARTICIPANT.is_organiser) {
+    alert("You do not have organiser access to this page.");
+    window.location.href = "./dashboard.html";
+    return false;
+  }
+  return true;
+}
+
+async function loadOrganiserRequests() {
+  const mount = document.getElementById("organiserRequests");
+  const info = document.getElementById("organiserInfo");
+  if (!mount || !info) return;
+
+  mount.innerHTML = `<div class="empty">Loading requests...</div>`;
+  info.textContent = "Loading meeting requests...";
+
+  const { data, error } = await sb
+    .from("meeting_requests")
+    .select(`
+      id,
+      requester_participant_id,
+      target_participant_id,
+      meeting_type,
+      reason,
+      preferred_day,
+      preferred_time,
+      alternative_time,
+      status,
+      organiser_notes,
+      created_at,
+      requester:participants!meeting_requests_requester_participant_id_fkey (
+        id,
+        full_name,
+        organisation,
+        country,
+        participant_type,
+        email
+      ),
+      target:participants!meeting_requests_target_participant_id_fkey (
+        id,
+        full_name,
+        organisation,
+        country,
+        participant_type,
+        email
+      )
+    `)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Organiser request load error:", error);
+    info.textContent = "Could not load meeting requests.";
+    mount.innerHTML = `<div class="empty">Unable to load requests right now.</div>`;
+    return;
+  }
+
+  ORGANISER_REQUESTS_CACHE = Array.isArray(data) ? data : [];
+  renderOrganiserRequests();
+}
+
+function renderOrganiserRequests() {
+  const mount = document.getElementById("organiserRequests");
+  const info = document.getElementById("organiserInfo");
+  if (!mount || !info) return;
+
+  const statusFilter = document.getElementById("organiserStatusFilter")?.value || "";
+  const search = (document.getElementById("organiserSearch")?.value || "").trim().toLowerCase();
+
+  const filtered = ORGANISER_REQUESTS_CACHE.filter(item => {
+    const requester = item.requester || {};
+    const target = item.target || {};
+
+    const haystack = [
+      requester.full_name || "",
+      requester.organisation || "",
+      target.full_name || "",
+      target.organisation || "",
+      item.meeting_type || "",
+      item.reason || "",
+      item.status || ""
+    ].join(" ").toLowerCase();
+
+    const matchesStatus = !statusFilter || item.status === statusFilter;
+    const matchesSearch = !search || haystack.includes(search);
+
+    return matchesStatus && matchesSearch;
+  });
+
+  info.textContent = `${filtered.length} request(s) shown`;
+
+  if (!filtered.length) {
+    mount.innerHTML = `<div class="empty">No meeting requests match your filters.</div>`;
+    return;
+  }
+
+  mount.innerHTML = filtered.map(item => renderOrganiserRequestCard(item)).join("");
+  bindOrganiserActions();
+}
+
+function renderOrganiserRequestCard(item) {
+  const requester = item.requester || {};
+  const target = item.target || {};
+
+  return `
+    <div class="card" data-request-id="${escapeHtml(item.id)}">
+      <div class="badge ${escapeHtml(item.status || "")}">${formatStatus(item.status)}</div>
+
+      <div class="pair">
+        <div class="box">
+          <div class="name">${escapeHtml(requester.full_name || "Requester")}</div>
+          <div class="org">${escapeHtml(requester.organisation || "")}</div>
+          <div class="row">
+            <div><strong>Country:</strong> ${escapeHtml(requester.country || "Not specified")}</div>
+            <div><strong>Type:</strong> ${escapeHtml(formatParticipantType(requester.participant_type || "other"))}</div>
+            <div><strong>Email:</strong> ${escapeHtml(requester.email || "")}</div>
+          </div>
+        </div>
+
+        <div class="box">
+          <div class="name">${escapeHtml(target.full_name || "Target")}</div>
+          <div class="org">${escapeHtml(target.organisation || "")}</div>
+          <div class="row">
+            <div><strong>Country:</strong> ${escapeHtml(target.country || "Not specified")}</div>
+            <div><strong>Type:</strong> ${escapeHtml(formatParticipantType(target.participant_type || "other"))}</div>
+            <div><strong>Email:</strong> ${escapeHtml(target.email || "")}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div><strong>Meeting Type:</strong> ${escapeHtml(item.meeting_type || "")}</div>
+        <div><strong>Preferred Day:</strong> ${escapeHtml(item.preferred_day || "Not specified")}</div>
+        <div><strong>Preferred Time:</strong> ${escapeHtml(item.preferred_time || "Not specified")}</div>
+        <div><strong>Alternative Time:</strong> ${escapeHtml(item.alternative_time || "Not specified")}</div>
+      </div>
+
+      <div class="box">
+        <strong>Reason:</strong><br>
+        ${escapeHtml(item.reason || "")}
+      </div>
+
+      <div class="field">
+        <label>Organiser Notes</label>
+        <textarea data-field="organiser_notes">${escapeHtml(item.organiser_notes || "")}</textarea>
+      </div>
+
+      <div class="pair">
+        <div class="field">
+          <label>Update Status</label>
+          <select data-field="status">
+            <option value="pending_review" ${item.status === "pending_review" ? "selected" : ""}>Pending Review</option>
+            <option value="awaiting_recipient" ${item.status === "awaiting_recipient" ? "selected" : ""}>Awaiting Recipient</option>
+            <option value="confirmed" ${item.status === "confirmed" ? "selected" : ""}>Confirmed</option>
+            <option value="declined" ${item.status === "declined" ? "selected" : ""}>Declined</option>
+            <option value="rescheduled" ${item.status === "rescheduled" ? "selected" : ""}>Rescheduled</option>
+            <option value="completed" ${item.status === "completed" ? "selected" : ""}>Completed</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Confirmed Date</label>
+          <input type="date" data-field="confirmed_date" />
+        </div>
+      </div>
+
+      <div class="pair">
+        <div class="field">
+          <label>Confirmed Time</label>
+          <input type="text" data-field="confirmed_time" placeholder="e.g. 11:00 AM – 11:30 AM" />
+        </div>
+
+        <div class="field">
+          <label>Venue</label>
+          <input type="text" data-field="venue" placeholder="e.g. Meeting Lounge A" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Table / Room</label>
+        <input type="text" data-field="table_name" placeholder="e.g. Table 4 / Room B" />
+      </div>
+
+      <div class="actions">
+        <button class="btn primary" type="button" data-action="save-request">Save Request Update</button>
+        <button class="btn" type="button" data-action="confirm-meeting">Create Confirmed Meeting</button>
+        <button class="btn danger" type="button" data-action="decline-request">Decline</button>
+      </div>
+
+      <div class="status" data-role="status-message"></div>
+    </div>
+  `;
+}
+
+function bindOrganiserActions() {
+  document.querySelectorAll('[data-action="save-request"]').forEach(btn => {
+    btn.addEventListener("click", async () => {
+      const card = btn.closest("[data-request-id]");
+      if (!card) return;
+      await saveOrganiserRequestUpdate(card);
+    });
+  });
+
+  document.querySelectorAll('[data-action="confirm-meeting"]').forEach(btn => {
+    btn.addEventListener("click", async () => {
+      const card = btn.closest("[data-request-id]");
+      if (!card) return;
+      await createConfirmedMeetingFromCard(card);
+    });
+  });
+
+  document.querySelectorAll('[data-action="decline-request"]').forEach(btn => {
+    btn.addEventListener("click", async () => {
+      const card = btn.closest("[data-request-id]");
+      if (!card) return;
+      await declineRequestFromCard(card);
+    });
+  });
+}
+
+async function saveOrganiserRequestUpdate(card) {
+  const requestId = card.getAttribute("data-request-id");
+  const status = card.querySelector('[data-field="status"]')?.value || "pending_review";
+  const organiserNotes = card.querySelector('[data-field="organiser_notes"]')?.value.trim() || "";
+  const statusEl = card.querySelector('[data-role="status-message"]');
+
+  setCardStatus(statusEl, "Saving request update...", "");
+
+  const { error } = await sb
+    .from("meeting_requests")
+    .update({
+      status,
+      organiser_notes: organiserNotes
+    })
+    .eq("id", requestId);
+
+  if (error) {
+    console.error("Save request update error:", error);
+    setCardStatus(statusEl, `Could not save update: ${error.message}`, "error");
+    return;
+  }
+
+  updateLocalRequestCache(requestId, { status, organiser_notes: organiserNotes });
+  setCardStatus(statusEl, "Request updated successfully.", "success");
+  renderOrganiserRequests();
+}
+
+async function declineRequestFromCard(card) {
+  const requestId = card.getAttribute("data-request-id");
+  const organiserNotes = card.querySelector('[data-field="organiser_notes"]')?.value.trim() || "";
+  const statusEl = card.querySelector('[data-role="status-message"]');
+
+  setCardStatus(statusEl, "Declining request...", "");
+
+  const { error } = await sb
+    .from("meeting_requests")
+    .update({
+      status: "declined",
+      organiser_notes: organiserNotes
+    })
+    .eq("id", requestId);
+
+  if (error) {
+    console.error("Decline request error:", error);
+    setCardStatus(statusEl, `Could not decline request: ${error.message}`, "error");
+    return;
+  }
+
+  updateLocalRequestCache(requestId, { status: "declined", organiser_notes: organiserNotes });
+  setCardStatus(statusEl, "Request declined.", "success");
+  renderOrganiserRequests();
+}
+
+async function createConfirmedMeetingFromCard(card) {
+  const requestId = card.getAttribute("data-request-id");
+  const confirmedDate = card.querySelector('[data-field="confirmed_date"]')?.value || "";
+  const confirmedTime = card.querySelector('[data-field="confirmed_time"]')?.value.trim() || "";
+  const venue = card.querySelector('[data-field="venue"]')?.value.trim() || "";
+  const tableName = card.querySelector('[data-field="table_name"]')?.value.trim() || "";
+  const organiserNotes = card.querySelector('[data-field="organiser_notes"]')?.value.trim() || "";
+  const statusEl = card.querySelector('[data-role="status-message"]');
+
+  const requestItem = ORGANISER_REQUESTS_CACHE.find(x => x.id === requestId);
+  if (!requestItem) {
+    setCardStatus(statusEl, "Could not find request in organiser cache.", "error");
+    return;
+  }
+
+  if (!confirmedDate || !confirmedTime || !venue) {
+    setCardStatus(statusEl, "Please provide confirmed date, confirmed time, and venue.", "error");
+    return;
+  }
+
+  setCardStatus(statusEl, "Creating confirmed meeting...", "");
+
+  const meetingPayload = {
+    request_id: requestItem.id,
+    participant_a_id: requestItem.requester_participant_id,
+    participant_b_id: requestItem.target_participant_id,
+    meeting_type: requestItem.meeting_type,
+    confirmed_date: confirmedDate,
+    confirmed_time: confirmedTime,
+    venue: venue,
+    table_name: tableName,
+    reason: requestItem.reason,
+    status: "confirmed"
+  };
+
+  const { error: insertError } = await sb
+    .from("confirmed_meetings")
+    .insert([meetingPayload]);
+
+  if (insertError) {
+    console.error("Confirmed meeting insert error:", insertError);
+    setCardStatus(statusEl, `Could not create confirmed meeting: ${insertError.message}`, "error");
+    return;
+  }
+
+  const { error: updateError } = await sb
+    .from("meeting_requests")
+    .update({
+      status: "confirmed",
+      organiser_notes: organiserNotes
+    })
+    .eq("id", requestId);
+
+  if (updateError) {
+    console.error("Request status confirm error:", updateError);
+    setCardStatus(statusEl, `Meeting created, but request update failed: ${updateError.message}`, "error");
+    return;
+  }
+
+  updateLocalRequestCache(requestId, { status: "confirmed", organiser_notes: organiserNotes });
+  setCardStatus(statusEl, "Confirmed meeting created successfully.", "success");
+  renderOrganiserRequests();
+}
+
+function updateLocalRequestCache(requestId, patch) {
+  ORGANISER_REQUESTS_CACHE = ORGANISER_REQUESTS_CACHE.map(item => {
+    if (item.id !== requestId) return item;
+    return { ...item, ...patch };
+  });
+}
+
+function setCardStatus(statusEl, message, mode) {
+  if (!statusEl) return;
+  statusEl.textContent = message;
+  statusEl.className = "status";
+  if (mode) statusEl.classList.add(mode);
+}
