@@ -75,10 +75,10 @@ async function ensureParticipantLinked() {
   console.log("Looking up participant by email:", CURRENT_USER.email);
 
   const { data: participant, error } = await sb
-    .from("participants")
-    .select("*")
-    .eq("auth_user_id", CURRENT_USER.id)
-    .maybeSingle();
+  .from("participants")
+  .select("*")
+  .eq("auth_user_id", CURRENT_USER.id)
+  .maybeSingle();
 
   console.log("Participant query result:", participant);
   console.log("Participant query error:", error);
