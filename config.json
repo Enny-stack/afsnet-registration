@@ -32,7 +32,7 @@
       "nav.travel": "Travel & Visa",
       "nav.media": "Media/Press",
       "nav.hotels": "Hotels",
-      "nav.apply": "Apply",
+      "nav.apply": "Register",
       "nav.contact": "Contact",
       "home.announcement": "Welcome to the 6th Edition Conference of the African Sub-Sovereign Governments Network (AfSNET), taking place 12–14 November 2026 in Calabar, Cross River State, Nigeria."
     },
@@ -45,7 +45,7 @@
       "nav.travel": "Voyage & Visa",
       "nav.media": "Médias / Presse",
       "nav.hotels": "Hôtels",
-      "nav.apply": "Candidater",
+      "nav.apply": "S’inscrire",
       "nav.contact": "Contact",
       "home.announcement": "Bienvenue à la 6e édition de la Conférence du Réseau des Gouvernements infranationaux africains (AfSNET), qui se tiendra du 12 au 14 novembre 2026 à Calabar, État de Cross River, Nigeria."
     },
@@ -112,7 +112,7 @@
           "The Bank therefore established the African Sub-Sovereign Governments Network to promote intra-African trade and investment, educational and cultural exchanges and effective and active engagement among sub-sovereigns in the context of the African Continental Free Trade Area (AfCFTA), for the development and prosperity of the continent. The Network, therefore, aims to create an interactive platform for Government to Government (G2G), Business to Government (B2G) and Business to Business (B2B) information exchanges and creation of synergies in a structured and deliberate manner."
         ],
         "cta": {
-          "apply": "Apply / Register",
+          "apply": "Register",
           "programme": "Programme",
           "event": "Event details"
         },
@@ -276,8 +276,8 @@
       },
 
       "apply": {
-        "pill": "Apply",
-        "headline": "Apply / Register",
+        "pill": "Register",
+        "headline": "Register",
         "intro": "Complete the registration form below. This is a static site, so submissions can be routed to an external form or email.",
         "externalFormUrl": "https://tally.so/r/gDMZLO",
         "whatPrepareTitle": "What to prepare",
@@ -358,7 +358,7 @@
           "La Banque a donc mis en place AfSNET afin de promouvoir le commerce et l’investissement intra-africains, les échanges éducatifs et culturels, et une coopération active entre gouvernements infranationaux dans le cadre de la ZLECAf, au service du développement et de la prospérité du continent. Le Réseau vise ainsi à créer une plateforme interactive d’échanges et de synergies, de manière structurée et délibérée, entre Gouvernement à Gouvernement (G2G), Entreprise à Gouvernement (B2G) et Entreprise à Entreprise (B2B)."
         ],
         "cta": {
-          "apply": "Candidater / S’inscrire",
+          "apply": "S’inscrire",
           "programme": "Programme",
           "event": "Détails de l’événement"
         },
@@ -502,8 +502,8 @@
       },
 
       "apply": {
-        "pill": "Candidater",
-        "headline": "Candidater / S’inscrire",
+        "pill": "S’inscrire",
+        "headline": "S’inscrire",
         "intro": "Complétez le formulaire d’inscription ci-dessous. Le site est statique, les soumissions peuvent être envoyées via un formulaire externe ou par e-mail.",
         "externalFormUrl": "https://tally.so/r/gDMZLO",
         "whatPrepareTitle": "À préparer",
@@ -604,7 +604,7 @@
           "وبناءً عليه، أنشأ البنك شبكة AfSNET لتعزيز التجارة والاستثمار داخل أفريقيا، والتبادل التعليمي والثقافي، والتفاعل الفعّال بين الحكومات دون السيادية في سياق منطقة التجارة الحرة القارية الأفريقية (AfCFTA)، بما يدعم تنمية القارة وازدهارها. وتهدف الشبكة إلى إنشاء منصة تفاعلية لتبادل المعلومات وبناء التآزر بصورة منظمة ومقصودة بين حكومة إلى حكومة (G2G) وأعمال إلى حكومة (B2G) وأعمال إلى أعمال (B2B)."
         ],
         "cta": {
-          "apply": "التقديم / التسجيل",
+          "apply": "التسجيل",
           "programme": "البرنامج",
           "event": "تفاصيل الفعالية"
         },
@@ -749,7 +749,7 @@
 
       "apply": {
         "pill": "التسجيل",
-        "headline": "التقديم / التسجيل",
+        "headline": "التسجيل",
         "intro": "أكمل نموذج التسجيل أدناه. هذا موقع ثابت، لذا يمكن توجيه الإرسال إلى نموذج خارجي أو بريد إلكتروني.",
         "externalFormUrl": "https://tally.so/r/gDMZLO",
         "whatPrepareTitle": "ماذا تجهّز",
