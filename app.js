@@ -1,4 +1,4 @@
-/* ================================ 
+/* ================================
    AfSNET Portal - app.js (UPDATED)
    ✅ Fixes site stuck on loading
    ✅ Keeps preloader safe
@@ -10,6 +10,8 @@
       - HOW AFSNET WORKS as 3 branded cards
       - config-driven background images
    ✅ Matchmaking button wired from config.json
+   ✅ Apply removed from header nav
+   ✅ Register label used where needed
 ================================= */
 
 let CONFIG = null;
@@ -55,6 +57,23 @@ function setActiveNav() {
   });
 }
 
+function applyPageTitle(cfg, lang) {
+  const meta = document.querySelector('meta[name="page-title"]');
+  if (!meta) return;
+
+  const pageTitle = meta.getAttribute("content") || "";
+  const siteName =
+    cfg?.site?.name ||
+    cfg?.site?.programName ||
+    "AfSNET";
+
+  if (pageTitle.trim()) {
+    document.title = `${siteName} | ${pageTitle}`;
+  } else {
+    document.title = siteName;
+  }
+}
+
 /* ================================
    HEADER + FOOTER INJECTION
 ================================= */
@@ -90,7 +109,6 @@ function injectHeader(cfg) {
               <a href="./travel-visa.html" data-i18n="nav.travel">Travel & Visa</a>
               <a href="./media-press.html" data-i18n="nav.media">Media/Press</a>
               <a href="./hotels.html" data-i18n="nav.hotels">Hotels</a>
-              <a class="cta" href="./apply.html" data-i18n="nav.apply">Apply</a>
               <a href="./contact.html" data-i18n="nav.contact">Contact</a>
             </nav>
 
@@ -151,7 +169,7 @@ function injectFooter(cfg) {
             <div class="footer-links">
               <a href="./about.html">About</a>
               <a href="./programme.html">Programme</a>
-              <a href="./apply.html">Apply</a>
+              <a href="./apply.html">Register</a>
               <a href="./event.html">Event</a>
               <a href="./contact.html">Contact</a>
             </div>
@@ -214,7 +232,7 @@ function renderDownloads(cfg) {
 }
 
 /* ================================
-   APPLY BUTTON (TALLY)
+   REGISTER BUTTON (TALLY / EXTERNAL FORM)
 ================================= */
 function wireApply(cfg, lang) {
   const btn = document.getElementById("openExternalForm");
@@ -755,6 +773,7 @@ function injectLanguageSwitcher(cfg) {
     const lang = select.value;
 
     applyLanguage(cfg, lang);
+    applyPageTitle(cfg, lang);
     fillRootConfig(cfg);
     applyConfigContent(cfg, lang);
     wireApply(cfg, lang);
@@ -763,6 +782,7 @@ function injectLanguageSwitcher(cfg) {
 
     initHomeTicker(cfg, lang);
     renderAboutPage(cfg, lang);
+    setActiveNav();
   });
 }
 
@@ -815,6 +835,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const savedLang = localStorage.getItem("lang") || cfg?.site?.defaultLang || "en";
 
     applyLanguage(cfg, savedLang);
+    applyPageTitle(cfg, savedLang);
     fillRootConfig(cfg);
     applyConfigContent(cfg, savedLang);
     renderDownloads(cfg);
@@ -825,6 +846,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderAboutPage(cfg, savedLang);
 
     initHeroSlider();
+    setActiveNav();
   } finally {
     hidePreloaderSoon();
   }
