@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Apply / Register" />
-  <title>AfSNET | Apply</title>
+  <meta name="description" content="Register for AfSNET" />
+  <title>AfSNET | Register</title>
   <link rel="stylesheet" href="./styles.css" />
   <script src="./app.js" defer></script>
 </head>
@@ -16,10 +16,12 @@
 <main id="main" class="container">
   <section class="hero-banner section">
     <div class="grid">
-      <div class="card pad hero">
-        <span class="pill" data-config="apply.pill"></span>
-        <h2 data-config="apply.headline"></h2>
-        <p class="muted" data-config="apply.intro"></p>
+      <div class="card pad hero register-hero-card">
+        <span class="pill" data-config="apply.pill">Register</span>
+        <h2 data-config="apply.headline">Register</h2>
+        <p class="muted" data-config="apply.intro">
+          Complete the registration form below. This is a static site, so submissions can be routed to an external form or email.
+        </p>
 
         <div class="actions">
           <a
@@ -38,9 +40,14 @@
         </div>
       </div>
 
-      <div class="card pad surface">
-        <div class="kicker" data-config="apply.whatPrepareTitle"></div>
-        <ul class="list" data-list="apply.whatPrepare"></ul>
+      <div class="card pad surface apply-side-card">
+        <div class="kicker" data-config="apply.whatPrepareTitle">What to prepare</div>
+        <ul class="list" data-list="apply.whatPrepare">
+          <li>Your organisation details</li>
+          <li>Your role and participation interest</li>
+          <li>Project / investment priorities (if applicable)</li>
+          <li>Contact information</li>
+        </ul>
       </div>
     </div>
   </section>
